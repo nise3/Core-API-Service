@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LocDivision;
+use App\Models\LocUpazila;
 use App\Services\Sevices\LocService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
-use phpDocumentor\Reflection\Types\This;
 
-class LocDivisionController extends Controller
+class LocUpazilaController extends Controller
 {
     public $locService;
 
@@ -18,9 +17,9 @@ class LocDivisionController extends Controller
      * LocDivisionController constructor.
      * @param $locService
      */
-    public function __construct(LocDivision $locDivision)
+    public function __construct(LocUpazila $locUpazila)
     {
-        $this->locService = new LocService($locDivision);
+        $this->locService = new LocService($locUpazila);
     }
 
 
@@ -35,8 +34,10 @@ class LocDivisionController extends Controller
         $startTime = Carbon::now();
         $response_code = 200;
         try {
-            $response = $this->locService->viewAll();
+            $relation=['district','division'];
+            $response = $this->locService->viewAll($relation);
             $response=(object)$response->toArray();
+
             $response = [
                 "data" => $response->data,
                 "_response_status" => [
@@ -136,7 +137,8 @@ class LocDivisionController extends Controller
         $startTime = Carbon::now();
 
         try {
-            $response = $this->locService->view($id);
+            $relation=['district','division'];
+            $response = $this->locService->view($id,$relation);
             $response = [
                 "data" => $response,
                 "_response_status" => [

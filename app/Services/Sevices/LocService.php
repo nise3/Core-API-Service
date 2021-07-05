@@ -24,21 +24,35 @@ class LocService implements BaseServiceInterface
      */
     public function __construct($model)
     {
-        $this->model=$model;
+        $this->model = $model;
     }
 
-    public function view($id)
+    public function view($id,$relation=null)
     {
-       return $this->model->find($id);
+        $response= $this->model->where(
+            [
+                'row_status' => 1,
+                'id'=>$id
+
+            ]);
+        if(!empty($relation)){
+            $response->with($relation);
+        }
+        $response=$response->first();
+
+        return $response;
+
     }
 
-    public function viewAll()
+    public function viewAll($relation = null)
     {
-        return $this->model->where('status',1)
-            ->orderBy('id','ASC')
-            ->paginate(2)
-            ->toArray();
-
+        $response = $this->model->where('row_status', 1)
+            ->orderBy('id', 'ASC');
+        if (!empty($relation)) {
+            $response->with($relation);
+        }
+        $response = $response->paginate(2);
+        return $response;
     }
 
     public function edit($id)
@@ -48,9 +62,9 @@ class LocService implements BaseServiceInterface
 
     public function update($data, $id)
     {
-      $update= $this->model->find($id);
-      $update->fill($data->all());
-      $update->save();
+        $update = $this->model->find($id);
+        $update->fill($data->all());
+        $update->save();
     }
 
     public function store($data)
@@ -60,9 +74,12 @@ class LocService implements BaseServiceInterface
 
     public function destroy($id)
     {
-        $delete= $this->model->find($id);
-        $delete->status=99;
+        $delete = $this->model->find($id);
+        $delete->row_status = 99;
         $delete->save();
     }
+
+
+
 
 }
