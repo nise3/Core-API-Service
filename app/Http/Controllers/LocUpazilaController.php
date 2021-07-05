@@ -257,4 +257,47 @@ class LocUpazilaController extends Controller
         }
         return Response::json($response, $response_code);
     }
+
+    public function getUpazilaByDistrict($district_id)
+    {
+        $response = [];
+        $startTime = Carbon::now();
+        $response_code = 200;
+        try {
+            $response = $this->locService->getUpazilaByDistrictId($district_id);
+            $response = [
+                "data" => $response,
+                "_response_status" => [
+                    "success" => true,
+                    "code" => $response_code,
+                    "message" => "Job finished successfully.",
+                    "started" => $startTime,
+                    "finished" => Carbon::now(),
+                ],
+                "_links" => [
+
+                ],
+                "_page" => [
+
+                ],
+                "_order" => 'asc'
+            ];
+        } catch (\Exception $exp) {
+            Log::debug(json_encode([
+                'exp_error_message' => $exp->getMessage(),
+            ]));
+            /*response message*/
+            $response_code = 500;
+            $response = [
+                '_response_status' => [
+                    "success" => true,
+                    "code" => $response_code,
+                    "message" => "Something is wrong.",
+                    "started" => $startTime,
+                    "finished" => Carbon::now(),
+                ]
+            ];
+        }
+        return Response::json($response, $response_code);
+    }
 }

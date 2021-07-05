@@ -18,14 +18,17 @@ $router->group( ['prefix'=>'api/v1'], function() use($router){
     $router->post('/district/add', 'LocDistrictController@store');
     $router->get('/district/show/{id}', 'LocDistrictController@show');
     $router->get('/district/edit/{id}', 'LocDistrictController@show');
+    $router->get('/district/by-division/{division_id}', 'LocDistrictController@getDistrictByDivision');
     $router->put('/district/update/{id}', 'LocDistrictController@update');
     $router->delete('/district/delete/{id}', 'LocDistrictController@destroy');
+
 
     /* Upazila Crud Operation*/
     $router->get('/upazila', 'LocUpazilaController@index');
     $router->post('/upazila/add', 'LocUpazilaController@store');
     $router->get('/upazila/show/{id}', 'LocUpazilaController@show');
     $router->get('/upazila/edit/{id}', 'LocUpazilaController@show');
+    $router->get('/upazila/by-district/{district_id}','LocUpazilaController@getUpazilaByDistrict');
     $router->put('/upazila/update/{id}', 'LocUpazilaController@update');
     $router->delete('/upazila/delete/{id}', 'LocUpazilaController@destroy');
 

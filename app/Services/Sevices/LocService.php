@@ -27,18 +27,18 @@ class LocService implements BaseServiceInterface
         $this->model = $model;
     }
 
-    public function view($id,$relation=null)
+    public function view($id, $relation = null)
     {
-        $response= $this->model->where(
+        $response = $this->model->where(
             [
                 'row_status' => 1,
-                'id'=>$id
+                'id' => $id
 
             ]);
-        if(!empty($relation)){
+        if (!empty($relation)) {
             $response->with($relation);
         }
-        $response=$response->first();
+        $response = $response->first();
 
         return $response;
 
@@ -79,7 +79,21 @@ class LocService implements BaseServiceInterface
         $delete->save();
     }
 
-
-
+    public function getDistrictByDivisionId($division_id)
+    {
+        return $this->model->where(
+            [
+                'row_status' => 1,
+                'loc_division_id' => $division_id
+            ])->get();
+    }
+    public function getUpazilaByDistrictId($district_id)
+    {
+        return $this->model->where(
+            [
+                'row_status' => 1,
+                'loc_district_id' => $district_id
+            ])->get();
+    }
 
 }

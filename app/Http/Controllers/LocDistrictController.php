@@ -34,9 +34,9 @@ class LocDistrictController extends Controller
         $startTime = Carbon::now();
         $response_code = 200;
         try {
-            $relation=['division'];
+            $relation = ['division'];
             $response = $this->locService->viewAll($relation);
-            $response=(object)$response->toArray();
+            $response = (object)$response->toArray();
 
             $response = [
                 "data" => $response->data,
@@ -77,6 +77,7 @@ class LocDistrictController extends Controller
 
         return Response::json($response, $response_code);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -89,9 +90,8 @@ class LocDistrictController extends Controller
         $response_code = 201;
         $startTime = Carbon::now();
 
-        if($request->method()=="POST"){
-            try
-            {
+        if ($request->method() == "POST") {
+            try {
                 $this->locService->store($request);
 
                 $response = [
@@ -104,7 +104,7 @@ class LocDistrictController extends Controller
                     ]
                 ];
 
-            }catch (\Exception $exp){
+            } catch (\Exception $exp) {
                 Log::debug(json_encode([
                     'exp_error_message' => $exp->getMessage(),
                 ]));
@@ -137,8 +137,8 @@ class LocDistrictController extends Controller
         $startTime = Carbon::now();
 
         try {
-            $relation=['division'];
-            $response = $this->locService->view($id,$relation);
+            $relation = ['division'];
+            $response = $this->locService->view($id, $relation);
             $response = [
                 "data" => $response,
                 "_response_status" => [
@@ -186,17 +186,17 @@ class LocDistrictController extends Controller
         $startTime = Carbon::now();
 
         try {
-            $this->locService->update($request,$id);
+            $this->locService->update($request, $id);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => $response_code,
-                    "message" =>  "Job finished successfully.",
+                    "message" => "Job finished successfully.",
                     "started" => $startTime,
                     "finished" => Carbon::now(),
                 ]
             ];
-        }catch (\Exception $exp){
+        } catch (\Exception $exp) {
             Log::debug(json_encode([
                 'exp_error_message' => $exp->getMessage(),
             ]));
@@ -239,7 +239,50 @@ class LocDistrictController extends Controller
                     "finished" => Carbon::now(),
                 ]
             ];
-        }catch (\Exception $exp){
+        } catch (\Exception $exp) {
+            Log::debug(json_encode([
+                'exp_error_message' => $exp->getMessage(),
+            ]));
+            /*response message*/
+            $response_code = 500;
+            $response = [
+                '_response_status' => [
+                    "success" => true,
+                    "code" => $response_code,
+                    "message" => "Something is wrong.",
+                    "started" => $startTime,
+                    "finished" => Carbon::now(),
+                ]
+            ];
+        }
+        return Response::json($response, $response_code);
+    }
+
+    public function getDistrictByDivision($division_id)
+    {
+        $response = [];
+        $startTime = Carbon::now();
+        $response_code = 200;
+        try {
+            $response = $this->locService->getDistrictByDivisionId($division_id);
+            $response = [
+                "data" => $response,
+                "_response_status" => [
+                    "success" => true,
+                    "code" => $response_code,
+                    "message" => "Job finished successfully.",
+                    "started" => $startTime,
+                    "finished" => Carbon::now(),
+                ],
+                "_links" => [
+
+                ],
+                "_page" => [
+
+                ],
+                "_order" => 'asc'
+            ];
+        } catch (\Exception $exp) {
             Log::debug(json_encode([
                 'exp_error_message' => $exp->getMessage(),
             ]));
