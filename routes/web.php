@@ -32,5 +32,14 @@ $router->group( ['prefix'=>'api/v1'], function() use($router){
     $router->put('/upazila/update/{id}', 'LocUpazilaController@update');
     $router->delete('/upazila/delete/{id}', 'LocUpazilaController@destroy');
 
+    /* Authentication related routes */
+    $router->post('/auth/login', 'Auth\AuthController@login');
+    $router->post('/auth/register', 'Auth\AuthController@register');
+
+    // private route with auth token
+    $router->group( ['middleware'=> 'auth'], function() use($router){
+        $router->post('/auth/profile', 'Auth\AuthController@profile');
+        $router->post('/auth/logout', 'Auth\AuthController@logout');
+    });
 
 });
