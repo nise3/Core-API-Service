@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class LocDivision extends BaseModel
 {
-    protected $table='loc_divisions';
-    protected $guarded=['id'];
+    protected $table = 'loc_divisions';
+    protected $guarded = ['id'];
 }

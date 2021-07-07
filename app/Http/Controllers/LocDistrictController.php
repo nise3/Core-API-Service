@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LocDistrict;
-use App\Services\Sevices\LocService;
+use App\Services\LocationManagementServices\LocService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -28,7 +28,7 @@ class LocDistrictController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getAllDivisions()
     {
         $response = [];
         $startTime = Carbon::now();

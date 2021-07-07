@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LocUpazila;
-use App\Services\Sevices\LocService;
+use App\Services\LocationManagementServices\LocService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
