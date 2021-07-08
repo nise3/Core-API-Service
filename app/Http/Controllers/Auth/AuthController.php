@@ -3,63 +3,42 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
+use App\Services\AuthService\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
 
+    /**
+     * @var authService
+     */
+    private AuthService $authService;
+
+    /**
+     * AuthController constructor.
+     * @param AuthService $authService
+     */
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function login(Request $request)
     {
         $this->validateLogin($request);
-        $client = new Client();
 
-        try {
-            return $client->post(config('services.passport.login_endpoint'), [
-                "form_params" => [
-                    "client_secret" => config('services.passport.client_secret'),
-                    "grant_type" => "password",
-                    "client_id" => config('services.passport.client_id'),
-                    "username" => $request->email,
-                    "password" => $request->password,
-                ]
-            ]);
-
-        } catch (BadResponseException $ex) {
-            return response()->json(['status' => 'error', 'message' => 'Please provide valid Email/Password']);
-        }
+        return $this->authService->login($request);
 
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        try {
-            auth()->user()->tokens()->each(function ($token) {
-                $token->delete();
-            });
-
-            return response()->json(['status' => 'success', 'message' => 'Logged out successfully']);
-
-        } catch (\Exception $ex) {
-            return response()->json(['status' => 'error', 'message' => $ex->getMessage()]);
-        }
+        return $this->authService->logout();
     }
 
     public function profile()
     {
-        try {
-            return response()->json([
-                'status' => 'success',
-                'data' => auth()->user(),
-                'message' => 'Profile fetch successfully'
-            ]);
-
-        } catch (\Exception $ex) {
-            return response()->json(['status' => 'error', 'message' => $ex->getMessage()]);
-        }
+        return $this->authService->getProfile();
     }
 
     protected function validateLogin(Request $request)
@@ -93,21 +72,7 @@ class AuthController extends Controller
     {
         $this->validateRegister($request);
 
-        try {
-            User::create([
-                'name_en' => $request->name_en,
-                'name_bn' => $request->name_bn,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'user_type_id' => 1,
-                'row_status' => 1,
-            ]);
-
-            return response()->json(['status' => 'success', 'message' => 'User created successfully']);
-
-        } catch (\Exception $ex) {
-            return response()->json(['status' => 'error', 'message' => $ex->getMessage()]);
-        }
+        return $this->authService->register($request);
 
     }
 }
