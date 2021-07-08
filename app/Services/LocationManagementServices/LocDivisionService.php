@@ -88,7 +88,7 @@ class LocDivisionService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.divisions.viewAll')
+                    '_link' => route('api.v1.divisions.view-all')
                 ]
             ],
             "_page" => $page,

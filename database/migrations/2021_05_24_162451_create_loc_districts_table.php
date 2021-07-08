@@ -19,7 +19,7 @@ class CreateLocDistrictsTable extends Migration {
 			$table->mediumInteger('loc_division_id')->unsigned();
 			$table->char('division_bbs_code', 4)->nullable();
 			$table->string('title_en');
-			$table->string('title');
+			$table->string('title_bn');
 			$table->char('bbs_code', 4)->nullable();
 			$table->boolean('row_status')->default(1);
 			$table->integer('created_by')->nullable();

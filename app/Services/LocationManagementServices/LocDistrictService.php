@@ -88,7 +88,7 @@ class LocDistrictService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.districts.viewAll')
+                    '_link' => route('api.v1.districts.view-all')
                 ]
             ],
             "_page" => $page,

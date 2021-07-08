@@ -90,7 +90,7 @@ class LocUpazilaService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.upazilas.viewAll')
+                    '_link' => route('api.v1.upazilas.view-all')
                 ]
             ],
             "_page" => $page,
