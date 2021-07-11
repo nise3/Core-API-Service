@@ -5,15 +5,10 @@ namespace App\Services\LocationManagementServices;
 
 
 use App\Models\LocDivision;
-use App\Services\ServiseInterface\BaseServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
-use Psy\Exception\ErrorException;
-use Ramsey\Uuid\Type\Integer;
 
 
 /**
@@ -65,8 +60,8 @@ class LocDivisionService
 
         $data = [];
         foreach ($divisions as $division) {
-            $_links['view'] = route('api.v1.divisions.view', ['id' => $division->id]);
-            $_links['edit'] = route('api.v1.divisions.view', ['id' => $division->id]);
+            $_links['read'] = route('api.v1.divisions.read', ['id' => $division->id]);
+            $_links['update'] = route('api.v1.divisions.update', ['id' => $division->id]);
             $_links['delete'] = route('api.v1.divisions.destroy', ['id' => $division->id]);
             $division['_links'] = $_links;
             $data[] = $division->toArray();
@@ -88,7 +83,7 @@ class LocDivisionService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.divisions.view-all')
+                    '_link' => route('api.v1.divisions.get-list')
                 ]
             ],
             "_page" => $page,
@@ -117,10 +112,11 @@ class LocDivisionService
         ])->first();
         if (!empty($division)) {
             $links = [
-                'edit' => route('api.v1.divisions.view', ['id' => $division->id]),
+                'update' => route('api.v1.divisions.update', ['id' => $division->id]),
                 'delete' => route('api.v1.divisions.destroy', ['id' => $division->id])
             ];
         }
+
         $response = [
             "data" => $division ? $division : [],
             "_response_status" => [

@@ -5,15 +5,11 @@ namespace App\Services\LocationManagementServices;
 
 
 use App\Models\LocDistrict;
-use App\Services\ServiseInterface\BaseServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Psy\Exception\ErrorException;
-use Ramsey\Uuid\Type\Integer;
 
 
 class LocDistrictService
@@ -22,12 +18,14 @@ class LocDistrictService
      * @param Request $request
      * @return array
      */
-    public function getAllDistricts(Request $request)
+    public function getAllDistricts(Request $request): array
     {
         $paginate_link = [];
         $page = [];
         $startTime = Carbon::now();
 
+        $titleEn = $request->query('title_en');
+        $titleBn = $request->query('title_bn');
         $paginate = $request->query('page');
         $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
 
@@ -40,15 +38,16 @@ class LocDistrictService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
-        ])->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
-
+        ]);
+        $districts->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
         $districts->orderBy('loc_districts.id', $order);
 
-        if (!empty($request->query('title_en'))) {
-            $districts->where('loc_districts.title_en', 'like', '%' . $request->query('title_en') . '%');
-        } elseif (!empty($request->query('title_bn'))) {
-            $districts->where('loc_districts.title_bn', 'like', '%' . $request->query('title_bn') . '%');
+        if (!empty($titleEn)) {
+            $districts->where('loc_districts.title_en', 'like', '%' . $titleEn . '%');
+        } elseif (!empty($titleBn)) {
+            $districts->where('loc_districts.title_bn', 'like', '%' . $titleBn . '%');
         }
+
         if ($paginate) {
             $districts = $districts->paginate(10);
             $paginate_data = (object)$districts->toArray();
@@ -65,14 +64,15 @@ class LocDistrictService
 
         $data = [];
         foreach ($districts as $district) {
-            $_links['view'] = route('api.v1.districts.view', ['id' => $district->id]);
-            $_links['edit'] = route('api.v1.districts.view', ['id' => $district->id]);
+            $_links['read'] = route('api.v1.districts.read', ['id' => $district->id]);
+            $_links['update'] = route('api.v1.districts.update', ['id' => $district->id]);
             $_links['delete'] = route('api.v1.districts.destroy', ['id' => $district->id]);
             $district['_links'] = $_links;
             $data[] = $district->toArray();
 
         }
-        $response = [
+
+        return [
             "data" => $data,
             "_response_status" => [
                 "success" => true,
@@ -88,24 +88,24 @@ class LocDistrictService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.districts.view-all')
+                    '_link' => route('api.v1.districts.get-list')
                 ]
             ],
             "_page" => $page,
             "_order" => $order
         ];
-        return $response;
     }
 
     /**
      * @param $id
      * @return array
      */
-    public function getOneDistrict($id)
+    public function getOneDistrict($id): array
     {
         $startTime = Carbon::now();
         $links = [];
 
+        /** @var LocDistrict|Builder $district */
         $district = LocDistrict::select([
             'loc_districts.id',
             'loc_districts.title_bn',
@@ -114,18 +114,20 @@ class LocDistrictService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
-        ])->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id')
-            ->where([
-                'loc_districts.id' => $id,
-                'loc_districts.row_status' => 1
-            ])->first();
+        ]);
+        $district->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
+        $district->where('loc_districts.id', $id);
+        $district->where('loc_districts.row_status', LocDistrict::ROW_STATUS_ACTIVE);
+        $district = $district->first();
+
         if (!empty($district)) {
             $links = [
-                'edit' => route('api.v1.districts.view', ['id' => $district->id]),
+                'update' => route('api.v1.districts.update', ['id' => $district->id]),
                 'delete' => route('api.v1.districts.destroy', ['id' => $district->id])
             ];
         }
-        $response = [
+
+        return [
             "data" => $district ? $district : [],
             "_response_status" => [
                 "success" => true,
@@ -136,71 +138,52 @@ class LocDistrictService
             ],
             "_links" => $links
         ];
-        return $response;
     }
 
     /**
-     * @param Request $request
+     * @param array $data
+     * @return LocDistrict
      */
-    public function store(Request $request)
+    public function store(array $data): LocDistrict
     {
-        LocDistrict::create($request->all());
+        $locDistrict = new LocDistrict();
+        $locDistrict->fill($data);
+        $locDistrict->save();
+
+        return $locDistrict;
     }
 
     /**
-     * @param Request $request
-     * @param $id
+     * @param LocDistrict $locDistrict
+     * @param array $data
+     * @return LocDistrict
      */
-    public function update(Request $request, $id)
+    public function update(LocDistrict $locDistrict, array $data): LocDistrict
     {
-        $update = LocDistrict::find($id);
-        $update->fill($request->all());
-        $update->save();
+        $locDistrict->fill($data);
+        $locDistrict->save();
+
+        return $locDistrict;
     }
 
     /**
-     * @param $id
+     * @param LocDistrict $locDistrict
+     * @return LocDistrict
      */
-    public function destroy($id)
+    public function destroy(LocDistrict $locDistrict): LocDistrict
     {
-        $delete = LocDistrict::find($id);
-        $delete->row_status = 99;
-        $delete->save();
+        $locDistrict->row_status = 99;
+        $locDistrict->save();
+
+        return $locDistrict;
     }
 
-
-    /**
-     * @param $division_id
-     * @return array
-     */
-    public function getDistrictByDivisionId(Request $request, $division_id)
+    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        $startTime = Carbon::now();
-
-        $districts = LocDistrict::select([
-            'id',
-            'title_bn',
-            'title_en',
-            'bbs_code',
-        ])->where([
-            'loc_division_id' => $division_id,
-            'row_status' => 1
-        ])->get()->toArray();
-
-
-        $response = [
-            "data" => $districts,
-            "_response_status" => [
-                "success" => true,
-                "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $startTime,
-                "finished" => Carbon::now(),
-            ],
-            "_links" => [
-
-            ],
-        ];
-        return $response;
+        return Validator::make($request->all(), [
+            'loc_division_id' => 'required|numeric|exists:loc_divisions,id', //TODO: always check if foreign key data exists in table.
+            'title_en' => 'required|min:2',
+            'title_bn' => 'required|min:2',
+        ]);
     }
 }

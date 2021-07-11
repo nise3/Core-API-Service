@@ -4,16 +4,11 @@
 namespace App\Services\LocationManagementServices;
 
 
-use App\Models\LocDistrict;
 use App\Models\LocUpazila;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
-use Psy\Exception\ErrorException;
-use Ramsey\Uuid\Type\Integer;
 
 
 class LocUpazilaService
@@ -67,8 +62,8 @@ class LocUpazilaService
 
         $data = [];
         foreach ($upazilas as $upazila) {
-            $_links['view'] = route('api.v1.upazilas.view', ['id' => $upazila->id]);
-            $_links['edit'] = route('api.v1.upazilas.view', ['id' => $upazila->id]);
+            $_links['read'] = route('api.v1.upazilas.read', ['id' => $upazila->id]);
+            $_links['update'] = route('api.v1.upazilas.update', ['id' => $upazila->id]);
             $_links['delete'] = route('api.v1.upazilas.destroy', ['id' => $upazila->id]);
             $upazila['_links'] = $_links;
             $data[] = $upazila->toArray();
@@ -90,7 +85,7 @@ class LocUpazilaService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.upazilas.view-all')
+                    '_link' => route('api.v1.upazilas.get-list')
                 ]
             ],
             "_page" => $page,
@@ -126,10 +121,11 @@ class LocUpazilaService
 
         if (!empty($upazila)) {
             $links = [
-                'edit' => route('api.v1.upazilas.view', ['id' => $upazila->id]),
+                'update' => route('api.v1.upazilas.update', ['id' => $upazila->id]),
                 'delete' => route('api.v1.upazilas.destroy', ['id' => $upazila->id])
             ];
         }
+
         $response = [
             "data" => $upazila ? $upazila : [],
             "_response_status" => [

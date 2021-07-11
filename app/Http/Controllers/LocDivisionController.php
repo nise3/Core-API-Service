@@ -40,7 +40,7 @@ class LocDivisionController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function viewAll(Request $request)
+    public function getList(Request $request)
     {
         $response = [];
         $startTime = Carbon::now();
@@ -153,7 +153,7 @@ class LocDivisionController extends Controller
      * @param \App\Models\LocDivision $locDivision
      * @return \Illuminate\Http\Response
      */
-    public function view(Request $request, $id)
+    public function read(Request $request, $id)
     {
         $response = [];
         $startTime = Carbon::now();
