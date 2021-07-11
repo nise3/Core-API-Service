@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property int $loc_division_id
  * @property bool|null $is_sadar_district
  * @property-read Collection|\App\Models\LocUpazila[] $locUpazilas
- * @property-read LocDivision division
+ * @property-read LocDivision locDivision
  */
 class LocDistrict extends BaseModel
 {
@@ -24,11 +24,12 @@ class LocDistrict extends BaseModel
 
     protected $table = 'loc_districts';
     protected $guarded = ['id'];
+
     protected $casts = [
         'is_sadar_district' => 'boolean'
     ];
 
-    public function division(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function locDivision(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(LocDivision::class, 'loc_division_id');
     }

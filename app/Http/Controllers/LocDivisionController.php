@@ -40,7 +40,7 @@ class LocDivisionController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList(Request $request)
+    public function getList(Request $request): JsonResponse
     {
         $response = [];
         $startTime = Carbon::now();
@@ -150,7 +150,8 @@ class LocDivisionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\LocDivision $locDivision
+     * @param Request $request
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function read(Request $request, $id)

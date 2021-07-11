@@ -137,10 +137,11 @@ class LocDistrictController extends Controller
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function update(Request $request, $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
-        $validated = $this->locDistrictService->validator($request)->validate();
         $locDistrict = LocDistrict::findOrFail($id);
+
+        $validated = $this->locDistrictService->validator($request)->validate();
 
         try {
             $this->locDistrictService->update($locDistrict, $validated);
