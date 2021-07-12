@@ -2,31 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
-/**
- * App\Models\UserPermission
- *
- * @property int $id
- * @property int $user_id
- * @property int $permission_id
- * @property bool $status
- * @property-read Permission $permission
- */
-class UserPermission extends BaseModel
+class UserPermission extends Model
 {
-    public $timestamps = true;
-
-    protected $table = 'user_permissions';
-    protected $fillable = ['user_id', 'permission_id', 'status'];
-    protected $casts = [
-        'status' => 'boolean',
-    ];
-
-    public function permission(): BelongsTo
-    {
-        return $this->belongsTo(Permission::class,'permission_id','id');
-    }
+    //
 }

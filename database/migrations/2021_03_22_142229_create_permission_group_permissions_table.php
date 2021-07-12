@@ -14,6 +14,9 @@ class CreatePermissionGroupPermissionsTable extends Migration
     public function up()
     {
         Schema::create('permission_group_permissions', function (Blueprint $table) {
+            $table->unsignedInteger('permission_group_id')->unsigned();
+            $table->unsignedInteger('permission_id')->unsigned();
+
             $table->foreign('permission_group_id')->references('id')->on('permission_groups')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('permission_id')->references('id')->on('permissions')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
