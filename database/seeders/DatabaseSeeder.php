@@ -16,10 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GeoLocationDatabaseSeeder::class,
             RoleTableSeeder::class,
-            UserTypeSeeder::class,
             RowStatusSeeder::class,
             UserTableSeeder::class,
-            RoleGroupSeeder::class
+            PermissionSeeder::class,
         ]);
     }
 }

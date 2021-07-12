@@ -25,7 +25,7 @@ class UserTableSeeder extends Seeder
             0 =>
                 array (
                     'id' => 1,
-                    'user_type_id' => 1,
+                    'role_id' => 1,
                     'name_en' => 'Admin',
                     'name_bn' => 'Admin',
                     'email' => 'admin@gmail.com',

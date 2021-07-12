@@ -16,7 +16,6 @@ class CreateInstitutePermissionsTable extends Migration
         Schema::create('institute_permissions', function (Blueprint $table) {
             $table->unsignedInteger('institute_id')->unsigned();
             $table->unsignedInteger('permission_id')->unsigned();
-
             $table->foreign('institute_id')->references('id')->on('institutes')->onDelete('cascade');
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
         });
