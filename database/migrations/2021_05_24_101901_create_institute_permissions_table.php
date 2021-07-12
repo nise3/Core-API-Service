@@ -14,8 +14,9 @@ class CreateInstitutePermissionsTable extends Migration
     public function up()
     {
         Schema::create('institute_permissions', function (Blueprint $table) {
-            $table->foreign('institute_id')->references('id')->on('institutes')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('permission_id')->references('id')->on('permissions')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->unsignedInteger('institute_id');
+            $table->unsignedInteger('permission_id');
+            $table->primary(['institute_id', 'permission_id'], 'institute_permissions_institute_id_permission_id_primary')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -27,9 +28,5 @@ class CreateInstitutePermissionsTable extends Migration
     public function down()
     {
         Schema::drop('institute_permissions');
-        Schema::table('institute_permissions', function (Blueprint $table) {
-            $table->dropForeign('institute_permission_institute_id_foreign');
-            $table->dropForeign('institute_permission_permission_id_foreign');
-        });
     }
 }

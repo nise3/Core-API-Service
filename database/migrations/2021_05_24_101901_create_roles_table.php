@@ -17,7 +17,7 @@ class CreateRolesTable extends Migration
             $table->smallIncrements('id');
             $table->string('title_en', 191)->nullable();
             $table->string('title_bn', 191)->nullable();
-            $table->string('description', 1000)->nullable();
+            $table->text('description',1000)->nullable();
             $table->string('key')->unique();
             $table->unsignedInteger('permission_group_id')->nullable();
             $table->unsignedInteger('organization_id')->nullable();
