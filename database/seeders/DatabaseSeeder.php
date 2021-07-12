@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             RoleTableSeeder::class,
             UserTypeSeeder::class,
             RowStatusSeeder::class,
-            UserTableSeeder::class
+            UserTableSeeder::class,
+            RoleGroupSeeder::class
         ]);
     }
 }

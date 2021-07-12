@@ -15,8 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedTinyInteger('user_type_id')->index('users_fk_user_type_id');
-            $table->unsignedSmallInteger('role_id')->nullable()->index('users_fk_role_id');
+            $table->unsignedSmallInteger('role_id')->nullable();
             $table->string('name_en', 191)->nullable();
             $table->string('name_bn', 191)->nullable();
             $table->string('email', 191)->unique();
@@ -24,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('institute_id')->nullable();
             $table->unsignedMediumInteger('loc_district_id')->nullable();
             $table->unsignedMediumInteger('loc_division_id')->nullable();
+            $table->unsignedMediumInteger('loc_upazila_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 191);
             $table->string('profile_pic')->nullable();
