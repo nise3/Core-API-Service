@@ -25,4 +25,6 @@ class Permission extends BaseModel
     {
         return $this->hasMany(Role::class);
     }
+
+
 }

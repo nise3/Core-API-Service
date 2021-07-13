@@ -36,6 +36,13 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->put('permissions/{id}', ['as' => 'permissions.update', 'uses' => 'PermissionController@update']);
     $router->delete('permissions/{id}', ['as' => 'permissions.destroy', 'uses' => 'PermissionController@destroy']);
 
+    /* Permission Group Crud Operation*/
+    $router->get('permission-groups', ['as' => 'permission-groups.get-list', 'uses' => 'PermissionGroupController@getList']);
+    $router->post('permission-groups', ['as' => 'permission-groups.store', 'uses' => 'PermissionGroupController@store']);
+    $router->get('permission-groups/{id}', ['as' => 'permission-groups.read', 'uses' => 'PermissionGroupController@read']);
+    $router->put('permission-groups/{id}', ['as' => 'permission-groups.update', 'uses' => 'PermissionGroupController@update']);
+    $router->delete('permission-groups/{id}', ['as' => 'permission-groups.destroy', 'uses' => 'PermissionGroupController@destroy']);
+
     // private route with auth token
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('auth/profile', 'Auth\AuthController@profile');

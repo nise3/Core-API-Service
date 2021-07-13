@@ -4,27 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\Permission;
-use App\Services\UserRolePermissionManagementServices\PermissionService;
+use App\Models\PermissionGroup;
+use App\Services\UserRolePermissionManagementServices\PermissionGroupService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Throwable;
 
-
-class PermissionController extends Controller
+class PermissionGroupController extends Controller
 {
-    public PermissionService $permissionService;
+    public PermissionGroupService $permissionGroupService;
     public Carbon $startTime;
 
     /**
-     * PermissionController constructor.
-     * @param PermissionService $permissionService
-     * @param Carbon $startDate
+     * PermissionGroupController constructor.
+     * @param PermissionGroupService $permissionGroupService
+     * @param Carbon $startTime
      */
-    public function __construct(PermissionService $permissionService, Carbon $startTime)
+    public function __construct(PermissionGroupService $permissionGroupService, Carbon $startTime)
     {
-        $this->permissionService = $permissionService;
+        $this->permissionGroupService = $permissionGroupService;
         $this->startTime = $startTime;
     }
 
@@ -35,7 +35,7 @@ class PermissionController extends Controller
     public function getList(Request $request): JsonResponse
     {
         try {
-            $response = $this->permissionService->getAllPermissions($request);
+            $response = $this->permissionGroupService->getAllPermissionGroups($request);
         } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
@@ -58,7 +58,7 @@ class PermissionController extends Controller
     public function read(Request $request, int $id): JsonResponse
     {
         try {
-            $response = $this->permissionService->getOnePermission($request, $id);
+            $response = $this->permissionGroupService->getOnePermissionGroup($request, $id);
         } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
@@ -82,12 +82,12 @@ class PermissionController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $this->permissionService->validator($request)->validate();
-        try {
+        $validated = $this->permissionGroupService->validator($request)->validate();
 
-            $permission = new Permission();
+        try {
+            $permission_group = new PermissionGroup();
             //TODO: Only Validated data will stored.
-            $this->permissionService->store($validated, $permission);
+            $this->permissionGroupService->store($validated, $permission_group);
 
             //TODO: never response in try block if not necessary.
             $response = [
@@ -109,9 +109,6 @@ class PermissionController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->permissionService->validator($request)->errors();
-            }
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -126,11 +123,11 @@ class PermissionController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $permission = Permission::findOrFail($id);
+        $permission_group = PermissionGroup::findOrFail($id);
+        $validated = $this->permissionGroupService->validator($request, $id)->validate();
 
         try {
-            $validated = $this->permissionService->validator($request, $id)->validate();
-            $this->permissionService->update($validated, $permission);
+            $this->permissionGroupService->update($validated, $permission_group);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -150,9 +147,6 @@ class PermissionController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->permissionService->validator($request, $id)->errors();
-            }
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -165,9 +159,9 @@ class PermissionController extends Controller
      */
     public function destroy(int $id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission_group = PermissionGroup::findOrFail($id);
         try {
-            $this->permissionService->destroy($permission);
+            $this->permissionGroupService->destroy($permission_group);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -191,6 +185,5 @@ class PermissionController extends Controller
         }
         return Response::json($response, JsonResponse::HTTP_OK);
     }
-
 
 }

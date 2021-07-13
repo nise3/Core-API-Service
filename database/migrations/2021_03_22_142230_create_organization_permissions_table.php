@@ -16,9 +16,6 @@ class CreateOrganizationPermissionsTable extends Migration
         Schema::create('organization_permissions', function (Blueprint $table) {
             $table->unsignedInteger('organization_id')->unsigned();
             $table->unsignedInteger('permission_id')->unsigned();
-
-            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
         });
 
 
@@ -31,9 +28,6 @@ class CreateOrganizationPermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('organization_permissions', function (Blueprint $table) {
-            $table->dropForeign('organization_permission_organization_id_foreign');
-            $table->dropForeign('organization_permission_permission_id_foreign');
-        });
+        Schema::dropIfExists('organization_permissions');
     }
 }

@@ -1,15 +1,13 @@
 <?php
 
 
-namespace App\Services\PermissionServices;
-
+namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class PermissionService
 {
@@ -182,5 +180,7 @@ class PermissionService
 
         return Validator::make($request->all(), $rules);
     }
+
+
 
 }
