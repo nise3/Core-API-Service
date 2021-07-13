@@ -13,7 +13,8 @@ use Illuminate\Support\Str;
  * @property int $id
  * @property string $key
  * @property string $name
- * @property date|$create_at
+ * @property date|$created_at
+ * @property date|$updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|Role[] $roles
  */
 class Permission extends BaseModel

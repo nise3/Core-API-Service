@@ -24,22 +24,5 @@ class User extends AuthBaseModel
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = [
-        'userType',
-    ];
-
-    /**
-     * ---------------------------------------
-     *  User Relationship start              *
-     * ---------------------------------------
-     */
-
-    /**
-     * @return BelongsTo
-     */
-    public function userType(): BelongsTo
-    {
-        return $this->belongsTo(UserType::class, 'user_type_id');
-    }
 
 }

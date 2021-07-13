@@ -29,6 +29,13 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->put('upazilas/{id}', ['as' => 'upazilas.update', 'uses' => 'LocUpazilaController@update']);
     $router->delete('upazilas/{id}', ['as' => 'upazilas.destroy', 'uses' => 'LocUpazilaController@destroy']);
 
+    /* Permission Crud Operation*/
+    $router->get('permissions', ['as' => 'permissions.get-list', 'uses' => 'PermissionController@getList']);
+    $router->post('permissions', ['as' => 'permissions.store', 'uses' => 'PermissionController@store']);
+    $router->get('permissions/{id}', ['as' => 'permissions.read', 'uses' => 'PermissionController@read']);
+    $router->put('permissions/{id}', ['as' => 'permissions.update', 'uses' => 'PermissionController@update']);
+    $router->delete('permissions/{id}', ['as' => 'permissions.destroy', 'uses' => 'PermissionController@destroy']);
+
     // private route with auth token
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('auth/profile', 'Auth\AuthController@profile');

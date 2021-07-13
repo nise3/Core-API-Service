@@ -4,11 +4,14 @@
 namespace App\Services\LocationManagementServices;
 
 
+use App\Models\LocDistrict;
 use App\Models\LocDivision;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Boolean;
 
 
 /**
@@ -17,15 +20,28 @@ use Illuminate\Http\Request;
  */
 class LocDivisionService
 {
+    public Carbon $startTime;
+    const ROUTE_PREFIX = 'api.v1.divisions.';
+
+    /**
+     * LocDivisionService constructor.
+     * @param Carbon $startTime
+     */
+    public function __construct(Carbon $startTime)
+    {
+        $this->startTime = $startTime;
+    }
+
+
     /**
      * @param Request $request
      * @return array
      */
-    public function getAllDivisions(Request $request)
+    public function getAllDivisions(Request $request): array
     {
         $paginate_link = [];
         $page = [];
-        $startTime = Carbon::now();
+
 
         $paginate = $request->query('page');
         $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
@@ -38,6 +54,7 @@ class LocDivisionService
             'bbs_code',
         ]);
         $divisions->orderBy('id', $order);
+        $divisions->where('row_status', LocDivision::ROW_STATUS_ACTIVE);
 
         if (!empty($request->query('title_en'))) {
             $divisions->where('title_en', 'like', '%' . $request->query('title_en') . '%');
@@ -60,20 +77,20 @@ class LocDivisionService
 
         $data = [];
         foreach ($divisions as $division) {
-            $_links['read'] = route('api.v1.divisions.read', ['id' => $division->id]);
-            $_links['update'] = route('api.v1.divisions.update', ['id' => $division->id]);
-            $_links['delete'] = route('api.v1.divisions.destroy', ['id' => $division->id]);
+            $_links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $division->id]);
+            $_links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $division->id]);
+            $_links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $division->id]);
             $division['_links'] = $_links;
             $data[] = $division->toArray();
 
         }
-        $response = [
+        return [
             "data" => $data,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
                 "message" => "Job finished successfully.",
-                "started" => $startTime,
+                "started" => $this->startTime,
                 "finished" => Carbon::now(),
             ],
             "_links" => [
@@ -83,22 +100,22 @@ class LocDivisionService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.divisions.get-list')
+                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
                 ]
             ],
             "_page" => $page,
             "_order" => $order
         ];
-        return $response;
+
     }
 
     /**
      * @param $id
      * @return array
      */
-    public function getOneDivision($id)
+    public function getOneDivision($id): array
     {
-        $startTime = Carbon::now();
+
         $links = [];
 
         $division = LocDivision::select([
@@ -108,56 +125,72 @@ class LocDivisionService
             'bbs_code'
         ])->where([
             'id' => $id,
-            'row_status' => 1
+            'row_status' => LocDivision::ROW_STATUS_ACTIVE
         ])->first();
+
         if (!empty($division)) {
             $links = [
-                'update' => route('api.v1.divisions.update', ['id' => $division->id]),
-                'delete' => route('api.v1.divisions.destroy', ['id' => $division->id])
+                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $division->id]),
+                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $division->id])
             ];
         }
 
-        $response = [
+        return [
             "data" => $division ? $division : [],
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
                 "message" => "Job finished successfully.",
-                "started" => $startTime,
+                "started" => $this->startTime,
                 "finished" => Carbon::now(),
             ],
             "_links" => $links
         ];
-        return $response;
+    }
+
+    /**
+     * @param array $data
+     * @return LocDivision
+     */
+    public function store(array $data): LocDivision
+    {
+        return LocDivision::create($data);
+    }
+
+
+    /**
+     * @param array $data
+     * @param LocDivision $locDivision
+     * @return bool
+     */
+    public function update(array $data, LocDivision $locDivision): LocDivision
+    {
+        $locDivision->fill($data);
+        $locDivision->save();
+        return $locDivision;
+    }
+
+    /**
+     * @param LocDivision $locDivision
+     * @return bool
+     */
+    public function destroy(LocDivision $locDivision): LocDivision
+    {
+        $locDivision->row_status = LocDivision::ROW_STATUS_DELETED;
+        $locDivision->save();
+        return $locDivision;
     }
 
     /**
      * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function store(Request $request)
+    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        LocDivision::create($request->all());
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     */
-    public function update(Request $request, $id)
-    {
-        $update = LocDivision::find($id);
-        $update->fill($request->all());
-        $update->save();
-    }
-
-    /**
-     * @param $id
-     */
-    public function destroy($id)
-    {
-        $delete = LocDivision::find($id);
-        $delete->row_status = 99;
-        $delete->save();
+        return Validator::make($request->all(), [
+            'title_en' => 'required|min:2',
+            'title_bn' => 'required|min:2',
+        ]);
     }
 
 }

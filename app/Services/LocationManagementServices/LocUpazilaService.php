@@ -9,26 +9,45 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Boolean;
 
 
 class LocUpazilaService
 {
+    public Carbon $startTime;
+    const ROUTE_PREFIX = 'api.v1.upazilas.';
+
+
+    /**
+     * LocUpazilaService constructor.
+     * @param Carbon $startTime
+     */
+    public function __construct(Carbon $startTime)
+    {
+        $this->startTime = $startTime;
+    }
+
+
     /**
      * @param Request $request
      * @return array
      */
-    public function getAllUpazilas(Request $request)
+    public function getAllUpazilas(Request $request): array
     {
         $paginate_link = [];
         $page = [];
-        $startTime = Carbon::now();
 
         $paginate = $request->query('page');
+        $district_id = $request->query('district_id');
+        $division_id = $request->query('division_id');
         $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
 
         /** @var LocUpazila|Builder $upazilas */
         $upazilas = LocUpazila::select([
             'loc_upazilas.id',
+            'loc_upazilas.loc_district_id',
+            'loc_upazilas.loc_division_id',
             'loc_upazilas.title_bn',
             'loc_upazilas.title_en',
             'loc_districts.title_bn as district_title_bn',
@@ -40,13 +59,22 @@ class LocUpazilaService
             ->leftJoin('loc_districts', 'loc_districts.id', '=', 'loc_upazilas.loc_division_id');
 
         $upazilas->orderBy('loc_upazilas.id', $order);
-
+        $upazilas->where('loc_districts.row_status', LocUpazila::ROW_STATUS_ACTIVE);
         if (!empty($request->query('title_en'))) {
             $upazilas->where('loc_upazilas.title_en', 'like', '%' . $request->query('title_en') . '%');
         } elseif (!empty($request->query('title_bn'))) {
             $upazilas->where('loc_upazilas.title_bn', 'like', '%' . $request->query('title_bn') . '%');
         }
-        if ($paginate) {
+
+        if (!empty($district_id)) {
+            $upazilas->where('loc_upazilas.loc_district_id', $district_id);
+        }
+
+        if (!empty($division_id)) {
+            $upazilas->where('loc_upazilas.loc_division_id', $division_id);
+        }
+
+        if (!empty($paginate)) {
             $upazilas = $upazilas->paginate(10);
             $paginate_data = (object)$upazilas->toArray();
             $page = [
@@ -62,20 +90,20 @@ class LocUpazilaService
 
         $data = [];
         foreach ($upazilas as $upazila) {
-            $_links['read'] = route('api.v1.upazilas.read', ['id' => $upazila->id]);
-            $_links['update'] = route('api.v1.upazilas.update', ['id' => $upazila->id]);
-            $_links['delete'] = route('api.v1.upazilas.destroy', ['id' => $upazila->id]);
+            $_links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $upazila->id]);
+            $_links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $upazila->id]);
+            $_links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $upazila->id]);
             $upazila['_links'] = $_links;
             $data[] = $upazila->toArray();
 
         }
-        $response = [
+        return [
             "data" => $data,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
                 "message" => "Job finished successfully.",
-                "started" => $startTime,
+                "started" => $this->startTime,
                 "finished" => Carbon::now(),
             ],
             "_links" => [
@@ -85,26 +113,28 @@ class LocUpazilaService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.upazilas.get-list')
+                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
                 ]
             ],
             "_page" => $page,
             "_order" => $order
         ];
-        return $response;
+
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return array
      */
-    public function getOneUpazila($id)
+    public function getOneUpazila(int $id): array
     {
-        $startTime = Carbon::now();
+
         $links = [];
 
         $upazila = LocUpazila::select([
             'loc_upazilas.id',
+            'loc_upazilas.loc_district_id',
+            'loc_upazilas.loc_division_id',
             'loc_upazilas.title_bn',
             'loc_upazilas.title_en',
             'loc_districts.title_bn as district_title_bn',
@@ -114,15 +144,15 @@ class LocUpazilaService
             'loc_divisions.title_en as division_title_en',
         ])->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_upazilas.loc_division_id')
             ->leftJoin('loc_districts', 'loc_districts.id', '=', 'loc_upazilas.loc_division_id')
-            ->where([
-                'loc_upazilas.id' => $id,
-                'loc_upazilas.row_status' => 1
-            ])->first();
+            ->where('loc_upazilas.row_status', LocUpazila::ROW_STATUS_ACTIVE)
+            ->where('loc_upazilas.id', $id)->first();
+
+
 
         if (!empty($upazila)) {
             $links = [
-                'update' => route('api.v1.upazilas.update', ['id' => $upazila->id]),
-                'delete' => route('api.v1.upazilas.destroy', ['id' => $upazila->id])
+                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $upazila->id]),
+                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $upazila->id])
             ];
         }
 
@@ -132,7 +162,7 @@ class LocUpazilaService
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
                 "message" => "Job finished successfully.",
-                "started" => $startTime,
+                "started" => $this->startTime,
                 "finished" => Carbon::now(),
             ],
             "_links" => $links
@@ -141,67 +171,48 @@ class LocUpazilaService
     }
 
     /**
-     * @param Request $request
+     * @param array $data
+     * @return LocUpazila
      */
-    public function store(Request $request)
+    public function store(array $data): LocUpazila
     {
-        LocUpazila::create($request->all());
+        return LocUpazila::create($data);
+    }
+
+    /**
+     * @param $data
+     * @param LocUpazila $locUpazila
+     * @return bool
+     */
+    public function update($data, LocUpazila $locUpazila): LocUpazila
+    {
+        $locUpazila->fill($data);
+        $locUpazila->save();
+        return $locUpazila;
+    }
+
+    /**
+     * @param LocUpazila $locUpazila
+     * @return bool
+     */
+    public function destroy(LocUpazila $locUpazila): LocUpazila
+    {
+        $locUpazila->row_status = LocUpazila::ROW_STATUS_DELETED;
+        $locUpazila->save();
+        return $locUpazila;
     }
 
     /**
      * @param Request $request
-     * @param $id
+     * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function update(Request $request, $id)
+    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        $update = LocUpazila::find($id);
-        $update->fill($request->all());
-        $update->save();
-    }
-
-    /**
-     * @param $id
-     */
-    public function destroy($id)
-    {
-        $delete = LocUpazila::find($id);
-        $delete->row_status = 99;
-        $delete->save();
-    }
-
-
-    /**
-     * @param $district_id
-     * @return array
-     */
-    public function getUpazilaByDistrictId(Request $request, $district_id)
-    {
-        $startTime = Carbon::now();
-
-        $upazilas = LocUpazila::select([
-            'id',
-            'title_bn',
-            'title_en',
-            'bbs_code',
-        ])->where([
-            'loc_district_id' => $district_id,
-            'row_status' => 1
-        ])->get()->toArray();
-
-
-        $response = [
-            "data" => $upazilas,
-            "_response_status" => [
-                "success" => true,
-                "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $startTime,
-                "finished" => Carbon::now(),
-            ],
-            "_links" => [
-
-            ],
-        ];
-        return $response;
+        return Validator::make($request->all(), [
+            'loc_district_id' => 'required|numeric|exists:loc_districts,id', //TODO: always check if foreign key data exists in table.
+            'loc_division_id' => 'required|numeric|exists:loc_divisions,id', //TODO: always check if foreign key data exists in table.
+            'title_en' => 'required|min:2',
+            'title_bn' => 'required|min:2',
+        ]);
     }
 }

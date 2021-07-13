@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -42,12 +43,20 @@ class CustomExceptionHandler
                 "code" => JsonResponse::HTTP_NOT_FOUND,
                 "message" => "404 Not Found",
             ];
-        } else if ($this->exception instanceof Exception) {
+        } else if ($this->exception instanceof ValidationException) {
+            $errors = [
+                "code" => JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
+                "message" => "Validation Error!",
+            ];
+        }
+        else if ($this->exception instanceof Exception) {
             $errors = [
                 "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 "message" => "Internal Server Error!",
             ];
         }
+
+
 
         return $errors;
     }
