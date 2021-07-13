@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\AuthService;
+namespace App\Services\PermissionServices;
 
 
 use App\Models\Permission;
