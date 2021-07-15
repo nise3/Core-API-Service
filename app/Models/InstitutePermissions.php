@@ -8,24 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * App\Models\InstitutePermissions
  *
- * @property int $id
+ *
  * @property int $institute_id
  * @property int $permission_id
- * @property bool $status
- * @property-read Permission $permission
+ *
+ * @property-read Permission $permissions
  */
 class InstitutePermissions extends BaseModel
 {
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $table = 'institute_permissions';
-    protected $fillable = ['institute_id', 'permission_id', 'status'];
-    protected $casts = [
-        'status' => 'boolean',
-    ];
+    protected $fillable = ['institute_id', 'permission_id'];
 
-    public function permission(): BelongsTo
+    public function permissions(): BelongsTo
     {
-        return $this->belongsTo(Permission::class,'permission_id','id');
+        return $this->belongsTo(Permission::class);
     }
 }

@@ -21,6 +21,12 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('permissions', 'PermissionController')->render();
     $customRouter()->resourceRoute('permission-groups', 'PermissionGroupController')->render();
 
+    /* assign permission to organizations*/
+    $router->post('permissions/assign-permissions-to-organization/{organization_id}', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
+
+    /* assign permission to Institutes*/
+    $router->post('permissions/assign-permissions-to-institute/{institute_id}', ['as' => 'permissions.assign-permissions-to-institute', 'uses' => 'PermissionController@assignPermissionToInstitute']);
+
     /* assign permission to permission group*/
     $router->post('permission-groups/assign-permissions/{id}', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
 

@@ -193,9 +193,9 @@ class PermissionGroupService
             } else {
                 $rules['key'] = 'required|min:2|unique:permission_groups,key';
             }
-        } elseif (isset($request->permissions) && !isset($request->bn) && !isset($request->title_bn) && !isset($request->key)) {
+        } elseif (isset($request->permissions) && !isset($request->title_en) && !isset($request->title_bn) && !isset($request->key)) {
             $rules = [
-                'permissions' => 'required|array|min:3',
+                'permissions' => 'required|array|min:1',
                 'permissions.*' => 'required|numeric|distinct|min:1'
             ];
         }

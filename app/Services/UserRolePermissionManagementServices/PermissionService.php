@@ -4,12 +4,15 @@
 namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\BaseModel;
+use App\Models\InstitutePermissions;
+use App\Models\OrganizationPermissions;
 use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class PermissionService
 {
@@ -147,7 +150,7 @@ class PermissionService
      * @param Permission $permission
      * @return bool
      */
-    public function update(array $data, Permission $permission):Permission
+    public function update(array $data, Permission $permission): Permission
     {
         $permission->fill($data);
         $permission->save($data);
@@ -158,10 +161,55 @@ class PermissionService
      * @param Permission $permission
      * @return bool
      */
-    public function destroy(Permission $permission):Permission
+    public function destroy(Permission $permission): Permission
     {
         $permission->delete();
         return $permission;
+    }
+
+
+    /**
+     * @param int $organization_id
+     * @param array $permission_ids
+     * @return array
+     */
+    public function setPermissionToOrganization(int $organization_id, array $permission_ids): array
+    {
+        $validPermissions = Permission::whereIn('id', $permission_ids)->get();
+        foreach ($validPermissions as $validPermission) {
+            OrganizationPermissions::updateOrCreate(
+                [
+                    'organization_id' => $organization_id,
+                    'permission_id' => $validPermission->id
+                ],
+                [   'organization_id' => $organization_id,
+                    'permission_id' => $validPermission->id
+                ]
+            );
+        }
+        return $validPermissions->toArray();
+    }
+
+    /**
+     * @param int $institute_id
+     * @param array $permission_ids
+     * @return array
+     */
+    public function setPermissionToInstitute(int $institute_id, array $permission_ids): array
+    {
+        $validPermissions = Permission::whereIn('id', $permission_ids)->get();
+        foreach ($validPermissions as $validPermission) {
+            InstitutePermissions::updateOrCreate(
+                [
+                    'institute_id' => $institute_id,
+                    'permission_id' => $validPermission->id
+                ],
+                [   'institute_id' => $institute_id,
+                    'permission_id' => $validPermission->id
+                ]
+            );
+        }
+        return $validPermissions->toArray();
     }
 
     /**
@@ -171,18 +219,26 @@ class PermissionService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        $rules = [
-            'name' => 'required|min:2',
-        ];
-        if (!empty($id)) {
-            $rules['key'] = 'required|min:2|unique:permissions,key,' . $id;
-        } else {
-            $rules['key'] = 'required|min:2|unique:permissions,key';
+        $rules = [];
+        if (!isset($request->permissions) && isset($request->name) && isset($request->key)) {
+            $rules = [
+                'name' => 'required|min:2',
+            ];
+            if (!empty($id)) {
+                $rules['key'] = 'required|min:2|unique:permissions,key,' . $id;
+            } else {
+                $rules['key'] = 'required|min:2|unique:permissions,key';
+            }
+        } elseif (isset($request->permissions) && !isset($request->name) && !isset($request->key)) {
+            $rules = [
+                'permissions' => 'required|array|min:1',
+                'permissions.*' => 'required|numeric|distinct|min:1'
+            ];
         }
+
 
         return Validator::make($request->all(), $rules);
     }
-
 
 
 }
