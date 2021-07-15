@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\UserRolePermissionManagementServices;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
