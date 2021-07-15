@@ -3,29 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
-use App\Models\Permission;
 use App\Models\PermissionGroup;
+use App\Models\PermissionSubGroup;
 use App\Services\UserRolePermissionManagementServices\PermissionGroupService;
-use App\Services\UserRolePermissionManagementServices\PermissionService;
+use App\Services\UserRolePermissionManagementServices\PermissionSubGroupService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Throwable;
 
-class PermissionGroupController extends Controller
+class PermissionSubGroupController extends Controller
 {
-    public PermissionGroupService $permissionGroupService;
+    public PermissionSubGroupService $permissionSubGroupService;
     public Carbon $startTime;
 
-    /**
-     * PermissionGroupController constructor.
-     * @param PermissionGroupService $permissionGroupService
-     * @param Carbon $startTime
-     */
-    public function __construct(PermissionGroupService $permissionGroupService, Carbon $startTime)
+
+    public function __construct(PermissionSubGroupService $permissionSubGroupService, Carbon $startTime)
     {
-        $this->permissionGroupService = $permissionGroupService;
+        $this->permissionSubGroupService = $permissionSubGroupService;
         $this->startTime = $startTime;
     }
 
@@ -36,9 +32,9 @@ class PermissionGroupController extends Controller
     public function getList(Request $request): JsonResponse
     {
         try {
-            $response = $this->permissionGroupService->getAllPermissionGroups($request);
-        } catch (Throwable $e) {
+            $response = $this->permissionSubGroupService->getAllPermissionSubGroups($request);
 
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -60,7 +56,7 @@ class PermissionGroupController extends Controller
     public function read(Request $request, int $id): JsonResponse
     {
         try {
-            $response = $this->permissionGroupService->getOnePermissionGroup($request, $id);
+            $response = $this->permissionSubGroupService->getOnePermissionSubGroup($request, $id);
         } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
@@ -84,12 +80,13 @@ class PermissionGroupController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $this->permissionGroupService->validator($request)->validate();
+       
+        $validated = $this->permissionSubGroupService->validator($request)->validate();
 
         try {
             $permission_group = new PermissionGroup();
             //TODO: Only Validated data will stored.
-            $this->permissionGroupService->store($validated, $permission_group);
+            $this->permissionSubGroupService->store($validated, $permission_group);
 
             //TODO: never response in try block if not necessary.
             $response = [
@@ -125,11 +122,11 @@ class PermissionGroupController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $permission_group = PermissionGroup::findOrFail($id);
-        $validated = $this->permissionGroupService->validator($request, $id)->validate();
+        $permission_group = PermissionSubGroup::findOrFail($id);
+        $validated = $this->permissionSubGroupService->validator($request, $id)->validate();
 
         try {
-            $this->permissionGroupService->update($validated, $permission_group);
+            $this->permissionSubGroupService->update($validated, $permission_group);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -161,9 +158,9 @@ class PermissionGroupController extends Controller
      */
     public function destroy(int $id)
     {
-        $permission_group = PermissionGroup::findOrFail($id);
+        $permission_group = PermissionSubGroup::findOrFail($id);
         try {
-            $this->permissionGroupService->destroy($permission_group);
+            $this->permissionSubGroupService->destroy($permission_group);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -188,14 +185,13 @@ class PermissionGroupController extends Controller
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 
-    public function assignPermissionToPermissionGroup(Request $request, int $id)
+    public function assignPermissionToPermissionSubGroup(Request $request, int $id)
     {
-
         $permission_group = PermissionGroup::findOrFail($id);
-        $validated = $this->permissionGroupService->validator($request)->validated();
+        $validated = $this->permissionSubGroupService->validator($request)->validated();
 
         try {
-            $this->permissionGroupService->assignPermission($permission_group, $validated['permissions']);
+            $this->permissionSubGroupService->assignPermission($permission_group, $validated['permissions']);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -206,7 +202,6 @@ class PermissionGroupController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -220,5 +215,4 @@ class PermissionGroupController extends Controller
         }
         return Response::json($response, JsonResponse::HTTP_OK);
     }
-
 }

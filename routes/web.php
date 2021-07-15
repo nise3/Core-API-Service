@@ -43,6 +43,20 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->put('permission-groups/{id}', ['as' => 'permission-groups.update', 'uses' => 'PermissionGroupController@update']);
     $router->delete('permission-groups/{id}', ['as' => 'permission-groups.destroy', 'uses' => 'PermissionGroupController@destroy']);
 
+    /* assign permission to permission group*/
+    $router->post('permission-groups/assign-permissions/{id}', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
+
+
+    /* Permission Group Crud Operation*/
+    $router->get('permission-sub-groups', ['as' => 'permission-sub-groups.get-list', 'uses' => 'PermissionSubGroupController@getList']);
+    $router->post('permission-sub-groups', ['as' => 'permission-sub-groups.store', 'uses' => 'PermissionSubGroupController@store']);
+    $router->get('permission-sub-groups/{id}', ['as' => 'permission-sub-groups.read', 'uses' => 'PermissionSubGroupController@read']);
+    $router->put('permission-sub-groups/{id}', ['as' => 'permission-sub-groups.update', 'uses' => 'PermissionSubGroupController@update']);
+    $router->delete('permission-sub-groups/{id}', ['as' => 'permission-sub-groups.destroy', 'uses' => 'PermissionSubGroupController@destroy']);
+
+    /* assign permission to permission group*/
+    $router->post('permission-sub-groups/assign-permissions/{id}', ['as' => 'permission-sub-groups.assign-permissions', 'uses' => 'PermissionSubGroupController@assignPermissionToPermissionSubGroup']);
+
     // private route with auth token
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('auth/profile', 'Auth\AuthController@profile');
