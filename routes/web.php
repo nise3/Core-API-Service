@@ -45,4 +45,11 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         $router->post('auth/profile', 'Auth\AuthController@profile');
         $router->post('auth/logout', 'Auth\AuthController@logout');
     });
+
+    /* Role Crud Operation*/
+    $router->get('roles', ['as' => 'roles.get-list', 'uses' => 'RoleController@getList']);
+    $router->post('roles', ['as' => 'roles.store', 'uses' => 'RoleController@store']);
+    $router->get('roles/{id}', ['as' => 'roles.read', 'uses' => 'RoleController@read']);
+    $router->put('roles/{id}', ['as' => 'roles.update', 'uses' => 'RoleController@update']);
+    $router->delete('roles/{id}', ['as' => 'roles.destroy', 'uses' => 'RoleController@destroy']);
 });

@@ -17,11 +17,12 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             $table->string('title_en', 191)->nullable();
             $table->string('title_bn', 191)->nullable();
-            $table->text('description',1000)->nullable();
+            $table->text('description')->nullable();
             $table->string('key')->unique();
             $table->unsignedInteger('permission_group_id')->nullable();
             $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedInteger('institute_id')->nullable();
+            $table->boolean('row_status')->default(1);
             $table->timestamps();
         });
     }
