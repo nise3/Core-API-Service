@@ -18,20 +18,8 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter('divisions')->resourceRoute('divisions', 'LocDivisionController')->render();
     $customRouter()->resourceRoute('districts', 'LocDistrictController')->render();
     $customRouter()->resourceRoute('upazilas', 'LocUpazilaController')->render();
-
-    /* Permission Crud Operation*/
-    $router->get('permissions', ['as' => 'permissions.get-list', 'uses' => 'PermissionController@getList']);
-    $router->post('permissions', ['as' => 'permissions.store', 'uses' => 'PermissionController@store']);
-    $router->get('permissions/{id}', ['as' => 'permissions.read', 'uses' => 'PermissionController@read']);
-    $router->put('permissions/{id}', ['as' => 'permissions.update', 'uses' => 'PermissionController@update']);
-    $router->delete('permissions/{id}', ['as' => 'permissions.destroy', 'uses' => 'PermissionController@destroy']);
-
-    /* Permission Group Crud Operation*/
-    $router->get('permission-groups', ['as' => 'permission-groups.get-list', 'uses' => 'PermissionGroupController@getList']);
-    $router->post('permission-groups', ['as' => 'permission-groups.store', 'uses' => 'PermissionGroupController@store']);
-    $router->get('permission-groups/{id}', ['as' => 'permission-groups.read', 'uses' => 'PermissionGroupController@read']);
-    $router->put('permission-groups/{id}', ['as' => 'permission-groups.update', 'uses' => 'PermissionGroupController@update']);
-    $router->delete('permission-groups/{id}', ['as' => 'permission-groups.destroy', 'uses' => 'PermissionGroupController@destroy']);
+    $customRouter()->resourceRoute('permissions', 'PermissionController')->render();
+    $customRouter()->resourceRoute('permission-groups', 'PermissionGroupController')->render();
 
     /* assign permission to permission group*/
     $router->post('permission-groups/assign-permissions/{id}', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
