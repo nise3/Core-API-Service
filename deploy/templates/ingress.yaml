@@ -23,4 +23,4 @@ spec:
               service:
                 name: {{ .Chart.Name }}
                 port:
-                  name: https
+                  name: http
