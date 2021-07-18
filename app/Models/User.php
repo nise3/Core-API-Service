@@ -5,6 +5,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class User
+ * @package App\Models
+ * @property int $role_id
+ * @property int $row_status
+ */
 class User extends AuthBaseModel
 {
 
@@ -23,6 +29,7 @@ class User extends AuthBaseModel
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 
 
 }

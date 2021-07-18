@@ -3,6 +3,8 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
+use App\Models\Permission;
+use App\Models\PermissionGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -58,6 +60,7 @@ class RoleService
         } else {
             $roles = $roles->get();
         }
+
 
         $data = [];
         foreach ($roles as $role) {
@@ -135,18 +138,6 @@ class RoleService
         ];
     }
 
-    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
-    {
-        return Validator::make($request->all(), [
-            'title_en' => 'required|min:2',
-            'title_bn' => 'required|min:2',
-            'key' => 'required|min:2',
-            'description' => 'nullable',
-            'permission_group_id' => 'nullable|exists:permission_groups,id',
-            'organization_id' => 'nullable|numeric|exists:organizations,id',
-            'institute_id' => 'nullable|numeric|exists:institutes,id',
-        ]);
-    }
 
     /**
      * @param array $data
@@ -184,5 +175,48 @@ class RoleService
         $role->save();
 
         return $role;
+    }
+
+    /**
+     * @param Role $role
+     * @param array $permission_ids
+     * @return Role
+     */
+    public function assignPermission(Role $role, array $permission_ids):Role
+    {
+        $validPermissions=Permission::whereIn('id',$permission_ids)->orderBy('id','ASC')->pluck('id')->toArray();
+        $role->permissions()->syncWithoutDetaching($validPermissions);
+        return $role;
+    }
+
+    /**
+     * @param Request $request
+     * @param int|null $id
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    {
+        $rules = [];
+        if (!isset($request->permissions) && isset($request->title_en) && isset($request->title_bn) && isset($request->key)) {
+            $rules = [
+                'title_en' => 'required|min:2',
+                'title_bn' => 'required|min:2',
+                'description' => 'nullable',
+                'permission_group_id' => 'nullable|exists:permission_groups,id',
+                'organization_id' => 'nullable|numeric',
+                'institute_id' => 'nullable|numeric',
+            ];
+            if (!empty($id)) {
+                $rules['key'] = 'required|min:2|unique:roles,key,' . $id;
+            } else {
+                $rules['key'] = 'required|min:2|unique:roles,key';
+            }
+        } elseif (isset($request->permissions) && !isset($request->title_en) && !isset($request->title_bn) && !isset($request->key)) {
+            $rules = [
+                'permissions' => 'required|array|min:1',
+                'permissions.*' => 'required|numeric|distinct|min:1'
+            ];
+        }
+        return Validator::make($request->all(), $rules);
     }
 }

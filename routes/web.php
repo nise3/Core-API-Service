@@ -19,39 +19,31 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('districts', 'LocDistrictController')->render();
     $customRouter()->resourceRoute('upazilas', 'LocUpazilaController')->render();
     $customRouter()->resourceRoute('permissions', 'PermissionController')->render();
-    $customRouter()->resourceRoute('roles', 'PermissionGroupController')->render();
+    $customRouter()->resourceRoute('roles', 'RoleController')->render();
     $customRouter()->resourceRoute('permission-groups', 'PermissionGroupController')->render();
+    $customRouter()->resourceRoute('permission-sub-groups', 'PermissionSubGroupController')->render();
+    $customRouter()->resourceRoute('users', 'UserController')->render();
 
+
+    /* assign permission to Roles*/
+    $router->post('roles/{id}/assign-permissions', ['as' => 'roles.assign-permissions', 'uses' => 'RoleController@assignPermissionToRole']);
 
     /* assign permission to organizations*/
-    $router->post('permissions/assign-permissions-to-organization/{organization_id}', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
+    $router->post('permissions/{id}/assign-permissions', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
 
     /* assign permission to Institutes*/
-    $router->post('permissions/assign-permissions-to-institute/{institute_id}', ['as' => 'permissions.assign-permissions-to-institute', 'uses' => 'PermissionController@assignPermissionToInstitute']);
+    $router->post('permissions/{id}/assign-permissions', ['as' => 'permissions.assign-permissions-to-institute', 'uses' => 'PermissionController@assignPermissionToInstitute']);
 
     /* assign permission to permission group*/
-    $router->post('permission-groups/assign-permissions/{id}', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
-
-
-    /* Permission Group Crud Operation*/
-    $router->get('permission-sub-groups', ['as' => 'permission-sub-groups.get-list', 'uses' => 'PermissionSubGroupController@getList']);
-    $router->post('permission-sub-groups', ['as' => 'permission-sub-groups.store', 'uses' => 'PermissionSubGroupController@store']);
-    $router->get('permission-sub-groups/{id}', ['as' => 'permission-sub-groups.read', 'uses' => 'PermissionSubGroupController@read']);
-    $router->put('permission-sub-groups/{id}', ['as' => 'permission-sub-groups.update', 'uses' => 'PermissionSubGroupController@update']);
-    $router->delete('permission-sub-groups/{id}', ['as' => 'permission-sub-groups.destroy', 'uses' => 'PermissionSubGroupController@destroy']);
+    $router->post('permission-groups/{id}/assign-permissions', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
 
     /* assign permission to permission group*/
-    $router->post('permission-sub-groups/assign-permissions/{id}', ['as' => 'permission-sub-groups.assign-permissions', 'uses' => 'PermissionSubGroupController@assignPermissionToPermissionSubGroup']);
+    $router->post('permission-sub-groups/{id}/assign-permissions', ['as' => 'permission-sub-groups.assign-permissions', 'uses' => 'PermissionSubGroupController@assignPermissionToPermissionSubGroup']);
+
     // private route with auth token
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('auth/profile', 'Auth\AuthController@profile');
         $router->post('auth/logout', 'Auth\AuthController@logout');
     });
 
-    /* Role Crud Operation*/
-//    $router->get('roles', ['as' => 'roles.get-list', 'uses' => 'RoleController@getList']);
-//    $router->post('roles', ['as' => 'roles.store', 'uses' => 'RoleController@store']);
-//    $router->get('roles/{id}', ['as' => 'roles.read', 'uses' => 'RoleController@read']);
-//    $router->put('roles/{id}', ['as' => 'roles.update', 'uses' => 'RoleController@update']);
-//    $router->delete('roles/{id}', ['as' => 'roles.destroy', 'uses' => 'RoleController@destroy']);
 });

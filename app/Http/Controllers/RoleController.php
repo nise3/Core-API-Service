@@ -3,19 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
-use App\Models\LocDistrict;
-use App\Services\LocationManagementServices\LocDistrictService;
+use App\Models\PermissionGroup;
+use App\Services\UserRolePermissionManagementServices\RoleService;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Models\Permission;
 use App\Models\Role;
-use App\Services\RoleService;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 /**
  * Class RoleController
@@ -105,11 +101,11 @@ class RoleController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+
         $validated = $this->roleService->validator($request)->validate();
 
         try {
             $this->roleService->store($validated);
-
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -120,7 +116,7 @@ class RoleController extends Controller
                 ]
             ];
 
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -149,7 +145,7 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        $validated = $this->roleService->validator($request)->validate();
+        $validated = $this->roleService->validator($request,$id)->validate();
 
         try {
             $this->roleService->update($role, $validated);
@@ -191,7 +187,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
 
         try {
-            $this->locDistrictService->destroy($role);
+            $this->roleService->destroy($role);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -214,6 +210,40 @@ class RoleController extends Controller
             return Response::json($response, $response['_response_status']['code']);
         }
 
+        return Response::json($response, JsonResponse::HTTP_OK);
+    }
+
+    public function assignPermissionToRole(Request $request,$id):JsonResponse
+    {
+
+        $role = Role::findOrFail($id);
+
+        $validated = $this->roleService->validator($request)->validated();
+
+        try {
+            $this->roleService->assignPermission($role, $validated['permissions']);
+            $response = [
+                '_response_status' => [
+                    "success" => true,
+                    "code" => JsonResponse::HTTP_OK,
+                    "message" => "Job finished successfully.",
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
+                ]
+            ];
+        } catch (Throwable $e) {
+
+            $handler = new CustomExceptionHandler($e);
+            $response = [
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
+                ], $handler->convertExceptionToArray())
+            ];
+
+            return Response::json($response, $response['_response_status']['code']);
+        }
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 }

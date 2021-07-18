@@ -181,7 +181,6 @@ class LocDistrictService
     {
         $locDistrict->row_status = LocDistrict::ROW_STATUS_DELETED;
         $locDistrict->save();
-
         return $locDistrict;
     }
 

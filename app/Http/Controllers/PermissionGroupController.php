@@ -188,9 +188,8 @@ class PermissionGroupController extends Controller
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 
-    public function assignPermissionToPermissionGroup(Request $request, int $id)
+    public function assignPermissionToPermissionGroup(Request $request, $id)
     {
-
         $permission_group = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->validator($request)->validated();
 

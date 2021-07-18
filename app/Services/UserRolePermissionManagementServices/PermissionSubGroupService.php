@@ -46,8 +46,8 @@ class PermissionSubGroupService
             'permission_sub_groups.title_en',
             'permission_sub_groups.title_bn',
             'permission_sub_groups.key',
-            'permission_groups.title_en permission_group_title_en',
-            'permission_groups.title_bn permission_group_title_bn',
+            'permission_groups.title_en as permission_group_title_en',
+            'permission_groups.title_bn as permission_group_title_bn',
 
         ]);
 
@@ -115,14 +115,15 @@ class PermissionSubGroupService
      */
     public function getOnePermissionSubGroup(Request $request, $id): array
     {
+
         $permission_sub_group = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.permission_group_id',
             'permission_sub_groups.title_en',
             'permission_sub_groups.title_bn',
             'permission_sub_groups.key',
-            'permission_groups.title_en permission_group_title_en',
-            'permission_groups.title_bn permission_group_title_bn',
+            'permission_groups.title_en as permission_group_title_en',
+            'permission_groups.title_bn as permission_group_title_bn',
         ])->where('permission_sub_groups.id', $id);
 
         $permission_sub_group->leftJoin('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');

@@ -143,7 +143,7 @@ class LocDistrictController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $locDistrict = LocDistrict::findOrFail($id);
+        $locDistrict = LocDistrict::findOrFail($id);  //row status check
 
         $validated = $this->locDistrictService->validator($request)->validate();
 
@@ -188,7 +188,6 @@ class LocDistrictController extends Controller
     public function destroy($id): JsonResponse
     {
         $locDistrict = LocDistrict::findOrFail($id);
-
         try {
             $this->locDistrictService->destroy($locDistrict);
             $response = [

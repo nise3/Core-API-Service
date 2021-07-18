@@ -33,7 +33,6 @@ class PermissionSubGroupController extends Controller
     {
         try {
             $response = $this->permissionSubGroupService->getAllPermissionSubGroups($request);
-
         } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
@@ -80,13 +79,13 @@ class PermissionSubGroupController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-       
+
         $validated = $this->permissionSubGroupService->validator($request)->validate();
 
         try {
-            $permission_group = new PermissionGroup();
+            $permission_sub_group = new PermissionSubGroup();
             //TODO: Only Validated data will stored.
-            $this->permissionSubGroupService->store($validated, $permission_group);
+            $this->permissionSubGroupService->store($validated, $permission_sub_group);
 
             //TODO: never response in try block if not necessary.
             $response = [
@@ -122,11 +121,11 @@ class PermissionSubGroupController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $permission_group = PermissionSubGroup::findOrFail($id);
+        $permission_sub_group = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->validator($request, $id)->validate();
 
         try {
-            $this->permissionSubGroupService->update($validated, $permission_group);
+            $this->permissionSubGroupService->update($validated, $permission_sub_group);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -138,6 +137,7 @@ class PermissionSubGroupController extends Controller
             ];
 
         } catch (Throwable $e) {
+
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -187,11 +187,11 @@ class PermissionSubGroupController extends Controller
 
     public function assignPermissionToPermissionSubGroup(Request $request, int $id)
     {
-        $permission_group = PermissionGroup::findOrFail($id);
+        $permission_sub_group = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->validator($request)->validated();
 
         try {
-            $this->permissionSubGroupService->assignPermission($permission_group, $validated['permissions']);
+            $this->permissionSubGroupService->assignPermission($permission_sub_group, $validated['permissions']);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -202,6 +202,7 @@ class PermissionSubGroupController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
+
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
