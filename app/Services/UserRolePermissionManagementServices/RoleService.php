@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Validator;
 
 class RoleService
 {
+    const ROUTE_PREFIX = 'api.v1.roles.';
+
     /**
      * @param Request $request
      * @return array
@@ -34,11 +36,17 @@ class RoleService
             'roles.id',
             'roles.title_bn',
             'roles.title_en',
+            'roles.key',
             'roles.description',
             'roles.permission_group_id',
             'roles.organization_id',
             'roles.institute_id',
+            'permission_groups.title_en as permission_group_title_en',
+            'permission_groups.title_bn as permission_group_title_bn',
         ]);
+
+        $roles->leftJoin('permission_groups', 'permission_groups.id', 'roles.permission_group_id');
+
         $roles->orderBy('roles.id', $order);
 
         if (!empty($titleEn)) {
@@ -64,9 +72,9 @@ class RoleService
 
         $data = [];
         foreach ($roles as $role) {
-            $_links['read'] = route('api.v1.roles.read', ['id' => $role->id]);
-            $_links['update'] = route('api.v1.roles.update', ['id' => $role->id]);
-            $_links['delete'] = route('api.v1.roles.destroy', ['id' => $role->id]);
+            $_links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $role->id]);
+            $_links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $role->id]);
+            $_links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $role->id]);
             $role['_links'] = $_links;
             $data[] = $role->toArray();
 
@@ -88,7 +96,7 @@ class RoleService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route('api.v1.roles.get-list')
+                    '_link' => route(self::ROUTE_PREFIX .'get-list')
                 ]
             ],
             "_page" => $page,
@@ -110,18 +118,17 @@ class RoleService
             'roles.id',
             'roles.title_bn',
             'roles.title_en',
+            'roles.key',
             'roles.description',
             'roles.permission_group_id',
             'roles.organization_id',
             'roles.institute_id'
-        ]);
-
-        $role = $role->first();
+        ])->where('id', $id)->first();;
 
         if (!empty($role)) {
             $links = [
-                'update' => route('api.v1.roles.update', ['id' => $role->id]),
-                'delete' => route('api.v1.roles.destroy', ['id' => $role->id])
+                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $role->id]),
+                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $role->id])
             ];
         }
 

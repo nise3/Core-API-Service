@@ -112,7 +112,7 @@ class PermissionGroupService
             'title_en',
             'title_bn',
             'key'
-        ])->where('id', $id)->first();
+        ])->where('id', $id)->with('permissions')->first();
 
         $links = [];
 
