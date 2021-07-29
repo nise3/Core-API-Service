@@ -3,37 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
-use App\Models\Role;
-use App\Models\User;
-use App\Services\UserRolePermissionManagementServices\UserService;
+use App\Models\Permission;
+use App\Models\PermissionGroup;
+use App\Services\UserRolePermissionManagementServices\PermissionService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Validation\ValidationException;
-
 use Throwable;
 
-class UserController extends Controller
+
+class PermissionController extends Controller
 {
-    public UserService $userService;
-    /**
-     * @var Carbon
-     */
-    private Carbon $startTime;
+    public PermissionService $permissionService;
+    public Carbon $startTime;
 
     /**
-     * RoleController constructor.
-     * @param UserService $userService
+     * PermissionController constructor.
+     * @param PermissionService $permissionService
+     * @param Carbon $startDate
      */
-    public function __construct(UserService $userService)
+    public function __construct(PermissionService $permissionService, Carbon $startTime)
     {
-        $this->startTime = Carbon::now();
-
-        $this->userService = $userService;
+        $this->permissionService = $permissionService;
+        $this->startTime = $startTime;
     }
-
 
     /**
      * @param Request $request
@@ -42,8 +36,8 @@ class UserController extends Controller
     public function getList(Request $request): JsonResponse
     {
         try {
-            $response = $this->userService->getAllUsers($request);
-        } catch (\Throwable $e) {
+            $response = $this->permissionService->getAllPermissions($request);
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -52,25 +46,21 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
-
         return Response::json($response);
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function read(Request $request, $id): JsonResponse
+    public function read(Request $request, int $id): JsonResponse
     {
         try {
-            $response = $this->userService->getOneUser($request, $id);
-        } catch (\Throwable $e) {
+            $response = $this->permissionService->getOnePermission($request, $id);
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -87,21 +77,21 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return JsonResponse
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): JsonResponse
     {
-        $user = new User();
-        $validated = $this->userService->validator($request)->validate();
+        $validated = $this->permissionService->validator($request)->validate();
         try {
-            $validated['password'] = Hash::make('password');
-            $user = $this->userService->store($validated, $user);
+
+            $permission = new Permission();
+            //TODO: Only Validated data will stored.
+            $this->permissionService->store($validated, $permission);
+
+            //TODO: never response in try block if not necessary.
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -111,7 +101,7 @@ class UserController extends Controller
                 ]
             ];
 
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -120,33 +110,29 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
+            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
+                $response['_response_status']['message'] = $this->permissionService->validator($request)->errors();
+            }
             return Response::json($response, $response['_response_status']['code']);
         }
 
         return Response::json($response, JsonResponse::HTTP_CREATED);
     }
 
-
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return JsonResponse
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $user = User::findOrFail($id);
-
-        $validated = $this->userService->validator($request, $id)->validate();
+        $permission = Permission::findOrFail($id);
 
         try {
-            $user = $this->userService->update($validated, $user);
-
+            $validated = $this->permissionService->validator($request, $id)->validate();
+            $this->permissionService->update($validated, $permission);
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -156,8 +142,7 @@ class UserController extends Controller
                 ]
             ];
 
-        } catch (\Throwable $e) {
-
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -166,7 +151,9 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
+            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
+                $response['_response_status']['message'] = $this->permissionService->validator($request, $id)->errors();
+            }
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -174,19 +161,15 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy(int $id)
     {
-        $user = User::findOrFail($id);
-
+        $permission = Permission::findOrFail($id);
         try {
-            $user = $this->userService->destroy($user);
+            $this->permissionService->destroy($permission);
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -195,7 +178,7 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ]
             ];
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -207,18 +190,23 @@ class UserController extends Controller
 
             return Response::json($response, $response['_response_status']['code']);
         }
-
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 
-    public function assignPermissionToUser(Request $request, $id): JsonResponse
+
+    /**
+     * @param Request $request
+     * @param int $organization_id
+     * @return JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function assignPermissionToOrganization(Request $request, int $organization_id): JsonResponse
     {
 
-        $role = Role::findOrFail($id);
-        $validated = $this->userService->validator($request)->validated();
+        $validated = $this->permissionService->validator($request)->validated();
 
         try {
-            $this->userService->assignPermission($role, $validated['permissions']);
+            $this->permissionService->setPermissionToOrganization($organization_id, $validated['permissions']);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -242,5 +230,47 @@ class UserController extends Controller
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_OK);
+
     }
+
+    /**
+     * @param Request $request
+     * @param int $institute_id
+     * @return JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function assignPermissionToInstitute(Request $request, int $institute_id): JsonResponse
+    {
+
+        //$validated = $this->permissionService->validator($request)->validated();
+
+        try {
+            $this->permissionService->setPermissionToInstitute($institute_id, $request->permissions);
+            $response = [
+                '_response_status' => [
+                    "success" => true,
+                    "code" => JsonResponse::HTTP_OK,
+                    "message" => "Job finished successfully.",
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
+                ]
+            ];
+        } catch (Exception $e) {
+
+            $handler = new CustomExceptionHandler($e);
+            $response = [
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
+                ], $handler->convertExceptionToArray())
+            ];
+
+            return Response::json($response, $response['_response_status']['code']);
+        }
+        return Response::json($response, JsonResponse::HTTP_OK);
+
+    }
+
+
 }

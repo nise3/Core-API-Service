@@ -2,37 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Carbon;
+use App\Traits\Scopes\ScopeRowStatusTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 /**
  * App\Models\Role
  *
  * @property int $id
- * @property string code
  * @property string title_en
  * @property string title_bn
  * @property string description
- * @property-read Collection|Permission[] permissions
- * @property-read int|null permissions_count
+ * @property string key
+ * @property int $permission_group_id
+ * @property int $organization_id
+ * @property int $institute_id
  */
 class Role extends BaseModel
 {
-    protected $guarded = [];
+    use ScopeRowStatusTrait;
 
-    public function users(): Builder
+    protected $guarded = ['id'];
+
+    public function permissions(): BelongsToMany
     {
-        $userModel = User::class;
-
-        return $this->belongsToMany($userModel, 'user_roles')
-            ->select(app($userModel)->getTable() . '.*')
-            ->union($this->hasMany($userModel))->getQuery();
-    }
-
-    public function permissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class,'role_permissions');
     }
 }

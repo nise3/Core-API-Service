@@ -13,10 +13,13 @@ use Illuminate\Database\Eloquent\Collection;
  * @property string $title_bn
  * @property string|null $title_en
  * @property string|null $bbs_code
+ * @property string|null $division_bbs_code
  * @property int $loc_division_id
  * @property bool|null $is_sadar_district
  * @property-read Collection|\App\Models\LocUpazila[] $locUpazilas
  * @property-read LocDivision locDivision
+ * @property int |null $created_by
+ * @property int |null $updated_by
  */
 class LocDistrict extends BaseModel
 {
@@ -24,10 +27,6 @@ class LocDistrict extends BaseModel
 
     protected $table = 'loc_districts';
     protected $guarded = ['id'];
-
-    protected $casts = [
-        'is_sadar_district' => 'boolean'
-    ];
 
     public function locDivision(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

@@ -28,10 +28,12 @@ class LocDistrictService
         $titleBn = $request->query('title_bn');
         $paginate = $request->query('page');
         $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
+        $division_id = $request->query('division_id');
 
         /** @var LocDistrict|Builder $district */
         $districts = LocDistrict::select([
             'loc_districts.id',
+            'loc_districts.loc_division_id',
             'loc_districts.title_bn',
             'loc_districts.title_en',
             'loc_districts.bbs_code',
@@ -41,6 +43,7 @@ class LocDistrictService
         ]);
         $districts->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
         $districts->orderBy('loc_districts.id', $order);
+        $districts->where('loc_districts.row_status',LocDistrict::ROW_STATUS_ACTIVE);
 
         if (!empty($titleEn)) {
             $districts->where('loc_districts.title_en', 'like', '%' . $titleEn . '%');
@@ -48,7 +51,11 @@ class LocDistrictService
             $districts->where('loc_districts.title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if ($paginate) {
+        if (!empty($division_id)) {
+            $districts->where('loc_districts.loc_division_id', $division_id);
+        }
+
+        if (!empty($paginate)) {
             $districts = $districts->paginate(10);
             $paginate_data = (object)$districts->toArray();
             $page = [
@@ -108,6 +115,7 @@ class LocDistrictService
         /** @var LocDistrict|Builder $district */
         $district = LocDistrict::select([
             'loc_districts.id',
+            'loc_districts.loc_division_id',
             'loc_districts.title_bn',
             'loc_districts.title_en',
             'loc_districts.bbs_code',
@@ -162,7 +170,6 @@ class LocDistrictService
     {
         $locDistrict->fill($data);
         $locDistrict->save();
-
         return $locDistrict;
     }
 
@@ -172,9 +179,8 @@ class LocDistrictService
      */
     public function destroy(LocDistrict $locDistrict): LocDistrict
     {
-        $locDistrict->row_status = 99;
+        $locDistrict->row_status = LocDistrict::ROW_STATUS_DELETED;
         $locDistrict->save();
-
         return $locDistrict;
     }
 

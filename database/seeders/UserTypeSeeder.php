@@ -27,7 +27,7 @@ class UserTypeSeeder extends Seeder
                     'title' => 'Super User',
                     'code' => '1',
                     'row_status' => 1,
-                    'default_role_id' => '1'
+                    'role_group_id' => '1'
                 ),
             1 =>
                 array(
@@ -35,7 +35,7 @@ class UserTypeSeeder extends Seeder
                     'title' => 'System User',
                     'code' => '2',
                     'row_status' => 1,
-                    'default_role_id' => '2'
+                    'role_group_id' => '2'
                 ),
             2 =>
                 array(
@@ -43,7 +43,7 @@ class UserTypeSeeder extends Seeder
                     'title' => 'Institute User',
                     'code' => '3',
                     'row_status' => 1,
-                    'default_role_id' => '3'
+                    'role_group_id' => '3'
                 ),
             3 =>
                 array(
@@ -51,7 +51,7 @@ class UserTypeSeeder extends Seeder
                     'title' => 'Organization User',
                     'code' => '4',
                     'row_status' => 1,
-                    'default_role_id' => '4'
+                    'role_group_id' => '4'
                 ),
             4 =>
                 array(
@@ -59,7 +59,7 @@ class UserTypeSeeder extends Seeder
                     'title' => 'DC',
                     'code' => '5',
                     'row_status' => 1,
-                    'default_role_id' => '5'
+                    'role_group_id' => '5'
                 ),
         ));
 

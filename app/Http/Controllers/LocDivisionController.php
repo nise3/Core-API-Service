@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Classes\CustomExceptionHandler;
+use App\Models\LocDivision;
 use App\Services\LocationManagementServices\LocDivisionService;
 use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -15,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class LocDivisionController extends Controller
 {
@@ -23,14 +26,20 @@ class LocDivisionController extends Controller
      */
     public LocDivisionService $locDivisionService;
 
+    /**
+     * @var Carbon
+     */
+    public Carbon $startTime;
+
 
     /**
      * LocDivisionController constructor.
      * @param LocDivisionService $locDivisionService
      */
-    public function __construct(LocDivisionService $locDivisionService)
+    public function __construct(LocDivisionService $locDivisionService,Carbon $startTime)
     {
         $this->locDivisionService = $locDivisionService;
+        $this->startTime=$startTime;
     }
 
 
@@ -42,107 +51,21 @@ class LocDivisionController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $response = [];
-        $startTime = Carbon::now();
         try {
             $response = $this->locDivisionService->getAllDivisions($request);
-        } catch (HttpResponseException | FatalThrowableError | Exception $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
+        } catch (Throwable $e) {
+            $handler = new CustomExceptionHandler($e);
             $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                    "message" => "Internal Server Error!",
-                    "started" => $startTime,
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
-                ]
+                ], $handler->convertExceptionToArray())
             ];
-            return Response::json($response, JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (MethodNotAllowedHttpException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_METHOD_NOT_ALLOWED,
-                    "message" => "Method Not Allowed",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_METHOD_NOT_ALLOWED);
-        } catch (NotFoundHttpException | ModelNotFoundException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_NOT_FOUND,
-                    "message" => "404 Not Found",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (AuthorizationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_FORBIDDEN,
-                    "message" => "You are not authorised to perform this action",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (UnableToExecuteRequestException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => $e->getCode(),
-                    "message" => "Unable to execute the request",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, $e->getCode());
-        } catch (ValidationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            if ($e->getResponse()) {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_BAD_REQUEST,
-                        "message" => "Bad Request",
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_BAD_REQUEST);
-            } else {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
-                        "message" => $e->validator->errors(),
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
+                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
             }
+            return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response);
     }
@@ -154,112 +77,25 @@ class LocDivisionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function read(Request $request, $id)
+    public function read(Request $request, $id):JsonResponse
     {
-        $response = [];
-        $startTime = Carbon::now();
-
         try {
             $response = $this->locDivisionService->getOneDivision($id);
-        } catch (HttpResponseException | FatalThrowableError | Exception $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
+        } catch (Throwable $e) {
+            $handler = new CustomExceptionHandler($e);
             $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                    "message" => "Internal Server Error!",
-                    "started" => $startTime,
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
-                ]
+                ], $handler->convertExceptionToArray())
             ];
-            return Response::json($response, JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (MethodNotAllowedHttpException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_METHOD_NOT_ALLOWED,
-                    "message" => "Method Not Allowed",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_METHOD_NOT_ALLOWED);
-        } catch (NotFoundHttpException | ModelNotFoundException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_NOT_FOUND,
-                    "message" => "404 Not Found",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (AuthorizationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_FORBIDDEN,
-                    "message" => "You are not authorised to perform this action",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (UnableToExecuteRequestException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => $e->getCode(),
-                    "message" => "Unable to execute the request",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, $e->getCode());
-        } catch (ValidationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            if ($e->getResponse()) {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_BAD_REQUEST,
-                        "message" => "Bad Request",
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_BAD_REQUEST);
-            } else {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => 422,
-                        "message" => $e->validator->errors(),
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, 422);
+            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
+                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
             }
-
+            return Response::json($response, $response['_response_status']['code']);
         }
+
         return Response::json($response);
     }
 
@@ -269,140 +105,34 @@ class LocDivisionController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request):JsonResponse
     {
-        $response = [];
-        $startTime = Carbon::now();
-
         try {
-            $validation = Validator::make($request->all(), [
-                'title_en' => 'required|min:2',
-                'title_bn' => 'required|min:2',
-                'bbs_code' => 'nullable|min:1'
-            ]);
-            if ($validation->fails()) {
-                $response = [
-                    "_response_status" => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
-                        "message" => $validation->errors(),
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            $this->locDivisionService->store($request);
-
+            $validated = $this->locDivisionService->validator($request)->validate();
+            $this->locDivisionService->store($validated);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
                     "message" => "Job finished successfully.",
-                    "started" => $startTime,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
                 ]
             ];
 
-        } catch (HttpResponseException | FatalThrowableError | Exception $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
+        } catch (Throwable $e) {
+            $handler = new CustomExceptionHandler($e);
             $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                    "message" => "Internal Server Error!",
-                    "started" => $startTime,
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
-                ]
+                ], $handler->convertExceptionToArray())
             ];
-            return Response::json($response, JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (MethodNotAllowedHttpException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_METHOD_NOT_ALLOWED,
-                    "message" => "Method Not Allowed",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_METHOD_NOT_ALLOWED);
-        } catch (NotFoundHttpException | ModelNotFoundException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_NOT_FOUND,
-                    "message" => "404 Not Found",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (AuthorizationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_FORBIDDEN,
-                    "message" => "You are not authorised to perform this action",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (UnableToExecuteRequestException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => $e->getCode(),
-                    "message" => "Unable to execute the request",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, $e->getCode());
-        } catch (ValidationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            if ($e->getResponse()) {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_BAD_REQUEST,
-                        "message" => "Bad Request",
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_BAD_REQUEST);
-            } else {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => 422,
-                        "message" => $e->validator->errors(),
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, 422);
+            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
+                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
             }
-
+            return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_CREATED);
     }
@@ -412,144 +142,41 @@ class LocDivisionController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\LocDivision $locDivision
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id):JsonResponse
     {
-        $response = [];
-        $startTime = Carbon::now();
-
+        $locDivision=LocDivision::findOrFail($id);
         try {
+            $validated = $this->locDivisionService->validator($request)->validate();
 
-            $validation = Validator::make($request->all(), [
-                'title_en' => 'required|min:2',
-                'title_bn' => 'required|min:2',
-                'bbs_code' => 'nullable|min:1'
-            ]);
-            if ($validation->fails()) {
-                $response = [
-                    "_response_status" => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
-                        "message" => $validation->errors(),
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            $this->locDivisionService->update($request, $id);
+            $this->locDivisionService->update($validated, $locDivision);
 
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
                     "message" => "Job finished successfully.",
-                    "started" => $startTime,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
                 ]
             ];
 
-        } catch (HttpResponseException | FatalThrowableError | Exception $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
+        } catch (Throwable $e) {
+            $handler = new CustomExceptionHandler($e);
             $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                    "message" => "Internal Server Error!",
-                    "started" => $startTime,
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
-                ]
+                ], $handler->convertExceptionToArray())
             ];
-            return Response::json($response, JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (MethodNotAllowedHttpException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_METHOD_NOT_ALLOWED,
-                    "message" => "Method Not Allowed",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_METHOD_NOT_ALLOWED);
-        } catch (NotFoundHttpException | ModelNotFoundException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_NOT_FOUND,
-                    "message" => "404 Not Found",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (AuthorizationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_FORBIDDEN,
-                    "message" => "You are not authorised to perform this action",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (UnableToExecuteRequestException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => $e->getCode(),
-                    "message" => "Unable to execute the request",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, $e->getCode());
-        } catch (ValidationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            if ($e->getResponse()) {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_BAD_REQUEST,
-                        "message" => "Bad Request",
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_BAD_REQUEST);
-            } else {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => 422,
-                        "message" => $e->validator->errors(),
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, 422);
+            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
+                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
             }
 
+            return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_CREATED);
     }
@@ -557,122 +184,34 @@ class LocDivisionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\LocDivision $locDivision
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        $response = [];
-        $startTime = Carbon::now();
+        $locDivision=LocDivision::findOrFail($id);
         try {
-            $this->locDivisionService->destroy($id);
+            $this->locDivisionService->destroy($locDivision);
             /*response message*/
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
                     "message" => "Job finished successfully.",
-                    "started" => $startTime,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
                 ]
             ];
-        } catch (HttpResponseException | FatalThrowableError | Exception $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
+        } catch (Throwable $e) {
+            $handler = new CustomExceptionHandler($e);
             $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                    "message" => "Internal Server Error!",
-                    "started" => $startTime,
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
                     "finished" => Carbon::now(),
-                ]
+                ], $handler->convertExceptionToArray())
             ];
-            return Response::json($response, JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (MethodNotAllowedHttpException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_METHOD_NOT_ALLOWED,
-                    "message" => "Method Not Allowed",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_METHOD_NOT_ALLOWED);
-        } catch (NotFoundHttpException | ModelNotFoundException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_NOT_FOUND,
-                    "message" => "404 Not Found",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (AuthorizationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => JsonResponse::HTTP_FORBIDDEN,
-                    "message" => "You are not authorised to perform this action",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, JsonResponse::HTTP_NOT_FOUND);
-        } catch (UnableToExecuteRequestException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => $e->getCode(),
-                    "message" => "Unable to execute the request",
-                    "started" => $startTime,
-                    "finished" => Carbon::now(),
-                ]
-            ];
-            return Response::json($response, $e->getCode());
-        } catch (ValidationException $e) {
-            Log::debug($e->getMessage());
-            Log::debug($e->getTraceAsString());
-            /*response message*/
-            if ($e->getResponse()) {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => JsonResponse::HTTP_BAD_REQUEST,
-                        "message" => "Bad Request",
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, JsonResponse::HTTP_BAD_REQUEST);
-            } else {
-                $response = [
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => 422,
-                        "message" => $e->validator->errors(),
-                        "started" => $startTime,
-                        "finished" => Carbon::now(),
-                    ]
-                ];
-                return Response::json($response, 422);
-            }
+            return Response::json($response, $response['_response_status']['code']);
 
         }
         return Response::json($response, JsonResponse::HTTP_OK);

@@ -3,21 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
-use App\Models\Role;
-use App\Models\User;
-use App\Services\UserRolePermissionManagementServices\UserService;
+use App\Models\PermissionGroup;
+use App\Services\UserRolePermissionManagementServices\RoleService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Role;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
-
 use Throwable;
 
-class UserController extends Controller
+/**
+ * Class RoleController
+ * @package App\Http\Controllers
+ */
+class RoleController extends Controller
 {
-    public UserService $userService;
+
+    /**
+     * @var RoleService
+     */
+    public RoleService $roleService;
     /**
      * @var Carbon
      */
@@ -25,13 +31,13 @@ class UserController extends Controller
 
     /**
      * RoleController constructor.
-     * @param UserService $userService
+     * @param RoleService $roleService
      */
-    public function __construct(UserService $userService)
+    public function __construct(RoleService $roleService)
     {
         $this->startTime = Carbon::now();
 
-        $this->userService = $userService;
+        $this->roleService = $roleService;
     }
 
 
@@ -42,7 +48,7 @@ class UserController extends Controller
     public function getList(Request $request): JsonResponse
     {
         try {
-            $response = $this->userService->getAllUsers($request);
+            $response = $this->roleService->getAllRoles($request);
         } catch (\Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
@@ -69,7 +75,7 @@ class UserController extends Controller
     public function read(Request $request, $id): JsonResponse
     {
         try {
-            $response = $this->userService->getOneUser($request, $id);
+            $response = $this->roleService->getOneRole($id);
         } catch (\Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
@@ -95,13 +101,12 @@ class UserController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $user = new User();
-        $validated = $this->userService->validator($request)->validate();
+
+        $validated = $this->roleService->validator($request)->validate();
+
         try {
-            $validated['password'] = Hash::make('password');
-            $user = $this->userService->store($validated, $user);
+            $this->roleService->store($validated);
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -138,15 +143,14 @@ class UserController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $role = Role::findOrFail($id);
 
-        $validated = $this->userService->validator($request, $id)->validate();
+        $validated = $this->roleService->validator($request,$id)->validate();
 
         try {
-            $user = $this->userService->update($validated, $user);
+            $this->roleService->update($role, $validated);
 
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -157,7 +161,6 @@ class UserController extends Controller
             ];
 
         } catch (\Throwable $e) {
-
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -181,12 +184,11 @@ class UserController extends Controller
      */
     public function destroy($id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $role = Role::findOrFail($id);
 
         try {
-            $user = $this->userService->destroy($user);
+            $this->roleService->destroy($role);
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -211,14 +213,15 @@ class UserController extends Controller
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 
-    public function assignPermissionToUser(Request $request, $id): JsonResponse
+    public function assignPermissionToRole(Request $request,$id):JsonResponse
     {
 
         $role = Role::findOrFail($id);
-        $validated = $this->userService->validator($request)->validated();
+
+        $validated = $this->roleService->validator($request)->validated();
 
         try {
-            $this->userService->assignPermission($role, $validated['permissions']);
+            $this->roleService->assignPermission($role, $validated['permissions']);
             $response = [
                 '_response_status' => [
                     "success" => true,

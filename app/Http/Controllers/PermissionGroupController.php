@@ -3,37 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
-use App\Models\Role;
-use App\Models\User;
-use App\Services\UserRolePermissionManagementServices\UserService;
+use App\Models\Permission;
+use App\Models\PermissionGroup;
+use App\Services\UserRolePermissionManagementServices\PermissionGroupService;
+use App\Services\UserRolePermissionManagementServices\PermissionService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Validation\ValidationException;
-
 use Throwable;
 
-class UserController extends Controller
+class PermissionGroupController extends Controller
 {
-    public UserService $userService;
-    /**
-     * @var Carbon
-     */
-    private Carbon $startTime;
+    public PermissionGroupService $permissionGroupService;
+    public Carbon $startTime;
 
     /**
-     * RoleController constructor.
-     * @param UserService $userService
+     * PermissionGroupController constructor.
+     * @param PermissionGroupService $permissionGroupService
+     * @param Carbon $startTime
      */
-    public function __construct(UserService $userService)
+    public function __construct(PermissionGroupService $permissionGroupService, Carbon $startTime)
     {
-        $this->startTime = Carbon::now();
-
-        $this->userService = $userService;
+        $this->permissionGroupService = $permissionGroupService;
+        $this->startTime = $startTime;
     }
-
 
     /**
      * @param Request $request
@@ -42,8 +36,9 @@ class UserController extends Controller
     public function getList(Request $request): JsonResponse
     {
         try {
-            $response = $this->userService->getAllUsers($request);
-        } catch (\Throwable $e) {
+            $response = $this->permissionGroupService->getAllPermissionGroups($request);
+        } catch (Throwable $e) {
+
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -52,25 +47,21 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
-
         return Response::json($response);
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function read(Request $request, $id): JsonResponse
+    public function read(Request $request, int $id): JsonResponse
     {
         try {
-            $response = $this->userService->getOneUser($request, $id);
-        } catch (\Throwable $e) {
+            $response = $this->permissionGroupService->getOnePermissionGroup($request, $id);
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -87,21 +78,21 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return JsonResponse
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): JsonResponse
     {
-        $user = new User();
-        $validated = $this->userService->validator($request)->validate();
+        $validated = $this->permissionGroupService->validator($request)->validate();
+
         try {
-            $validated['password'] = Hash::make('password');
-            $user = $this->userService->store($validated, $user);
+            $permission_group = new PermissionGroup();
+            //TODO: Only Validated data will stored.
+            $this->permissionGroupService->store($validated, $permission_group);
+
+            //TODO: never response in try block if not necessary.
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -111,7 +102,7 @@ class UserController extends Controller
                 ]
             ];
 
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -120,33 +111,26 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
 
         return Response::json($response, JsonResponse::HTTP_CREATED);
     }
 
-
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return JsonResponse
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $user = User::findOrFail($id);
-
-        $validated = $this->userService->validator($request, $id)->validate();
+        $permission_group = PermissionGroup::findOrFail($id);
+        $validated = $this->permissionGroupService->validator($request, $id)->validate();
 
         try {
-            $user = $this->userService->update($validated, $user);
-
+            $this->permissionGroupService->update($validated, $permission_group);
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -156,8 +140,7 @@ class UserController extends Controller
                 ]
             ];
 
-        } catch (\Throwable $e) {
-
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -166,7 +149,6 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -174,19 +156,15 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy(int $id)
     {
-        $user = User::findOrFail($id);
-
+        $permission_group = PermissionGroup::findOrFail($id);
         try {
-            $user = $this->userService->destroy($user);
+            $this->permissionGroupService->destroy($permission_group);
             $response = [
-                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -195,7 +173,7 @@ class UserController extends Controller
                     "finished" => Carbon::now(),
                 ]
             ];
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -207,18 +185,16 @@ class UserController extends Controller
 
             return Response::json($response, $response['_response_status']['code']);
         }
-
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 
-    public function assignPermissionToUser(Request $request, $id): JsonResponse
+    public function assignPermissionToPermissionGroup(Request $request, $id)
     {
-
-        $role = Role::findOrFail($id);
-        $validated = $this->userService->validator($request)->validated();
+        $permission_group = PermissionGroup::findOrFail($id);
+        $validated = $this->permissionGroupService->validator($request)->validated();
 
         try {
-            $this->userService->assignPermission($role, $validated['permissions']);
+            $this->permissionGroupService->assignPermission($permission_group, $validated['permissions']);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -243,4 +219,5 @@ class UserController extends Controller
         }
         return Response::json($response, JsonResponse::HTTP_OK);
     }
+
 }

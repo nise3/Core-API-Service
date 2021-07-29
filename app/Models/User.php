@@ -5,6 +5,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class User
+ * @package App\Models
+ * @property int $role_id
+ * @property int $row_status
+ */
 class User extends AuthBaseModel
 {
 
@@ -24,22 +30,6 @@ class User extends AuthBaseModel
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = [
-        'userType',
-    ];
 
-    /**
-     * ---------------------------------------
-     *  User Relationship start              *
-     * ---------------------------------------
-     */
-
-    /**
-     * @return BelongsTo
-     */
-    public function userType(): BelongsTo
-    {
-        return $this->belongsTo(UserType::class, 'user_type_id');
-    }
 
 }
