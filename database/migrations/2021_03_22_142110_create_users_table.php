@@ -19,19 +19,22 @@ class CreateUsersTable extends Migration
             $table->string('name_en', 191)->nullable();
             $table->string('name_bn', 191)->nullable();
             $table->string('email', 191)->unique();
+            $table->string('mobile', 191)->nullable();
             $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedInteger('institute_id')->nullable();
             $table->unsignedMediumInteger('loc_district_id')->nullable();
             $table->unsignedMediumInteger('loc_division_id')->nullable();
             $table->unsignedMediumInteger('loc_upazila_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password', 191);
-            $table->string('profile_pic')->nullable();
-            $table->unsignedTinyInteger('row_status')->nullable()->default(1);
+            $table->string('profile_pic', 1000)->nullable();
+            $table->unsignedTinyInteger('row_status')->default(1);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

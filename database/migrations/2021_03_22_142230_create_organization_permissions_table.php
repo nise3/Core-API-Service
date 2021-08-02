@@ -14,9 +14,14 @@ class CreateOrganizationPermissionsTable extends Migration
     public function up()
     {
         Schema::create('organization_permissions', function (Blueprint $table) {
-            $table->unsignedInteger('organization_id')->unsigned();
-            $table->unsignedInteger('permission_id')->unsigned();
-            $table->foreign('permission_id')->references('id')->on('permissions')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->unsignedInteger('organization_id');
+            $table->unsignedMediumInteger('permission_id');
+
+            $table->foreign('permission_id')
+                ->references('id')
+                ->on('permissions')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
 
 

@@ -16,15 +16,22 @@ class CreateLocDistrictsTable extends Migration {
 		Schema::create('loc_districts', function(Blueprint $table)
 		{
 			$table->mediumIncrements('id');
-			$table->mediumInteger('loc_division_id')->unsigned();
+			$table->unsignedMediumInteger('loc_division_id');
 			$table->char('division_bbs_code', 4)->nullable();
 			$table->string('title_en');
-			$table->string('title_bn');
-			$table->char('bbs_code', 4)->nullable();
-			$table->boolean('row_status')->default(1);
-			$table->integer('created_by')->nullable();
-			$table->integer('updated_by')->nullable();
+			$table->string('title_bn', 500);
+			$table->char('bbs_code', 5)->nullable();
+			$table->unsignedTinyInteger('row_status')->default(1);
+			$table->unsignedInteger('created_by')->nullable();
+			$table->unsignedInteger('updated_by')->nullable();
 			$table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('loc_division_id')
+                ->references('id')
+                ->on('loc_divisions')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
 		});
 	}
 

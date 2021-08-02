@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLocUpazilasTable extends Migration {
+class CreateLocDivisionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -13,20 +13,17 @@ class CreateLocUpazilasTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('loc_upazilas', function(Blueprint $table)
+		Schema::create('loc_divisions', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->mediumInteger('loc_division_id')->unsigned();
-			$table->mediumInteger('loc_district_id')->unsigned();
-			$table->char('division_bbs_code', 4)->nullable();
-			$table->char('district_bbs_code', 4)->nullable();
+			$table->mediumIncrements('id');
 			$table->string('title_en');
-			$table->string('title_bn');
+			$table->string('title_bn', 500);
 			$table->char('bbs_code', 4)->nullable();
-			$table->boolean('row_status')->default(1);
+			$table->unsignedTinyInteger('row_status')->default(1);
 			$table->integer('created_by')->unsigned()->nullable();
 			$table->integer('updated_by')->unsigned()->nullable();
-            $table->timestamps();
+			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
@@ -38,7 +35,7 @@ class CreateLocUpazilasTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('loc_upazilas');
+		Schema::drop('loc_divisions');
 	}
 
 }

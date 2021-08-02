@@ -15,10 +15,17 @@ class CreateUserPermissionsTable extends Migration
     {
         Schema::create('user_permissions', function (Blueprint $table) {
             $table->unsignedInteger('user_id')->unsigned();
-            $table->unsignedInteger('permission_id')->unsigned();
+            $table->unsignedMediumInteger('permission_id');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('permission_id')
+                ->references('id')
+                ->on('permissions')
+                ->onDelete('cascade');
         });
     }
 
@@ -29,9 +36,6 @@ class CreateUserPermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_permissions', function (Blueprint $table) {
-            $table->dropForeign('user_permission_institute_id_foreign');
-            $table->dropForeign('user_permission_permission_id_foreign');
-        });
+        Schema::dropIfExists('user_permissions');
     }
 }

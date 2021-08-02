@@ -14,11 +14,12 @@ class CreatePermissionGroupsTable extends Migration
     public function up()
     {
         Schema::create('permission_groups', function (Blueprint $table) {
-            $table->increments('id');
+            $table->mediumIncrements('id');
             $table->string('title_en');
-            $table->string('title_bn');
-            $table->string('key')->unique();
+            $table->string('title_bn', 300);
+            $table->string('key', 191)->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

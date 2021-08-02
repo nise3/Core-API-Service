@@ -17,6 +17,8 @@ class CreateRowStatusTable extends Migration
             $table->tinyIncrements('id');
             $table->string('title', 191);
             $table->string('code', 191);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

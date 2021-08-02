@@ -14,16 +14,20 @@ class CreateRolesTable extends Migration
     public function up()
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id');
+            $table->smallIncrements('id');
             $table->string('title_en', 191)->nullable();
-            $table->string('title_bn', 191)->nullable();
-            $table->text('description')->nullable();
-            $table->string('key')->unique();
-            $table->unsignedInteger('permission_group_id')->nullable();
+            $table->string('title_bn', 300)->nullable();
+
+            $table->unsignedMediumInteger('permission_group_id')->nullable();
             $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedInteger('institute_id')->nullable();
-            $table->boolean('row_status')->default(1);
+
+            $table->text('description')->nullable();
+            $table->string('key', 191)->unique();
+
+            $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
