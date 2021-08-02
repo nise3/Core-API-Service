@@ -261,7 +261,6 @@ class UserService
             } else {
                 $rules['email'] = 'required|email|unique:users,email';
             }
-
         return Validator::make($request->all(), $rules);
     }
 

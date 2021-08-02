@@ -199,6 +199,7 @@ class LocUpazilaService
     {
         $locUpazila->row_status = LocUpazila::ROW_STATUS_DELETED;
         $locUpazila->save();
+        $locUpazila->delete();
         return $locUpazila;
     }
 
@@ -211,8 +212,11 @@ class LocUpazilaService
         return Validator::make($request->all(), [
             'loc_district_id' => 'required|numeric|exists:loc_districts,id', //TODO: always check if foreign key data exists in table.
             'loc_division_id' => 'required|numeric|exists:loc_divisions,id', //TODO: always check if foreign key data exists in table.
+            'division_bbs_code'=>'nullable|min:1|exists:loc_divisions,bbs_code',
+            'district_bbs_code'=>'nullable|min:1|exists:loc_districts,bbs_code',
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
+            'bbs_code'=>'nullable|min:1'
         ]);
     }
 }

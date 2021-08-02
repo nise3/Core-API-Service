@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class LocDistrict

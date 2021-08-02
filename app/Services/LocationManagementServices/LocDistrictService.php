@@ -181,6 +181,7 @@ class LocDistrictService
     {
         $locDistrict->row_status = LocDistrict::ROW_STATUS_DELETED;
         $locDistrict->save();
+        $locDistrict->delete();
         return $locDistrict;
     }
 
@@ -190,6 +191,8 @@ class LocDistrictService
             'loc_division_id' => 'required|numeric|exists:loc_divisions,id', //TODO: always check if foreign key data exists in table.
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
+            'bbs_code'=>'nullable|min:1',
+            'division_bbs_code'=>'nullable|min:1|exists:loc_divisions,bbs_code'
         ]);
     }
 }

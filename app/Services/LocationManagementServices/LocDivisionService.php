@@ -178,6 +178,7 @@ class LocDivisionService
     {
         $locDivision->row_status = LocDivision::ROW_STATUS_DELETED;
         $locDivision->save();
+        $locDivision->delete();
         return $locDivision;
     }
 
@@ -190,6 +191,7 @@ class LocDivisionService
         return Validator::make($request->all(), [
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
+            'bbs_code'=>'nullable|min:1'
         ]);
     }
 

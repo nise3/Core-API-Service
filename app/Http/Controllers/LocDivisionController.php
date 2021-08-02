@@ -36,10 +36,10 @@ class LocDivisionController extends Controller
      * LocDivisionController constructor.
      * @param LocDivisionService $locDivisionService
      */
-    public function __construct(LocDivisionService $locDivisionService,Carbon $startTime)
+    public function __construct(LocDivisionService $locDivisionService, Carbon $startTime)
     {
         $this->locDivisionService = $locDivisionService;
-        $this->startTime=$startTime;
+        $this->startTime = $startTime;
     }
 
 
@@ -62,9 +62,6 @@ class LocDivisionController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
-            }
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response);
@@ -77,7 +74,7 @@ class LocDivisionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function read(Request $request, $id):JsonResponse
+    public function read(Request $request, $id): JsonResponse
     {
         try {
             $response = $this->locDivisionService->getOneDivision($id);
@@ -90,9 +87,6 @@ class LocDivisionController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
-            }
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -105,10 +99,10 @@ class LocDivisionController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request):JsonResponse
+    public function store(Request $request): JsonResponse
     {
+        $validated = $this->locDivisionService->validator($request)->validate();
         try {
-            $validated = $this->locDivisionService->validator($request)->validate();
             $this->locDivisionService->store($validated);
             $response = [
                 '_response_status' => [
@@ -129,9 +123,6 @@ class LocDivisionController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
-            }
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_CREATED);
@@ -145,14 +136,12 @@ class LocDivisionController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id):JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
-        $locDivision=LocDivision::findOrFail($id);
+        $locDivision = LocDivision::findOrFail($id);
+        $validated = $this->locDivisionService->validator($request)->validate();
         try {
-            $validated = $this->locDivisionService->validator($request)->validate();
-
             $this->locDivisionService->update($validated, $locDivision);
-
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -172,10 +161,6 @@ class LocDivisionController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locDivisionService->validator($request)->errors();
-            }
-
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_CREATED);
@@ -189,7 +174,7 @@ class LocDivisionController extends Controller
      */
     public function destroy(int $id)
     {
-        $locDivision=LocDivision::findOrFail($id);
+        $locDivision = LocDivision::findOrFail($id);
         try {
             $this->locDivisionService->destroy($locDivision);
             /*response message*/

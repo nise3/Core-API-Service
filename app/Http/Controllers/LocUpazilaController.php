@@ -90,8 +90,9 @@ class LocUpazilaController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        $validated = $this->locUpazilaService->validator($request)->validate();
         try {
-            $validated = $this->locUpazilaService->validator($request)->validate();
+
             $this->locUpazilaService->store($validated);
 
             $response = [
@@ -113,9 +114,6 @@ class LocUpazilaController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locUpazilaService->validator($request)->errors();
-            }
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_CREATED);
@@ -132,9 +130,8 @@ class LocUpazilaController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $locUpazila = LocUpazila::findOrFail($id);
-
+        $validated = $this->locUpazilaService->validator($request)->validate();
         try {
-            $validated = $this->locUpazilaService->validator($request)->validate();
             $this->locUpazilaService->update($validated, $locUpazila);
 
             $response = [
@@ -156,10 +153,6 @@ class LocUpazilaController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locUpazilaService->validator($request)->errors();
-            }
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_CREATED);

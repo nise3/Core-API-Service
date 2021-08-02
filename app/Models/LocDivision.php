@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Date;
  */
 class LocDivision extends BaseModel
 {
+
+
     protected $table = 'loc_divisions';
     protected $guarded = ['id'];
 
