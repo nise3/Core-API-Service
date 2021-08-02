@@ -222,6 +222,7 @@ class UserService
     {
         $user->row_status=99;
         $user->save();
+        $user->delete();
         return $user;
     }
 

@@ -97,12 +97,11 @@ class LocDistrictController extends Controller
 
         $validated = $this->locDistrictService->validator($request)->validate();
         try {
-
             //TODO: Only Validated data will stored.
-            $this->locDistrictService->store($validated);
-
+            $loc_district = $this->locDistrictService->store($validated);
             //TODO: never response in try block if not necessary.
             $response = [
+                'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -143,9 +142,10 @@ class LocDistrictController extends Controller
         $validated = $this->locDistrictService->validator($request)->validate();
 
         try {
-            $this->locDistrictService->update($locDistrict, $validated);
+            $loc_district = $this->locDistrictService->update($locDistrict, $validated);
 
             $response = [
+                'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -180,8 +180,9 @@ class LocDistrictController extends Controller
     {
         $locDistrict = LocDistrict::findOrFail($id);
         try {
-            $this->locDistrictService->destroy($locDistrict);
+            $loc_district = $this->locDistrictService->destroy($locDistrict);
             $response = [
+                'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,

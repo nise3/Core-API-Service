@@ -103,8 +103,9 @@ class LocDivisionController extends Controller
     {
         $validated = $this->locDivisionService->validator($request)->validate();
         try {
-            $this->locDivisionService->store($validated);
+            $loc_division=$this->locDivisionService->store($validated);
             $response = [
+                'data'=>$loc_division,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -141,8 +142,9 @@ class LocDivisionController extends Controller
         $locDivision = LocDivision::findOrFail($id);
         $validated = $this->locDivisionService->validator($request)->validate();
         try {
-            $this->locDivisionService->update($validated, $locDivision);
+            $loc_division=$this->locDivisionService->update($validated, $locDivision);
             $response = [
+                'data'=>$loc_division,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -176,9 +178,10 @@ class LocDivisionController extends Controller
     {
         $locDivision = LocDivision::findOrFail($id);
         try {
-            $this->locDivisionService->destroy($locDivision);
+            $loc_division=$this->locDivisionService->destroy($locDivision);
             /*response message*/
             $response = [
+                'data'=>$loc_division,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,

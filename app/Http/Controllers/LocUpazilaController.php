@@ -93,9 +93,10 @@ class LocUpazilaController extends Controller
         $validated = $this->locUpazilaService->validator($request)->validate();
         try {
 
-            $this->locUpazilaService->store($validated);
+            $loc_upazila = $this->locUpazilaService->store($validated);
 
             $response = [
+                'data' => $loc_upazila,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -132,9 +133,10 @@ class LocUpazilaController extends Controller
         $locUpazila = LocUpazila::findOrFail($id);
         $validated = $this->locUpazilaService->validator($request)->validate();
         try {
-            $this->locUpazilaService->update($validated, $locUpazila);
+            $loc_upazila = $this->locUpazilaService->update($validated, $locUpazila);
 
             $response = [
+                'data' => $loc_upazila,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -169,10 +171,11 @@ class LocUpazilaController extends Controller
         $locUpazila = LocUpazila::findOrFail($id);
 
         try {
-            $this->locUpazilaService->destroy($locUpazila);
+            $loc_upazila = $this->locUpazilaService->destroy($locUpazila);
 
             /*response message*/
             $response = [
+                'data' => $loc_upazila,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
