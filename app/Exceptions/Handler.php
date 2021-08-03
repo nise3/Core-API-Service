@@ -4,11 +4,12 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -22,7 +23,7 @@ class Handler extends ExceptionHandler
         AuthorizationException::class,
         HttpException::class,
         ModelNotFoundException::class,
-//        ValidationException::class,
+        ValidationException::class,
     ];
 
     /**
@@ -30,7 +31,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Throwable  $exception
+     * @param \Throwable $exception
      * @return void
      *
      * @throws \Exception
@@ -51,8 +52,33 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        if($e instanceof ValidationException){
-            return \response()->json($e->errors());
+
+        if ($e instanceof HttpResponseException) {
+            $errors = [
+                "code" => JsonResponse::HTTP_BAD_REQUEST,
+                "message" => "Invalid Request Format",
+            ];
+            return \response()->json($errors);
+
+        } elseif ($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
+            $errors = [
+                "code" => JsonResponse::HTTP_NOT_FOUND,
+                "message" => "404 not found",
+            ];
+            return \response()->json($errors);
+        } elseif ($e instanceof AuthorizationException) {
+            $errors = [
+                "code" => JsonResponse::HTTP_FORBIDDEN,
+                "message" => "Don't have permission to access",
+            ];
+            return \response()->json($errors);
+        } elseif ($e instanceof ValidationException) {
+            $errors = [
+                "code" => JsonResponse::HTTP_FORBIDDEN,
+                "message" => "Validation Fail",
+                'errors' => $e->errors()
+            ];
+            return \response()->json($errors);
         }
         return parent::render($request, $e);
     }

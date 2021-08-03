@@ -188,7 +188,7 @@ class LocDistrictService
     public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
-            'loc_division_id' => 'required|numeric|exists:loc_divisions,id', //TODO: always check if foreign key data exists in table.
+            'loc_division_id' => 'required|numeric|exists:loc_divisions,id',
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
             'bbs_code'=>'nullable|min:1',

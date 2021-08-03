@@ -36,6 +36,10 @@ class User extends AuthBaseModel
         return $this->belongsToMany(Permission::class,'user_permissions');
     }
 
+    public function role():BelongsTo{
+        return $this->belongsTo(Role::class,'role_id');
+    }
+
 
 
 }

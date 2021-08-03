@@ -10,11 +10,11 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\Cast\Object_;
 
 
@@ -256,35 +256,39 @@ class UserService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        $rules = [];
-        if (!isset($request->permissions) && isset($request->name_en) && isset($request->name_bn) && isset($request->email)) {
-            $rules = [
-                "role_id" => 'nullable|exists:roles,id',
-                "name_en" => 'required|min:3',
-                "name_bn" => 'required|min:3',
-                "organization_id" => 'nullable|numeric',
-                "institute_id" => 'nullable|numeric',
-                "loc_district_id" => 'nullable|exists:loc_divisions,id',
-                "loc_division_id" => 'nullable|exists:loc_districts,id',
-                "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
-                "password" => 'nullable|min:6'
-            ];
-            if (!empty($id)) {
-                $rules['email'] = 'required|email|unique:users,email,' . $id;
-            } else {
-                $rules['email'] = 'required|email|unique:users,email';
-            }
-        } elseif (isset($request->permissions) && !isset($request->name_en) && !isset($request->name_bn) && !isset($request->email)) {
-            $rules = [
-                'permissions' => 'required|array|min:1',
-                'permissions.*' => 'required|numeric|distinct|min:1'
-            ];
-        } elseif (isset($request->role_id) && !isset($request->permissions) && !isset($request->name_en) && !isset($request->name_bn) && !isset($request->email)) {
-            $rules = [
-                'role_id' => 'required|numeric|min:1|exists:roles,id',
-            ];
+        $rules = [
+            "role_id" => 'nullable|exists:roles,id',
+            "name_en" => 'required|min:3',
+            "name_bn" => 'required|min:3',
+            "organization_id" => 'nullable|numeric',
+            "institute_id" => 'nullable|numeric',
+            "loc_district_id" => 'nullable|exists:loc_divisions,id',
+            "loc_division_id" => 'nullable|exists:loc_districts,id',
+            "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
+            "password" => 'nullable|min:6'
+        ];
+        if (!empty($id)) {
+            $rules['email'] = 'required|email|unique:users,email,' . $id;
+        } else {
+            $rules['email'] = 'required|email|unique:users,email';
         }
         return Validator::make($request->all(), $rules);
     }
 
+    public function roleIdValidation(Request $request):Validator
+    {
+        $rules = [
+            'role_id' => 'required|numeric|min:1|exists:roles,id',
+        ];
+        return Validator::make($request->all(), $rules);
+    }
+
+    public function permissionValidation(Request $request):Validator
+    {
+        $rules = [
+            'permissions' => 'required|array|min:1',
+            'permissions.*' => 'required|numeric|distinct|min:1'
+        ];
+        return Validator::make($request->all(), $rules);
+    }
 }

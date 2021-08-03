@@ -26,12 +26,12 @@ class CreateLocDistrictsTable extends Migration {
 			$table->unsignedInteger('updated_by')->nullable();
 			$table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('loc_division_id')
-                ->references('id')
-                ->on('loc_divisions')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+//
+//            $table->foreign('loc_division_id')
+//                ->references('id')
+//                ->on('loc_divisions')
+//                ->onUpdate('CASCADE')
+//                ->onDelete('CASCADE');
 		});
 	}
 
