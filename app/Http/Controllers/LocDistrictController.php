@@ -94,12 +94,10 @@ class LocDistrictController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-
         $validated = $this->locDistrictService->validator($request)->validate();
         try {
-            //TODO: Only Validated data will stored.
+
             $loc_district = $this->locDistrictService->store($validated);
-            //TODO: never response in try block if not necessary.
             $response = [
                 'data' => $loc_district,
                 '_response_status' => [

@@ -211,15 +211,63 @@ class UserController extends Controller
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function assignPermissionToUser(Request $request, $id): JsonResponse
     {
 
-        $role = Role::findOrFail($id);
+        $user = User::findOrFail($id);
         $validated = $this->userService->validator($request)->validated();
 
         try {
-            $this->userService->assignPermission($role, $validated['permissions']);
+            $user = $this->userService->assignPermission($user, $validated['permissions']);
             $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => JsonResponse::HTTP_OK,
+                    "message" => "Job finished successfully.",
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
+                ]
+            ];
+        } catch (Throwable $e) {
+
+            $handler = new CustomExceptionHandler($e);
+            $response = [
+                '_response_status' => array_merge([
+                    "success" => false,
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
+                ], $handler->convertExceptionToArray())
+            ];
+
+            return Response::json($response, $response['_response_status']['code']);
+        }
+        return Response::json($response, JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function assignRoleToUser(Request $request, $id): JsonResponse
+    {
+
+        $user = User::findOrFail($id);
+
+        $validated = $this->userService->validator($request)->validated();
+
+        try {
+            $user = $this->userService->setRole($user, $validated['role_id']);
+            $response = [
+                'data' => $user,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,

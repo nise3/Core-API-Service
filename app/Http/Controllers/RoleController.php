@@ -105,8 +105,9 @@ class RoleController extends Controller
         $validated = $this->roleService->validator($request)->validate();
 
         try {
-            $this->roleService->store($validated);
+            $role = $this->roleService->store($validated);
             $response = [
+                'data' => $role,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -145,12 +146,13 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        $validated = $this->roleService->validator($request,$id)->validate();
+        $validated = $this->roleService->validator($request, $id)->validate();
 
         try {
-            $this->roleService->update($role, $validated);
+            $role = $this->roleService->update($role, $validated);
 
             $response = [
+                'data' => $role,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -187,8 +189,9 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
 
         try {
-            $this->roleService->destroy($role);
+           $role=$this->roleService->destroy($role);
             $response = [
+                'data' => $role,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -198,6 +201,7 @@ class RoleController extends Controller
                 ]
             ];
         } catch (\Throwable $e) {
+
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -213,7 +217,7 @@ class RoleController extends Controller
         return Response::json($response, JsonResponse::HTTP_OK);
     }
 
-    public function assignPermissionToRole(Request $request,$id):JsonResponse
+    public function assignPermissionToRole(Request $request, $id): JsonResponse
     {
 
         $role = Role::findOrFail($id);
@@ -221,8 +225,9 @@ class RoleController extends Controller
         $validated = $this->roleService->validator($request)->validated();
 
         try {
-            $this->roleService->assignPermission($role, $validated['permissions']);
+            $role=$this->roleService->assignPermission($role, $validated['permissions']);
             $response = [
+                'data'=>$role,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
