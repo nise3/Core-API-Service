@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
@@ -79,7 +80,14 @@ class Handler extends ExceptionHandler
                 'errors' => $e->errors()
             ];
             return \response()->json($errors);
+        }elseif ($e instanceof BindingResolutionException) {
+            $errors = [
+                "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                "message" => "Unable to resolve dependency",
+            ];
+            return \response()->json($errors);
         }
+
         return parent::render($request, $e);
     }
 }
