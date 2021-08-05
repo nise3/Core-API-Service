@@ -16,9 +16,12 @@ class CreatePermissionsTable extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->string('name');
-            $table->string('key', 191)->unique();
+            $table->string('uri', 300);
+            $table->unsignedTinyInteger('method')->comment('1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE');
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();
+
+            $table->unique(['uri', 'method'], 'perm_uri_method_unique');
         });
     }
 

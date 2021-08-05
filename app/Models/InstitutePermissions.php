@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\InstitutePermissions
- *
- *
  * @property int $institute_id
  * @property int $permission_id
- *
  * @property-read Permission $permissions
  */
 class InstitutePermissions extends BaseModel

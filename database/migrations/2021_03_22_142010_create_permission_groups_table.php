@@ -18,8 +18,8 @@ class CreatePermissionGroupsTable extends Migration
             $table->string('title_en');
             $table->string('title_bn', 300);
             $table->string('key', 191)->unique();
+            $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

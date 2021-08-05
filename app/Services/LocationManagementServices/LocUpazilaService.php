@@ -199,10 +199,7 @@ class LocUpazilaService
      */
     public function destroy(LocUpazila $locUpazila): LocUpazila
     {
-        $locUpazila->row_status=LocUpazila::ROW_STATUS_DELETED;
-        $locUpazila->save();
-        $locUpazila->delete();
-        return $locUpazila;
+        return $locUpazila->delete();
     }
 
     /**

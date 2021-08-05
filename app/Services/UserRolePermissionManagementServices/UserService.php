@@ -219,16 +219,12 @@ class UserService
 
     /**
      * @param User $user
-     * @return User
+     * @return bool
      */
-    public function destroy(User $user): User
+    public function destroy(User $user): bool
     {
-        $user->row_status = 99;
-        $user->save();
-        $user->delete();
-        return $user;
+        return $user->delete();
     }
-
 
     /**
      * @param User $user

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -24,18 +26,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LocDistrict extends BaseModel
 {
-    use ScopeRowStatusTrait;
-    use SoftDeletes;
+    use ScopeRowStatusTrait, SoftDeletes;
 
     protected $table = 'loc_districts';
     protected $guarded = ['id'];
 
-    public function locDivision(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function locDivision(): BelongsTo
     {
         return $this->belongsTo(LocDivision::class, 'loc_division_id');
     }
 
-    public function locUpazilas(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function locUpazilas(): HasMany
     {
         return $this->hasMany(LocUpazila::class, 'loc_district_id');
     }

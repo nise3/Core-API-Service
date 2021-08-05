@@ -160,12 +160,11 @@ class PermissionGroupService
 
     /**
      * @param PermissionGroup $permissionGroup
-     * @return PermissionGroup
+     * @return bool
      */
-    public function destroy(PermissionGroup $permissionGroup): PermissionGroup
+    public function destroy(PermissionGroup $permissionGroup): bool
     {
-        $permissionGroup->delete();
-        return $permissionGroup;
+        return $permissionGroup->delete();
     }
 
     public function assignPermission(PermissionGroup $permissionGroup,array $permission_ids):PermissionGroup

@@ -27,11 +27,6 @@ class CreateLocDistrictsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 
-//            $table->foreign('loc_division_id')
-//                ->references('id')
-//                ->on('loc_divisions')
-//                ->onUpdate('CASCADE')
-//                ->onDelete('CASCADE');
 		});
 	}
 

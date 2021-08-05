@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Scopes\ScopeRowStatusTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Date;
  */
 class LocDivision extends BaseModel
 {
-    use SoftDeletes;
+    use ScopeRowStatusTrait, SoftDeletes;
 
     protected $table = 'loc_divisions';
     protected $guarded = ['id'];
@@ -36,7 +37,7 @@ class LocDivision extends BaseModel
         return $this->hasMany(LocUpazila::class, 'loc_district_id');
     }
 
-    public function locDistricts():HasMany
+    public function locDistricts(): HasMany
     {
         return $this->hasMany(LocDistrict::class, 'loc_district_id');
     }

@@ -176,14 +176,11 @@ class RoleService
 
     /**
      * @param Role $role
-     * @return Role
+     * @return bool
      */
-    public function destroy(Role $role): Role
+    public function destroy(Role $role): bool
     {
-        $role->row_status = 99;
-        $role->save();
-        $role->delete();
-        return $role;
+        return $role->delete();
     }
 
     /**

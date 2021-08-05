@@ -163,8 +163,7 @@ class PermissionService
      */
     public function destroy(Permission $permission): Permission
     {
-        $permission->delete();
-        return $permission;
+        return $permission->delete();
     }
 
 

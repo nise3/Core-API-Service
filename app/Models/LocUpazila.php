@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Scopes\ScopeRowStatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Date;
@@ -28,17 +29,18 @@ use Illuminate\Support\Facades\Date;
  */
 class LocUpazila extends BaseModel
 {
-    use SoftDeletes;
+    use ScopeRowStatusTrait, SoftDeletes;
 
-    protected $table='loc_upazilas';
-    protected $guarded=['id'];
+    protected $table = 'loc_upazilas';
+    protected $guarded = ['id'];
 
-    public function locDistrict():BelongsTo
+    public function locDistrict(): BelongsTo
     {
-        return $this->belongsTo(LocDistrict::class,'loc_district_id');
+        return $this->belongsTo(LocDistrict::class, 'loc_district_id');
     }
-    public function locDivision():BelongsTo
+
+    public function locDivision(): BelongsTo
     {
-        return $this->belongsTo(LocDivision::class,'loc_division_id');
+        return $this->belongsTo(LocDivision::class, 'loc_division_id');
     }
 }
