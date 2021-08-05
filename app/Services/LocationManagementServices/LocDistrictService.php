@@ -179,7 +179,7 @@ class LocDistrictService
      */
     public function destroy(LocDistrict $locDistrict): LocDistrict
     {
-        $locDistrict->row_status = LocDistrict::ROW_STATUS_DELETED;
+        $locDistrict->row_status=LocDistrict::ROW_STATUS_DELETED;
         $locDistrict->save();
         $locDistrict->delete();
         return $locDistrict;

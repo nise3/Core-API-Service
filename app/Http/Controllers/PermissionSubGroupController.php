@@ -85,10 +85,10 @@ class PermissionSubGroupController extends Controller
         try {
             $permission_sub_group = new PermissionSubGroup();
             //TODO: Only Validated data will stored.
-            $this->permissionSubGroupService->store($validated, $permission_sub_group);
-
+            $permission_sub_group = $this->permissionSubGroupService->store($validated, $permission_sub_group);
             //TODO: never response in try block if not necessary.
             $response = [
+                'data' => $permission_sub_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -125,8 +125,9 @@ class PermissionSubGroupController extends Controller
         $validated = $this->permissionSubGroupService->validator($request, $id)->validate();
 
         try {
-            $this->permissionSubGroupService->update($validated, $permission_sub_group);
+            $permission_sub_group = $this->permissionSubGroupService->update($validated, $permission_sub_group);
             $response = [
+                'data' => $permission_sub_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -158,10 +159,11 @@ class PermissionSubGroupController extends Controller
      */
     public function destroy(int $id)
     {
-        $permission_group = PermissionSubGroup::findOrFail($id);
+        $permission_sub_group = PermissionSubGroup::findOrFail($id);
         try {
-            $this->permissionSubGroupService->destroy($permission_group);
+            $permission_sub_group = $this->permissionSubGroupService->destroy($permission_sub_group);
             $response = [
+                'data' => $permission_sub_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -191,8 +193,9 @@ class PermissionSubGroupController extends Controller
         $validated = $this->permissionSubGroupService->validator($request)->validated();
 
         try {
-            $this->permissionSubGroupService->assignPermission($permission_sub_group, $validated['permissions']);
+            $permission_sub_group = $this->permissionSubGroupService->assignPermission($permission_sub_group, $validated['permissions']);
             $response = [
+                'data' => $permission_sub_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,

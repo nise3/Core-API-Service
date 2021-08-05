@@ -176,7 +176,7 @@ class LocDivisionService
      */
     public function destroy(LocDivision $locDivision): LocDivision
     {
-        $locDivision->row_status = LocDivision::ROW_STATUS_DELETED;
+        $locDivision->row_status=LocDivision::ROW_STATUS_DELETED;
         $locDivision->save();
         $locDivision->delete();
         return $locDivision;

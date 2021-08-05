@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Date;
 
 /**
@@ -27,6 +28,8 @@ use Illuminate\Support\Facades\Date;
  */
 class LocUpazila extends BaseModel
 {
+    use SoftDeletes;
+
     protected $table='loc_upazilas';
     protected $guarded=['id'];
 

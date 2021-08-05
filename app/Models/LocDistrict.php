@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LocDistrict extends BaseModel
 {
     use ScopeRowStatusTrait;
+    use SoftDeletes;
 
     protected $table = 'loc_districts';
     protected $guarded = ['id'];

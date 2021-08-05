@@ -25,8 +25,8 @@ class CreateLocDistrictsTable extends Migration {
 			$table->unsignedInteger('created_by')->nullable();
 			$table->unsignedInteger('updated_by')->nullable();
 			$table->timestamps();
-            $table->softDeletes();
-//
+			$table->softDeletes();
+
 //            $table->foreign('loc_division_id')
 //                ->references('id')
 //                ->on('loc_divisions')
