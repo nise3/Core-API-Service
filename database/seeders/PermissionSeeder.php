@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class PermissionSeeder extends Seeder
 {
@@ -15,6 +17,9 @@ class PermissionSeeder extends Seeder
 
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
+        DB::table('permissions')->truncate();
+
         $permissions=array(
             [
                 'name' => 'Add',
@@ -49,5 +54,7 @@ class PermissionSeeder extends Seeder
         foreach ($permissions as $permission){
             Permission::create($permission);
         }
+
+        Schema::enableForeignKeyConstraints();
     }
 }
