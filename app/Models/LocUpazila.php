@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Date;
 
 /**
  * Class LocUpazila
@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Date;
  * @property int $loc_division_id
  * @property int $loc_district_id
  * @property int row_status
- * @property date $created_at
- * @property date $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property-read LocDistrict $locDistrict
  * @property-read LocDivision $locDivision
  */

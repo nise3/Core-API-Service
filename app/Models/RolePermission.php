@@ -2,9 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-class RolePermission extends Model
+/**
+ * Class RolePermission
+ * @package App\Models
+ * @property int $id
+ * @property int role_id
+ * @property int permission_id
+ */
+class RolePermission extends BaseModel
 {
-    //
+    public $timestamps = false;
+    /**
+     * @var string
+     */
+    protected $table = 'role_permissions';
+
+    /**
+     * @var string[]
+     */
+    protected $guarded = ['id'];
 }
