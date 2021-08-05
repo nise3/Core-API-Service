@@ -157,7 +157,7 @@ class LocDivisionController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $locDivision = LocDivision::findOrFail($id);
         try {

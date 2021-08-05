@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Date;
  * @property int $row_status
  * @property date $created_at
  * @property date $updated_at
- * @property-read Collection|\App\Models\LocUpazila[] $locUpazilas
- * @property-read Collection|\App\Models\LocDistrict[] $locDistricts
+ * @property-read Collection|LocUpazila[] $locUpazilas
+ * @property-read Collection|LocDistrict[] $locDistricts
  */
 class LocDivision extends BaseModel
 {
