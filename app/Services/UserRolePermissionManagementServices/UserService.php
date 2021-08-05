@@ -271,12 +271,12 @@ class UserService
         return Validator::make($request->all(), $rules);
     }
 
-    public function roleIdValidation(Request $request):Validator
+    public function roleIdValidation(Request $request): Validator
     {
         $rules = [
             'role_id' => 'required|numeric|min:1|exists:roles,id',
         ];
-        return Validator::make($request->all(), $rules);
+        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
     }
 
     public function permissionValidation(Request $request):Validator
@@ -285,6 +285,6 @@ class UserService
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
-        return Validator::make($request->all(), $rules);
+        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
     }
 }
