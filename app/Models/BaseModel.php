@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 abstract class BaseModel extends Model
 {
-    use SoftDeletes;
+
     public const ROW_STATUS_ACTIVE = '1';
     public const ROW_STATUS_INACTIVE = '0';
     public const ROW_STATUS_DELETED = '99';

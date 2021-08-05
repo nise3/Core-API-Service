@@ -73,14 +73,16 @@ class Handler extends ExceptionHandler
                 "message" => "Don't have permission to access",
             ];
             return \response()->json($errors);
-        } elseif ($e instanceof ValidationException) {
+        }
+        elseif ($e instanceof ValidationException) {
             $errors = [
                 "code" => JsonResponse::HTTP_FORBIDDEN,
                 "message" => "Validation Fail",
                 'errors' => $e->errors()
             ];
             return \response()->json($errors);
-        }elseif ($e instanceof BindingResolutionException) {
+        }
+        elseif ($e instanceof BindingResolutionException) {
             $errors = [
                 "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 "message" => "Unable to resolve dependency",
