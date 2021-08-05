@@ -6,11 +6,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\OrganizationPermissions
- *
- *
  * @property int $organization_id
  * @property int $permission_id
- *
  * @property-read Permission $permissions
  */
 class OrganizationPermissions extends BaseModel
