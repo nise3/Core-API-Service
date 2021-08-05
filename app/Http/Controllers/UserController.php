@@ -221,7 +221,7 @@ class UserController extends Controller
     {
 
         $user = User::findOrFail($id);
-        $validated = $this->userService->validator($request)->validated();
+        $validated = $this->userService->permissionValidation($request)->validated();
 
         try {
             $user = $this->userService->assignPermission($user, $validated['permissions']);
@@ -259,10 +259,9 @@ class UserController extends Controller
      */
     public function assignRoleToUser(Request $request, $id): JsonResponse
     {
-
         $user = User::findOrFail($id);
 
-        $validated = $this->userService->validator($request)->validated();
+        $validated = $this->userService->roleIdValidation($request)->validated();
 
         try {
             $user = $this->userService->setRole($user, $validated['role_id']);

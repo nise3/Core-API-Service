@@ -61,6 +61,7 @@ class LocDivisionService
         } elseif (!empty($request->query('title_bn'))) {
             $divisions->where('title_bn', 'like', '%' . $request->query('title_bn') . '%');
         }
+
         if ($paginate) {
             $divisions = $divisions->paginate(10);
             $paginate_data = (object)$divisions->toArray();
