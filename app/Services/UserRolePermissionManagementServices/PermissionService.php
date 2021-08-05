@@ -219,8 +219,7 @@ class PermissionService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        $rules = [];
-        if (!isset($request->permissions) && isset($request->name) && isset($request->key)) {
+
             $rules = [
                 'name' => 'required|min:2',
             ];
@@ -229,14 +228,14 @@ class PermissionService
             } else {
                 $rules['key'] = 'required|min:2|unique:permissions,key';
             }
-        } elseif (isset($request->permissions) && !isset($request->name) && !isset($request->key)) {
-            $rules = [
-                'permissions' => 'required|array|min:1',
-                'permissions.*' => 'required|numeric|distinct|min:1'
-            ];
-        }
+        return Validator::make($request->all(), $rules);
+    }
 
-
+    public function permissionValidation(Request $request):\Illuminate\Contracts\Validation\Validator{
+        $rules = [
+            'permissions' => 'required|array|min:1',
+            'permissions.*' => 'required|numeric|distinct|min:1'
+        ];
         return Validator::make($request->all(), $rules);
     }
 

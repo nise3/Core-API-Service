@@ -19,7 +19,6 @@ class CreatePermissionsTable extends Migration
             $table->string('key', 191)->unique();
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class LocDistrict
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Collection;
 class LocDistrict extends BaseModel
 {
     use ScopeRowStatusTrait;
+    use SoftDeletes;
 
     protected $table = 'loc_districts';
     protected $guarded = ['id'];

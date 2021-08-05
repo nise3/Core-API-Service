@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->unsignedSmallInteger('role_id')->nullable();
             $table->string('name_en', 191)->nullable();
             $table->string('name_bn', 191)->nullable();
-            $table->string('email', 191)->unique();
+            $table->string('email', 191);
             $table->string('mobile', 191)->nullable();
             $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedInteger('institute_id')->nullable();
