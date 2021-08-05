@@ -203,7 +203,7 @@ class PermissionController extends Controller
     public function assignPermissionToOrganization(Request $request, int $organization_id): JsonResponse
     {
 
-        $validated = $this->permissionService->validator($request)->validated();
+        $validated = $this->permissionService->permissionValidation($request)->validated();
 
         try {
             $this->permissionService->setPermissionToOrganization($organization_id, $validated['permissions']);
@@ -242,10 +242,11 @@ class PermissionController extends Controller
     public function assignPermissionToInstitute(Request $request, int $institute_id): JsonResponse
     {
 
-        //$validated = $this->permissionService->validator($request)->validated();
+        $validated = $this->permissionService->permissionValidation($request)->validated();
 
         try {
-            $this->permissionService->setPermissionToInstitute($institute_id, $request->permissions);
+
+            $this->permissionService->setPermissionToInstitute($institute_id, $validated['permissions']);
             $response = [
                 '_response_status' => [
                     "success" => true,
@@ -255,7 +256,7 @@ class PermissionController extends Controller
                     "finished" => Carbon::now(),
                 ]
             ];
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
 
             $handler = new CustomExceptionHandler($e);
             $response = [

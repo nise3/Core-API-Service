@@ -3,6 +3,8 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
+use App\Events\DissociateEvent;
+
 use App\Models\Permission;
 use App\Models\PermissionGroup;
 use Carbon\Carbon;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 
 class RoleService
@@ -96,7 +99,7 @@ class RoleService
                         'title_en',
                         'title_bn'
                     ],
-                    '_link' => route(self::ROUTE_PREFIX .'get-list')
+                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
                 ]
             ],
             "_page" => $page,
@@ -168,7 +171,6 @@ class RoleService
     {
         $role->fill($data);
         $role->save();
-
         return $role;
     }
 
@@ -180,7 +182,7 @@ class RoleService
     {
         $role->row_status = 99;
         $role->save();
-
+        $role->delete();
         return $role;
     }
 
@@ -189,9 +191,9 @@ class RoleService
      * @param array $permission_ids
      * @return Role
      */
-    public function assignPermission(Role $role, array $permission_ids):Role
+    public function assignPermission(Role $role, array $permission_ids): Role
     {
-        $validPermissions=Permission::whereIn('id',$permission_ids)->orderBy('id','ASC')->pluck('id')->toArray();
+        $validPermissions = Permission::whereIn('id', $permission_ids)->orderBy('id', 'ASC')->pluck('id')->toArray();
         $role->permissions()->syncWithoutDetaching($validPermissions);
         return $role;
     }

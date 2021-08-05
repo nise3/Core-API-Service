@@ -12,6 +12,9 @@ $customRouter = function (string $as = '') use ($router) {
 $router->get('/hello', 'ExampleController@hateoasResponse');
 
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
+
+    $router->get('/',['uses' => 'ApiInfoController@apiInfo']);
+
     $router->post('auth/login', 'Auth\AuthController@login');
     $router->post('auth/register', 'Auth\AuthController@register');
 
@@ -28,11 +31,15 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     /* assign permission to Roles*/
     $router->post('roles/{id}/assign-permissions', ['as' => 'roles.assign-permissions', 'uses' => 'RoleController@assignPermissionToRole']);
 
+    $router->post('users/{id}/assign-permissions', ['as' => 'users.assign-permissions', 'uses' => 'UserController@assignPermissionToUser']);
+
+    $router->post('users/{id}/assign-role', ['as' => 'users.assign-role', 'uses' => 'UserController@assignRoleToUser']);
+
     /* assign permission to organizations*/
-    $router->post('permissions/{id}/assign-permissions', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
+    $router->post('permissions/{organization_id}/assign-permissions-to-organization', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
 
     /* assign permission to Institutes*/
-    $router->post('permissions/{id}/assign-permissions', ['as' => 'permissions.assign-permissions-to-institute', 'uses' => 'PermissionController@assignPermissionToInstitute']);
+    $router->post('permissions/{institute_id}/assign-permissions-to-institute', ['as' => 'permissions.assign-permissions-to-institute', 'uses' => 'PermissionController@assignPermissionToInstitute']);
 
     /* assign permission to permission group*/
     $router->post('permission-groups/{id}/assign-permissions', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);

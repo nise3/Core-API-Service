@@ -89,10 +89,10 @@ class PermissionGroupController extends Controller
         try {
             $permission_group = new PermissionGroup();
             //TODO: Only Validated data will stored.
-            $this->permissionGroupService->store($validated, $permission_group);
-
+            $permission_group = $this->permissionGroupService->store($validated, $permission_group);
             //TODO: never response in try block if not necessary.
             $response = [
+                'data' => $permission_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -127,10 +127,10 @@ class PermissionGroupController extends Controller
     {
         $permission_group = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->validator($request, $id)->validate();
-
         try {
-            $this->permissionGroupService->update($validated, $permission_group);
+            $permission_group = $this->permissionGroupService->update($validated, $permission_group);
             $response = [
+                'data' => $permission_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -163,8 +163,9 @@ class PermissionGroupController extends Controller
     {
         $permission_group = PermissionGroup::findOrFail($id);
         try {
-            $this->permissionGroupService->destroy($permission_group);
+            $permission_group = $this->permissionGroupService->destroy($permission_group);
             $response = [
+                'data' => $permission_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -194,8 +195,9 @@ class PermissionGroupController extends Controller
         $validated = $this->permissionGroupService->validator($request)->validated();
 
         try {
-            $this->permissionGroupService->assignPermission($permission_group, $validated['permissions']);
+            $permission_group = $this->permissionGroupService->assignPermission($permission_group, $validated['permissions']);
             $response = [
+                'data' => $permission_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,

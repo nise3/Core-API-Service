@@ -50,6 +50,7 @@ class LocUpazilaService
             'loc_upazilas.loc_division_id',
             'loc_upazilas.title_bn',
             'loc_upazilas.title_en',
+            'loc_upazilas.bbs_code',
             'loc_districts.title_bn as district_title_bn',
             'loc_districts.title_en as district_title_en',
             'loc_districts.division_bbs_code',
@@ -137,6 +138,7 @@ class LocUpazilaService
             'loc_upazilas.loc_division_id',
             'loc_upazilas.title_bn',
             'loc_upazilas.title_en',
+            'loc_upazilas.bbs_code',
             'loc_districts.title_bn as district_title_bn',
             'loc_districts.title_en as district_title_en',
             'loc_districts.division_bbs_code',
@@ -197,8 +199,9 @@ class LocUpazilaService
      */
     public function destroy(LocUpazila $locUpazila): LocUpazila
     {
-        $locUpazila->row_status = LocUpazila::ROW_STATUS_DELETED;
+        $locUpazila->row_status=LocUpazila::ROW_STATUS_DELETED;
         $locUpazila->save();
+        $locUpazila->delete();
         return $locUpazila;
     }
 
@@ -209,10 +212,13 @@ class LocUpazilaService
     public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
-            'loc_district_id' => 'required|numeric|exists:loc_districts,id', //TODO: always check if foreign key data exists in table.
-            'loc_division_id' => 'required|numeric|exists:loc_divisions,id', //TODO: always check if foreign key data exists in table.
+            'loc_district_id' => 'required|numeric|exists:loc_districts,id',
+            'loc_division_id' => 'required|numeric|exists:loc_divisions,id',
+            'division_bbs_code'=>'nullable|min:1|exists:loc_divisions,bbs_code',
+            'district_bbs_code'=>'nullable|min:1|exists:loc_districts,bbs_code',
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
+            'bbs_code'=>'nullable|min:1'
         ]);
     }
 }

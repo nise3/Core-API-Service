@@ -43,11 +43,6 @@ class CustomExceptionHandler
                 "code" => JsonResponse::HTTP_NOT_FOUND,
                 "message" => "404 Not Found",
             ];
-        } else if ($this->exception instanceof ValidationException) {
-            $errors = [
-                "code" => JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
-                "message" => "Validation Error!",
-            ];
         }
         else if ($this->exception instanceof Exception) {
             $errors = [
@@ -68,7 +63,7 @@ class CustomExceptionHandler
 
     public function getCode(): string
     {
-        return $this->exception->getCode();
+        return $this->exception->getCode()!=0? $this->exception->getCode():500;
     }
 
     public function getFile(): string

@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class User
@@ -29,6 +30,15 @@ class User extends AuthBaseModel
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class,'user_permissions');
+    }
+
+    public function role():BelongsTo{
+        return $this->belongsTo(Role::class,'role_id');
+    }
 
 
 

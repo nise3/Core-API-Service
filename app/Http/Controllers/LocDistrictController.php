@@ -52,7 +52,6 @@ class LocDistrictController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -95,15 +94,12 @@ class LocDistrictController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-
-
+        $validated = $this->locDistrictService->validator($request)->validate();
         try {
-            $validated = $this->locDistrictService->validator($request)->validate();
-            //TODO: Only Validated data will stored.
-            $this->locDistrictService->store($validated);
 
-            //TODO: never response in try block if not necessary.
+            $loc_district = $this->locDistrictService->store($validated);
             $response = [
+                'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -122,10 +118,6 @@ class LocDistrictController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locDistrictService->validator($request)->errors();
-            }
-
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -148,9 +140,10 @@ class LocDistrictController extends Controller
         $validated = $this->locDistrictService->validator($request)->validate();
 
         try {
-            $this->locDistrictService->update($locDistrict, $validated);
+            $loc_district = $this->locDistrictService->update($locDistrict, $validated);
 
             $response = [
+                'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -169,10 +162,6 @@ class LocDistrictController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-            if ($response['_response_status']['code'] == JsonResponse::HTTP_UNPROCESSABLE_ENTITY) {
-                $response['_response_status']['message'] = $this->locDistrictService->validator($request)->errors();
-            }
-
             return Response::json($response, $response['_response_status']['code']);
         }
 
@@ -189,8 +178,9 @@ class LocDistrictController extends Controller
     {
         $locDistrict = LocDistrict::findOrFail($id);
         try {
-            $this->locDistrictService->destroy($locDistrict);
+            $loc_district = $this->locDistrictService->destroy($locDistrict);
             $response = [
+                'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -208,7 +198,6 @@ class LocDistrictController extends Controller
                     "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
 

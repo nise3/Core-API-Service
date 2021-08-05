@@ -10,11 +10,13 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Expr\Cast\Object_;
+
 
 class UserService
 {
@@ -46,7 +48,7 @@ class UserService
         $paginate = $request->query('page');
         $name_en = $request->query('name_en');
         $name_bn = $request->query('name_bn');
-        $email=$request->query('email');
+        $email = $request->query('email');
 
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
@@ -71,11 +73,11 @@ class UserService
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
-        $users->leftJoin('roles','roles.id','users.role_id');
-        $users->leftJoin('loc_divisions','loc_divisions.id','users.loc_division_id');
-        $users->leftJoin('loc_districts','loc_districts.id','users.loc_district_id');
-        $users->leftJoin('loc_upazilas','loc_upazilas.id','users.loc_upazila_id');
-        $users->orderBy('users.id',$order);
+        $users->leftJoin('roles', 'roles.id', 'users.role_id');
+        $users->leftJoin('loc_divisions', 'loc_divisions.id', 'users.loc_division_id');
+        $users->leftJoin('loc_districts', 'loc_districts.id', 'users.loc_district_id');
+        $users->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
+        $users->orderBy('users.id', $order);
 
         if (!empty($name_en)) {
             $users = $users->where('users.name_en', 'like', '%' . $name_en . '%');
@@ -86,8 +88,8 @@ class UserService
         if (!empty($email)) {
             $users = $users->where('users.email', 'like', '%' . $email . '%');
         }
-        $users->where('users.row_status',User::ROW_STATUS_ACTIVE);
-        $users->orderBy('users.id',$order);
+        $users->where('users.row_status', User::ROW_STATUS_ACTIVE);
+        $users->orderBy('users.id', $order);
 
         if (!empty($paginate)) {
             $users = $users->paginate(10);
@@ -163,12 +165,12 @@ class UserService
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
-        $user->leftJoin('roles','roles.id','users.role_id');
-        $user->leftJoin('loc_divisions','loc_divisions.id','users.loc_division_id');
-        $user->leftJoin('loc_districts','loc_districts.id','users.loc_district_id');
-        $user->leftJoin('loc_upazilas','loc_upazilas.id','users.loc_upazila_id');
-        $user->where('users.row_status',User::ROW_STATUS_ACTIVE);
-        $user=$user->where('users.id', $id)->first();
+        $user->leftJoin('roles', 'roles.id', 'users.role_id');
+        $user->leftJoin('loc_divisions', 'loc_divisions.id', 'users.loc_division_id');
+        $user->leftJoin('loc_districts', 'loc_districts.id', 'users.loc_district_id');
+        $user->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
+        $user->where('users.row_status', User::ROW_STATUS_ACTIVE);
+        $user = $user->where('users.id', $id)->first();
 
         $links = [];
 
@@ -209,6 +211,7 @@ class UserService
      */
     public function update(array $data, User $user): User
     {
+        $data['password']=Hash::make($data['password']);
         $user->fill($data);
         $user->save($data);
         return $user;
@@ -220,21 +223,29 @@ class UserService
      */
     public function destroy(User $user): User
     {
-        $user->row_status=99;
+        $user->row_status = 99;
         $user->save();
+        $user->delete();
         return $user;
     }
 
 
     /**
-     * @param int $role_id
      * @param User $user
+     * @param int $role_id
      * @return User
      */
-    public function setRole(int $role_id,User $user): User
+    public function setRole(User $user, int $role_id): User
     {
-        $user->role_id=$role_id;
+        $user->role_id = $role_id;
         $user->save();
+        return $user;
+    }
+
+    public function assignPermission(User $user, array $permission_ids): User
+    {
+        $validPermissions = Permission::whereIn('id', $permission_ids)->orderBy('id', 'ASC')->pluck('id')->toArray();
+        $user->permissions()->syncWithoutDetaching($validPermissions);
         return $user;
     }
 
@@ -245,25 +256,39 @@ class UserService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-            $rules = [
-            "role_id"=>'nullable|exists:roles,id',
-            "name_en"=>'required|min:3',
-            "name_bn"=>'required|min:3',
-            "organization_id"=>'nullable|numeric',
-            "institute_id"=>'nullable|numeric',
-            "loc_district_id"=>'nullable|exists:loc_divisions,id',
-            "loc_division_id"=>'nullable|exists:loc_districts,id',
-            "loc_upazila_id"=>'nullable|exists:loc_upazilas,id',
-            "password"=>'nullable|min:6'
-            ];
-            if (!empty($id)) {
-                $rules['email'] = 'required|email|unique:users,email,' . $id;
-            } else {
-                $rules['email'] = 'required|email|unique:users,email';
-            }
-
+        $rules = [
+            "role_id" => 'nullable|exists:roles,id',
+            "name_en" => 'required|min:3',
+            "name_bn" => 'required|min:3',
+            "organization_id" => 'nullable|numeric',
+            "institute_id" => 'nullable|numeric',
+            "loc_district_id" => 'nullable|exists:loc_divisions,id',
+            "loc_division_id" => 'nullable|exists:loc_districts,id',
+            "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
+            "password" => 'nullable|min:6'
+        ];
+        if (!empty($id)) {
+            $rules['email'] = 'required|email|unique:users,email,' . $id;
+        } else {
+            $rules['email'] = 'required|email|unique:users,email';
+        }
         return Validator::make($request->all(), $rules);
     }
 
+    public function roleIdValidation(Request $request):Validator
+    {
+        $rules = [
+            'role_id' => 'required|numeric|min:1|exists:roles,id',
+        ];
+        return Validator::make($request->all(), $rules);
+    }
 
+    public function permissionValidation(Request $request):Validator
+    {
+        $rules = [
+            'permissions' => 'required|array|min:1',
+            'permissions.*' => 'required|numeric|distinct|min:1'
+        ];
+        return Validator::make($request->all(), $rules);
+    }
 }
