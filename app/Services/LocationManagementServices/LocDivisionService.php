@@ -3,15 +3,12 @@
 
 namespace App\Services\LocationManagementServices;
 
-
-use App\Models\LocDistrict;
 use App\Models\LocDivision;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Boolean;
 
 
 /**
@@ -41,7 +38,6 @@ class LocDivisionService
     {
         $paginate_link = [];
         $page = [];
-
 
         $paginate = $request->query('page');
         $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';

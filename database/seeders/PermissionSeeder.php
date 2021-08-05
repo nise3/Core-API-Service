@@ -18,31 +18,31 @@ class PermissionSeeder extends Seeder
         $permissions=array(
             [
                 'name' => 'Add',
-                'key'=>'add'
+                'uri'=>'add'
             ],
             [
                 'name' => 'Edit',
-                'key'=>'edit'
+                'uri'=>'edit'
             ],
             [
                 'name' => 'Update',
-                'key'=>'update'
+                'uri'=>'update'
             ],
             [
                 'name' => 'Delete',
-                'key'=>'delete'
+                'uri'=>'delete'
             ],
             [
                 'name' => 'Read',
-                'key'=>'read'
+                'uri'=>'read'
             ],
             [
                 'name' => 'Browse',
-                'key'=>'browse'
+                'uri'=>'browse'
             ],
             [
                 'name' => 'Publish',
-                'key'=>'publish'
+                'uri'=>'publish'
             ]
         );
 
