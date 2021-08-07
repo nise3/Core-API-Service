@@ -1,18 +1,14 @@
 <?php
 
-
 namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Events\DissociateEvent;
-
 use App\Models\Permission;
-use App\Models\PermissionGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 
 class RoleService
@@ -21,20 +17,19 @@ class RoleService
 
     /**
      * @param Request $request
+     * @param Carbon $startTime
      * @return array
      */
-    public function getAllRoles(Request $request): array
+    public function getAllRoles(Request $request, Carbon $startTime): array
     {
-        $paginate_link = [];
+        $paginateLink = [];
         $page = [];
-        $startTime = Carbon::now();
-
         $titleEn = $request->query('title_en');
         $titleBn = $request->query('title_bn');
         $paginate = $request->query('page');
         $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
 
-        /** @var Role|Builder $role */
+        /** @var Role|Builder $roles */
         $roles = Role::select([
             'roles.id',
             'roles.title_bn',
@@ -47,9 +42,7 @@ class RoleService
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
         ]);
-
         $roles->leftJoin('permission_groups', 'permission_groups.id', 'roles.permission_group_id');
-
         $roles->orderBy('roles.id', $order);
 
         if (!empty($titleEn)) {
@@ -60,27 +53,25 @@ class RoleService
 
         if ($paginate) {
             $roles = $roles->paginate(10);
-            $paginate_data = (object)$roles->toArray();
+            $paginateData = (object)$roles->toArray();
             $page = [
-                "size" => $paginate_data->per_page,
-                "total_element" => $paginate_data->total,
-                "total_page" => $paginate_data->last_page,
-                "current_page" => $paginate_data->current_page
+                "size" => $paginateData->per_page,
+                "total_element" => $paginateData->total,
+                "total_page" => $paginateData->last_page,
+                "current_page" => $paginateData->current_page
             ];
-            $paginate_link = $paginate_data->links;
+            $paginateLink = $paginateData->links;
         } else {
             $roles = $roles->get();
         }
 
-
         $data = [];
         foreach ($roles as $role) {
-            $_links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $role->id]);
-            $_links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $role->id]);
-            $_links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $role->id]);
-            $role['_links'] = $_links;
+            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $role->id]);
+            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $role->id]);
+            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $role->id]);
+            $role['_links'] = $links;
             $data[] = $role->toArray();
-
         }
 
         return [
@@ -88,12 +79,11 @@ class RoleService
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $startTime,
-                "finished" => Carbon::now(),
+                "started" => $startTime->format('H i s'),
+                "finished" => Carbon::now()->format('H i s'),
             ],
             "_links" => [
-                'paginate' => $paginate_link,
+                'paginate' => $paginateLink,
                 'search' => [
                     'parameters' => [
                         'title_en',
@@ -108,10 +98,11 @@ class RoleService
     }
 
     /**
-     * @param $id
+     * @param int $id
+     * @param Carbon $startTime
      * @return array
      */
-    public function getOneRole($id): array
+    public function getOneRole(int $id, Carbon $startTime): array
     {
         $startTime = Carbon::now();
         $links = [];
@@ -126,7 +117,9 @@ class RoleService
             'roles.permission_group_id',
             'roles.organization_id',
             'roles.institute_id'
-        ])->where('id', $id)->first();;
+        ]);
+        $role->where('id', $id);
+        $role = $role->first();
 
         if (!empty($role)) {
             $links = [
@@ -136,13 +129,12 @@ class RoleService
         }
 
         return [
-            "data" => $role ? $role : [],
+            "data" => $role ? $role : null,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $startTime,
-                "finished" => Carbon::now(),
+                "started" => $startTime->format('H i s'),
+                "finished" => Carbon::now()->format('H i s'),
             ],
             "_links" => $links
         ];
@@ -158,7 +150,6 @@ class RoleService
         $role = new Role();
         $role->fill($data);
         $role->save();
-
         return $role;
     }
 
@@ -185,12 +176,12 @@ class RoleService
 
     /**
      * @param Role $role
-     * @param array $permission_ids
+     * @param array $permissionIds
      * @return Role
      */
-    public function assignPermission(Role $role, array $permission_ids): Role
+    public function assignPermission(Role $role, array $permissionIds): Role
     {
-        $validPermissions = Permission::whereIn('id', $permission_ids)->orderBy('id', 'ASC')->pluck('id')->toArray();
+        $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
         $role->permissions()->syncWithoutDetaching($validPermissions);
         return $role;
     }
