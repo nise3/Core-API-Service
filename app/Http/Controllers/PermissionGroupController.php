@@ -185,38 +185,34 @@ class PermissionGroupController extends Controller
 
     /**
      * @param Request $request
-     * @param $permissionGroupId
+     * @param $id
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function assignPermissionToPermissionGroup(Request $request, $id)
+    public function assignPermissionToPermissionGroup(Request $request, int $id)
     {
         $permission_group = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->validator($request)->validated();
-
         try {
-            $permission_group = $this->permissionGroupService->assignPermission($permission_group, $validated['permissions']);
+            $this->permissionGroupService->assignPermission($permission_group, $validated['permissions']);
             $response = [
-                'data' => $permission_group,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
-                    "message" => "Job finished successfully.",
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "message" => "Assign Permission into PermissionGroup successfully",
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ]
             ];
         } catch (Throwable $e) {
-
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
                     "success" => false,
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_OK);
