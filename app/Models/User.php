@@ -3,17 +3,35 @@
 namespace App\Models;
 
 
+use App\Traits\Scopes\ScopeRowStatusTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class User
  * @package App\Models
+ * @property string name_en
+ * @property string username
+ * @property string name_bn
+ * @property string email
+ * @property string mobile
+ * @property string profile_pic
  * @property int $role_id
+ * @property int organization_id
+ * @property int institute_id
+ * @property int loc_division_id
+ * @property int loc_district_id
+ * @property int loc_upazila_id
  * @property int $row_status
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class User extends AuthBaseModel
 {
+
+    use ScopeRowStatusTrait, SoftDeletes;
 
     protected $guarded = ['id'];
 
@@ -29,17 +47,18 @@ class User extends AuthBaseModel
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'mobile_verified_at' => 'datetime',
     ];
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class,'user_permissions');
+        return $this->belongsToMany(Permission::class, 'user_permissions');
     }
 
-    public function role():BelongsTo{
-        return $this->belongsTo(Role::class,'role_id');
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
-
 
 
 }

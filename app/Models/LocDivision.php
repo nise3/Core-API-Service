@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Date;
  * @property int |null $created_by
  * @property int |null $updated_by
  * @property int $row_status
- * @property date $created_at
- * @property date $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property-read Collection|LocUpazila[] $locUpazilas
  * @property-read Collection|LocDistrict[] $locDistricts
  */

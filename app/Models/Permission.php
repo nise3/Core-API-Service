@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
+use Carbon\Carbon;
 use Carbon\Traits\Date;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $row_status
  * @property string $uri
  * @property string $name
- * @property date $created_at
- * @property date $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property-read Collection|Role[] $roles
  */
 class Permission extends BaseModel

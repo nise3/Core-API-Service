@@ -21,7 +21,12 @@ class CreatePermissionSubGroupsTable extends Migration
             $table->string('key', 191)->unique();
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();
-            $table->softDeletes();
+
+            $table->foreign('permission_group_id')
+                ->references('id')
+                ->on('permission_groups')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
     }
 
