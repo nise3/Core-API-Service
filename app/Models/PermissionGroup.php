@@ -23,4 +23,7 @@ class PermissionGroup extends BaseModel
     protected $table = 'permission_groups';
     protected $guarded = ['id'];
 
+
+
+
 }

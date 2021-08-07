@@ -85,10 +85,10 @@ class PermissionGroupController extends Controller
         $validated = $this->permissionGroupService->validator($request)->validate();
 
         try {
-            $permission_group = new PermissionGroup();
-            $permission_group = $this->permissionGroupService->store($validated, $permission_group);
+            $permissionGroup = new PermissionGroup();
+            $permissionGroup = $this->permissionGroupService->store($validated, $permissionGroup);
             $response = [
-                'data' => $permission_group,
+                'data' => $permissionGroup,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
@@ -120,13 +120,13 @@ class PermissionGroupController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $permission_group = PermissionGroup::findOrFail($id);
+        $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->validator($request, $id)->validate();
 
         try {
-            $permission_group = $this->permissionGroupService->update($validated, $permission_group);
+            $permissionGroup = $this->permissionGroupService->update($validated, $permissionGroup);
             $response = [
-                'data' => $permission_group,
+                'data' => $permissionGroup,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -156,12 +156,11 @@ class PermissionGroupController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $permission_group = PermissionGroup::findOrFail($id);
-
+        $permissionGroup = PermissionGroup::findOrFail($id);
         try {
-            $permission_group = $this->permissionGroupService->destroy($permission_group);
+            $permissionGroup = $this->permissionGroupService->destroy($permissionGroup);
             $response = [
-                'data' => $permission_group,
+                'data' => $permissionGroup,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
@@ -186,11 +185,11 @@ class PermissionGroupController extends Controller
 
     /**
      * @param Request $request
-     * @param $id
+     * @param $permissionGroupId
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function assignPermissionToPermissionGroup(Request $request, $id): JsonResponse
+    public function assignPermissionToPermissionGroup(Request $request, $id)
     {
         $permission_group = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->validator($request)->validated();
@@ -203,19 +202,21 @@ class PermissionGroupController extends Controller
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
                     "message" => "Job finished successfully.",
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
                 ]
             ];
         } catch (Throwable $e) {
+
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
                     "success" => false,
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
+                    "started" => $this->startTime,
+                    "finished" => Carbon::now(),
                 ], $handler->convertExceptionToArray())
             ];
+
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_OK);
