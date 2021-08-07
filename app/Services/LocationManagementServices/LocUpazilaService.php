@@ -15,6 +15,7 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 class LocUpazilaService
 {
+    const ROUTE_PREFIX = 'api.v1.upazilas.';
     /**
      * @param Request $request
      * @param Carbon $startTime
@@ -137,8 +138,8 @@ class LocUpazilaService
 
         if (!empty($upazila)) {
             $links = [
-                'update' => route('api.v1.upazilas.update', ['id' => $upazila->id]),
-                'delete' => route('api.v1.upazilas.destroy', ['id' => $upazila->id])
+                'update' => route(self::ROUTE_PREFIX .'update', ['id' => $upazila->id]),
+                'delete' => route(self::ROUTE_PREFIX .'destroy', ['id' => $upazila->id])
             ];
         }
 
