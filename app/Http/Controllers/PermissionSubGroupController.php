@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class PermissionSubGroupController extends Controller
@@ -32,14 +33,14 @@ class PermissionSubGroupController extends Controller
     public function getList(Request $request): JsonResponse
     {
         try {
-            $response = $this->permissionSubGroupService->getAllPermissionSubGroups($request);
+            $response = $this->permissionSubGroupService->getAllPermissionSubGroups($request, $this->startTime);
         } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
                     "success" => false,
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ], $handler->convertExceptionToArray())
             ];
             return Response::json($response, $response['_response_status']['code']);
@@ -55,61 +56,53 @@ class PermissionSubGroupController extends Controller
     public function read(Request $request, int $id): JsonResponse
     {
         try {
-            $response = $this->permissionSubGroupService->getOnePermissionSubGroup($request, $id);
+            $response = $this->permissionSubGroupService->getOnePermissionSubGroup($id, $this->startTime);
         } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
                     "success" => false,
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
-
         return Response::json($response);
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
     {
-
         $validated = $this->permissionSubGroupService->validator($request)->validate();
-
         try {
-            $permission_sub_group = new PermissionSubGroup();
-            //TODO: Only Validated data will stored.
-            $permission_sub_group = $this->permissionSubGroupService->store($validated, $permission_sub_group);
-            //TODO: never response in try block if not necessary.
+            $permissionSubGroup = new PermissionSubGroup();
+            $permissionSubGroup = $this->permissionSubGroupService->store($validated, $permissionSubGroup);
             $response = [
-                'data' => $permission_sub_group,
+                'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_CREATED,
-                    "message" => "Job finished successfully.",
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "message" => "Permission Sub Group added successfully",
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ]
             ];
-
         } catch (Throwable $e) {
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
                     "success" => false,
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ], $handler->convertExceptionToArray())
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-
         return Response::json($response, JsonResponse::HTTP_CREATED);
     }
 
@@ -117,28 +110,25 @@ class PermissionSubGroupController extends Controller
      * @param Request $request
      * @param int $id
      * @return JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $permission_sub_group = PermissionSubGroup::findOrFail($id);
+        $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->validator($request, $id)->validate();
-
         try {
-            $permission_sub_group = $this->permissionSubGroupService->update($validated, $permission_sub_group);
+            $permissionSubGroup = $this->permissionSubGroupService->update($validated, $permissionSubGroup);
             $response = [
-                'data' => $permission_sub_group,
+                'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
-                    "message" => "Job finished successfully.",
+                    "message" => "Permission Sub Group updated successfully",
                     "started" => $this->startTime,
                     "finished" => Carbon::now(),
                 ]
             ];
-
         } catch (Throwable $e) {
-
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
@@ -149,7 +139,6 @@ class PermissionSubGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-
         return Response::json($response, JsonResponse::HTTP_CREATED);
     }
 
@@ -159,17 +148,17 @@ class PermissionSubGroupController extends Controller
      */
     public function destroy(int $id)
     {
-        $permission_sub_group = PermissionSubGroup::findOrFail($id);
+        $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         try {
-            $permission_sub_group = $this->permissionSubGroupService->destroy($permission_sub_group);
+            $permissionSubGroup = $this->permissionSubGroupService->destroy($permissionSubGroup);
             $response = [
-                'data' => $permission_sub_group,
+                'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
-                    "message" => "Job finished successfully.",
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "message" => "Permission Sub Group deleted successfully",
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ]
             ];
         } catch (Throwable $e) {
@@ -177,11 +166,10 @@ class PermissionSubGroupController extends Controller
             $response = [
                 '_response_status' => array_merge([
                     "success" => false,
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_OK);
@@ -189,32 +177,29 @@ class PermissionSubGroupController extends Controller
 
     public function assignPermissionToPermissionSubGroup(Request $request, int $id)
     {
-        $permission_sub_group = PermissionSubGroup::findOrFail($id);
+        $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->validator($request)->validated();
-
         try {
-            $permission_sub_group = $this->permissionSubGroupService->assignPermission($permission_sub_group, $validated['permissions']);
+            $permissionSubGroup = $this->permissionSubGroupService->assignPermission($permissionSubGroup, $validated['permissions']);
             $response = [
-                'data' => $permission_sub_group,
+                'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
-                    "message" => "Job finished successfully.",
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "message" => "Permission added to PermissionSubGroup successfully",
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ]
             ];
         } catch (Throwable $e) {
-
             $handler = new CustomExceptionHandler($e);
             $response = [
                 '_response_status' => array_merge([
                     "success" => false,
-                    "started" => $this->startTime,
-                    "finished" => Carbon::now(),
+                    "started" => $this->startTime->format('H i s'),
+                    "finished" => Carbon::now()->format('H i s'),
                 ], $handler->convertExceptionToArray())
             ];
-
             return Response::json($response, $response['_response_status']['code']);
         }
         return Response::json($response, JsonResponse::HTTP_OK);

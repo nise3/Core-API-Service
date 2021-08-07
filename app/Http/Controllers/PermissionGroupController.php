@@ -199,7 +199,7 @@ class PermissionGroupController extends Controller
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
-                    "message" => "Assign Permission into PermissionGroup successfully",
+                    "message" => "Permission(s) assigned into Permission Group successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
                 ]
