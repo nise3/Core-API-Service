@@ -199,7 +199,8 @@ class LocUpazilaService
      */
     public function destroy(LocUpazila $locUpazila): LocUpazila
     {
-        return $locUpazila->delete();
+         $locUpazila->delete();
+         return $locUpazila;
     }
 
     /**

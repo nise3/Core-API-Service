@@ -179,7 +179,7 @@ class LocDivisionController extends Controller
         $locDivision = LocDivision::findOrFail($id);
         try {
             $loc_division=$this->locDivisionService->destroy($locDivision);
-            /*response message*/
+
             $response = [
                 'data'=>$loc_division,
                 '_response_status' => [

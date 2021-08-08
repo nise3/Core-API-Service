@@ -48,7 +48,8 @@ class PermissionService
         $permissions = Permission::select([
             'id',
             'name',
-            'key'
+            'uri',
+            'method'
         ]);
 
         if (!empty($search_filter)) {
@@ -161,7 +162,7 @@ class PermissionService
      * @param Permission $permission
      * @return bool
      */
-    public function destroy(Permission $permission): Permission
+    public function destroy(Permission $permission): bool
     {
         return $permission->delete();
     }

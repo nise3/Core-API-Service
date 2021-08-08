@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class LocUpazilasTableSeeder extends Seeder
@@ -14,8 +15,6 @@ class LocUpazilasTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         \DB::table('loc_upazilas')->delete();
 
         \DB::table('loc_upazilas')->insert(array(
@@ -32,8 +31,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             1 =>
                 array(
@@ -48,8 +47,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             2 =>
                 array(
@@ -64,8 +63,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             3 =>
                 array(
@@ -80,8 +79,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             4 =>
                 array(
@@ -96,8 +95,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             5 =>
                 array(
@@ -112,8 +111,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             6 =>
                 array(
@@ -128,8 +127,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             7 =>
                 array(
@@ -144,8 +143,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             8 =>
                 array(
@@ -160,8 +159,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             9 =>
                 array(
@@ -176,8 +175,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             10 =>
                 array(
@@ -192,8 +191,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             11 =>
                 array(
@@ -208,8 +207,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             12 =>
                 array(
@@ -224,8 +223,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             13 =>
                 array(
@@ -240,8 +239,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             14 =>
                 array(
@@ -256,8 +255,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             15 =>
                 array(
@@ -272,8 +271,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             16 =>
                 array(
@@ -288,8 +287,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             17 =>
                 array(
@@ -304,8 +303,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             18 =>
                 array(
@@ -320,8 +319,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             19 =>
                 array(
@@ -336,8 +335,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             20 =>
                 array(
@@ -352,8 +351,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             21 =>
                 array(
@@ -368,8 +367,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             22 =>
                 array(
@@ -384,8 +383,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             23 =>
                 array(
@@ -400,8 +399,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             24 =>
                 array(
@@ -416,8 +415,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             25 =>
                 array(
@@ -432,8 +431,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             26 =>
                 array(
@@ -448,8 +447,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             27 =>
                 array(
@@ -464,8 +463,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             28 =>
                 array(
@@ -480,8 +479,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             29 =>
                 array(
@@ -496,8 +495,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             30 =>
                 array(
@@ -512,8 +511,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             31 =>
                 array(
@@ -528,8 +527,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             32 =>
                 array(
@@ -544,8 +543,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             33 =>
                 array(
@@ -560,8 +559,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             34 =>
                 array(
@@ -576,8 +575,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             35 =>
                 array(
@@ -592,8 +591,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             36 =>
                 array(
@@ -608,8 +607,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             37 =>
                 array(
@@ -624,8 +623,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             38 =>
                 array(
@@ -640,8 +639,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             39 =>
                 array(
@@ -656,8 +655,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             40 =>
                 array(
@@ -672,8 +671,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             41 =>
                 array(
@@ -688,8 +687,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             42 =>
                 array(
@@ -704,8 +703,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             43 =>
                 array(
@@ -720,8 +719,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             44 =>
                 array(
@@ -736,8 +735,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             45 =>
                 array(
@@ -752,8 +751,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             46 =>
                 array(
@@ -768,8 +767,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             47 =>
                 array(
@@ -784,8 +783,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             48 =>
                 array(
@@ -800,8 +799,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             49 =>
                 array(
@@ -816,8 +815,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             50 =>
                 array(
@@ -832,8 +831,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             51 =>
                 array(
@@ -848,8 +847,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             52 =>
                 array(
@@ -864,8 +863,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             53 =>
                 array(
@@ -880,8 +879,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             54 =>
                 array(
@@ -896,8 +895,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             55 =>
                 array(
@@ -912,8 +911,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             56 =>
                 array(
@@ -928,8 +927,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             57 =>
                 array(
@@ -944,8 +943,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             58 =>
                 array(
@@ -960,8 +959,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             59 =>
                 array(
@@ -976,8 +975,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             60 =>
                 array(
@@ -992,8 +991,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             61 =>
                 array(
@@ -1008,8 +1007,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             62 =>
                 array(
@@ -1024,8 +1023,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             63 =>
                 array(
@@ -1040,8 +1039,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             64 =>
                 array(
@@ -1056,8 +1055,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             65 =>
                 array(
@@ -1072,8 +1071,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             66 =>
                 array(
@@ -1088,8 +1087,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             67 =>
                 array(
@@ -1104,8 +1103,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             68 =>
                 array(
@@ -1120,8 +1119,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             69 =>
                 array(
@@ -1136,8 +1135,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             70 =>
                 array(
@@ -1152,8 +1151,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             71 =>
                 array(
@@ -1168,8 +1167,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             72 =>
                 array(
@@ -1184,8 +1183,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             73 =>
                 array(
@@ -1200,8 +1199,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             74 =>
                 array(
@@ -1216,8 +1215,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             75 =>
                 array(
@@ -1232,8 +1231,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             76 =>
                 array(
@@ -1248,8 +1247,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             77 =>
                 array(
@@ -1264,8 +1263,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             78 =>
                 array(
@@ -1280,8 +1279,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             79 =>
                 array(
@@ -1296,8 +1295,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             80 =>
                 array(
@@ -1312,8 +1311,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             81 =>
                 array(
@@ -1328,8 +1327,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             82 =>
                 array(
@@ -1344,8 +1343,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             83 =>
                 array(
@@ -1360,8 +1359,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             84 =>
                 array(
@@ -1376,8 +1375,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             85 =>
                 array(
@@ -1392,8 +1391,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             86 =>
                 array(
@@ -1408,8 +1407,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             87 =>
                 array(
@@ -1424,8 +1423,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             88 =>
                 array(
@@ -1440,8 +1439,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             89 =>
                 array(
@@ -1456,8 +1455,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             90 =>
                 array(
@@ -1472,8 +1471,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             91 =>
                 array(
@@ -1488,8 +1487,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             92 =>
                 array(
@@ -1504,8 +1503,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             93 =>
                 array(
@@ -1520,8 +1519,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             94 =>
                 array(
@@ -1536,8 +1535,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             95 =>
                 array(
@@ -1552,8 +1551,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             96 =>
                 array(
@@ -1568,8 +1567,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             97 =>
                 array(
@@ -1584,8 +1583,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             98 =>
                 array(
@@ -1600,8 +1599,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             99 =>
                 array(
@@ -1616,8 +1615,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             100 =>
                 array(
@@ -1632,8 +1631,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             101 =>
                 array(
@@ -1648,8 +1647,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             102 =>
                 array(
@@ -1664,8 +1663,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             103 =>
                 array(
@@ -1680,8 +1679,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             104 =>
                 array(
@@ -1696,8 +1695,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             105 =>
                 array(
@@ -1712,8 +1711,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             106 =>
                 array(
@@ -1728,8 +1727,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             107 =>
                 array(
@@ -1744,8 +1743,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             108 =>
                 array(
@@ -1760,8 +1759,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             109 =>
                 array(
@@ -1776,8 +1775,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             110 =>
                 array(
@@ -1792,8 +1791,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             111 =>
                 array(
@@ -1808,8 +1807,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             112 =>
                 array(
@@ -1824,8 +1823,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             113 =>
                 array(
@@ -1840,8 +1839,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             114 =>
                 array(
@@ -1856,8 +1855,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             115 =>
                 array(
@@ -1872,8 +1871,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             116 =>
                 array(
@@ -1888,8 +1887,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             117 =>
                 array(
@@ -1904,8 +1903,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             118 =>
                 array(
@@ -1920,8 +1919,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             119 =>
                 array(
@@ -1936,8 +1935,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             120 =>
                 array(
@@ -1952,8 +1951,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             121 =>
                 array(
@@ -1968,8 +1967,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             122 =>
                 array(
@@ -1984,8 +1983,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             123 =>
                 array(
@@ -2000,8 +1999,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             124 =>
                 array(
@@ -2016,8 +2015,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             125 =>
                 array(
@@ -2032,8 +2031,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             126 =>
                 array(
@@ -2048,8 +2047,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             127 =>
                 array(
@@ -2064,8 +2063,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             128 =>
                 array(
@@ -2080,8 +2079,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             129 =>
                 array(
@@ -2096,8 +2095,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             130 =>
                 array(
@@ -2112,8 +2111,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             131 =>
                 array(
@@ -2128,8 +2127,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             132 =>
                 array(
@@ -2144,8 +2143,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             133 =>
                 array(
@@ -2160,8 +2159,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             134 =>
                 array(
@@ -2176,8 +2175,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             135 =>
                 array(
@@ -2192,8 +2191,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             136 =>
                 array(
@@ -2208,8 +2207,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             137 =>
                 array(
@@ -2224,8 +2223,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             138 =>
                 array(
@@ -2240,8 +2239,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             139 =>
                 array(
@@ -2256,8 +2255,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             140 =>
                 array(
@@ -2272,8 +2271,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             141 =>
                 array(
@@ -2288,8 +2287,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             142 =>
                 array(
@@ -2304,8 +2303,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             143 =>
                 array(
@@ -2320,8 +2319,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             144 =>
                 array(
@@ -2336,8 +2335,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             145 =>
                 array(
@@ -2352,8 +2351,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             146 =>
                 array(
@@ -2368,8 +2367,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             147 =>
                 array(
@@ -2384,8 +2383,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             148 =>
                 array(
@@ -2400,8 +2399,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             149 =>
                 array(
@@ -2416,8 +2415,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             150 =>
                 array(
@@ -2432,8 +2431,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             151 =>
                 array(
@@ -2448,8 +2447,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             152 =>
                 array(
@@ -2464,8 +2463,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             153 =>
                 array(
@@ -2480,8 +2479,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             154 =>
                 array(
@@ -2496,8 +2495,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             155 =>
                 array(
@@ -2512,8 +2511,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             156 =>
                 array(
@@ -2528,8 +2527,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             157 =>
                 array(
@@ -2544,8 +2543,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             158 =>
                 array(
@@ -2560,8 +2559,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             159 =>
                 array(
@@ -2576,8 +2575,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             160 =>
                 array(
@@ -2592,8 +2591,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             161 =>
                 array(
@@ -2608,8 +2607,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             162 =>
                 array(
@@ -2624,8 +2623,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             163 =>
                 array(
@@ -2640,8 +2639,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             164 =>
                 array(
@@ -2656,8 +2655,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             165 =>
                 array(
@@ -2672,8 +2671,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             166 =>
                 array(
@@ -2688,8 +2687,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             167 =>
                 array(
@@ -2704,8 +2703,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             168 =>
                 array(
@@ -2720,8 +2719,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             169 =>
                 array(
@@ -2736,8 +2735,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             170 =>
                 array(
@@ -2752,8 +2751,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             171 =>
                 array(
@@ -2768,8 +2767,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             172 =>
                 array(
@@ -2784,8 +2783,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             173 =>
                 array(
@@ -2800,8 +2799,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             174 =>
                 array(
@@ -2816,8 +2815,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             175 =>
                 array(
@@ -2832,8 +2831,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             176 =>
                 array(
@@ -2848,8 +2847,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             177 =>
                 array(
@@ -2864,8 +2863,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             178 =>
                 array(
@@ -2880,8 +2879,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             179 =>
                 array(
@@ -2896,8 +2895,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             180 =>
                 array(
@@ -2912,8 +2911,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             181 =>
                 array(
@@ -2928,8 +2927,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             182 =>
                 array(
@@ -2944,8 +2943,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             183 =>
                 array(
@@ -2960,8 +2959,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             184 =>
                 array(
@@ -2976,8 +2975,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             185 =>
                 array(
@@ -2992,8 +2991,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             186 =>
                 array(
@@ -3008,8 +3007,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             187 =>
                 array(
@@ -3024,8 +3023,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             188 =>
                 array(
@@ -3040,8 +3039,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             189 =>
                 array(
@@ -3056,8 +3055,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             190 =>
                 array(
@@ -3072,8 +3071,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             191 =>
                 array(
@@ -3088,8 +3087,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             192 =>
                 array(
@@ -3104,8 +3103,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             193 =>
                 array(
@@ -3120,8 +3119,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             194 =>
                 array(
@@ -3136,8 +3135,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             195 =>
                 array(
@@ -3152,8 +3151,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             196 =>
                 array(
@@ -3168,8 +3167,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             197 =>
                 array(
@@ -3184,8 +3183,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             198 =>
                 array(
@@ -3200,8 +3199,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             199 =>
                 array(
@@ -3216,8 +3215,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             200 =>
                 array(
@@ -3232,8 +3231,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             201 =>
                 array(
@@ -3248,8 +3247,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             202 =>
                 array(
@@ -3264,8 +3263,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             203 =>
                 array(
@@ -3280,8 +3279,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             204 =>
                 array(
@@ -3296,8 +3295,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             205 =>
                 array(
@@ -3312,8 +3311,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             206 =>
                 array(
@@ -3328,8 +3327,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             207 =>
                 array(
@@ -3344,8 +3343,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             208 =>
                 array(
@@ -3360,8 +3359,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             209 =>
                 array(
@@ -3376,8 +3375,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             210 =>
                 array(
@@ -3392,8 +3391,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             211 =>
                 array(
@@ -3408,8 +3407,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             212 =>
                 array(
@@ -3424,8 +3423,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             213 =>
                 array(
@@ -3440,8 +3439,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             214 =>
                 array(
@@ -3456,8 +3455,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             215 =>
                 array(
@@ -3472,8 +3471,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             216 =>
                 array(
@@ -3488,8 +3487,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             217 =>
                 array(
@@ -3504,8 +3503,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             218 =>
                 array(
@@ -3520,8 +3519,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             219 =>
                 array(
@@ -3536,8 +3535,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             220 =>
                 array(
@@ -3552,8 +3551,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             221 =>
                 array(
@@ -3568,8 +3567,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             222 =>
                 array(
@@ -3584,8 +3583,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             223 =>
                 array(
@@ -3600,8 +3599,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             224 =>
                 array(
@@ -3616,8 +3615,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             225 =>
                 array(
@@ -3632,8 +3631,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             226 =>
                 array(
@@ -3648,8 +3647,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             227 =>
                 array(
@@ -3664,8 +3663,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             228 =>
                 array(
@@ -3680,8 +3679,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             229 =>
                 array(
@@ -3696,8 +3695,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             230 =>
                 array(
@@ -3712,8 +3711,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             231 =>
                 array(
@@ -3728,8 +3727,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             232 =>
                 array(
@@ -3744,8 +3743,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             233 =>
                 array(
@@ -3760,8 +3759,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             234 =>
                 array(
@@ -3776,8 +3775,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             235 =>
                 array(
@@ -3792,8 +3791,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             236 =>
                 array(
@@ -3808,8 +3807,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             237 =>
                 array(
@@ -3824,8 +3823,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             238 =>
                 array(
@@ -3840,8 +3839,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             239 =>
                 array(
@@ -3856,8 +3855,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             240 =>
                 array(
@@ -3872,8 +3871,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             241 =>
                 array(
@@ -3888,8 +3887,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             242 =>
                 array(
@@ -3904,8 +3903,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             243 =>
                 array(
@@ -3920,8 +3919,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             244 =>
                 array(
@@ -3936,8 +3935,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             245 =>
                 array(
@@ -3952,8 +3951,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             246 =>
                 array(
@@ -3968,8 +3967,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             247 =>
                 array(
@@ -3984,8 +3983,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             248 =>
                 array(
@@ -4000,8 +3999,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             249 =>
                 array(
@@ -4016,8 +4015,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             250 =>
                 array(
@@ -4032,8 +4031,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             251 =>
                 array(
@@ -4048,8 +4047,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             252 =>
                 array(
@@ -4064,8 +4063,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             253 =>
                 array(
@@ -4080,8 +4079,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             254 =>
                 array(
@@ -4096,8 +4095,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             255 =>
                 array(
@@ -4112,8 +4111,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             256 =>
                 array(
@@ -4128,8 +4127,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             257 =>
                 array(
@@ -4144,8 +4143,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             258 =>
                 array(
@@ -4160,8 +4159,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             259 =>
                 array(
@@ -4176,8 +4175,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             260 =>
                 array(
@@ -4192,8 +4191,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             261 =>
                 array(
@@ -4208,8 +4207,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             262 =>
                 array(
@@ -4224,8 +4223,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             263 =>
                 array(
@@ -4240,8 +4239,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             264 =>
                 array(
@@ -4256,8 +4255,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             265 =>
                 array(
@@ -4272,8 +4271,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             266 =>
                 array(
@@ -4288,8 +4287,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             267 =>
                 array(
@@ -4304,8 +4303,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             268 =>
                 array(
@@ -4320,8 +4319,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             269 =>
                 array(
@@ -4336,8 +4335,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             270 =>
                 array(
@@ -4352,8 +4351,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             271 =>
                 array(
@@ -4368,8 +4367,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             272 =>
                 array(
@@ -4384,8 +4383,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             273 =>
                 array(
@@ -4400,8 +4399,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             274 =>
                 array(
@@ -4416,8 +4415,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             275 =>
                 array(
@@ -4432,8 +4431,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             276 =>
                 array(
@@ -4448,8 +4447,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             277 =>
                 array(
@@ -4464,8 +4463,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             278 =>
                 array(
@@ -4480,8 +4479,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             279 =>
                 array(
@@ -4496,8 +4495,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             280 =>
                 array(
@@ -4512,8 +4511,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             281 =>
                 array(
@@ -4528,8 +4527,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             282 =>
                 array(
@@ -4544,8 +4543,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             283 =>
                 array(
@@ -4560,8 +4559,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             284 =>
                 array(
@@ -4576,8 +4575,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             285 =>
                 array(
@@ -4592,8 +4591,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             286 =>
                 array(
@@ -4608,8 +4607,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             287 =>
                 array(
@@ -4624,8 +4623,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             288 =>
                 array(
@@ -4640,8 +4639,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             289 =>
                 array(
@@ -4656,8 +4655,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             290 =>
                 array(
@@ -4672,8 +4671,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             291 =>
                 array(
@@ -4688,8 +4687,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             292 =>
                 array(
@@ -4704,8 +4703,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             293 =>
                 array(
@@ -4720,8 +4719,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             294 =>
                 array(
@@ -4736,8 +4735,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             295 =>
                 array(
@@ -4752,8 +4751,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             296 =>
                 array(
@@ -4768,8 +4767,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             297 =>
                 array(
@@ -4784,8 +4783,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             298 =>
                 array(
@@ -4800,8 +4799,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             299 =>
                 array(
@@ -4816,8 +4815,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             300 =>
                 array(
@@ -4832,8 +4831,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             301 =>
                 array(
@@ -4848,8 +4847,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             302 =>
                 array(
@@ -4864,8 +4863,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             303 =>
                 array(
@@ -4880,8 +4879,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             304 =>
                 array(
@@ -4896,8 +4895,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             305 =>
                 array(
@@ -4912,8 +4911,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             306 =>
                 array(
@@ -4928,8 +4927,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             307 =>
                 array(
@@ -4944,8 +4943,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             308 =>
                 array(
@@ -4960,8 +4959,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             309 =>
                 array(
@@ -4976,8 +4975,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             310 =>
                 array(
@@ -4992,8 +4991,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             311 =>
                 array(
@@ -5008,8 +5007,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             312 =>
                 array(
@@ -5024,8 +5023,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             313 =>
                 array(
@@ -5040,8 +5039,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             314 =>
                 array(
@@ -5056,8 +5055,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             315 =>
                 array(
@@ -5072,8 +5071,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             316 =>
                 array(
@@ -5088,8 +5087,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             317 =>
                 array(
@@ -5104,8 +5103,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             318 =>
                 array(
@@ -5120,8 +5119,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             319 =>
                 array(
@@ -5136,8 +5135,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             320 =>
                 array(
@@ -5152,8 +5151,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             321 =>
                 array(
@@ -5168,8 +5167,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             322 =>
                 array(
@@ -5184,8 +5183,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             323 =>
                 array(
@@ -5200,8 +5199,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             324 =>
                 array(
@@ -5216,8 +5215,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             325 =>
                 array(
@@ -5232,8 +5231,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             326 =>
                 array(
@@ -5248,8 +5247,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             327 =>
                 array(
@@ -5264,8 +5263,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             328 =>
                 array(
@@ -5280,8 +5279,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             329 =>
                 array(
@@ -5296,8 +5295,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             330 =>
                 array(
@@ -5312,8 +5311,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             331 =>
                 array(
@@ -5328,8 +5327,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             332 =>
                 array(
@@ -5344,8 +5343,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             333 =>
                 array(
@@ -5360,8 +5359,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             334 =>
                 array(
@@ -5376,8 +5375,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             335 =>
                 array(
@@ -5392,8 +5391,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             336 =>
                 array(
@@ -5408,8 +5407,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             337 =>
                 array(
@@ -5424,8 +5423,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             338 =>
                 array(
@@ -5440,8 +5439,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             339 =>
                 array(
@@ -5456,8 +5455,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             340 =>
                 array(
@@ -5472,8 +5471,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             341 =>
                 array(
@@ -5488,8 +5487,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             342 =>
                 array(
@@ -5504,8 +5503,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             343 =>
                 array(
@@ -5520,8 +5519,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             344 =>
                 array(
@@ -5536,8 +5535,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             345 =>
                 array(
@@ -5552,8 +5551,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             346 =>
                 array(
@@ -5568,8 +5567,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             347 =>
                 array(
@@ -5584,8 +5583,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             348 =>
                 array(
@@ -5600,8 +5599,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             349 =>
                 array(
@@ -5616,8 +5615,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             350 =>
                 array(
@@ -5632,8 +5631,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             351 =>
                 array(
@@ -5648,8 +5647,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             352 =>
                 array(
@@ -5664,8 +5663,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             353 =>
                 array(
@@ -5680,8 +5679,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             354 =>
                 array(
@@ -5696,8 +5695,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             355 =>
                 array(
@@ -5712,8 +5711,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             356 =>
                 array(
@@ -5728,8 +5727,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             357 =>
                 array(
@@ -5744,8 +5743,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             358 =>
                 array(
@@ -5760,8 +5759,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             359 =>
                 array(
@@ -5776,8 +5775,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             360 =>
                 array(
@@ -5792,8 +5791,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             361 =>
                 array(
@@ -5808,8 +5807,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             362 =>
                 array(
@@ -5824,8 +5823,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             363 =>
                 array(
@@ -5840,8 +5839,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             364 =>
                 array(
@@ -5856,8 +5855,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             365 =>
                 array(
@@ -5872,8 +5871,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             366 =>
                 array(
@@ -5888,8 +5887,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             367 =>
                 array(
@@ -5904,8 +5903,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             368 =>
                 array(
@@ -5920,8 +5919,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             369 =>
                 array(
@@ -5936,8 +5935,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             370 =>
                 array(
@@ -5952,8 +5951,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             371 =>
                 array(
@@ -5968,8 +5967,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             372 =>
                 array(
@@ -5984,8 +5983,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             373 =>
                 array(
@@ -6000,8 +5999,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             374 =>
                 array(
@@ -6016,8 +6015,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             375 =>
                 array(
@@ -6032,8 +6031,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             376 =>
                 array(
@@ -6048,8 +6047,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             377 =>
                 array(
@@ -6064,8 +6063,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             378 =>
                 array(
@@ -6080,8 +6079,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             379 =>
                 array(
@@ -6096,8 +6095,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             380 =>
                 array(
@@ -6112,8 +6111,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             381 =>
                 array(
@@ -6128,8 +6127,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             382 =>
                 array(
@@ -6144,8 +6143,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             383 =>
                 array(
@@ -6160,8 +6159,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             384 =>
                 array(
@@ -6176,8 +6175,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             385 =>
                 array(
@@ -6192,8 +6191,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             386 =>
                 array(
@@ -6208,8 +6207,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             387 =>
                 array(
@@ -6224,8 +6223,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             388 =>
                 array(
@@ -6240,8 +6239,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             389 =>
                 array(
@@ -6256,8 +6255,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             390 =>
                 array(
@@ -6272,8 +6271,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             391 =>
                 array(
@@ -6288,8 +6287,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             392 =>
                 array(
@@ -6304,8 +6303,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             393 =>
                 array(
@@ -6320,8 +6319,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             394 =>
                 array(
@@ -6336,8 +6335,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             395 =>
                 array(
@@ -6352,8 +6351,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             396 =>
                 array(
@@ -6368,8 +6367,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             397 =>
                 array(
@@ -6384,8 +6383,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             398 =>
                 array(
@@ -6400,8 +6399,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             399 =>
                 array(
@@ -6416,8 +6415,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             400 =>
                 array(
@@ -6432,8 +6431,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             401 =>
                 array(
@@ -6448,8 +6447,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             402 =>
                 array(
@@ -6464,8 +6463,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             403 =>
                 array(
@@ -6480,8 +6479,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             404 =>
                 array(
@@ -6496,8 +6495,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             405 =>
                 array(
@@ -6512,8 +6511,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             406 =>
                 array(
@@ -6528,8 +6527,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             407 =>
                 array(
@@ -6544,8 +6543,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             408 =>
                 array(
@@ -6560,8 +6559,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             409 =>
                 array(
@@ -6576,8 +6575,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             410 =>
                 array(
@@ -6592,8 +6591,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             411 =>
                 array(
@@ -6608,8 +6607,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             412 =>
                 array(
@@ -6624,8 +6623,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             413 =>
                 array(
@@ -6640,8 +6639,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             414 =>
                 array(
@@ -6656,8 +6655,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             415 =>
                 array(
@@ -6672,8 +6671,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             416 =>
                 array(
@@ -6688,8 +6687,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             417 =>
                 array(
@@ -6704,8 +6703,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             418 =>
                 array(
@@ -6720,8 +6719,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             419 =>
                 array(
@@ -6736,8 +6735,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             420 =>
                 array(
@@ -6752,8 +6751,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             421 =>
                 array(
@@ -6768,8 +6767,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             422 =>
                 array(
@@ -6784,8 +6783,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             423 =>
                 array(
@@ -6800,8 +6799,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             424 =>
                 array(
@@ -6816,8 +6815,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             425 =>
                 array(
@@ -6832,8 +6831,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             426 =>
                 array(
@@ -6848,8 +6847,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             427 =>
                 array(
@@ -6864,8 +6863,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             428 =>
                 array(
@@ -6880,8 +6879,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             429 =>
                 array(
@@ -6896,8 +6895,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             430 =>
                 array(
@@ -6912,8 +6911,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             431 =>
                 array(
@@ -6928,8 +6927,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             432 =>
                 array(
@@ -6944,8 +6943,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             433 =>
                 array(
@@ -6960,8 +6959,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             434 =>
                 array(
@@ -6976,8 +6975,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             435 =>
                 array(
@@ -6992,8 +6991,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             436 =>
                 array(
@@ -7008,8 +7007,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             437 =>
                 array(
@@ -7024,8 +7023,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             438 =>
                 array(
@@ -7040,8 +7039,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             439 =>
                 array(
@@ -7056,8 +7055,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             440 =>
                 array(
@@ -7072,8 +7071,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             441 =>
                 array(
@@ -7088,8 +7087,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             442 =>
                 array(
@@ -7104,8 +7103,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             443 =>
                 array(
@@ -7120,8 +7119,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             444 =>
                 array(
@@ -7136,8 +7135,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             445 =>
                 array(
@@ -7152,8 +7151,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             446 =>
                 array(
@@ -7168,8 +7167,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             447 =>
                 array(
@@ -7184,8 +7183,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             448 =>
                 array(
@@ -7200,8 +7199,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             449 =>
                 array(
@@ -7216,8 +7215,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             450 =>
                 array(
@@ -7232,8 +7231,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             451 =>
                 array(
@@ -7248,8 +7247,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             452 =>
                 array(
@@ -7264,8 +7263,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             453 =>
                 array(
@@ -7280,8 +7279,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             454 =>
                 array(
@@ -7296,8 +7295,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             455 =>
                 array(
@@ -7312,8 +7311,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             456 =>
                 array(
@@ -7328,8 +7327,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             457 =>
                 array(
@@ -7344,8 +7343,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             458 =>
                 array(
@@ -7360,8 +7359,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             459 =>
                 array(
@@ -7376,8 +7375,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             460 =>
                 array(
@@ -7392,8 +7391,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             461 =>
                 array(
@@ -7408,8 +7407,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             462 =>
                 array(
@@ -7424,8 +7423,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             463 =>
                 array(
@@ -7440,8 +7439,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             464 =>
                 array(
@@ -7456,8 +7455,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             465 =>
                 array(
@@ -7472,8 +7471,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             466 =>
                 array(
@@ -7488,8 +7487,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             467 =>
                 array(
@@ -7504,8 +7503,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             468 =>
                 array(
@@ -7520,8 +7519,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             469 =>
                 array(
@@ -7536,8 +7535,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             470 =>
                 array(
@@ -7552,8 +7551,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             471 =>
                 array(
@@ -7568,8 +7567,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             472 =>
                 array(
@@ -7584,8 +7583,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             473 =>
                 array(
@@ -7600,8 +7599,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             474 =>
                 array(
@@ -7616,8 +7615,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             475 =>
                 array(
@@ -7632,8 +7631,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             476 =>
                 array(
@@ -7648,8 +7647,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             477 =>
                 array(
@@ -7664,8 +7663,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             478 =>
                 array(
@@ -7680,8 +7679,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             479 =>
                 array(
@@ -7696,8 +7695,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             480 =>
                 array(
@@ -7712,8 +7711,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             481 =>
                 array(
@@ -7728,8 +7727,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             482 =>
                 array(
@@ -7744,8 +7743,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             483 =>
                 array(
@@ -7760,8 +7759,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             484 =>
                 array(
@@ -7776,8 +7775,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             485 =>
                 array(
@@ -7792,8 +7791,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             486 =>
                 array(
@@ -7808,8 +7807,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             487 =>
                 array(
@@ -7824,8 +7823,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:39',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             488 =>
                 array(
@@ -7840,8 +7839,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:41:56',
-                    'updated_at' => '2019-01-30 12:41:59',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             489 =>
                 array(
@@ -7856,8 +7855,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:47:11',
-                    'updated_at' => '2019-01-30 12:47:14',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             490 =>
                 array(
@@ -7872,8 +7871,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:50:08',
-                    'updated_at' => '2019-01-30 12:50:11',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             491 =>
                 array(
@@ -7904,8 +7903,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:57:16',
-                    'updated_at' => '2019-01-30 12:57:18',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             493 =>
                 array(
@@ -7920,8 +7919,8 @@ class LocUpazilasTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 13:00:53',
-                    'updated_at' => '2019-01-30 13:00:56',
+                    'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
         ));
 

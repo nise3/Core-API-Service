@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class PermissionGroup
@@ -18,7 +19,7 @@ use Carbon\Carbon;
  */
 class PermissionGroup extends BaseModel
 {
-    use ScopeRowStatusTrait;
+    use ScopeRowStatusTrait,HasFactory;
 
     protected $table = 'permission_groups';
     protected $guarded = ['id'];

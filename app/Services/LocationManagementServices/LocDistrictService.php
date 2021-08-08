@@ -177,9 +177,10 @@ class LocDistrictService
      * @param LocDistrict $locDistrict
      * @return bool
      */
-    public function destroy(LocDistrict $locDistrict): bool
+    public function destroy(LocDistrict $locDistrict): LocDistrict
     {
-        return $locDistrict->delete();
+         $locDistrict->delete();
+         return $locDistrict;
     }
 
     public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
