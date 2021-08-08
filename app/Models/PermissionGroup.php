@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class PermissionGroup
@@ -22,5 +23,13 @@ class PermissionGroup extends BaseModel
 
     protected $table = 'permission_groups';
     protected $guarded = ['id'];
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'permission_group_permissions');
+    }
+
+
+
 
 }
