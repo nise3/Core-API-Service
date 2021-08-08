@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
+use App\Models\PermissionGroup;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Self_;
 
 class PermissionSeeder extends Seeder
 {
@@ -14,47 +15,55 @@ class PermissionSeeder extends Seeder
      *
      * @return void
      */
-
+    const ROUTE_PREFIX='api/v1/';
     public function run()
     {
         Schema::disableForeignKeyConstraints();
-        DB::table('permissions')->truncate();
+        Permission::query()->truncate();
 
-        $permissions=array(
-            [
-                'name' => 'Add',
-                'uri'=>'add'
+        $methods=[
+            'get_all'=>[
+                'method'=>1,
+                'uri'=>''
+                ],
+            'read' =>[
+                'method'=>1,
+                'uri'=>'/{id}'
+            ] ,
+            'add' =>[
+                'method'=>2,
+                'uri'=>''
             ],
-            [
-                'name' => 'Edit',
-                'uri'=>'edit'
-            ],
-            [
-                'name' => 'Update',
-                'uri'=>'update'
-            ],
-            [
-                'name' => 'Delete',
-                'uri'=>'delete'
-            ],
-            [
-                'name' => 'Read',
-                'uri'=>'read'
-            ],
-            [
-                'name' => 'Browse',
-                'uri'=>'browse'
-            ],
-            [
-                'name' => 'Publish',
-                'uri'=>'publish'
-            ]
-        );
+            'update' => [
+                'method'=>3,
+                'uri'=>'/{id}'
+                ],
+            'delete' => [
+                'method'=>5,
+                'uri'=>'/{id}'
+                ]
+        ];
 
-        foreach ($permissions as $permission){
-            Permission::create($permission);
+        $moludes=[
+            'divisions',
+            'districts',
+            'upazilas',
+            'users',
+            'roles',
+            'permissions',
+            'permission-groups',
+            'permission-sub-groups'
+            ];
+
+        foreach ($moludes as $module){
+          foreach ($methods as $key=>$method){
+              Permission::create([
+                  'name'=>$module.'-'.$key,
+                  'uri'=>self::ROUTE_PREFIX.$module.$method['uri'],
+                  'method'=>$method['method']
+              ]);
+          }
         }
-
         Schema::enableForeignKeyConstraints();
     }
 }

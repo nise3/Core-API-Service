@@ -9,7 +9,6 @@ use App\Models\OrganizationPermissions;
 use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,65 +16,78 @@ use PhpParser\Node\Expr\Cast\Object_;
 
 class PermissionService
 {
+
+    /**
+     * @var Carbon
+     */
+    public Carbon $startTime;
+
     const ROUTE_PREFIX = 'api.v1.permissions.';
 
     /**
-     * @param Request $request
+     * PermissionService constructor.
      * @param Carbon $startTime
+     */
+    public function __construct(Carbon $startTime)
+    {
+        $this->startTime = $startTime;
+    }
+
+    /**
+     * @param Request $request
      * @return array
      */
-    public function getAllPermissions(Request $request, Carbon $startTime): array
+    public function getAllPermissions(Request $request): array
     {
-        $paginateLink = [];
+        $paginate_link = [];
         $page = [];
         $paginate = $request->query('page');
-        $searchFilter = $request->query('name');
+        $search_filter = $request->query('name');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
-        /** @var Permission|Builder $permissions */
         $permissions = Permission::select([
             'id',
             'name',
-            'uri'
+            'uri',
+            'method'
         ]);
 
-        if (!empty($searchFilter)) {
-            $permissions = $permissions->where('name', 'like', '%' . $searchFilter . '%');
+        if (!empty($search_filter)) {
+            $permissions = $permissions->where('name', 'like', '%' . $search_filter . '%');
         }
-
         if (!empty($paginate)) {
             $permissions = $permissions->paginate(10);
-            $paginateData = (object)$permissions->toArray();
+            $paginate_data = (object)$permissions->toArray();
             $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
+                "size" => $paginate_data->per_page,
+                "total_element" => $paginate_data->total,
+                "total_page" => $paginate_data->last_page,
+                "current_page" => $paginate_data->current_page
             ];
-            $paginateLink = $paginateData->links;
+            $paginate_link = $paginate_data->links;
         } else {
             $permissions = $permissions->get();
         }
-
         $data = [];
         foreach ($permissions as $permission) {
-            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
-            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
-            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
-            $permission['_links'] = $links;
+            $_links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
+            $_links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
+            $_links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
+            $permission['_links'] = $_links;
             $data[] = $permission->toArray();
-        }
 
+        }
         return [
-            "data" => $data ?: null,
+            "data" => $data,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
+                "message" => "Job finished successfully.",
+                "started" => $this->startTime,
+                "finished" => Carbon::now(),
             ],
             "_links" => [
-                'paginate' => $paginateLink,
+                'paginate' => $paginate_link,
                 'search' => [
                     'parameters' => [
                         'name',
@@ -87,23 +99,21 @@ class PermissionService
             "_page" => $page,
             "_order" => $order
         ];
+
     }
 
     /**
-     * @param int $id
-     * @param Carbon $startTime
+     * @param Request $request
+     * @param $id
      * @return array
      */
-    public function getOnePermission(int $id, Carbon $startTime): array
+    public function getOnePermission(Request $request, $id): array
     {
-        /** @var Permission|Builder $permission */
         $permission = Permission::select([
             'id',
             'name',
-            'uri'
-        ]);
-        $permission->where('id', $id);
-        $permission = $permission->first();
+            'key'
+        ])->where('id', $id)->first();
 
         $links = [];
         if (!empty($permission)) {
@@ -112,14 +122,14 @@ class PermissionService
                 'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id])
             ];
         }
-
         return [
-            "data" => $permission ?: null,
+            "data" => $permission ? $permission : [],
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
+                "message" => "Job finished successfully.",
+                "started" => $this->startTime,
+                "finished" => Carbon::now(),
             ],
             "_links" => $links
         ];
@@ -133,12 +143,13 @@ class PermissionService
     public function store(array $data, Permission $permission): Permission
     {
         return $permission->create($data);
+
     }
 
     /**
      * @param array $data
      * @param Permission $permission
-     * @return Permission
+     * @return bool
      */
     public function update(array $data, Permission $permission): Permission
     {
@@ -156,22 +167,22 @@ class PermissionService
         return $permission->delete();
     }
 
+
     /**
-     * @param int $organizationId
-     * @param array $permissionIds
+     * @param int $organization_id
+     * @param array $permission_ids
      * @return array
      */
-    public function setPermissionToOrganization(int $organizationId, array $permissionIds): array
+    public function setPermissionToOrganization(int $organization_id, array $permission_ids): array
     {
-        $validPermissions = Permission::whereIn('id', $permissionIds)->get();
+        $validPermissions = Permission::whereIn('id', $permission_ids)->get();
         foreach ($validPermissions as $validPermission) {
             OrganizationPermissions::updateOrCreate(
                 [
-                    'organization_id' => $organizationId,
+                    'organization_id' => $organization_id,
                     'permission_id' => $validPermission->id
                 ],
-                [
-                    'organization_id' => $organizationId,
+                [   'organization_id' => $organization_id,
                     'permission_id' => $validPermission->id
                 ]
             );
@@ -180,20 +191,20 @@ class PermissionService
     }
 
     /**
-     * @param int $instituteId
-     * @param array $permissionIds
+     * @param int $institute_id
+     * @param array $permission_ids
      * @return array
      */
-    public function setPermissionToInstitute(int $instituteId, array $permissionIds): array
+    public function setPermissionToInstitute(int $institute_id, array $permission_ids): array
     {
-        $validPermissions = Permission::whereIn('id', $permissionIds)->get();
+        $validPermissions = Permission::whereIn('id', $permission_ids)->get();
         foreach ($validPermissions as $validPermission) {
             InstitutePermissions::updateOrCreate(
                 [
-                    'institute_id' => $instituteId,
+                    'institute_id' => $institute_id,
                     'permission_id' => $validPermission->id
                 ],
-                ['institute_id' => $instituteId,
+                [   'institute_id' => $institute_id,
                     'permission_id' => $validPermission->id
                 ]
             );
@@ -208,21 +219,19 @@ class PermissionService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        $rules = [
-            'name' => 'required|min:2',
-            'method' => 'required|numeric',
-        ];
 
-        if (!empty($id)) {
-            $rules['uri'] = 'required|min:2|unique:permissions,uri,' . $id;
-        } else {
-            $rules['uri'] = 'required|min:2|unique:permissions,uri';
-        }
+            $rules = [
+                'name' => 'required|min:2',
+            ];
+            if (!empty($id)) {
+                $rules['key'] = 'required|min:2|unique:permissions,key,' . $id;
+            } else {
+                $rules['key'] = 'required|min:2|unique:permissions,key';
+            }
         return Validator::make($request->all(), $rules);
     }
 
-    public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
-    {
+    public function permissionValidation(Request $request):\Illuminate\Contracts\Validation\Validator{
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|numeric|distinct|min:1'

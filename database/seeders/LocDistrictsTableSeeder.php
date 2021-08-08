@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class LocDistrictsTableSeeder extends Seeder
@@ -30,8 +31,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             1 =>
                 array(
@@ -44,8 +45,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             2 =>
                 array(
@@ -58,8 +59,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             3 =>
                 array(
@@ -72,8 +73,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             4 =>
                 array(
@@ -86,8 +87,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             5 =>
                 array(
@@ -100,8 +101,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             6 =>
                 array(
@@ -114,8 +115,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             7 =>
                 array(
@@ -128,8 +129,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             8 =>
                 array(
@@ -142,8 +143,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             9 =>
                 array(
@@ -156,8 +157,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             10 =>
                 array(
@@ -170,8 +171,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             11 =>
                 array(
@@ -184,8 +185,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             12 =>
                 array(
@@ -198,8 +199,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             13 =>
                 array(
@@ -212,8 +213,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             14 =>
                 array(
@@ -226,8 +227,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             15 =>
                 array(
@@ -240,8 +241,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             16 =>
                 array(
@@ -254,8 +255,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             17 =>
                 array(
@@ -268,8 +269,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             18 =>
                 array(
@@ -282,8 +283,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             19 =>
                 array(
@@ -296,8 +297,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             20 =>
                 array(
@@ -310,8 +311,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             21 =>
                 array(
@@ -324,7 +325,7 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
                     'updated_at' => '2016-02-09 14:08:46',
                 ),
             22 =>
@@ -338,8 +339,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             23 =>
                 array(
@@ -352,8 +353,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             24 =>
                 array(
@@ -366,8 +367,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             25 =>
                 array(
@@ -380,8 +381,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             26 =>
                 array(
@@ -394,8 +395,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2016-02-09 19:32:20',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             27 =>
                 array(
@@ -408,8 +409,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             28 =>
                 array(
@@ -422,8 +423,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             29 =>
                 array(
@@ -436,7 +437,7 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
                     'updated_at' => '2016-02-09 19:31:29',
                 ),
             30 =>
@@ -450,8 +451,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             31 =>
                 array(
@@ -464,8 +465,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             32 =>
                 array(
@@ -478,7 +479,7 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
                     'updated_at' => '2016-02-09 19:31:55',
                 ),
             33 =>
@@ -492,8 +493,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             34 =>
                 array(
@@ -506,8 +507,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             35 =>
                 array(
@@ -520,8 +521,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             36 =>
                 array(
@@ -534,8 +535,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             37 =>
                 array(
@@ -548,8 +549,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             38 =>
                 array(
@@ -562,8 +563,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             39 =>
                 array(
@@ -576,8 +577,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             40 =>
                 array(
@@ -590,8 +591,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             41 =>
                 array(
@@ -604,8 +605,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             42 =>
                 array(
@@ -618,8 +619,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             43 =>
                 array(
@@ -632,8 +633,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             44 =>
                 array(
@@ -646,8 +647,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             45 =>
                 array(
@@ -660,8 +661,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             46 =>
                 array(
@@ -674,8 +675,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             47 =>
                 array(
@@ -688,8 +689,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             48 =>
                 array(
@@ -702,8 +703,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             49 =>
                 array(
@@ -716,8 +717,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             50 =>
                 array(
@@ -730,8 +731,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             51 =>
                 array(
@@ -744,8 +745,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             52 =>
                 array(
@@ -758,8 +759,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             53 =>
                 array(
@@ -772,8 +773,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             54 =>
                 array(
@@ -786,8 +787,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             55 =>
                 array(
@@ -800,8 +801,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             56 =>
                 array(
@@ -814,8 +815,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             57 =>
                 array(
@@ -828,8 +829,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             58 =>
                 array(
@@ -842,8 +843,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             59 =>
                 array(
@@ -856,8 +857,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             60 =>
                 array(
@@ -870,8 +871,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             61 =>
                 array(
@@ -884,8 +885,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             62 =>
                 array(
@@ -898,8 +899,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
             63 =>
                 array(
@@ -912,8 +913,8 @@ class LocDistrictsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                   'created_at'=>Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ),
         ));
 
