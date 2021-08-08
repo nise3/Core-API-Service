@@ -182,7 +182,8 @@ class LocUpazilaService
      */
     public function destroy(LocUpazila $locUpazila): bool
     {
-        return $locUpazila->delete();
+         $locUpazila->delete();
+         return $locUpazila;
     }
 
     /**

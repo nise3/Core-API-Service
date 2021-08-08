@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\Rules\Unique;
@@ -18,10 +20,11 @@ use Illuminate\Validation\Rules\Unique;
  * @property string|unique $key
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property-read Collection|Permission[] $permissions
  */
 class PermissionSubGroup extends BaseModel
 {
-    use ScopeRowStatusTrait;
+    use ScopeRowStatusTrait,HasFactory;
 
     /**
      * @var string

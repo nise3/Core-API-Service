@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $updated_at
  * @property bool|null $is_sadar_district
  * @property-read Collection|LocUpazila[] $locUpazilas
- * @property-read LocDivision locDivision
+ * @property-read LocDivision $locDivision
  * @property int |null $created_by
  * @property int |null $updated_by
  */
