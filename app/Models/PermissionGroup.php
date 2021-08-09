@@ -23,4 +23,12 @@ class PermissionGroup extends BaseModel
     protected $table = 'permission_groups';
     protected $guarded = ['id'];
 
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'permission_group_permissions');
+    }
+
+
+
+
 }

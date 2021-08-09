@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class LocDivisionsTableSeeder extends Seeder
@@ -28,8 +29,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             1 =>
                 array(
@@ -40,8 +41,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             2 =>
                 array(
@@ -52,8 +53,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             3 =>
                 array(
@@ -64,8 +65,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             4 =>
                 array(
@@ -76,8 +77,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             5 =>
                 array(
@@ -88,8 +89,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             6 =>
                 array(
@@ -100,8 +101,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2019-01-30 12:36:35',
-                    'updated_at' => '2019-01-30 12:36:35',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
             7 =>
                 array(
@@ -112,8 +113,8 @@ class LocDivisionsTableSeeder extends Seeder
                     'row_status' => 1,
                     'created_by' => 0,
                     'updated_by' => 0,
-                    'created_at' => '2015-11-17 06:01:41',
-                    'updated_at' => '2016-02-09 14:06:15',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ),
         ));
 

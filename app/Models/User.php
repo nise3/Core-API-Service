@@ -5,6 +5,8 @@ namespace App\Models;
 
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,11 +29,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $row_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property-read Collection|Permission[] $permissions
+ * @property-read Role[] $roles
  */
 class User extends AuthBaseModel
 {
 
-    use ScopeRowStatusTrait, SoftDeletes;
+    use ScopeRowStatusTrait, SoftDeletes,HasFactory;
 
     protected $guarded = ['id'];
 

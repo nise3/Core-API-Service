@@ -3,44 +3,34 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
-
 use App\Models\Permission;
-use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PermissionSubGroupService
 {
-    public Carbon $startTime;
     const ROUTE_PREFIX = 'api.v1.permission-sub-groups.';
 
     /**
-     * PermissionGroupService constructor.
-     * @param Carbon $startTime
-     */
-    public function __construct(Carbon $startTime)
-    {
-        $this->startTime = $startTime;
-    }
-
-    /**
      * @param Request $request
+     * @param Carbon $startTime
      * @return array
      */
-    public function getAllPermissionSubGroups(Request $request): array
+    public function getAllPermissionSubGroups(Request $request, Carbon $startTime): array
     {
-        $paginate_link = [];
+        $paginateLink = [];
         $page = [];
         $paginate = $request->query('page');
-        $title_en = $request->query('title_en');
-        $title_bn = $request->query('title_bn');
-
+        $titleEn = $request->query('title_en');
+        $titleBn = $request->query('title_bn');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
-        $permission_sub_groups = PermissionSubGroup::select([
+        /** @var PermissionSubGroup|Builder $permissionSubGroups */
+        $permissionSubGroups = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.permission_group_id',
             'permission_sub_groups.title_en',
@@ -48,52 +38,52 @@ class PermissionSubGroupService
             'permission_sub_groups.key',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
-
         ]);
+        $permissionSubGroups->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
 
-        $permission_sub_groups->leftJoin('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
+        if (!empty($titleEn)) {
+            $permissionSubGroups = $permissionSubGroups->where('permission_sub_groups.title_en', 'like', '%' . $titleEn . '%');
+        }
 
-        if (!empty($title_en)) {
-            $permission_sub_groups = $permission_sub_groups->where('permission_sub_groups.title_en', 'like', '%' . $title_en . '%');
+        if (!empty($titleBn)) {
+            $permissionSubGroups = $permissionSubGroups->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
         }
-        if (!empty($title_bn)) {
-            $permission_sub_groups = $permission_sub_groups->where('permission_sub_groups.title_bn', 'like', '%' . $title_bn . '%');
-        }
-        $permission_sub_groups->orderBy('permission_sub_groups.id',$order);
+
+        $permissionSubGroups->orderBy('permission_sub_groups.id', $order);
 
         if (!empty($paginate)) {
-            $permission_sub_groups = $permission_sub_groups->paginate(10);
-            $paginate_data = (object)$permission_sub_groups->toArray();
+            $permissionSubGroups = $permissionSubGroups->paginate(10);
+            $paginateData = (object)$permissionSubGroups->toArray();
             $page = [
-                "size" => $paginate_data->per_page,
-                "total_element" => $paginate_data->total,
-                "total_page" => $paginate_data->last_page,
-                "current_page" => $paginate_data->current_page
+                "size" => $paginateData->per_page,
+                "total_element" => $paginateData->total,
+                "total_page" => $paginateData->last_page,
+                "current_page" => $paginateData->current_page
             ];
-            $paginate_link = $paginate_data->links;
+            $paginateLink = $paginateData->links;
         } else {
-            $permission_sub_groups = $permission_sub_groups->get();
+            $permissionSubGroups = $permissionSubGroups->get();
         }
-        $data = [];
-        foreach ($permission_sub_groups as $permission) {
-            $_links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
-            $_links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
-            $_links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
-            $permission['_links'] = $_links;
-            $data[] = $permission->toArray();
 
+        $data = [];
+        foreach ($permissionSubGroups as $permission) {
+            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
+            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
+            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
+            $permission['_links'] = $links;
+            $data[] = $permission->toArray();
         }
+
         return [
-            "data" => $data,
+            "data" => $data ?: null,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $this->startTime,
-                "finished" => Carbon::now(),
+                "started" => $startTime->format('H i s'),
+                "finished" => Carbon::now()->format('H i s'),
             ],
             "_links" => [
-                'paginate' => $paginate_link,
+                'paginate' => $paginateLink,
                 'search' => [
                     'parameters' => [
                         'name',
@@ -105,18 +95,17 @@ class PermissionSubGroupService
             "_page" => $page,
             "_order" => $order
         ];
-
     }
 
     /**
-     * @param Request $request
-     * @param $id
+     * @param int $id
+     * @param Carbon $startTime
      * @return array
      */
-    public function getOnePermissionSubGroup(Request $request, $id): array
+    public function getOnePermissionSubGroup(int $id, Carbon $startTime): array
     {
-
-        $permission_sub_group = PermissionSubGroup::select([
+        /** @var PermissionSubGroup|Builder $permissionSubGroup */
+        $permissionSubGroup = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.permission_group_id',
             'permission_sub_groups.title_en',
@@ -124,28 +113,25 @@ class PermissionSubGroupService
             'permission_sub_groups.key',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
-        ])->where('permission_sub_groups.id', $id);
-
-        $permission_sub_group->leftJoin('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
-
-        $permission_sub_group=$permission_sub_group->first();
+        ]);
+        $permissionSubGroup->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
+        $permissionSubGroup->where('permission_sub_groups.id', $id);
+        $permissionSubGroup = $permissionSubGroup->first();
 
         $links = [];
-
-        if (!empty($permission_sub_group)) {
+        if (!empty($permissionSubGroup)) {
             $links = [
-                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $permission_sub_group->id]),
-                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission_sub_group->id])
+                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $permissionSubGroup->id]),
+                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $permissionSubGroup->id])
             ];
         }
         return [
-            "data" => $permission_sub_group ? $permission_sub_group : [],
+            "data" => $permissionSubGroup ?: null,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $this->startTime,
-                "finished" => Carbon::now(),
+                "started" => $startTime->format('H i s'),
+                "finished" => Carbon::now()->format('H i s'),
             ],
             "_links" => $links
         ];
@@ -160,7 +146,6 @@ class PermissionSubGroupService
     {
         return $permissionSubGroup->create($data);
     }
-
 
     /**
      * @param array $data
@@ -183,9 +168,9 @@ class PermissionSubGroupService
         return $permissionSubGroup->delete();
     }
 
-    public function assignPermission(PermissionSubGroup $permissionSubGroup,array $permission_ids):PermissionSubGroup
+    public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds): PermissionSubGroup
     {
-        $validPermissions=Permission::whereIn('id',$permission_ids)->orderBy('id','ASC')->pluck('id')->toArray();
+        $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
         $permissionSubGroup->permissions()->syncWithoutDetaching($validPermissions);
         return $permissionSubGroup;
     }
@@ -200,7 +185,7 @@ class PermissionSubGroupService
         $rules = [];
         if (!isset($request->permissions) && isset($request->title_en) && isset($request->title_bn) && isset($request->key)) {
             $rules = [
-                'permission_group_id' => 'required|numeric|exists:permission_groups,id', //TODO: always check if foreign key data exists in table.
+                'permission_group_id' => 'required|numeric|exists:permission_groups,id',
                 'title_en' => 'required|min:2',
                 'title_bn' => 'required|min:2',
             ];
