@@ -1,0 +1,433 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Nise 3 core api service",
+        "description": "API description in Markdown.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080/{basePath}",
+            "description": "",
+            "variables": {
+                "basePath": {
+                    "default": "api/v1"
+                }
+            }
+        },
+        {
+            "url": "https://bus.softbd.xyz/devportal/apis",
+            "description": "",
+            "variables": {}
+        }
+    ],
+    "paths": {
+        "/divisions": {
+            "get": {
+                "summary": "Returns a list of divisions.",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Division"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "division": {
+                "type": "object",
+                "description": "Provide the Loc Division",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": "Division Title In English",
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "required": true
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": "Division Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500,
+                        "required": true
+                    },
+                    "bbs_code": {
+                        "type": "string",
+                        "description": "Division BBS code",
+                        "minLength": 1,
+                        "maxLength": 4,
+                        "required": false
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "Division activation status",
+                        "enum": [
+                            1,
+                            0,
+                            99
+                        ],
+                        "required": false
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "Division creater id",
+                        "required": false
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Division modifier id",
+                        "required": false
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "required": false
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "required": false
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "page": {
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "order": {
+                "in": "query",
+                "name": "order",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "row_status": {
+                "name": "row_status",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "enum": [1,0,99]
+                }
+            },
+            "title_bn": {
+                "name": "title_bn",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example":"Test Title (EN)"
+                }
+            },
+            "title_bn_optional": {
+                "name": "title_bn",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example":"Test Title (EN)"
+                }
+            },
+            "title_en": {
+                "name": "title_en",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example":"Test Title (BN)"
+                }
+            },
+            "title_en_optional": {
+                "name": "title_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example":"Test Title (BN)"
+                }
+            },
+            "bbs_code": {
+                "name": "bbs_code",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example":"Test BBS code"
+                }
+            },
+            "loc_division_id": {
+                "name": "loc_division_id",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example":1
+                }
+            },
+            "loc_division_id_optional": {
+                "name": "loc_division_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example":1
+                }
+            },
+            "loc_district_id": {
+                "name": "loc_district_id",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "loc_district_id_optional": {
+                "name": "loc_district_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "division_bbs_code": {
+                "name": "division_bbs_code",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 4,
+                    "minLength": 1,
+                    "example": 1
+
+                }
+            },
+            "district_bbs_code": {
+                "name": "district_bbs_code",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 4,
+                    "minLength": 1,
+                    "example": 1
+                }
+            },
+            "name": {
+                "name": "name",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "Demo Name"
+                }
+            },
+            "name_optional": {
+                "name": "name",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "Demo Name"
+                }
+            },
+            "name_en": {
+                "name": "name_en",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "Demo Name En",
+                    "example": "Demo Name En"
+                }
+            },
+            "name_en_optional": {
+                "name": "name_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "Demo Name En",
+                    "example": "Demo Name En"
+                }
+            },
+            "name_bn": {
+                "name": "name_bn",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "name_bn_optional": {
+                "name": "name_bn",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "username": {
+                "name": "username",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "username_optional": {
+                "name": "username",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "key": {
+                "name": "key",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "demo_key"
+                }
+            },
+            "email": {
+                "name": "email",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user1@gmail.com"
+                }
+            },
+            "email_optional": {
+                "name": "email",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user1@gmail.com"
+                }
+            },
+            "organization_id": {
+                "name": "organization_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "institute_id": {
+                "name": "institute_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "loc_upazila_id": {
+                "name": "loc_upazila_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "password": {
+                "name": "password",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "password"
+                }
+            },
+            "permission_group_id": {
+                "name": "permission_group_id",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "permission_group_id_optional": {
+                "name": "permission_group_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            }
+
+        }
+    }
+}
