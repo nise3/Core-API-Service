@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\PermissionGroup;
-use App\Models\PermissionSubGroup;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
