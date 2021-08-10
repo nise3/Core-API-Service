@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class LocUpazilasTableSeeder extends Seeder
 {
@@ -15,9 +17,11 @@ class LocUpazilasTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('loc_upazilas')->delete();
+        Schema::disableForeignKeyConstraints();
 
-        \DB::table('loc_upazilas')->insert(array(
+        DB::table('loc_upazilas')->truncate();
+
+        DB::table('loc_upazilas')->insert(array(
             0 =>
                 array(
                     'id' => 1,
@@ -7924,6 +7928,6 @@ class LocUpazilasTableSeeder extends Seeder
                 ),
         ));
 
-
+        Schema::enableForeignKeyConstraints();
     }
 }

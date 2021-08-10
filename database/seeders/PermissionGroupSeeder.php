@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\PermissionGroup;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Schema;
 
 class PermissionGroupSeeder extends Seeder
 {

@@ -15,12 +15,15 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+
             $table->unsignedTinyInteger('user_type')->comment('TBA');
             $table->string('username', 100);
+
             $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedInteger('institute_id')->nullable();
             $table->unsignedSmallInteger('role_id')->nullable();
-            $table->string('name_en', 191);
+
+            $table->string('name_en', 255);
             $table->string('name_bn', 300)->nullable();
 
             $table->string('email', 191);

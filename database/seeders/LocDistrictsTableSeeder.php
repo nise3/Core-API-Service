@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class LocDistrictsTableSeeder extends Seeder
 {
@@ -16,10 +18,11 @@ class LocDistrictsTableSeeder extends Seeder
     public function run()
     {
 
+        Schema::disableForeignKeyConstraints();
 
-        \DB::table('loc_districts')->delete();
+        DB::table('loc_districts')->truncate();
 
-        \DB::table('loc_districts')->insert(array(
+        DB::table('loc_districts')->insert(array(
             0 =>
                 array(
                     'id' => 1,
@@ -918,6 +921,6 @@ class LocDistrictsTableSeeder extends Seeder
                 ),
         ));
 
-
+        Schema::enableForeignKeyConstraints();
     }
 }
