@@ -6,9 +6,8 @@ namespace App\Helpers\Classes;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -35,22 +34,20 @@ class CustomExceptionHandler
 
         if ($this->exception instanceof MethodNotAllowedHttpException) {
             $errors = [
-                "code" => JsonResponse::HTTP_METHOD_NOT_ALLOWED,
+                "code" => Response::HTTP_METHOD_NOT_ALLOWED,
                 "message" => "Method Not Allowed",
             ];
         } else if ($this->exception instanceof NotFoundHttpException || $this->exception instanceof ModelNotFoundException) {
             $errors = [
-                "code" => JsonResponse::HTTP_NOT_FOUND,
+                "code" => Response::HTTP_NOT_FOUND,
                 "message" => "404 Not Found",
             ];
-        }
-        else if ($this->exception instanceof Exception) {
+        } else if ($this->exception instanceof Exception) {
             $errors = [
-                "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                "code" => Response::HTTP_INTERNAL_SERVER_ERROR,
                 "message" => "Internal Server Error!",
             ];
         }
-
 
 
         return $errors;
@@ -63,7 +60,7 @@ class CustomExceptionHandler
 
     public function getCode(): string
     {
-        return $this->exception->getCode()!=0? $this->exception->getCode():500;
+        return $this->exception->getCode() != 0 ? $this->exception->getCode() : 500;
     }
 
     public function getFile(): string
