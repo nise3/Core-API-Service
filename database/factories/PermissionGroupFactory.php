@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\PermissionGroup;
-
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PermissionGroupFactory extends Factory

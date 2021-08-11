@@ -19,7 +19,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->post('auth/login', 'Auth\AuthController@login');
     $router->post('auth/register', 'Auth\AuthController@register');
 
-    $customRouter('divisions')->resourceRoute('divisions', 'LocDivisionController')->render();
+    $customRouter()->resourceRoute('divisions', 'LocDivisionController')->render();
     $customRouter()->resourceRoute('districts', 'LocDistrictController')->render();
     $customRouter()->resourceRoute('upazilas', 'LocUpazilaController')->render();
     $customRouter()->resourceRoute('permissions', 'PermissionController')->render();

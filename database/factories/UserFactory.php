@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Faker\Provider\Internet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,13 +18,12 @@ class UserFactory extends Factory
 
     public function definition(): array
     {
-        /** @var  Role $role */
-        $role = Role::all()->random();
+        $this->faker->addProvider(new Internet( $this->faker));
     	return [
-            'role_id' => $role->id,
             'name_en' => $this->faker->name,
             'name_bn' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => $this->faker->safeEmail(),
+            'username' => $this->faker->unique()->userName(),
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('password'),
     	];

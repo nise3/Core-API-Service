@@ -6,8 +6,8 @@ use App\Traits\Scopes\ScopeRowStatusTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\Rules\Unique;
 
 /**
@@ -24,7 +24,7 @@ use Illuminate\Validation\Rules\Unique;
  */
 class PermissionSubGroup extends BaseModel
 {
-    use ScopeRowStatusTrait,HasFactory;
+    use ScopeRowStatusTrait, HasFactory;
 
     /**
      * @var string
@@ -41,5 +41,10 @@ class PermissionSubGroup extends BaseModel
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'permission_sub_group_permissions');
+    }
+
+    public function permissionGroup(): BelongsTo
+    {
+        return $this->belongsTo(PermissionGroup::class);
     }
 }
