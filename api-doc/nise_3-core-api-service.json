@@ -311,6 +311,300 @@
                     "Division"
                 ]
             }
+        },
+
+        "/districts": {
+            "get": {
+                "summary": "get list",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example":{
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_bn": "Test Title (BN)",
+                                            "title_en": "Test Title (EN)",
+                                            "bbs_code": "234",
+                                            "_links": {
+                                                "read": "http://localhost:8000/api/v1/divisions/11",
+                                                "update": "http://localhost:8000/api/v1/divisions/11",
+                                                "delete": "http://localhost:8000/api/v1/divisions/11"
+                                            }
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "started": "10 15 45",
+                                        "finished": "10 15 45"
+                                    },
+                                    "_links": {
+                                        "paginate": [
+                                            {
+                                                "url": null,
+                                                "label": "pagination.previous",
+                                                "active": false
+                                            },
+                                            {
+                                                "url": "http://localhost:8000/api/v1/divisions?page=1",
+                                                "label": "1",
+                                                "active": true
+                                            },
+                                            {
+                                                "url": null,
+                                                "label": "pagination.next",
+                                                "active": false
+                                            }
+                                        ],
+                                        "search": {
+                                            "parameters": [
+                                                "title_en",
+                                                "title_bn"
+                                            ],
+                                            "_link": "http://localhost:8000/api/v1/divisions"
+                                        }
+                                    },
+                                    "_page": {
+                                        "size": 10,
+                                        "total_element": 9,
+                                        "total_page": 1,
+                                        "current_page": 1
+                                    },
+                                    "_order": "ASC"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/schemas/district/properties/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "234",
+                                        "updated_at": "2021-08-11T09:51:17.000000Z",
+                                        "created_at": "2021-08-11T09:51:17.000000Z",
+                                        "id": 11
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Division added successfully",
+                                        "started": "09 51 17",
+                                        "finished": "09 51 17"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            }
+        },
+        "/districts/{districtId}": {
+            "get": {
+                "summary": "get one division",
+                "parameters": [
+                    {
+                        "name": "divisionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_bn": "Test Title (BN)",
+                                        "title_en": "Test Title (EN)",
+                                        "bbs_code": "234"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "started": "10 19 42",
+                                        "finished": "10 19 42"
+                                    },
+                                    "_links": {
+                                        "update": "http://localhost:8000/api/v1/divisions/11",
+                                        "delete": "http://localhost:8000/api/v1/divisions/11"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "divisionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "1000",
+                                        "row_status": 1,
+                                        "created_by": 0,
+                                        "updated_by": 0,
+                                        "created_at": "2021-08-11T09:47:02.000000Z",
+                                        "updated_at": "2021-08-11T09:58:50.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Division updated successfully",
+                                        "started": "10 06 09",
+                                        "finished": "10 06 09"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "divisionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": true,
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Division deleted successfully",
+                                        "started": "05 41 21",
+                                        "finished": "05 41 21"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            }
         }
     },
     "components": {
