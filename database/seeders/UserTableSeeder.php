@@ -25,7 +25,6 @@ class UserTableSeeder extends Seeder
         foreach ($roles as $role) {
             User::factory()->count(3)->for($role)->create();
         }
-
         Schema::enableForeignKeyConstraints();
     }
 }

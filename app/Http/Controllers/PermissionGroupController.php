@@ -85,6 +85,7 @@ class PermissionGroupController extends Controller
         $validated = $this->permissionGroupService->validator($request)->validate();
 
         try {
+            /** @var PermissionGroup $permissionGroup */
             $permissionGroup = new PermissionGroup();
             $permissionGroup = $this->permissionGroupService->store($validated, $permissionGroup);
             $response = [
@@ -120,6 +121,7 @@ class PermissionGroupController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
+        /** @var PermissionGroup $permissionGroup */
         $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->validator($request, $id)->validate();
 
@@ -156,6 +158,7 @@ class PermissionGroupController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
+        /** @var PermissionGroup $permissionGroup */
         $permissionGroup = PermissionGroup::findOrFail($id);
         try {
             $permissionGroup = $this->permissionGroupService->destroy($permissionGroup);
@@ -189,17 +192,18 @@ class PermissionGroupController extends Controller
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function assignPermissionToPermissionGroup(Request $request, int $id)
+    public function assignPermissionToPermissionGroup(Request $request, int $id): JsonResponse
     {
-        $permission_group = PermissionGroup::findOrFail($id);
-        $validated = $this->permissionGroupService->validator($request)->validated();
+        /** @var PermissionGroup $permissionGroup */
+        $permissionGroup = PermissionGroup::findOrFail($id);
+        $validated = $this->permissionGroupService->permissionValidation($request)->validated();
         try {
-            $this->permissionGroupService->assignPermission($permission_group, $validated['permissions']);
+            $this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => JsonResponse::HTTP_OK,
-                    "message" => "Permission(s) assigned into Permission Group successfully",
+                    "message" => "Permission(s) assigned into Permission Group successfully done",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
                 ]
