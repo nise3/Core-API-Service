@@ -157,8 +157,7 @@ class LocDivisionService
      */
     public function destroy(LocDivision $locDivision): bool
     {
-         $locDivision->delete();
-         return $locDivision;
+         return $locDivision->delete();
     }
 
     /**
