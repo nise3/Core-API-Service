@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class UserTableSeeder extends Seeder
@@ -16,8 +18,13 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         Schema::disableForeignKeyConstraints();
-        User::query()->truncate();
-        User::factory()->count(10)->create();
+        DB::table('users')->truncate();
+
+        $roles = Role::all();
+
+        foreach ($roles as $role) {
+            User::factory()->count(3)->for($role)->create();
+        }
         Schema::enableForeignKeyConstraints();
     }
 }

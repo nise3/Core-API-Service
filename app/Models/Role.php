@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Traits\Scopes\ScopeRowStatusTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -26,12 +28,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Role extends BaseModel
 {
-    use ScopeRowStatusTrait, SoftDeletes;
+    use ScopeRowStatusTrait, SoftDeletes, HasFactory;
 
     protected $guarded = ['id'];
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class,'role_permissions');
+        return $this->belongsToMany(Permission::class, 'role_permissions');
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
     }
 }
