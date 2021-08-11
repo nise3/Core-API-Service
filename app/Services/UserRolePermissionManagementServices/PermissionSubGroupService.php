@@ -6,6 +6,7 @@ namespace App\Services\UserRolePermissionManagementServices;
 use App\Models\Permission;
 use App\Models\PermissionSubGroup;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,8 +30,8 @@ class PermissionSubGroupService
         $titleBn = $request->query('title_bn');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
-        /** @var PermissionSubGroup|Builder $permissionSubGroups */
-        $permissionSubGroups = PermissionSubGroup::select([
+        /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
+        $permissionSubGroupBuilder = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.permission_group_id',
             'permission_sub_groups.title_en',
@@ -39,20 +40,22 @@ class PermissionSubGroupService
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
         ]);
-        $permissionSubGroups->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
+        $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
 
         if (!empty($titleEn)) {
-            $permissionSubGroups = $permissionSubGroups->where('permission_sub_groups.title_en', 'like', '%' . $titleEn . '%');
+            $permissionSubGroupBuilder->where('permission_sub_groups.title_en', 'like', '%' . $titleEn . '%');
         }
 
         if (!empty($titleBn)) {
-            $permissionSubGroups = $permissionSubGroups->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
+            $permissionSubGroupBuilder->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        $permissionSubGroups->orderBy('permission_sub_groups.id', $order);
+        $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);
 
+        /** @var Collection|PermissionSubGroup $permissionSubGroups */
         if (!empty($paginate)) {
-            $permissionSubGroups = $permissionSubGroups->paginate(10);
+
+            $permissionSubGroups = $permissionSubGroupBuilder->paginate(10);
             $paginateData = (object)$permissionSubGroups->toArray();
             $page = [
                 "size" => $paginateData->per_page,
@@ -62,11 +65,12 @@ class PermissionSubGroupService
             ];
             $paginateLink = $paginateData->links;
         } else {
-            $permissionSubGroups = $permissionSubGroups->get();
+            $permissionSubGroups = $permissionSubGroupBuilder->get();
         }
 
         $data = [];
         foreach ($permissionSubGroups as $permission) {
+            /** @var Permission $permission */
             $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
             $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
             $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
@@ -104,8 +108,8 @@ class PermissionSubGroupService
      */
     public function getOnePermissionSubGroup(int $id, Carbon $startTime): array
     {
-        /** @var PermissionSubGroup|Builder $permissionSubGroup */
-        $permissionSubGroup = PermissionSubGroup::select([
+        /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
+        $permissionSubGroupBuilder = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.permission_group_id',
             'permission_sub_groups.title_en',
@@ -114,9 +118,11 @@ class PermissionSubGroupService
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
         ]);
-        $permissionSubGroup->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
-        $permissionSubGroup->where('permission_sub_groups.id', $id);
-        $permissionSubGroup = $permissionSubGroup->first();
+        $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
+        $permissionSubGroupBuilder->where('permission_sub_groups.id', $id);
+
+        /** @var PermissionSubGroup $permissionSubGroup */
+        $permissionSubGroup = $permissionSubGroupBuilder->first();
 
         $links = [];
         if (!empty($permissionSubGroup)) {

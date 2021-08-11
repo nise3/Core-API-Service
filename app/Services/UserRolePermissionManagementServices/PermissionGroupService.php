@@ -7,6 +7,7 @@ namespace App\Services\UserRolePermissionManagementServices;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,8 +31,8 @@ class PermissionGroupService
         $titleBn = $request->query('title_bn');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
-        /** @var PermissionGroup|Builder $permissionGroups */
-        $permissionGroups = PermissionGroup::select([
+        /** @var PermissionGroup|Builder $permissionGroupBuilder */
+        $permissionGroupBuilder = PermissionGroup::select([
             'id',
             'title_en',
             'title_bn',
@@ -39,14 +40,16 @@ class PermissionGroupService
         ]);
 
         if (!empty($titleEn)) {
-            $permissionGroups = $permissionGroups->where('title_en', 'like', '%' . $titleEn . '%');
+            $permissionGroupBuilder->where('title_en', 'like', '%' . $titleEn . '%');
         }
         if (!empty($titleBn)) {
-            $permissionGroups = $permissionGroups->where('title_bn', 'like', '%' . $titleBn . '%');
+            $permissionGroupBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
         }
 
+        /** @var Collection|PermissionGroup $permissionGroups */
         if (!empty($paginate)) {
-            $permissionGroups = $permissionGroups->paginate(10);
+
+            $permissionGroups = $permissionGroupBuilder->paginate(10);
             $paginateData = (object)$permissionGroups->toArray();
             $page = [
                 "size" => $paginateData->per_page,
@@ -56,11 +59,12 @@ class PermissionGroupService
             ];
             $paginateLink = $paginateData->links;
         } else {
-            $permissionGroups = $permissionGroups->get();
+            $permissionGroups = $permissionGroupBuilder->get();
         }
 
         $data = [];
         foreach ($permissionGroups as $permission) {
+            /** @var PermissionGroup $permission */
             $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
             $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
             $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
@@ -98,18 +102,21 @@ class PermissionGroupService
      */
     public function getOnePermissionGroup(int $id, Carbon $startTime): array
     {
-        /** @var PermissionGroup|Builder $permissionGroup */
-        $permissionGroup = PermissionGroup::select([
+        /** @var PermissionGroup|Builder $permissionGroupBuilder */
+        $permissionGroupBuilder = PermissionGroup::select([
             'id',
             'title_en',
             'title_bn',
             'key'
         ]);
-        $permissionGroup->where('id', $id);
-        $permissionGroup = $permissionGroup->first();
+
+        $permissionGroupBuilder->where('id', $id);
+
+        /** @var PermissionGroup $permissionGroup */
+        $permissionGroup = $permissionGroupBuilder->first();
 
         $links = [];
-        if (!empty($permissionGroup)) {
+        if ($permissionGroup) {
             $links = [
                 'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $permissionGroup->id]),
                 'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $permissionGroup->id])
@@ -159,9 +166,10 @@ class PermissionGroupService
         return $permissionGroup->delete();
     }
 
-    public function assignPermission(PermissionGroup $permissionGroup,array $permission_ids):PermissionGroup
+    public function assignPermission(PermissionGroup $permissionGroup, array $permission_ids): PermissionGroup
     {
-        $validPermissions=Permission::whereIn('id',$permission_ids)->orderBy('id','ASC')->pluck('id')->toArray();
+        /** @var Collection|Permission $validPermissions */
+        $validPermissions = Permission::whereIn('id', $permission_ids)->orderBy('id', 'ASC')->pluck('id')->toArray();
         $permissionGroup->permissions()->syncWithoutDetaching($validPermissions);
         return $permissionGroup;
     }
@@ -173,23 +181,25 @@ class PermissionGroupService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        $rules = [];
-        if (!isset($request->permissions) && isset($request->title_en) && isset($request->title_bn) && isset($request->key)) {
-            $rules = [
-                'title_en' => 'required|min:2',
-                'title_bn' => 'required|min:2',
-            ];
-            if (!empty($id)) {
-                $rules['key'] = 'required|min:2|unique:permission_groups,key,' . $id;
-            } else {
-                $rules['key'] = 'required|min:2|unique:permission_groups,key';
-            }
-        } elseif (isset($request->permissions) && !isset($request->title_en) && !isset($request->title_bn) && !isset($request->key)) {
-            $rules = [
-                'permissions' => 'required|array|min:1',
-                'permissions.*' => 'required|numeric|distinct|min:1'
-            ];
+        $rules = [
+            'title_en' => 'required|min:2',
+            'title_bn' => 'required|min:2',
+        ];
+        if (!empty($id)) {
+            $rules['key'] = 'required|min:2|unique:permission_groups,key,' . $id;
+        } else {
+            $rules['key'] = 'required|min:2|unique:permission_groups,key';
         }
+
+        return Validator::make($request->all(), $rules);
+    }
+
+    public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        $rules = [
+            'permissions' => 'required|array|min:1',
+            'permissions.*' => 'required|numeric|distinct|min:1'
+        ];
         return Validator::make($request->all(), $rules);
     }
 
