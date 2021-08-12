@@ -39,6 +39,8 @@ class PermissionGroupService
             'key'
         ]);
 
+        $permissionGroupBuilder->orderBy('roles.id', $order);
+
         if (!empty($titleEn)) {
             $permissionGroupBuilder->where('title_en', 'like', '%' . $titleEn . '%');
         }

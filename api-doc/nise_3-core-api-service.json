@@ -159,7 +159,7 @@
         },
         "/divisions/{divisionId}": {
             "get": {
-                "summary": "get one division",
+                "summary": "get one",
                 "parameters": [
                     {
                         "name": "divisionId",
@@ -408,7 +408,13 @@
                 "summary": "store",
                 "parameters": [
                     {
-                        "$ref": "#/components/schemas/district/properties/title_en"
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/division_bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
                     },
                     {
                         "$ref": "#/components/parameters/title_bn"
@@ -453,10 +459,10 @@
         },
         "/districts/{districtId}": {
             "get": {
-                "summary": "get one division",
+                "summary": "get one",
                 "parameters": [
                     {
-                        "name": "divisionId",
+                        "name": "districtId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -507,13 +513,19 @@
                 "operationId": "update",
                 "parameters": [
                     {
-                        "name": "divisionId",
+                        "name": "districtId",
                         "in": "path",
                         "required": true,
                         "schema": {
                             "type": "integer",
                             "example": 1
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/division_bbs_code"
                     },
                     {
                         "$ref": "#/components/parameters/title_en"
@@ -608,173 +620,6 @@
         }
     },
     "components": {
-        "schemas": {
-            "division": {
-                "type": "object",
-                "description": "Provide the Loc Division",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Primary Key",
-                        "readOnly": true
-                    },
-                    "title_en": {
-                        "type": "string",
-                        "description": "Division Title In English",
-                        "minLength": 1,
-                        "maxLength": 255
-                    },
-                    "title_bn": {
-                        "type": "string",
-                        "description": "Division Title In Bengali",
-                        "minLength": 1,
-                        "maxLength": 500
-                    },
-                    "bbs_code": {
-                        "type": "string",
-                        "description": "Division BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "row_status": {
-                        "type": "integer",
-                        "description": "Division activation status",
-                        "enum": [
-                            1,
-                            0,
-                            99
-                        ]
-                    },
-                    "create_by": {
-                        "type": "integer",
-                        "description": "Division creater id"
-                    },
-                    "updated_by": {
-                        "type": "integer",
-                        "description": "Division modifier id"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "title_en",
-                    "title_bn"
-                ]
-            },
-            "district": {
-                "type": "object",
-                "description": "Provide the Loc District",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Primary Key",
-                        "readOnly": true
-                    },
-                    "loc_division_id":{
-                        "type": "integer",
-                        "description": "Division Id"
-                    },
-                    "title_en": {
-                        "type": "string",
-                        "description": "District Title In English",
-                        "minLength": 1,
-                        "maxLength": 255
-                    },
-                    "title_bn": {
-                        "type": "string",
-                        "description": "District Title In Bengali",
-                        "minLength": 1,
-                        "maxLength": 500
-                    },
-                    "bbs_code": {
-                        "type": "string",
-                        "description": "District BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "division_bbs_code": {
-                        "type": "string",
-                        "description": "Division BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "row_status": {
-                        "type": "integer",
-                        "description": "District activation status",
-                        "enum": [
-                            1,
-                            0,
-                            99
-                        ]
-                    },
-                    "create_by": {
-                        "type": "integer",
-                        "description": "District creater id"
-                    },
-                    "updated_by": {
-                        "type": "integer",
-                        "description": "District modifier id"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "loc_division_id",
-                    "title_en",
-                    "title_bn"
-                ]
-            }
-        },
-        "examples": {
-            "division": {
-                "value": {
-                    "data": [
-                        {
-                            "id": 1,
-                            "title_bn": "বরিশাল",
-                            "title_en": "Barisal",
-                            "bbs_code": "10",
-                            "_links": {
-                                "read": "http://127.0.0.1:8000/api/v1/divisions/1",
-                                "update": "http://127.0.0.1:8000/api/v1/divisions/1",
-                                "delete": "http://127.0.0.1:8000/api/v1/divisions/1"
-                            }
-                        }
-                    ],
-                    "_response_status": {
-                        "success": true,
-                        "code": 200,
-                        "started": "12 11 39",
-                        "finished": "12 11 39"
-                    },
-                    "_links": {
-                        "paginate": [],
-                        "search": {
-                            "parameters": [
-                                "title_en",
-                                "title_bn"
-                            ],
-                            "_link": "http://127.0.0.1:8000/api/v1/divisions"
-                        }
-                    },
-                    "_page": [],
-                    "_order": "ASC"
-                }
-            },
-            "objectExample": {}
-        },
         "parameters": {
             "page": {
                 "name": "page",
@@ -1092,6 +937,174 @@
                     "type": "integer"
                 }
             }
+        },
+        "schemas": {
+            "division": {
+                "type": "object",
+                "description": "Provide the Loc Division",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": "Division Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": "Division Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "bbs_code": {
+                        "type": "string",
+                        "description": "Division BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "Division activation status",
+                        "enum": [
+                            1,
+                            0,
+                            99
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "Division creater id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Division modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn"
+                ]
+            },
+            "district": {
+                "type": "object",
+                "description": "Provide the Loc District",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "loc_division_id":{
+                        "type": "integer",
+                        "description": "Division Id"
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": "District Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": "District Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "bbs_code": {
+                        "type": "string",
+                        "description": "District BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "division_bbs_code": {
+                        "type": "string",
+                        "description": "Division BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0,
+                            99
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "District creater id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "District modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "loc_division_id",
+                    "title_en",
+                    "title_bn"
+                ]
+            }
+        },
+        "examples": {
+            "division": {
+                "value": {
+                    "data": [
+                        {
+                            "id": 1,
+                            "title_bn": "বরিশাল",
+                            "title_en": "Barisal",
+                            "bbs_code": "10",
+                            "_links": {
+                                "read": "http://127.0.0.1:8000/api/v1/divisions/1",
+                                "update": "http://127.0.0.1:8000/api/v1/divisions/1",
+                                "delete": "http://127.0.0.1:8000/api/v1/divisions/1"
+                            }
+                        }
+                    ],
+                    "_response_status": {
+                        "success": true,
+                        "code": 200,
+                        "started": "12 11 39",
+                        "finished": "12 11 39"
+                    },
+                    "_links": {
+                        "paginate": [],
+                        "search": {
+                            "parameters": [
+                                "title_en",
+                                "title_bn"
+                            ],
+                            "_link": "http://127.0.0.1:8000/api/v1/divisions"
+                        }
+                    },
+                    "_page": [],
+                    "_order": "ASC"
+                }
+            },
+            "objectExample": {}
         }
+
     }
 }

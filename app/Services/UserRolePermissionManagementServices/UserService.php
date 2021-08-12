@@ -243,8 +243,10 @@ class UserService
         ];
         if (!empty($id)) {
             $rules['email'] = 'required|email|unique:users,email,' . $id;
+            $rules['username'] = 'required|string|unique:users,username,' . $id;
         } else {
             $rules['email'] = 'required|email|unique:users,email';
+            $rules['username'] = 'required|string|unique:users,username';
         }
         return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
     }

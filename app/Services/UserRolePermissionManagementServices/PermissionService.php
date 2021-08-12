@@ -40,6 +40,8 @@ class PermissionService
             'uri'
         ]);
 
+        $permissionBuilder->orderBy('id', $order);
+
         if (!empty($searchFilter)) {
             $permissionBuilder->where('name', 'like', '%' . $searchFilter . '%');
         }
