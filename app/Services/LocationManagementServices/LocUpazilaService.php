@@ -178,9 +178,9 @@ class LocUpazilaService
 
     /**
      * @param LocUpazila $locUpazila
-     * @return bool
+     * @return LocUpazila
      */
-    public function destroy(LocUpazila $locUpazila): bool
+    public function destroy(LocUpazila $locUpazila): LocUpazila
     {
          $locUpazila->delete();
          return $locUpazila;
