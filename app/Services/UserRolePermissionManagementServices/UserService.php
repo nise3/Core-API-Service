@@ -1,57 +1,39 @@
 <?php
 
-
 namespace App\Services\UserRolePermissionManagementServices;
 
-use App\Models\BaseModel;
-use App\Models\InstitutePermissions;
-use App\Models\OrganizationPermissions;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use PhpParser\Node\Expr\Cast\Object_;
 
 
 class UserService
 {
-
-    /**
-     * @var Carbon
-     */
-    public Carbon $startTime;
-
     const ROUTE_PREFIX = 'api.v1.users.';
 
     /**
-     * PermissionService constructor.
-     * @param Carbon $startTime
-     */
-    public function __construct(Carbon $startTime)
-    {
-        $this->startTime = $startTime;
-    }
-
-    /**
      * @param Request $request
+     * @param Carbon $startTime
      * @return array
      */
-    public function getAllUsers(Request $request): array
+    public function getAllUsers(Request $request, Carbon $startTime): array
     {
-        $paginate_link = [];
+        $paginateLink = [];
         $page = [];
         $paginate = $request->query('page');
-        $name_en = $request->query('name_en');
-        $name_bn = $request->query('name_bn');
+        $nameEn = $request->query('name_en');
+        $nameBn = $request->query('name_bn');
         $email = $request->query('email');
 
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
+        /** @var User|Builder $users */
         $users = User::select([
             "users.id",
             "users.name_en",
@@ -79,11 +61,11 @@ class UserService
         $users->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
         $users->orderBy('users.id', $order);
 
-        if (!empty($name_en)) {
-            $users = $users->where('users.name_en', 'like', '%' . $name_en . '%');
+        if (!empty($nameEn)) {
+            $users = $users->where('users.name_en', 'like', '%' . $nameEn . '%');
         }
-        if (!empty($name_bn)) {
-            $users = $users->where('users.name_bn', 'like', '%' . $name_bn . '%');
+        if (!empty($nameBn)) {
+            $users = $users->where('users.name_bn', 'like', '%' . $nameBn . '%');
         }
         if (!empty($email)) {
             $users = $users->where('users.email', 'like', '%' . $email . '%');
@@ -93,36 +75,36 @@ class UserService
 
         if (!empty($paginate)) {
             $users = $users->paginate(10);
-            $paginate_data = (object)$users->toArray();
+            $paginateData = (object)$users->toArray();
             $page = [
-                "size" => $paginate_data->per_page,
-                "total_element" => $paginate_data->total,
-                "total_page" => $paginate_data->last_page,
-                "current_page" => $paginate_data->current_page
+                "size" => $paginateData->per_page,
+                "total_element" => $paginateData->total,
+                "total_page" => $paginateData->last_page,
+                "current_page" => $paginateData->current_page
             ];
-            $paginate_link = $paginate_data->links;
+            $paginateLink = $paginateData->links;
         } else {
             $users = $users->get();
         }
+
         $data = [];
         foreach ($users as $user) {
-            $_links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $user->id]);
-            $_links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $user->id]);
-            $_links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $user->id]);
-            $user['_links'] = $_links;
+            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $user->id]);
+            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $user->id]);
+            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $user->id]);
+            $user['_links'] = $links;
             $data[] = $user->toArray();
         }
         return [
-            "data" => $data,
+            "data" => $data ?: null,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $this->startTime,
-                "finished" => Carbon::now(),
+                "started" => $startTime->format('H i s'),
+                "finished" => Carbon::now()->format('H i s'),
             ],
             "_links" => [
-                'paginate' => $paginate_link,
+                'paginate' => $paginateLink,
                 'search' => [
                     'parameters' => [
                         'name',
@@ -134,16 +116,16 @@ class UserService
             "_page" => $page,
             "_order" => $order
         ];
-
     }
 
     /**
-     * @param Request $request
-     * @param $id
+     * @param int $id
+     * @param Carbon $startTime
      * @return array
      */
-    public function getOneUser(Request $request, int $id): array
+    public function getOneUser(int $id, Carbon $startTime): array
     {
+        /** @var User|Builder $user */
         $user = User::select([
             "users.id",
             "users.name_en",
@@ -169,11 +151,9 @@ class UserService
         $user->leftJoin('loc_divisions', 'loc_divisions.id', 'users.loc_division_id');
         $user->leftJoin('loc_districts', 'loc_districts.id', 'users.loc_district_id');
         $user->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
-        $user->where('users.row_status', User::ROW_STATUS_ACTIVE);
         $user = $user->where('users.id', $id)->first();
 
         $links = [];
-
         if (!empty($user)) {
             $links = [
                 'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $user->id]),
@@ -181,13 +161,12 @@ class UserService
             ];
         }
         return [
-            "data" => $user ? $user : [],
+            "data" => $user ?: null,
             "_response_status" => [
                 "success" => true,
                 "code" => JsonResponse::HTTP_OK,
-                "message" => "Job finished successfully.",
-                "started" => $this->startTime,
-                "finished" => Carbon::now(),
+                "started" => $startTime->format('H i s'),
+                "finished" => Carbon::now()->format('H i s'),
             ],
             "_links" => $links
         ];
@@ -198,10 +177,9 @@ class UserService
      * @param User $user
      * @return User
      */
-    public function store(array $data, User $user): User
+    public function store(User $user, array $data): User
     {
         return $user->create($data);
-
     }
 
     /**
@@ -211,7 +189,7 @@ class UserService
      */
     public function update(array $data, User $user): User
     {
-        $data['password']=Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
         $user->fill($data);
         $user->save($data);
         return $user;
@@ -238,9 +216,9 @@ class UserService
         return $user;
     }
 
-    public function assignPermission(User $user, array $permission_ids): User
+    public function assignPermission(User $user, array $permissionIds): User
     {
-        $validPermissions = Permission::whereIn('id', $permission_ids)->orderBy('id', 'ASC')->pluck('id')->toArray();
+        $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
         $user->permissions()->syncWithoutDetaching($validPermissions);
         return $user;
     }
@@ -248,9 +226,9 @@ class UserService
     /**
      * @param Request $request
      * @param int|null $id
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return Validator
      */
-    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request, int $id = null): Validator
     {
         $rules = [
             "role_id" => 'nullable|exists:roles,id',
@@ -265,10 +243,12 @@ class UserService
         ];
         if (!empty($id)) {
             $rules['email'] = 'required|email|unique:users,email,' . $id;
+            $rules['username'] = 'required|string|unique:users,username,' . $id;
         } else {
             $rules['email'] = 'required|email|unique:users,email';
+            $rules['username'] = 'required|string|unique:users,username';
         }
-        return Validator::make($request->all(), $rules);
+        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
     }
 
     public function roleIdValidation(Request $request): Validator
@@ -279,7 +259,7 @@ class UserService
         return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
     }
 
-    public function permissionValidation(Request $request):Validator
+    public function permissionValidation(Request $request): Validator
     {
         $rules = [
             'permissions' => 'required|array|min:1',

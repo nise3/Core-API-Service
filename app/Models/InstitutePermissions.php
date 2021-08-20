@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Ramsey\Collection\Collection;
 
 
 /**
  * App\Models\InstitutePermissions
  * @property int $institute_id
  * @property int $permission_id
- * @property-read Permission $permissions
+ * @property-read Permission[] $permissions
  */
 class InstitutePermissions extends BaseModel
 {
