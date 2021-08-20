@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class PermissionGroupController extends Controller
@@ -85,14 +86,13 @@ class PermissionGroupController extends Controller
         $validated = $this->permissionGroupService->validator($request)->validate();
 
         try {
-            /** @var PermissionGroup $permissionGroup */
             $permissionGroup = new PermissionGroup();
             $permissionGroup = $this->permissionGroupService->store($validated, $permissionGroup);
             $response = [
                 'data' => $permissionGroup,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_CREATED,
+                    "code" => ResponseAlias::HTTP_CREATED,
                     "message" => "PermissionGroup added successfully.",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -109,7 +109,7 @@ class PermissionGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -131,7 +131,7 @@ class PermissionGroupController extends Controller
                 'data' => $permissionGroup,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "PermissionGroup updated successfully.",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -148,7 +148,7 @@ class PermissionGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -166,7 +166,7 @@ class PermissionGroupController extends Controller
                 'data' => $permissionGroup,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "PermissionGroup deleted successfully.",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -183,12 +183,12 @@ class PermissionGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
     /**
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      * @throws ValidationException
      */
@@ -202,7 +202,7 @@ class PermissionGroupController extends Controller
             $response = [
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Permission(s) assigned into Permission Group successfully done",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -219,6 +219,6 @@ class PermissionGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }

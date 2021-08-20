@@ -2,12 +2,14 @@
 
 namespace App\Services\LocationManagementServices;
 
+use App\Models\BaseModel;
 use App\Models\LocDivision;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class LocService
@@ -37,7 +39,7 @@ class LocDivisionService
             'bbs_code',
         ]);
         $divisions->orderBy('id', $order);
-        $divisions->where('row_status', LocDivision::ROW_STATUS_ACTIVE);
+        $divisions->where('row_status', BaseModel::ROW_STATUS_ACTIVE);
 
         if (!empty($request->query('title_en'))) {
             $divisions->where('title_en', 'like', '%' . $request->query('title_en') . '%');
@@ -72,7 +74,7 @@ class LocDivisionService
             "data" => $data,
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],
@@ -108,7 +110,7 @@ class LocDivisionService
             'bbs_code'
         ])->where([
             'id' => $id,
-            'row_status' => LocDivision::ROW_STATUS_ACTIVE
+            'row_status' => BaseModel::ROW_STATUS_ACTIVE
         ])->first();
 
         if (!empty($division)) {
@@ -122,7 +124,7 @@ class LocDivisionService
             "data" => $division ? $division : [],
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],

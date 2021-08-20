@@ -2,7 +2,6 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
-use App\Events\DissociateEvent;
 use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class RoleService
 {
@@ -78,7 +78,7 @@ class RoleService
             "data" => $data,
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],
@@ -132,7 +132,7 @@ class RoleService
             "data" => $role ? $role : null,
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],

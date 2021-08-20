@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class UserController extends Controller
@@ -55,7 +56,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
     public function read(Request $request, int $id): JsonResponse
@@ -94,7 +95,7 @@ class UserController extends Controller
                 'data' => $user,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_CREATED,
+                    "code" => ResponseAlias::HTTP_CREATED,
                     "message" => "User added successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -111,7 +112,7 @@ class UserController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -132,7 +133,7 @@ class UserController extends Controller
                 'data' => $user,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "User updated successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -149,12 +150,12 @@ class UserController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
     public function destroy(int $id): JsonResponse
@@ -166,7 +167,7 @@ class UserController extends Controller
                 'data' => $user,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "User deleted successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -183,12 +184,12 @@ class UserController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
     /**
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      * @throws ValidationException
      */
@@ -202,7 +203,7 @@ class UserController extends Controller
                 'data' => $user,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Permission assigned into User successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -219,12 +220,12 @@ class UserController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
     /**
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      * @throws ValidationException
      */
@@ -238,7 +239,7 @@ class UserController extends Controller
                 'data' => $user,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Role assigned into User successfully.",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -255,6 +256,6 @@ class UserController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }

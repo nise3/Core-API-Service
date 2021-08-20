@@ -2,6 +2,7 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
+use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -11,6 +12,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class UserService
@@ -70,7 +72,7 @@ class UserService
         if (!empty($email)) {
             $users = $users->where('users.email', 'like', '%' . $email . '%');
         }
-        $users->where('users.row_status', User::ROW_STATUS_ACTIVE);
+        $users->where('users.row_status', BaseModel::ROW_STATUS_ACTIVE);
         $users->orderBy('users.id', $order);
 
         if (!empty($paginate)) {
@@ -99,7 +101,7 @@ class UserService
             "data" => $data ?: null,
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],
@@ -164,7 +166,7 @@ class UserService
             "data" => $user ?: null,
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],

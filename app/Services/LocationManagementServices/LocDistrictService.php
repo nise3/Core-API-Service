@@ -2,12 +2,13 @@
 
 namespace App\Services\LocationManagementServices;
 
+use App\Models\BaseModel;
 use App\Models\LocDistrict;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class LocDistrictService
 {
@@ -39,7 +40,7 @@ class LocDistrictService
         ]);
         $districts->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
         $districts->orderBy('loc_districts.id', $order);
-        $districts->where('loc_districts.row_status', LocDistrict::ROW_STATUS_ACTIVE);
+        $districts->where('loc_districts.row_status', BaseModel::ROW_STATUS_ACTIVE);
 
         if (!empty($titleEn)) {
             $districts->where('loc_districts.title_en', 'like', '%' . $titleEn . '%');
@@ -78,7 +79,7 @@ class LocDistrictService
             "data" => $data,
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],
@@ -119,7 +120,7 @@ class LocDistrictService
         ]);
         $district->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
         $district->where('loc_districts.id', $id);
-        $district->where('loc_districts.row_status', LocDistrict::ROW_STATUS_ACTIVE);
+        $district->where('loc_districts.row_status', BaseModel::ROW_STATUS_ACTIVE);
         $district = $district->first();
 
         if (!empty($district)) {
@@ -133,7 +134,7 @@ class LocDistrictService
             "data" => $district ? $district : [],
             "_response_status" => [
                 "success" => true,
-                "code" => JsonResponse::HTTP_OK,
+                "code" => Response::HTTP_OK,
                 "started" => $startTime->format('H i s'),
                 "finished" => Carbon::now()->format('H i s'),
             ],
@@ -167,7 +168,7 @@ class LocDistrictService
 
     /**
      * @param LocDistrict $locDistrict
-     * @return bool
+     * @return LocDistrict
      */
     public function destroy(LocDistrict $locDistrict): LocDistrict
     {

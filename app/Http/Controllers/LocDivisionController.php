@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class LocDivisionController extends Controller
@@ -90,12 +91,12 @@ class LocDivisionController extends Controller
     {
         $validated = $this->locDivisionService->validator($request)->validate();
         try {
-            $loc_division=$this->locDivisionService->store($validated);
+            $loc_division = $this->locDivisionService->store($validated);
             $response = [
-                'data'=>$loc_division,
+                'data' => $loc_division,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_CREATED,
+                    "code" => ResponseAlias::HTTP_CREATED,
                     "message" => "Division added successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -112,7 +113,7 @@ class LocDivisionController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -127,12 +128,12 @@ class LocDivisionController extends Controller
         $locDivision = LocDivision::findOrFail($id);
         $validated = $this->locDivisionService->validator($request)->validate();
         try {
-            $loc_division=$this->locDivisionService->update($validated, $locDivision);
+            $loc_division = $this->locDivisionService->update($validated, $locDivision);
             $response = [
-                'data'=>$loc_division,
+                'data' => $loc_division,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Division updated successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -149,7 +150,7 @@ class LocDivisionController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -161,12 +162,12 @@ class LocDivisionController extends Controller
     {
         $locDivision = LocDivision::findOrFail($id);
         try {
-            $loc_division=$this->locDivisionService->destroy($locDivision);
+            $loc_division = $this->locDivisionService->destroy($locDivision);
             $response = [
-                'data'=>$loc_division,
+                'data' => $loc_division,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Division deleted successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -183,6 +184,6 @@ class LocDivisionController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }

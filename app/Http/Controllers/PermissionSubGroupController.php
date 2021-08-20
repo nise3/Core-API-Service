@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
-use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
-use App\Services\UserRolePermissionManagementServices\PermissionGroupService;
 use App\Services\UserRolePermissionManagementServices\PermissionSubGroupService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class PermissionSubGroupController extends Controller
@@ -86,7 +85,7 @@ class PermissionSubGroupController extends Controller
                 'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_CREATED,
+                    "code" => ResponseAlias::HTTP_CREATED,
                     "message" => "Permission Sub Group added successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -103,7 +102,7 @@ class PermissionSubGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -122,7 +121,7 @@ class PermissionSubGroupController extends Controller
                 'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Permission Sub Group updated successfully",
                     "started" => $this->startTime,
                     "finished" => Carbon::now(),
@@ -139,14 +138,14 @@ class PermissionSubGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         try {
@@ -155,7 +154,7 @@ class PermissionSubGroupController extends Controller
                 'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Permission Sub Group deleted successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -172,10 +171,16 @@ class PermissionSubGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
-    public function assignPermissionToPermissionSubGroup(Request $request, int $id)
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function assignPermissionToPermissionSubGroup(Request $request, int $id): JsonResponse
     {
         $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->validator($request)->validated();
@@ -185,7 +190,7 @@ class PermissionSubGroupController extends Controller
                 'data' => $permissionSubGroup,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Permission added to PermissionSubGroup successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -202,6 +207,6 @@ class PermissionSubGroupController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\AuthService\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -31,16 +32,19 @@ class AuthController extends Controller
 
     }
 
-    public function logout()
+    public function logout(): array
     {
         return $this->authService->logout();
     }
 
-    public function profile()
+    public function profile(): array
     {
         return $this->authService->getProfile();
     }
 
+    /**
+     * @throws ValidationException
+     */
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
@@ -49,6 +53,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @throws ValidationException
+     */
     protected function validateRegister(Request $request)
     {
         $this->validate($request, [
@@ -63,12 +70,15 @@ class AuthController extends Controller
      *
      * @return string
      */
-    public function username()
+    public function username(): string
     {
         return 'email';
     }
 
-    public function register(Request $request)
+    /**
+     * @throws ValidationException
+     */
+    public function register(Request $request): array
     {
         $this->validateRegister($request);
 

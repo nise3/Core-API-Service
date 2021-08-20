@@ -6,16 +6,19 @@ namespace App\Services\AuthService;
 use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
+use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthService
 {
     /**
      * @param Request $request
-     * @return array
+     * @return JsonResponse | ResponseInterface
      */
     public function login(Request $request)
     {
@@ -40,14 +43,33 @@ class AuthService
                     "message" => 'Please provide valid Email/Password'
                 ]
             ];
-            return Response::json($response, JsonResponse::HTTP_FORBIDDEN);
+
+            return Response::json($response, ResponseAlias::HTTP_FORBIDDEN);
+
+        } catch (GuzzleException $e) {
+            $response = [
+                '_response_status' => [
+                    "success" => false,
+                    "code" => $e->getCode(),
+                    "message" => 'Opps! There is a problem in making the http call'
+                ]
+            ];
+            return Response::json($response, 500);
+        } finally {
+            $response = [
+                '_response_status' => [
+                    "success" => false,
+                    "code" => 500,
+                    "message" => 'Opps! There is a problem in making the http call'
+                ]
+            ];
+            return Response::json($response, 500);
         }
+
     }
 
-    /**
-     * @return array
-     */
-    public function logout(){
+    public function logout(): JsonResponse
+    {
         try {
             auth()->user()->tokens()->each(function ($token) {
                 $token->delete();
@@ -56,11 +78,11 @@ class AuthService
             $response = [
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => 'Logged out successfully'
                 ]
             ];
-            return Response::json($response, JsonResponse::HTTP_OK);
+            return Response::json($response, ResponseAlias::HTTP_OK);
 
         } catch (\Exception $ex) {
             $response = [
@@ -75,19 +97,20 @@ class AuthService
     }
 
     /**
-     * @return array
+     * @return JsonResponse
      */
-    public function getProfile(){
+    public function getProfile(): JsonResponse
+    {
         try {
             $response = [
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => 'Profile fetch successfully',
                     "data" => auth()->user()
                 ]
             ];
-            return Response::json($response, JsonResponse::HTTP_OK);
+            return Response::json($response, ResponseAlias::HTTP_OK);
 
         } catch (\Exception $ex) {
             $response = [
@@ -103,9 +126,10 @@ class AuthService
 
     /**
      * @param Request $request
-     * @return array
+     * @return JsonResponse
      */
-    public function register(Request $request){
+    public function register(Request $request): JsonResponse
+    {
         try {
             $user = User::create([
                 'name_en' => $request->name_en,
@@ -119,7 +143,7 @@ class AuthService
             $response = [
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => 'User Created Successfully',
                     "data" => $user
                 ]

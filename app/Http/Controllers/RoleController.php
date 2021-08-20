@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Classes\CustomExceptionHandler;
-use App\Models\PermissionGroup;
 use App\Services\UserRolePermissionManagementServices\RoleService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 /**
@@ -99,7 +99,7 @@ class RoleController extends Controller
                 'data' => $role,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_CREATED,
+                    "code" => ResponseAlias::HTTP_CREATED,
                     "message" => "Role added successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -116,7 +116,7 @@ class RoleController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
 
@@ -138,7 +138,7 @@ class RoleController extends Controller
                 'data' => $role,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Role updated successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -155,7 +155,7 @@ class RoleController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -167,12 +167,12 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         try {
-           $role=$this->roleService->destroy($role);
+            $role = $this->roleService->destroy($role);
             $response = [
                 'data' => $role,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Role deleted successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -189,7 +189,7 @@ class RoleController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
     public function assignPermissionToRole(Request $request, $id): JsonResponse
@@ -197,12 +197,12 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $validated = $this->roleService->validator($request)->validated();
         try {
-            $role=$this->roleService->assignPermission($role, $validated['permissions']);
+            $role = $this->roleService->assignPermission($role, $validated['permissions']);
             $response = [
-                'data'=>$role,
+                'data' => $role,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Permission assigned into Role successfully",
                     "started" => $this->startTime->format('H i s'),
                     "finished" => Carbon::now()->format('H i s'),
@@ -219,6 +219,6 @@ class RoleController extends Controller
             ];
             return Response::json($response, $response['_response_status']['code']);
         }
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }
