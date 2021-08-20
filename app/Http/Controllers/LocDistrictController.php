@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class LocDistrictController extends Controller
@@ -37,7 +38,7 @@ class LocDistrictController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getList(Request $request): JsonResponse
     {
@@ -88,7 +89,7 @@ class LocDistrictController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return JsonResponse
      * @throws ValidationException
      */
@@ -102,7 +103,7 @@ class LocDistrictController extends Controller
                 'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_CREATED,
+                    "code" => ResponseAlias::HTTP_CREATED,
                     "message" => "Job finished successfully.",
                     "started" => $this->startTime,
                     "finished" => Carbon::now(),
@@ -121,14 +122,14 @@ class LocDistrictController extends Controller
             return Response::json($response, $response['_response_status']['code']);
         }
 
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return JsonResponse
      * @throws ValidationException
@@ -146,7 +147,7 @@ class LocDistrictController extends Controller
                 'data' => $loc_district,
                 '_response_status' => [
                     "success" => true,
-                    "code" => JsonResponse::HTTP_OK,
+                    "code" => ResponseAlias::HTTP_OK,
                     "message" => "Job finished successfully.",
                     "started" => $this->startTime,
                     "finished" => Carbon::now(),
@@ -165,7 +166,7 @@ class LocDistrictController extends Controller
             return Response::json($response, $response['_response_status']['code']);
         }
 
-        return Response::json($response, JsonResponse::HTTP_CREATED);
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -201,6 +202,6 @@ class LocDistrictController extends Controller
             return Response::json($response, $response['_response_status']['code']);
         }
 
-        return Response::json($response, JsonResponse::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }
