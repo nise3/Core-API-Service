@@ -148,7 +148,7 @@ class AuthService
                     "data" => $user
                 ]
             ];
-            return Response::json($response, JsonResponse::HTTP_OK);
+            return Response::json($response, ResponseAlias::HTTP_OK);
 
         } catch (\Exception $ex) {
             $response = [
