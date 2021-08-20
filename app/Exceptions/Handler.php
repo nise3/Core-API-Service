@@ -2,13 +2,16 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -32,10 +35,10 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param \Throwable $exception
+     * @param Throwable $exception
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function report(Throwable $exception)
     {
@@ -45,9 +48,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable $exception
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param Throwable $e
+     * @return Response|JsonResponse
      *
      * @throws Throwable
      */
@@ -56,31 +59,31 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof HttpResponseException) {
             $errors = [
-                "code" => JsonResponse::HTTP_BAD_REQUEST,
+                "code" => ResponseAlias::HTTP_BAD_REQUEST,
                 "message" => "Invalid Request Format",
             ];
-            return \response()->json($errors);
+            return response()->json($errors);
 
         } elseif ($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
             $errors = [
-                "code" => JsonResponse::HTTP_NOT_FOUND,
+                "code" => ResponseAlias::HTTP_NOT_FOUND,
                 "message" => "404 not found",
             ];
-            return \response()->json($errors);
+            return response()->json($errors);
         } elseif ($e instanceof AuthorizationException) {
             $errors = [
-                "code" => JsonResponse::HTTP_FORBIDDEN,
+                "code" => ResponseAlias::HTTP_FORBIDDEN,
                 "message" => "Don't have permission to access",
             ];
-            return \response()->json($errors);
+            return response()->json($errors);
         }
         elseif ($e instanceof ValidationException) {
             $errors = [
-                "code" => JsonResponse::HTTP_FORBIDDEN,
+                "code" => ResponseAlias::HTTP_FORBIDDEN,
                 "message" => "Validation Fail",
                 'errors' => $e->errors()
             ];
-            return \response()->json($errors);
+            return response()->json($errors);
         }
         /*elseif ($e instanceof BindingResolutionException) {
             $errors = [
