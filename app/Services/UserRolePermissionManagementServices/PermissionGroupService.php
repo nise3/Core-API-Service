@@ -80,8 +80,7 @@ class PermissionGroupService
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
+               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
             ],
             "_links" => [
                 'paginate' => $paginateLink,
@@ -131,8 +130,7 @@ class PermissionGroupService
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
+               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
             ],
             "_links" => $links
         ];

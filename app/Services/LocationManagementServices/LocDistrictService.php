@@ -80,8 +80,7 @@ class LocDistrictService
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
+                "query_time" => $startTime->diffInSeconds(Carbon::now()),
             ],
             "_links" => [
                 'paginate' => $paginateLink,
@@ -135,8 +134,7 @@ class LocDistrictService
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
+                "query_time" => $startTime->diffInSeconds(Carbon::now()),
             ],
             "_links" => $links
         ];
@@ -172,8 +170,8 @@ class LocDistrictService
      */
     public function destroy(LocDistrict $locDistrict): LocDistrict
     {
-         $locDistrict->delete();
-         return $locDistrict;
+        $locDistrict->delete();
+        return $locDistrict;
     }
 
     public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
