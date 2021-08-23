@@ -90,7 +90,7 @@ class Handler extends ExceptionHandler
         elseif ($e instanceof Exception || $e instanceof TypeError) {
             $errors = [
                 "code" => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
-                "message" => "Http internal server error",
+                "message" => "Internal server error",
             ];
             return \response()->json($errors);
         }
