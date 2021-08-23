@@ -36,22 +36,14 @@ class LocDivisionController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return JsonResponse
+     * @return \Exception|JsonResponse|Throwable
      */
     public function getList(Request $request): JsonResponse
     {
         try {
             $response = $this->locDivisionService->getAllDivisions($request, $this->startTime);
         } catch (Throwable $e) {
-            $handler = new CustomExceptionHandler($e);
-            $response = [
-                '_response_status' => array_merge([
-                    "success" => false,
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
-                ], $handler->convertExceptionToArray())
-            ];
-            return Response::json($response, $response['_response_status']['code']);
+            return $e;
         }
         return Response::json($response);
     }
@@ -61,22 +53,14 @@ class LocDivisionController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return JsonResponse
+     * @return \Exception|JsonResponse|Throwable
      */
     public function read(Request $request, int $id): JsonResponse
     {
         try {
             $response = $this->locDivisionService->getOneDivision($id, $this->startTime);
         } catch (Throwable $e) {
-            $handler = new CustomExceptionHandler($e);
-            $response = [
-                '_response_status' => array_merge([
-                    "success" => false,
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
-                ], $handler->convertExceptionToArray())
-            ];
-            return Response::json($response, $response['_response_status']['code']);
+            return $e;
         }
         return Response::json($response);
     }
@@ -84,7 +68,7 @@ class LocDivisionController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param Request $request
-     * @return JsonResponse
+     * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -98,20 +82,11 @@ class LocDivisionController extends Controller
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
                     "message" => "Division added successfully",
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
         } catch (Throwable $e) {
-            $handler = new CustomExceptionHandler($e);
-            $response = [
-                '_response_status' => array_merge([
-                    "success" => false,
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
-                ], $handler->convertExceptionToArray())
-            ];
-            return Response::json($response, $response['_response_status']['code']);
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -120,13 +95,13 @@ class LocDivisionController extends Controller
      * Update the specified resource in storage.
      * @param Request $request
      * @param int $id
-     * @return JsonResponse
+     * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
         $locDivision = LocDivision::findOrFail($id);
-        $validated = $this->locDivisionService->validator($request)->validate();
+        $validated = $this->locDivisionService->validator($request, $id)->validate();
         try {
             $loc_division = $this->locDivisionService->update($validated, $locDivision);
             $response = [
@@ -135,20 +110,11 @@ class LocDivisionController extends Controller
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
                     "message" => "Division updated successfully",
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
         } catch (Throwable $e) {
-            $handler = new CustomExceptionHandler($e);
-            $response = [
-                '_response_status' => array_merge([
-                    "success" => false,
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
-                ], $handler->convertExceptionToArray())
-            ];
-            return Response::json($response, $response['_response_status']['code']);
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -156,33 +122,23 @@ class LocDivisionController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return JsonResponse
+     * @return \Exception|JsonResponse|Throwable
      */
     public function destroy(int $id): JsonResponse
     {
         $locDivision = LocDivision::findOrFail($id);
         try {
-            $loc_division = $this->locDivisionService->destroy($locDivision);
+          $this->locDivisionService->destroy($locDivision);
             $response = [
-                'data' => $loc_division,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
                     "message" => "Division deleted successfully",
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
         } catch (Throwable $e) {
-            $handler = new CustomExceptionHandler($e);
-            $response = [
-                '_response_status' => array_merge([
-                    "success" => false,
-                    "started" => $this->startTime->format('H i s'),
-                    "finished" => Carbon::now()->format('H i s'),
-                ], $handler->convertExceptionToArray())
-            ];
-            return Response::json($response, $response['_response_status']['code']);
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

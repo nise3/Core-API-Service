@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class LocDistrictService
@@ -19,12 +20,11 @@ class LocDistrictService
      */
     public function getAllDistricts(Request $request, Carbon $startTime): array
     {
-        $paginateLink = [];
-        $page = [];
         $titleEn = $request->query('title_en');
         $titleBn = $request->query('title_bn');
         $paginate = $request->query('page');
-        $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
+        $limit = $request->query('limit');
+        $order = $request->query('order', 'ASC');
         $divisionId = $request->query('division_id');
 
         /** @var LocDistrict|Builder $districts */
@@ -52,50 +52,27 @@ class LocDistrictService
             $districts->where('loc_districts.loc_division_id', $divisionId);
         }
 
-        if (!empty($paginate)) {
-            $districts = $districts->paginate(10);
+        if ($paginate || $limit) {
+            $limit=$limit?:10;
+            $districts = $districts->paginate($limit);
             $paginateData = (object)$districts->toArray();
-            $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
-            ];
-            $paginateLink = $paginateData->links;
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
         } else {
             $districts = $districts->get();
         }
 
-        $data = [];
-        foreach ($districts as $district) {
-            $links['read'] = route('api.v1.districts.read', ['id' => $district->id]);
-            $links['update'] = route('api.v1.districts.update', ['id' => $district->id]);
-            $links['delete'] = route('api.v1.districts.destroy', ['id' => $district->id]);
-            $district['_links'] = $links;
-            $data[] = $district->toArray();
-        }
-
-        return [
-            "data" => $data,
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => [
-                'paginate' => $paginateLink,
-                'search' => [
-                    'parameters' => [
-                        'title_en',
-                        'title_bn'
-                    ],
-                    '_link' => route('api.v1.districts.get-list')
-                ]
-            ],
-            "_page" => $page,
-            "_order" => $order
+        $response['order'] = $order;
+        $response['data'] = $districts->toArray()['data'] ?? $districts->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
         ];
+
+        return $response;
     }
 
     /**
@@ -105,8 +82,6 @@ class LocDistrictService
      */
     public function getOneDistrict(int $id, Carbon $startTime): array
     {
-        $links = [];
-
         /** @var LocDistrict|Builder $district */
         $district = LocDistrict::select([
             'loc_districts.id',
@@ -122,23 +97,13 @@ class LocDistrictService
         $district->where('loc_districts.id', $id);
         $district->where('loc_districts.row_status', BaseModel::ROW_STATUS_ACTIVE);
         $district = $district->first();
-
-        if (!empty($district)) {
-            $links = [
-                'update' => route('api.v1.districts.update', ['id' => $district->id]),
-                'delete' => route('api.v1.districts.destroy', ['id' => $district->id])
-            ];
-        }
-
         return [
             "data" => $district ? $district : [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => $links
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
         ];
     }
 
@@ -168,22 +133,25 @@ class LocDistrictService
 
     /**
      * @param LocDistrict $locDistrict
-     * @return LocDistrict
+     * @return bool
      */
-    public function destroy(LocDistrict $locDistrict): LocDistrict
+    public function destroy(LocDistrict $locDistrict): bool
     {
-         $locDistrict->delete();
-         return $locDistrict;
+        return $locDistrict->delete();
     }
 
-    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
             'loc_division_id' => 'required|numeric|exists:loc_divisions,id',
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
             'bbs_code' => 'nullable|min:1',
-            'division_bbs_code' => 'nullable|min:1|exists:loc_divisions,bbs_code'
+            'division_bbs_code' => 'nullable|min:1|exists:loc_divisions,bbs_code',
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
         ]);
     }
 }

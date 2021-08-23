@@ -4,12 +4,14 @@
 namespace App\Services\LocationManagementServices;
 
 
+use App\Models\BaseModel;
 use App\Models\LocUpazila;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class LocUpazilaService
 {
     const ROUTE_PREFIX = 'api.v1.upazilas.';
+
     /**
      * @param Request $request
      * @param Carbon $startTime
@@ -24,12 +27,11 @@ class LocUpazilaService
      */
     public function getAllUpazilas(Request $request, Carbon $startTime): array
     {
-        $paginateLink = [];
-        $page = [];
         $paginate = $request->query('page');
+        $limit = $request->query('limit');
         $districtId = $request->query('district_id');
         $divisionId = $request->query('division_id');
-        $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
+        $order = $request->query('order', 'ASC');
 
         /** @var LocUpazila|Builder $upazilas */
         $upazilas = LocUpazila::select([
@@ -64,49 +66,26 @@ class LocUpazilaService
             $upazilas->where('loc_upazilas.loc_division_id', $divisionId);
         }
 
-        if (!empty($paginate)) {
-            $upazilas = $upazilas->paginate(10);
+        if ($paginate || $limit) {
+            $limit = $limit ?: 10;
+            $upazilas = $upazilas->paginate($limit);
             $paginateData = (object)$upazilas->toArray();
-            $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
-            ];
-            $paginateLink = $paginateData->links;
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
         } else {
             $upazilas = $upazilas->get();
         }
 
-        $data = [];
-        foreach ($upazilas as $upazila) {
-            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $upazila->id]);
-            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $upazila->id]);
-            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $upazila->id]);
-            $upazila['_links'] = $links;
-            $data[] = $upazila->toArray();
-        }
-        return [
-            "data" => $data,
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => [
-                'paginate' => $paginateLink,
-                'search' => [
-                    'parameters' => [
-                        'title_en',
-                        'title_bn'
-                    ],
-                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
-                ]
-            ],
-            "_page" => $page,
-            "_order" => $order
+        $response['order'] = $order;
+        $response['data'] = $upazilas->toArray()['data'] ?? $upazilas->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
         ];
+        return $response;
     }
 
     /**
@@ -116,8 +95,6 @@ class LocUpazilaService
      */
     public function getOneUpazila(int $id, Carbon $startTime): array
     {
-        $links = [];
-
         /** @var LocUpazila|Builder $upazila */
         $upazila = LocUpazila::select([
             'loc_upazilas.id',
@@ -136,23 +113,13 @@ class LocUpazilaService
         $upazila->join('loc_districts', 'loc_districts.id', '=', 'loc_upazilas.loc_division_id');
         $upazila->where('loc_upazilas.id', $id);
         $upazila = $upazila->first();
-
-        if (!empty($upazila)) {
-            $links = [
-                'update' => route(self::ROUTE_PREFIX .'update', ['id' => $upazila->id]),
-                'delete' => route(self::ROUTE_PREFIX .'destroy', ['id' => $upazila->id])
-            ];
-        }
-
         return [
-            "data" => $upazila ?: null,
+            "data" => $upazila ?: [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => $links
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
         ];
     }
 
@@ -179,19 +146,19 @@ class LocUpazilaService
 
     /**
      * @param LocUpazila $locUpazila
-     * @return LocUpazila
+     * @return bool
      */
-    public function destroy(LocUpazila $locUpazila): LocUpazila
+    public function destroy(LocUpazila $locUpazila): bool
     {
-         $locUpazila->delete();
-         return $locUpazila;
+        return $locUpazila->delete();
+
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
             'loc_district_id' => 'required|numeric|exists:loc_districts,id',
@@ -200,7 +167,11 @@ class LocUpazilaService
             'district_bbs_code' => 'nullable|min:1|exists:loc_districts,bbs_code',
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
-            'bbs_code' => 'nullable|min:1'
+            'bbs_code' => 'nullable|min:1',
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
         ]);
     }
 }

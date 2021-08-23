@@ -12,6 +12,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -26,9 +27,8 @@ class UserService
      */
     public function getAllUsers(Request $request, Carbon $startTime): array
     {
-        $paginateLink = [];
-        $page = [];
         $paginate = $request->query('page');
+        $limit = $request->query('limit');
         $nameEn = $request->query('name_en');
         $nameBn = $request->query('name_bn');
         $email = $request->query('email');
@@ -37,23 +37,13 @@ class UserService
 
         /** @var User|Builder $users */
         $users = User::select([
-            "users.id",
-            "users.name_en",
-            "users.name_bn",
-            "users.email",
-            "users.profile_pic",
-            "users.role_id",
+            "users.*",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
-            "users.organization_id",
-            "users.institute_id",
-            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
-            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
-            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
@@ -75,49 +65,25 @@ class UserService
         $users->where('users.row_status', BaseModel::ROW_STATUS_ACTIVE);
         $users->orderBy('users.id', $order);
 
-        if (!empty($paginate)) {
-            $users = $users->paginate(10);
+        if ($paginate || $limit) {
+            $limit = $limit ?: 10;
+            $users = $users->paginate($limit);
             $paginateData = (object)$users->toArray();
-            $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
-            ];
-            $paginateLink = $paginateData->links;
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
         } else {
             $users = $users->get();
         }
-
-        $data = [];
-        foreach ($users as $user) {
-            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $user->id]);
-            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $user->id]);
-            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $user->id]);
-            $user['_links'] = $links;
-            $data[] = $user->toArray();
-        }
-        return [
-            "data" => $data ?: null,
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => [
-                'paginate' => $paginateLink,
-                'search' => [
-                    'parameters' => [
-                        'name',
-                        'key'
-                    ],
-                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
-                ]
-            ],
-            "_page" => $page,
-            "_order" => $order
+        $response['order'] = $order;
+        $response['data'] = $users->toArray()['data'] ?? $users->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
         ];
+        return $response;
     }
 
     /**
@@ -129,23 +95,13 @@ class UserService
     {
         /** @var User|Builder $user */
         $user = User::select([
-            "users.id",
-            "users.name_en",
-            "users.name_bn",
-            "users.email",
-            "users.profile_pic",
-            "users.role_id",
+            "users.*",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
-            "users.organization_id",
-            "users.institute_id",
-            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
-            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
-            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
@@ -155,22 +111,13 @@ class UserService
         $user->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
         $user = $user->where('users.id', $id)->first();
 
-        $links = [];
-        if (!empty($user)) {
-            $links = [
-                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $user->id]),
-                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $user->id])
-            ];
-        }
         return [
             "data" => $user ?: null,
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => $links
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
         ];
     }
 
@@ -233,23 +180,31 @@ class UserService
     public function validator(Request $request, int $id = null): Validator
     {
         $rules = [
+            "user_type" => "required|min:1",
+            "username" => 'required|string|unique:users,username,' . $id,
+            "organization_id" => 'nullable|numeric',
+            "institute_id" => 'nullable|numeric',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|min:3',
             "name_bn" => 'required|min:3',
-            "organization_id" => 'nullable|numeric',
-            "institute_id" => 'nullable|numeric',
-            "loc_district_id" => 'nullable|exists:loc_divisions,id',
+            "email" => 'required|email|unique:users,email,' . $id,
+            "mobile" => "nullable|string",
             "loc_division_id" => 'nullable|exists:loc_districts,id',
+            "loc_district_id" => 'nullable|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
-            "password" => 'nullable|min:6'
+            "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "password" => 'nullable|min:6',
+            "profile_pic" => 'nullable|string',
+            "created_by" => "nullable|numeric",
+            "updated_by" => "nullable|numeric",
+            "remember_token" => "nullable|string",
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+
         ];
-        if (!empty($id)) {
-            $rules['email'] = 'required|email|unique:users,email,' . $id;
-            $rules['username'] = 'required|string|unique:users,username,' . $id;
-        } else {
-            $rules['email'] = 'required|email|unique:users,email';
-            $rules['username'] = 'required|string|unique:users,username';
-        }
         return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
     }
 
@@ -263,10 +218,11 @@ class UserService
 
     public function permissionValidation(Request $request): Validator
     {
+        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
-        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        return \Illuminate\Support\Facades\Validator::make($data, $rules);
     }
 }
