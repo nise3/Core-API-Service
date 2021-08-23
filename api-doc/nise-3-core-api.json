@@ -1,0 +1,3778 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Nise 3 core api service",
+        "description": "API description in Markdown.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1",
+            "description": "",
+            "variables": {}
+        },
+        {
+            "url": "https://bus.softbd.xyz/devportal/apis",
+            "description": "",
+            "variables": {}
+        }
+    ],
+    "paths": {
+        "/divisions": {
+            "get": {
+                "summary": "Returns a list of divisions.",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 7,
+                                    "order": "asc",
+                                    "data": [
+                                        {
+                                            "id": 3,
+                                            "title_bn": "ঢাকা",
+                                            "title_en": "Dhaka",
+                                            "bbs_code": "30"
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Division"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "operationId": "store2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "1005",
+                                        "updated_at": "2021-08-22T07:58:27.000000Z",
+                                        "created_at": "2021-08-22T07:58:27.000000Z",
+                                        "id": 11
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Division added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Division"
+                ]
+            }
+        },
+        "/divisions/{divisionId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "divisionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 4,
+                                        "title_bn": "খুলনা",
+                                        "title_en": "Khulna",
+                                        "bbs_code": "40"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Division"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "divisionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "1000",
+                                        "row_status": "0",
+                                        "created_by": 0,
+                                        "updated_by": 0,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-22T07:55:13.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Division updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Division"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "divisionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Division deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Division"
+                ]
+            }
+        },
+        "/districts": {
+            "get": {
+                "summary": "get list",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "started": "10 15 45",
+                                        "finished": "10 15 45"
+                                    },
+                                    "_links": {
+                                        "paginate": [
+                                            {
+                                                "url": null,
+                                                "label": "pagination.previous",
+                                                "active": false
+                                            },
+                                            {
+                                                "url": "http://localhost:8000/api/v1/divisions?page=1",
+                                                "label": "1",
+                                                "active": true
+                                            },
+                                            {
+                                                "url": null,
+                                                "label": "pagination.next",
+                                                "active": false
+                                            }
+                                        ],
+                                        "search": {
+                                            "parameters": [
+                                                "title_en",
+                                                "title_bn"
+                                            ],
+                                            "_link": "http://localhost:8000/api/v1/divisions"
+                                        }
+                                    },
+                                    "_page": {
+                                        "size": 10,
+                                        "total_element": 9,
+                                        "total_page": 1,
+                                        "current_page": 1
+                                    },
+                                    "_order": "ASC"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/division_bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "loc_division_id": "1",
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "1000",
+                                        "division_bbs_code": "10",
+                                        "updated_at": "2021-08-22T07:07:33.000000Z",
+                                        "created_at": "2021-08-22T07:07:33.000000Z",
+                                        "id": 66
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "District added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            }
+        },
+        "/districts/{districtId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "districtId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "loc_division_id": 1,
+                                        "title_bn": "Test Title (BN)",
+                                        "title_en": "Test Title (EN)",
+                                        "bbs_code": "1000",
+                                        "division_bbs_code": "10",
+                                        "division_title_bn": "বরিশাল",
+                                        "division_title_en": "Barisal"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "name": "districtId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/division_bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "loc_division_id": "1",
+                                        "division_bbs_code": "10",
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "1000",
+                                        "row_status": "1",
+                                        "created_by": 1,
+                                        "updated_by": 1,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-22T07:12:02.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "District updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "name": "districtId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/division"
+                                },
+                                "example": {
+                                    "data": true,
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Division deleted successfully",
+                                        "started": "05 41 21",
+                                        "finished": "05 41 21"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "District"
+                ]
+            }
+        },
+        "/upazilas": {
+            "get": {
+                "summary": "get list",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/upazila"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 50,
+                                    "page_size": "10",
+                                    "total": 494,
+                                    "order": "asc",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "loc_district_id": 1,
+                                            "loc_division_id": 1,
+                                            "title_bn": "আমতলী ",
+                                            "title_en": "AMTALI",
+                                            "bbs_code": "09",
+                                            "district_title_bn": "Test Title (BN)",
+                                            "district_title_en": "Test Title (EN)",
+                                            "division_bbs_code": "10",
+                                            "division_title_bn": "Test Title (BN)",
+                                            "division_title_en": "Test Title (EN)"
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Upazila"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_district_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/division_bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/district_bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/upazila"
+                                },
+                                "example": {
+                                    "data": {
+                                        "loc_district_id": "1",
+                                        "loc_division_id": "1",
+                                        "division_bbs_code": "70",
+                                        "district_bbs_code": "10",
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "1001",
+                                        "updated_at": "2021-08-22T08:55:09.000000Z",
+                                        "created_at": "2021-08-22T08:55:09.000000Z",
+                                        "id": 496
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Upazila added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Upazila"
+                ]
+            }
+        },
+        "/upazilas/{upazilaId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "upazilaId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Upazila",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/upazila"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "loc_district_id": 1,
+                                        "loc_division_id": 1,
+                                        "title_bn": "আমতলী ",
+                                        "title_en": "AMTALI",
+                                        "bbs_code": "09",
+                                        "district_title_bn": "Test Title (BN)",
+                                        "district_title_en": "Test Title (EN)",
+                                        "division_bbs_code": "10",
+                                        "division_title_bn": "Test Title (BN)",
+                                        "division_title_en": "Test Title (EN)"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Upazila"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "name": "upazilaId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_district_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/division_bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/district_bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bbs_code"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/upazila"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "loc_division_id": "1",
+                                        "loc_district_id": "1",
+                                        "division_bbs_code": "70",
+                                        "district_bbs_code": "10",
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "bbs_code": "1000",
+                                        "row_status": "0",
+                                        "created_by": 1,
+                                        "updated_by": 1,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-22T08:57:43.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Upazila updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Upazila"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "name": "upazilaId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/upazila"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Upazila deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Upazila"
+                ]
+            }
+        },
+        "/permissions": {
+            "get": {
+                "summary": "get list",
+                "description": "Provide Permission",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/uri_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permission"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 4,
+                                    "page_size": "10",
+                                    "total": 40,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 2,
+                                            "name": "divisions-read",
+                                            "uri": "api/v1/divisions/{id}",
+                                            "row_status": 1,
+                                            "created_at": "2021-08-11T12:23:12.000000Z",
+                                            "updated_at": "2021-08-11T12:23:12.000000Z"
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Permission"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/uri"
+                    },
+                    {
+                        "$ref": "#/components/parameters/method"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permission"
+                                },
+                                "example": {
+                                    "data": {
+                                        "name": "Demo Name",
+                                        "method": "1",
+                                        "uri": "api/v1/demo_name",
+                                        "updated_at": "2021-08-22T10:01:18.000000Z",
+                                        "created_at": "2021-08-22T10:01:18.000000Z",
+                                        "id": 42
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Permission added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Permission"
+                ]
+            }
+        },
+        "/permissions/{permissionId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "permissionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Permission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permission"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "name": "Demo Named",
+                                        "uri": "api/v1/demod",
+                                        "row_status": 1,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-22T10:03:38.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Permission"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "name": "permissionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/uri"
+                    },
+                    {
+                        "$ref": "#/components/parameters/method"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update Permission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permission"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "name": "Demo Named",
+                                        "uri": "api/v1/demod",
+                                        "method": "1",
+                                        "row_status": 1,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-22T10:03:38.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Permission"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "name": "permissionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permission"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Permission"
+                ]
+            }
+        },
+        "/permissions/{instituteId}/assign-permissions-to-institute": {
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "name": "instituteId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/permissions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/institutePermissions"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission assigned into Organization successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Permission"
+                ]
+            }
+        },
+        "/permissions/{organizationId}/assign-permissions-to-organization": {
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "name": "organizationId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/permissions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/organizationPermission"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission assigned into Organization successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Permission"
+                ]
+            }
+        },
+        "/roles": {
+            "get": {
+                "summary": "get list",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/role"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 5,
+                                    "order": "asc",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_bn": "সুপার এডমিন",
+                                            "title_en": "Super Admin",
+                                            "key": "super_admin",
+                                            "description": null,
+                                            "permission_group_id": null,
+                                            "organization_id": null,
+                                            "institute_id": null,
+                                            "permission_group_title_en": null,
+                                            "permission_group_title_bn": null,
+                                            "row_status": 1,
+                                            "created_at": null,
+                                            "updated_at": null
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Role"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/description"
+                    },
+                    {
+                        "$ref": "#/components/parameters/permission_group_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/role"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                                        "key": "demo_key",
+                                        "updated_at": "2021-08-23T04:17:31.000000Z",
+                                        "created_at": "2021-08-23T04:17:31.000000Z",
+                                        "id": 6
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Role added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Role"
+                ]
+            }
+        },
+        "/roles/{roleId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/role"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_bn": "সুপার এডমিন",
+                                        "title_en": "Super Admin",
+                                        "key": "super_admin",
+                                        "description": null,
+                                        "permission_group_id": null,
+                                        "organization_id": null,
+                                        "institute_id": null,
+                                        "permission_group_title_en": null,
+                                        "permission_group_title_bn": null,
+                                        "row_status": 1,
+                                        "created_at": null,
+                                        "updated_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Role"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/description"
+                    },
+                    {
+                        "$ref": "#/components/parameters/permission_group_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/role"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "key": "super_admin",
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "permission_group_id": null,
+                                        "organization_id": null,
+                                        "institute_id": null,
+                                        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                                        "row_status": 1,
+                                        "created_at": null,
+                                        "updated_at": "2021-08-23T04:26:16.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Role updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Role"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/role"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Role deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Role"
+                ]
+            }
+        },
+        "/roles/{roleId}/assign-permissions": {
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/permissions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rolePermissions"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 2,
+                                        "key": "system_admin",
+                                        "title_en": "System Admin",
+                                        "title_bn": "সিস্টেম এডমিন",
+                                        "permission_group_id": null,
+                                        "organization_id": null,
+                                        "institute_id": null,
+                                        "description": null,
+                                        "row_status": 1,
+                                        "created_at": null,
+                                        "updated_at": null,
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission assigned into Role successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Role"
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "summary": "get list",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/email_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 2,
+                                    "page_size": "10",
+                                    "total": 15,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "user_type": 0,
+                                            "username": "gkerluke",
+                                            "organization_id": null,
+                                            "institute_id": null,
+                                            "role_id": 1,
+                                            "name_en": "Dr. Quincy Schinner IV",
+                                            "name_bn": "Selina Blanda",
+                                            "email": "freeman.bartell@example.org",
+                                            "mobile": null,
+                                            "loc_division_id": null,
+                                            "loc_district_id": null,
+                                            "loc_upazila_id": null,
+                                            "email_verified_at": "2021-08-11T12:23:12.000000Z",
+                                            "mobile_verified_at": null,
+                                            "profile_pic": null,
+                                            "row_status": 1,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-08-11T12:23:13.000000Z",
+                                            "updated_at": "2021-08-11T12:23:13.000000Z",
+                                            "deleted_at": null,
+                                            "role_title_en": "Test Title (EN)",
+                                            "role_title_bn": "Test Title (BN)",
+                                            "loc_divisions_title_en": null,
+                                            "loc_divisions_title_bn": null,
+                                            "loc_district_title_en": null,
+                                            "loc_district_title_bn": null,
+                                            "loc_upazila_title_en": null,
+                                            "loc_upazila_title_bn": null
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/user_type"
+                    },
+                    {
+                        "$ref": "#/components/parameters/username"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/email"
+                    },
+                    {
+                        "$ref": "#/components/parameters/mobile"
+                    },
+                    {
+                        "$ref": "#/components/parameters/role_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_district_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_upazila_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/password"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                },
+                                "example": {
+                                    "data": {
+                                        "user_type": "1",
+                                        "username": "ডেমো নাম",
+                                        "organization_id": "1",
+                                        "institute_id": "1",
+                                        "role_id": "1",
+                                        "name_en": "Demo Name En",
+                                        "name_bn": "ডেমো নাম",
+                                        "email": "user1@gmail.com",
+                                        "mobile": "0176667711",
+                                        "loc_division_id": "1",
+                                        "loc_district_id": "1",
+                                        "loc_upazila_id": "1",
+                                        "updated_at": "2021-08-23T07:16:51.000000Z",
+                                        "created_at": "2021-08-23T07:16:51.000000Z",
+                                        "id": 16
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "User added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "user_type": 0,
+                                        "username": "gkerluke",
+                                        "organization_id": null,
+                                        "institute_id": null,
+                                        "role_id": 1,
+                                        "name_en": "Dr. Quincy Schinner IV",
+                                        "name_bn": "Selina Blanda",
+                                        "email": "freeman.bartell@example.org",
+                                        "mobile": null,
+                                        "loc_division_id": null,
+                                        "loc_district_id": null,
+                                        "loc_upazila_id": null,
+                                        "email_verified_at": "2021-08-11T12:23:12.000000Z",
+                                        "mobile_verified_at": null,
+                                        "profile_pic": null,
+                                        "row_status": 1,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-08-11T12:23:13.000000Z",
+                                        "updated_at": "2021-08-11T12:23:13.000000Z",
+                                        "deleted_at": null,
+                                        "role_title_en": "Test Title (EN)",
+                                        "role_title_bn": "Test Title (BN)",
+                                        "loc_divisions_title_en": null,
+                                        "loc_divisions_title_bn": null,
+                                        "loc_district_title_en": null,
+                                        "loc_district_title_bn": null,
+                                        "loc_upazila_title_en": null,
+                                        "loc_upazila_title_bn": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_type"
+                    },
+                    {
+                        "$ref": "#/components/parameters/username"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/email"
+                    },
+                    {
+                        "$ref": "#/components/parameters/mobile"
+                    },
+                    {
+                        "$ref": "#/components/parameters/role_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_division_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_district_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/loc_upazila_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/password"
+                    },
+                    {
+                        "$ref": "#/components/parameters/email_verified_at"
+                    },
+                    {
+                        "$ref": "#/components/parameters/mobile_verified_at"
+                    },
+                    {
+                        "$ref": "#/components/parameters/remember_token"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 16,
+                                        "user_type": "1",
+                                        "username": "ডেমো নাম",
+                                        "organization_id": "1",
+                                        "institute_id": "1",
+                                        "role_id": "1",
+                                        "name_en": "Demo Name En",
+                                        "name_bn": "ডেমো নাম",
+                                        "email": "user1@gmail.com",
+                                        "mobile": "11111",
+                                        "loc_division_id": "1",
+                                        "loc_district_id": "1",
+                                        "loc_upazila_id": "1",
+                                        "email_verified_at": null,
+                                        "mobile_verified_at": null,
+                                        "profile_pic": null,
+                                        "row_status": "1",
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-08-23T07:16:51.000000Z",
+                                        "updated_at": "2021-08-23T07:40:28.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "User updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "User deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/users/{userId}/assign-role": {
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "role_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "user_type": 0,
+                                        "username": "gkerluke",
+                                        "organization_id": null,
+                                        "institute_id": null,
+                                        "role_id": 1,
+                                        "name_en": "Dr. Quincy Schinner IV",
+                                        "name_bn": "Selina Blanda",
+                                        "email": "freeman.bartell@example.org",
+                                        "mobile": null,
+                                        "loc_division_id": null,
+                                        "loc_district_id": null,
+                                        "loc_upazila_id": null,
+                                        "email_verified_at": "2021-08-11T12:23:12.000000Z",
+                                        "mobile_verified_at": null,
+                                        "profile_pic": null,
+                                        "row_status": 1,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-08-11T12:23:13.000000Z",
+                                        "updated_at": "2021-08-11T12:23:13.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Role assigned into User successfully.",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/users/{userId}/assign-permissions": {
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/permissions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userPermissions"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "user_type": 0,
+                                        "username": "gkerluke",
+                                        "organization_id": null,
+                                        "institute_id": null,
+                                        "role_id": 1,
+                                        "name_en": "Dr. Quincy Schinner IV",
+                                        "name_bn": "Selina Blanda",
+                                        "email": "freeman.bartell@example.org",
+                                        "mobile": null,
+                                        "loc_division_id": null,
+                                        "loc_district_id": null,
+                                        "loc_upazila_id": null,
+                                        "email_verified_at": "2021-08-11T12:23:12.000000Z",
+                                        "mobile_verified_at": null,
+                                        "profile_pic": null,
+                                        "row_status": 1,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-08-11T12:23:13.000000Z",
+                                        "updated_at": "2021-08-11T12:23:13.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission assigned into User successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/permission-groups": {
+            "get": {
+                "summary": "get list",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionGroup"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 7,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "Professor En",
+                                            "title_bn": "Professor Bn",
+                                            "key": "professor",
+                                            "row_status": 1,
+                                            "created_at": "2021-08-11T12:23:12.000000Z",
+                                            "updated_at": "2021-08-11T12:23:12.000000Z"
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "PermissionGroup"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/key"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionGroup"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "key": "demo_key",
+                                        "updated_at": "2021-08-23T08:12:53.000000Z",
+                                        "created_at": "2021-08-23T08:12:53.000000Z",
+                                        "id": 8
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "PermissionGroup added successfully.",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "PermissionGroup"
+                ]
+            }
+        },
+        "/permission-groups/{permissionGroupId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "permissionGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionGroup"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "Professor En",
+                                        "title_bn": "Professor Bn",
+                                        "key": "professor",
+                                        "row_status": 1,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-11T12:23:12.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "PermissionGroup"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "name": "permissionGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionGroup"
+                                },
+                                "example":{
+                                    "data": {
+                                        "id": 8,
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "key": "demo_key",
+                                        "row_status": "1",
+                                        "created_at": "2021-08-23T08:12:53.000000Z",
+                                        "updated_at": "2021-08-23T08:12:53.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "PermissionGroup updated successfully.",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "PermissionGroup"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "name": "permissionGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionGroup"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "PermissionGroup deleted successfully.",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "PermissionGroup"
+                ]
+            }
+        },
+        "/permission-groups/{permissionGroupId}/assign-permissions": {
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "name": "permissionGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/permissions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionGroupPermissions"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission(s) assigned into Permission Group successfully done",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "PermissionGroup"
+                ]
+            }
+        },
+        "/permission-sub-groups": {
+            "get": {
+                "summary": "get list",
+                "description": "Optional extended description in Markdown.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionSubGroupPermissions"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 2,
+                                    "page_size": "10",
+                                    "total": 15,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 7,
+                                            "permission_group_id": 3,
+                                            "title_en": "Community Service Manager En",
+                                            "title_bn": "Community Service Manager Bn",
+                                            "key": "community_service_manager",
+                                            "row_status": 1,
+                                            "created_at": "2021-08-11T12:23:12.000000Z",
+                                            "updated_at": "2021-08-11T12:23:12.000000Z",
+                                            "permission_group_title_en": "Maintenance Equipment Operator En",
+                                            "permission_group_title_bn": "Maintenance Equipment Operator Bn"
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "PermissionSubGroup"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/permission_group_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/key"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionSubGroup"
+                                },
+                                "example": {
+                                    "data": {
+                                        "permission_group_id": "3",
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "key": "demo_key",
+                                        "updated_at": "2021-08-23T08:56:41.000000Z",
+                                        "created_at": "2021-08-23T08:56:41.000000Z",
+                                        "id": 22
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Permission Sub Group added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "PermissionSubGroup"
+                ]
+            }
+        },
+        "/permission-sub-groups/{permissionSubGroupId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "name": "permissionSubGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Permission Sub Group",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionSubGroup"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 7,
+                                        "permission_group_id": 3,
+                                        "title_en": "Community Service Manager En",
+                                        "title_bn": "Community Service Manager Bn",
+                                        "key": "community_service_manager",
+                                        "row_status": 1,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-11T12:23:12.000000Z",
+                                        "permission_group_title_en": "Maintenance Equipment Operator En",
+                                        "permission_group_title_bn": "Maintenance Equipment Operator Bn"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "started": "08 57 51",
+                                        "finished": "08 57 51"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "PermissionSubGroup"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "name": "permissionSubGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/permission_group_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get one Division",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionSubGroup"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 22,
+                                        "permission_group_id": "3",
+                                        "title_en": "Test Title (EN)",
+                                        "title_bn": "Test Title (BN)",
+                                        "key": "demo_key",
+                                        "row_status": "0",
+                                        "created_at": "2021-08-23T08:56:41.000000Z",
+                                        "updated_at": "2021-08-23T09:00:08.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission Sub Group updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "PermissionSubGroup"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "name": "permissionSubGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionSubGroup"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission Sub Group deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "PermissionSubGroup"
+                ]
+            }
+        },
+        "/permission-sub-groups/{permissionSubGroupId}/assign-permissions": {
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "name": "permissionSubGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/permissions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/permissionSubGroupPermissions"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 20,
+                                        "permission_group_id": 7,
+                                        "title_en": "Teacher Assistant En",
+                                        "title_bn": "Teacher Assistant Bn",
+                                        "key": "teacher_assistant",
+                                        "row_status": 1,
+                                        "created_at": "2021-08-11T12:23:12.000000Z",
+                                        "updated_at": "2021-08-11T12:23:12.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Permission added to PermissionSubGroup successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "PermissionSubGroup"
+                ]
+            }
+        }
+    },
+    "components": {
+        "parameters": {
+            "page": {
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "limit": {
+                "name": "limit",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example": 10
+                }
+            },
+            "order": {
+                "in": "query",
+                "name": "order",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "row_status": {
+                "name": "row_status",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        0
+                    ]
+                }
+            },
+            "title_bn": {
+                "name": "title_bn",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "Test Title (BN)"
+                }
+            },
+            "title_bn_optional": {
+                "name": "title_bn",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "title_en": {
+                "name": "title_en",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "Test Title (EN)"
+                }
+            },
+            "title_en_optional": {
+                "name": "title_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "bbs_code": {
+                "name": "bbs_code",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 4,
+                    "example": "1000"
+                }
+            },
+            "loc_division_id": {
+                "name": "loc_division_id",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "loc_division_id_optional": {
+                "name": "loc_division_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "loc_district_id": {
+                "name": "loc_district_id",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "loc_district_id_optional": {
+                "name": "loc_district_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "division_bbs_code": {
+                "name": "division_bbs_code",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 4,
+                    "minLength": 1,
+                    "example": 10
+                }
+            },
+            "district_bbs_code": {
+                "name": "district_bbs_code",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 4,
+                    "minLength": 1,
+                    "example": 1
+                }
+            },
+            "name": {
+                "name": "name",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "Demo Name"
+                }
+            },
+            "name_optional": {
+                "name": "name",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "uri": {
+                "name": "uri",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "method": {
+                "name": "method",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "number",
+                    "example": "1"
+                }
+            },
+            "uri_optional": {
+                "name": "uri",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "name_en": {
+                "name": "name_en",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "Demo Name En"
+                }
+            },
+            "name_en_optional": {
+                "name": "name_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "Demo Name En"
+                }
+            },
+            "name_bn": {
+                "name": "name_bn",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "name_bn_optional": {
+                "name": "name_bn",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "username": {
+                "name": "username",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "username_optional": {
+                "name": "username",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "ডেমো নাম"
+                }
+            },
+            "key": {
+                "name": "key",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "demo_key"
+                }
+            },
+            "key_optional": {
+                "name": "key",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "demo_key"
+                }
+            },
+            "email": {
+                "name": "email",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user1@gmail.com"
+                }
+            },
+            "email_optional": {
+                "name": "email",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email"
+                }
+            },
+            "organization_id": {
+                "name": "organization_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "institute_id": {
+                "name": "institute_id",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "institute_id_optional": {
+                "name": "institute_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "loc_upazila_id": {
+                "name": "loc_upazila_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "password": {
+                "name": "password",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "password"
+                }
+            },
+            "permission_group_id": {
+                "name": "permission_group_id",
+                "in": "query",
+                "required": true,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "permission_group_id_optional": {
+                "name": "permission_group_id",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "description": {
+                "name": "description",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                }
+            },
+            "permissions": {
+                "name": "permissions",
+                "in": "query",
+                "style": "form",
+                "required": true,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "uniqueItems": true
+                    }
+                }
+            },
+            "user_type": {
+                "in": "query",
+                "name": "user_type",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "mobile": {
+                "in": "query",
+                "name": "mobile",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "role_id": {
+                "in": "query",
+                "name": "role_id",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "profile_pic": {
+                "in": "query",
+                "name": "profile_pic",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "description": "Provide Image Url"
+                }
+            },
+            "created_by": {
+                "in": "query",
+                "name": "created_by",
+                "required": false,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "updated_by": {
+                "in": "query",
+                "name": "updated_by",
+                "required": false,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "email_verified_at": {
+                "in": "query",
+                "name": "email_verified_at",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "mobile_verified_at": {
+                "in": "query",
+                "name": "mobile_verified_at",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "remember_token": {
+                "in": "query",
+                "name": "remember_token",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas": {
+            "division": {
+                "type": "object",
+                "description": "Provide the Loc Division",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": "Division Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": "Division Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "bbs_code": {
+                        "type": "string",
+                        "description": "Division BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "Division activation status",
+                        "enum": [
+                            1,
+                            0,
+                            99
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "Division creater id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Division modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn"
+                ]
+            },
+            "district": {
+                "type": "object",
+                "description": "Provide the Loc District",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "loc_division_id": {
+                        "type": "integer",
+                        "description": "Division Id"
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": "District Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": "District Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "bbs_code": {
+                        "type": "string",
+                        "description": "District BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "division_bbs_code": {
+                        "type": "string",
+                        "description": "Division BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0,
+                            99
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "District creater id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "District modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "loc_division_id",
+                    "title_en",
+                    "title_bn"
+                ]
+            },
+            "upazila": {
+                "type": "object",
+                "description": "Provide the Loc Upazila Data",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "loc_division_id": {
+                        "type": "integer",
+                        "description": "Division Id"
+                    },
+                    "loc_district_id": {
+                        "type": "integer",
+                        "description": "Division Id"
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": "District Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": "District Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "bbs_code": {
+                        "type": "string",
+                        "description": "District BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "division_bbs_code": {
+                        "type": "string",
+                        "description": "Division BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "district_bbs_code": {
+                        "type": "string",
+                        "description": "Division BBS code",
+                        "minLength": 1,
+                        "maxLength": 4
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0,
+                            99
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "District creater id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "District modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "loc_division_id",
+                    "title_en",
+                    "title_bn"
+                ]
+            },
+            "permission": {
+                "type": "object",
+                "description": "Provide Permission Data",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "type": "integer",
+                        "description": "Permission Title"
+                    },
+                    "uri": {
+                        "type": "string",
+                        "description": "Permission Uri"
+                    },
+                    "method": {
+                        "type": "integer",
+                        "example": "1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE",
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ]
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "example": "1=>Active,0=>Inactive,99=>Delete",
+                        "enum": [
+                            1,
+                            0,
+                            99
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "name",
+                    "uri",
+                    "method"
+                ]
+            },
+            "organizationPermission": {
+                "type": "object",
+                "description": "Associate model",
+                "properties": {
+                    "organization_id": {
+                        "type": "integer"
+                    },
+                    "permission_id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "organization_id",
+                    "permission_id"
+                ]
+            },
+            "institutePermissions": {
+                "type": "object",
+                "description": "Associate model",
+                "properties": {
+                    "institute_id": {
+                        "type": "integer"
+                    },
+                    "permission_id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "institute_id",
+                    "permission_id"
+                ]
+            },
+            "role": {
+                "type": "object",
+                "description": "Provide roles",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "key": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "title_en": {
+                        "type": "string"
+                    },
+                    "title_bn": {
+                        "type": "string"
+                    },
+                    "permission_group_id": {
+                        "type": "integer"
+                    },
+                    "organization_id": {
+                        "type": "integer"
+                    },
+                    "institute_id": {
+                        "type": "integer"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "example": "1=>Active,0=>InActive",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                }
+            },
+            "rolePermissions": {
+                "type": "object",
+                "description": "Associate model",
+                "properties": {
+                    "role_id": {
+                        "type": "integer"
+                    },
+                    "permission_id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "role_id",
+                    "permission_id"
+                ]
+            },
+            "user": {
+                "type": "object",
+                "description": "Provide User Information",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "user_type": {
+                        "type": "integer"
+                    },
+                    "organization_id": {
+                        "type": "integer"
+                    },
+                    "institute_id": {
+                        "type": "integer"
+                    },
+                    "role_id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "name_en": {
+                        "type": "string"
+                    },
+                    "name_bn": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "mobile": {
+                        "type": "string"
+                    },
+                    "loc_division_id": {
+                        "type": "integer",
+                        "description": "Division Id"
+                    },
+                    "loc_district_id": {
+                        "type": "integer",
+                        "description": "District Id"
+                    },
+                    "loc_upazila_id": {
+                        "type": "integer",
+                        "description": "Upazila Id"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "mobile_verified_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "profile_pic": {
+                        "type": "string"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "example": "1=>Active,0=>InActive"
+                    },
+                    "created_by": {
+                        "type": "integer"
+                    },
+                    "updated_by": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at":{
+                        "type": "string",
+                        "format": "date-time"
+                    }
+
+                },
+                "required": [
+                    "user_type",
+                    "username",
+                    "name_en",
+                    "name_bn",
+                    "email"
+                ]
+            },
+            "userPermissions": {
+                "type": "object",
+                "description": "Associate model",
+                "properties": {
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "permission_id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "user_id",
+                    "permission_id"
+                ]
+            },
+            "permissionGroup": {
+                "type": "object",
+                "description": "Provide Permission Group",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string"
+                    },
+                    "title_bn": {
+                        "type": "string"
+                    },
+                    "key": {
+                        "type": "string"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "example": "1=>Active,0=>InActive"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at":{
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn",
+                    "key"
+                ]
+            },
+            "permissionGroupPermissions": {
+                "type": "object",
+                "description": "Associate model",
+                "properties": {
+                    "permission_group_id": {
+                        "type": "integer"
+                    },
+                    "permission_id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "permission_group_id",
+                    "permission_id"
+                ]
+            },
+            "permissionSubGroup": {
+                "type": "object",
+                "description": "Provide Permission Group",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "permission_group_id": {
+                        "type": "integer"
+                    },
+                    "title_en": {
+                        "type": "string"
+                    },
+                    "title_bn": {
+                        "type": "string"
+                    },
+                    "key": {
+                        "type": "string"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "example": "1=>Active,0=>InActive"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at":{
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "permission_group_id",
+                    "title_en",
+                    "title_bn",
+                    "key"
+                ]
+            },
+            "permissionSubGroupPermissions": {
+                "type": "object",
+                "description": "Associate model",
+                "properties": {
+                    "permission_sub_group_id": {
+                        "type": "integer"
+                    },
+                    "permission_id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "permission_sub_group_id",
+                    "permission_id"
+                ]
+            }
+        }
+    }
+}

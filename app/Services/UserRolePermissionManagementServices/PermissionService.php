@@ -13,13 +13,14 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use PhpParser\Node\Expr\Cast\Object_;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionService
 {
-    const ROUTE_PREFIX = 'api.v1.permissions.';
 
     /**
      * @param Request $request
@@ -28,9 +29,8 @@ class PermissionService
      */
     public function getAllPermissions(Request $request, Carbon $startTime): array
     {
-        $paginateLink = [];
-        $page = [];
         $paginate = $request->query('page');
+        $limit = $request->query('limit');
         $searchFilter = $request->query('name');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
@@ -38,7 +38,10 @@ class PermissionService
         $permissionBuilder = Permission::select([
             'id',
             'name',
-            'uri'
+            'uri',
+            'row_status',
+            'created_at',
+            'updated_at'
         ]);
 
         $permissionBuilder->orderBy('id', $order);
@@ -47,52 +50,26 @@ class PermissionService
             $permissionBuilder->where('name', 'like', '%' . $searchFilter . '%');
         }
 
-        if (!empty($paginate)) {
+        if ($paginate || $limit) {
+            $limit = $limit ?: 10;
             /** @var Collection|Permission $permissions */
-            $permissions = $permissionBuilder->paginate(10);
+            $permissions = $permissionBuilder->paginate($limit);
             $paginateData = (object)$permissions->toArray();
-            $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
-            ];
-            $paginateLink = $paginateData->links;
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
         } else {
             $permissions = $permissionBuilder->get();
         }
-
-        $data = [];
-        foreach ($permissions as $permission) {
-            /** @var  Permission $permission */
-            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
-            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
-            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
-            $permission['_links'] = $links;
-            $data[] = $permission->toArray();
-        }
-
-        return [
-            "data" => $data ?: null,
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => [
-                'paginate' => $paginateLink,
-                'search' => [
-                    'parameters' => [
-                        'name',
-                        'key'
-                    ],
-                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
-                ]
-            ],
-            "_page" => $page,
-            "_order" => $order
+        $response['order'] = $order;
+        $response['data'] = $permissions->toArray()['data'] ?? $permissions->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
         ];
+        return $response;
     }
 
     /**
@@ -106,29 +83,22 @@ class PermissionService
         $permissionBuilder = Permission::select([
             'id',
             'name',
-            'uri'
+            'uri',
+            'row_status',
+            'created_at',
+            'updated_at'
         ]);
         $permissionBuilder->where('id', $id);
 
         $permission = $permissionBuilder->first();
-
-        $links = [];
-        if (!empty($permission)) {
-            $links = [
-                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]),
-                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id])
-            ];
-        }
-
         return [
-            "data" => $permission ?: null,
+            "data" => $permission ?: [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "started" => $startTime->format('H i s'),
-                "finished" => Carbon::now()->format('H i s'),
-            ],
-            "_links" => $links
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
+
         ];
     }
 
@@ -222,22 +192,25 @@ class PermissionService
         $rules = [
             'name' => 'required|min:2',
             'method' => 'required|numeric',
+            'uri' => 'required|min:2|unique:permissions,uri,' . $id,
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
         ];
-        if (!empty($id)) {
-            $rules['uri'] = 'required|min:2|unique:permissions,uri,' . $id;
-        } else {
-            $rules['uri'] = 'required|min:2|unique:permissions,uri';
-        }
         return Validator::make($request->all(), $rules);
     }
 
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
+
+        $data["permissions"]=is_array($request['permissions'])?$request['permissions']:explode(',',$request['permissions']);
+
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
-        return Validator::make($request->all(), $rules);
+        return Validator::make($data, $rules);
     }
 
 

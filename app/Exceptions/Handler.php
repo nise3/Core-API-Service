@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use ErrorException;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use TypeError;
 
 class Handler extends ExceptionHandler
 {
@@ -85,13 +87,13 @@ class Handler extends ExceptionHandler
             ];
             return response()->json($errors);
         }
-        /*elseif ($e instanceof BindingResolutionException) {
+        elseif ($e instanceof Exception || $e instanceof TypeError) {
             $errors = [
-                "code" => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                "message" => "Unable to resolve dependency",
+                "code" => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
+                "message" => "Http internal server error",
             ];
             return \response()->json($errors);
-        }*/
+        }
 
         return parent::render($request, $e);
     }
