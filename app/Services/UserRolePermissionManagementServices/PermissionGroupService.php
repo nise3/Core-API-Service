@@ -4,7 +4,6 @@
 namespace App\Services\UserRolePermissionManagementServices;
 
 
-use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
 use Carbon\Carbon;
@@ -13,7 +12,6 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionGroupService
@@ -27,8 +25,9 @@ class PermissionGroupService
      */
     public function getAllPermissionGroups(Request $request, Carbon $startTime): array
     {
+        $paginateLink = [];
+        $page = [];
         $paginate = $request->query('page');
-        $limit = $request->query('limit');
         $titleEn = $request->query('title_en');
         $titleBn = $request->query('title_bn');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
@@ -38,13 +37,10 @@ class PermissionGroupService
             'id',
             'title_en',
             'title_bn',
-            'key',
-            "row_status",
-            "created_at",
-            "updated_at"
+            'key'
         ]);
 
-        $permissionGroupBuilder->orderBy('id', $order);
+        $permissionGroupBuilder->orderBy('roles.id', $order);
 
         if (!empty($titleEn)) {
             $permissionGroupBuilder->where('title_en', 'like', '%' . $titleEn . '%');
@@ -54,26 +50,51 @@ class PermissionGroupService
         }
 
         /** @var Collection|PermissionGroup $permissionGroups */
-        if ($paginate || $limit) {
-            $limit = $limit ?: 10;
-            $permissionGroups = $permissionGroupBuilder->paginate($limit);
+        if (!empty($paginate)) {
+
+            $permissionGroups = $permissionGroupBuilder->paginate(10);
             $paginateData = (object)$permissionGroups->toArray();
-            $response['current_page'] = $paginateData->current_page;
-            $response['total_page'] = $paginateData->last_page;
-            $response['page_size'] = $paginateData->per_page;
-            $response['total'] = $paginateData->total;
+            $page = [
+                "size" => $paginateData->per_page,
+                "total_element" => $paginateData->total,
+                "total_page" => $paginateData->last_page,
+                "current_page" => $paginateData->current_page
+            ];
+            $paginateLink = $paginateData->links;
         } else {
             $permissionGroups = $permissionGroupBuilder->get();
         }
 
-        $response['order'] = $order;
-        $response['data'] = $permissionGroups->toArray()['data'] ?? $permissionGroups->toArray();
-        $response['_response_status'] = [
-            "success" => true,
-            "code" => Response::HTTP_OK,
-            "query_time" => $startTime->diffForHumans(Carbon::now())
+        $data = [];
+        foreach ($permissionGroups as $permission) {
+            /** @var PermissionGroup $permission */
+            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $permission->id]);
+            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $permission->id]);
+            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $permission->id]);
+            $permission['_links'] = $links;
+            $data[] = $permission->toArray();
+        }
+
+        return [
+            "data" => $data,
+            "_response_status" => [
+                "success" => true,
+                "code" => Response::HTTP_OK,
+               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
+            ],
+            "_links" => [
+                'paginate' => $paginateLink,
+                'search' => [
+                    'parameters' => [
+                        'name',
+                        'key'
+                    ],
+                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
+                ]
+            ],
+            "_page" => $page,
+            "_order" => $order
         ];
-        return $response;
     }
 
     /**
@@ -88,23 +109,30 @@ class PermissionGroupService
             'id',
             'title_en',
             'title_bn',
-            'key',
-            "row_status",
-            "created_at",
-            "updated_at"
+            'key'
         ]);
 
         $permissionGroupBuilder->where('id', $id);
 
         /** @var PermissionGroup $permissionGroup */
         $permissionGroup = $permissionGroupBuilder->first();
+
+        $links = [];
+        if ($permissionGroup) {
+            $links = [
+                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $permissionGroup->id]),
+                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $permissionGroup->id])
+            ];
+        }
+
         return [
-            "data" => $permissionGroup ?: [],
+            "data" => $permissionGroup ?: null,
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "query_time" => $startTime->diffForHumans(Carbon::now())
-            ]
+               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
+            ],
+            "_links" => $links
         ];
     }
 
@@ -157,23 +185,23 @@ class PermissionGroupService
         $rules = [
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
-            "key" => 'required|min:2|unique:permission_groups,key,' . $id,
-            'row_status' => [
-                'required_if:' . $id . ',!=,null',
-                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
-            ],
         ];
+        if (!empty($id)) {
+            $rules['key'] = 'required|min:2|unique:permission_groups,key,' . $id;
+        } else {
+            $rules['key'] = 'required|min:2|unique:permission_groups,key';
+        }
+
         return Validator::make($request->all(), $rules);
     }
 
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
-        return Validator::make($data, $rules);
+        return Validator::make($request->all(), $rules);
     }
 
 }

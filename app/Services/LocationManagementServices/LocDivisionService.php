@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LocDivisionService
 {
+    const ROUTE_PREFIX = 'api.v1.divisions.';
+
     /**
      * @param Request $request
      * @param Carbon $startTime
@@ -25,9 +26,10 @@ class LocDivisionService
      */
     public function getAllDivisions(Request $request, Carbon $startTime): array
     {
+        $paginateLink = [];
+        $page = [];
         $paginate = $request->query('page');
-        $limit = $request->query('limit');
-        $order = $request->query('order', 'ASC');
+        $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
 
         /** @var LocDivision|Builder $divisions */
         $divisions = LocDivision::select([
@@ -45,27 +47,49 @@ class LocDivisionService
             $divisions->where('title_bn', 'like', '%' . $request->query('title_bn') . '%');
         }
 
-        if ($paginate || $limit) {
-            $limit = $limit ?: 10;
-            $divisions = $divisions->paginate($limit);
+        if ($paginate) {
+            $divisions = $divisions->paginate(10);
             $paginateData = (object)$divisions->toArray();
-            $response['current_page'] = $paginateData->current_page;
-            $response['total_page'] = $paginateData->last_page;
-            $response['page_size'] = $paginateData->per_page;
-            $response['total'] = $paginateData->total;
+            $page = [
+                "size" => $paginateData->per_page,
+                "total_element" => $paginateData->total,
+                "total_page" => $paginateData->last_page,
+                "current_page" => $paginateData->current_page
+            ];
+            $paginateLink = $paginateData->links;
         } else {
             $divisions = $divisions->get();
         }
 
-        $response['order'] = $order;
-        $response['data'] = $divisions->toArray()['data'] ?? $divisions->toArray();
-        $response['_response_status'] = [
-            "success" => true,
-            "code" => Response::HTTP_OK,
-            "query_time" => $startTime->diffForHumans(Carbon::now())
-        ];
+        $data = [];
+        foreach ($divisions as $division) {
+            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $division->id]);
+            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $division->id]);
+            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $division->id]);
+            $division['_links'] = $links;
+            $data[] = $division->toArray();
 
-        return $response;
+        }
+        return [
+            "data" => $data,
+            "_response_status" => [
+                "success" => true,
+                "code" => Response::HTTP_OK,
+               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
+            ],
+            "_links" => [
+                'paginate' => $paginateLink,
+                'search' => [
+                    'parameters' => [
+                        'title_en',
+                        'title_bn'
+                    ],
+                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
+                ]
+            ],
+            "_page" => $page,
+            "_order" => $order
+        ];
     }
 
     /**
@@ -75,6 +99,8 @@ class LocDivisionService
      */
     public function getOneDivision(int $id, Carbon $startTime): array
     {
+        $links = [];
+
         /** @var LocDivision|Builder $division */
         $division = LocDivision::select([
             'id',
@@ -86,13 +112,21 @@ class LocDivisionService
             'row_status' => BaseModel::ROW_STATUS_ACTIVE
         ])->first();
 
+        if (!empty($division)) {
+            $links = [
+                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $division->id]),
+                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $division->id])
+            ];
+        }
+
         return [
-            "data" => $division ?: [],
+            "data" => $division ? $division : [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-                "query_time" => $startTime->diffForHumans(Carbon::now())
-            ]
+               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
+            ],
+            "_links" => $links
         ];
     }
 
@@ -123,23 +157,19 @@ class LocDivisionService
      */
     public function destroy(LocDivision $locDivision): bool
     {
-        return $locDivision->delete();
+         return $locDivision->delete();
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
-            'bbs_code' => 'nullable|min:1',
-            'row_status' => [
-                'required_if:' . $id . ',!=,null',
-                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
-            ],
+            'bbs_code'=>'nullable|min:1'
         ]);
     }
 }
