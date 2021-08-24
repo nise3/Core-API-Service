@@ -12,12 +12,50 @@
             "variables": {}
         },
         {
-            "url": "https://bus.softbd.xyz/devportal/apis",
+            "url": "https://api.bus.softbd.xyz/core/api/v1",
             "description": "",
             "variables": {}
         }
     ],
     "paths": {
+        "/": {
+            "get": {
+                "summary": "API description",
+                "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "service_name": "NISE-3 Core Api Service",
+                                    "service_version": "V1",
+                                    "lumen_version": "Lumen (8.2.4) (Laravel Components ^8.0)",
+                                    "modules": {
+                                        "LocationManagement": [
+                                            "LocDivision",
+                                            "LocDistrict",
+                                            "LocUpazila"
+                                        ],
+                                        "UserRoleManagement": [
+                                            "Permission",
+                                            "Role",
+                                            "User",
+                                            "PermissionGroup",
+                                            "PermissionSubGroup"
+                                        ],
+                                        "AuthManagement": [
+                                            "Auth"
+                                        ]
+                                    },
+                                    "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally"
+                                }
+                            }
+                        },
+                        "description": "success"
+                    }
+                }
+            }
+        },
         "/divisions": {
             "get": {
                 "summary": "Returns a list of divisions.",
@@ -3112,11 +3150,15 @@
                 "in": "query",
                 "style": "form",
                 "required": true,
-                "schema": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer",
-                        "uniqueItems": true
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "uniqueItems": true
+                            }
+                        }
                     }
                 }
             },
@@ -3230,8 +3272,7 @@
                         "description": "Division activation status",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "create_by": {
@@ -3298,8 +3339,7 @@
                         "description": "District activation status",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "create_by": {
@@ -3377,8 +3417,7 @@
                         "description": "District activation status",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "create_by": {
@@ -3436,8 +3475,7 @@
                         "example": "1=>Active,0=>Inactive,99=>Delete",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "created_at": {

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
