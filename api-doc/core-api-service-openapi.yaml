@@ -7,10 +7,37 @@ servers:
   - url: http://localhost:8000/api/v1
     description: ''
     variables: {}
-  - url: https://bus.softbd.xyz/devportal/apis
+  - url: https://api.bus.softbd.xyz/core/api/v1
     description: ''
     variables: {}
 paths:
+  /:
+    get:
+      summary: API description
+      description: It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                service_name: NISE-3 Core Api Service
+                service_version: V1
+                lumen_version: Lumen (8.2.4) (Laravel Components ^8.0)
+                modules:
+                  LocationManagement:
+                    - LocDivision
+                    - LocDistrict
+                    - LocUpazila
+                  UserRoleManagement:
+                    - Permission
+                    - Role
+                    - User
+                    - PermissionGroup
+                    - PermissionSubGroup
+                  AuthManagement:
+                    - Auth
+                description: It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally
+          description: success
   /divisions:
     get:
       summary: Returns a list of divisions.
@@ -2057,11 +2084,13 @@ components:
       in: query
       style: form
       required: true
-      schema:
-        type: array
-        items:
-          type: integer
-          uniqueItems: true
+      content:
+        multipart/form-data:
+          schema:
+            type: array
+            items:
+              type: integer
+              uniqueItems: true
     user_type:
       in: query
       name: user_type
@@ -2150,7 +2179,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         create_by:
           type: integer
           description: Division creater id
@@ -2203,7 +2231,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         create_by:
           type: integer
           description: District creater id
@@ -2265,7 +2292,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         create_by:
           type: integer
           description: District creater id
@@ -2310,7 +2336,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         created_at:
           type: string
           format: date-time

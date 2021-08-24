@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes\CustomExceptionHandler;
+
 use App\Models\LocUpazila;
-use App\Services\LocationManagementServices\locUpazilaService;
+use App\Services\LocationManagementServices\LocUpazilaService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
