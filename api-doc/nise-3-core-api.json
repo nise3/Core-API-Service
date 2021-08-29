@@ -71,6 +71,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -96,7 +99,8 @@
                                             "id": 3,
                                             "title_bn": "ঢাকা",
                                             "title_en": "Dhaka",
-                                            "bbs_code": "30"
+                                            "bbs_code": "30",
+                                            "row_status": "1"
                                         }
                                     ],
                                     "_response_status": {
@@ -323,6 +327,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -625,6 +632,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -653,6 +663,7 @@
                                             "title_bn": "আমতলী ",
                                             "title_en": "AMTALI",
                                             "bbs_code": "09",
+                                            "row_status_optional": "1",
                                             "district_title_bn": "Test Title (BN)",
                                             "district_title_en": "Test Title (EN)",
                                             "division_bbs_code": "10",
@@ -1264,6 +1275,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -1284,6 +1298,7 @@
                                     "page_size": "10",
                                     "total": 5,
                                     "order": "asc",
+                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 1,
@@ -1619,6 +1634,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -1641,6 +1659,7 @@
                                     "total_page": 2,
                                     "page_size": "10",
                                     "total": 15,
+                                    "row_status": 1,
                                     "order": "ASC",
                                     "data": [
                                         {
@@ -2152,6 +2171,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -2172,6 +2194,7 @@
                                     "page_size": "10",
                                     "total": 7,
                                     "order": "ASC",
+                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 1,
@@ -2328,7 +2351,7 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/permissionGroup"
                                 },
-                                "example":{
+                                "example": {
                                     "data": {
                                         "id": 8,
                                         "title_en": "Test Title (EN)",
@@ -2414,7 +2437,6 @@
                 "responses": {
                     "200": {
                         "description": "success",
-
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2452,6 +2474,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -2472,6 +2497,7 @@
                                     "page_size": "10",
                                     "total": 15,
                                     "order": "ASC",
+                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 7,
@@ -2770,7 +2796,17 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "row_status_optional": {
+                "name": "row_status",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
                 }
             },
             "limit": {
@@ -3673,11 +3709,10 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "updated_at":{
+                    "updated_at": {
                         "type": "string",
                         "format": "date-time"
                     }
-
                 },
                 "required": [
                     "user_type",
@@ -3728,7 +3763,7 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "updated_at":{
+                    "updated_at": {
                         "type": "string",
                         "format": "date-time"
                     }
@@ -3783,7 +3818,7 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "updated_at":{
+                    "updated_at": {
                         "type": "string",
                         "format": "date-time"
                     }

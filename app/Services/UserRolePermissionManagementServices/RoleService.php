@@ -6,7 +6,6 @@ use App\Models\BaseModel;
 use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Validator;
@@ -26,10 +25,11 @@ class RoleService
         $titleBn = $request->query('title_bn');
         $paginate = $request->query('page');
         $limit = $request->query('limit');
+        $rowStatus = $request->query('row_status');
         $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
 
-        /** @var Role|Builder $roles */
-        $roles = Role::select([
+        /** @var Role|Builder $rolesBuilder */
+        $rolesBuilder = Role::select([
             'roles.id',
             'roles.title_bn',
             'roles.title_en',
@@ -44,25 +44,36 @@ class RoleService
             'roles.created_at',
             'roles.updated_at'
         ]);
-        $roles->leftJoin('permission_groups', 'permission_groups.id', 'roles.permission_group_id');
-        $roles->orderBy('roles.id', $order);
 
-        if (!empty($titleEn)) {
-            $roles->where('roles.title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
-            $roles->where('roles.title_bn', 'like', '%' . $titleBn . '%');
+        $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
+            $join->on('permission_groups.id', '=', 'roles.permission_group_id');
+            if (!is_null($rowStatus)) {
+                $join->where('permission_groups.row_status', $rowStatus);
+            }
+        });
+
+        if (!is_null($rowStatus)) {
+            $rolesBuilder->where('roles.row_status', $rowStatus);
         }
 
-        if ($paginate || $limit) {
+        $rolesBuilder->orderBy('roles.id', $order);
+
+        if (!empty($titleEn)) {
+            $rolesBuilder->where('roles.title_en', 'like', '%' . $titleEn . '%');
+        } elseif (!empty($titleBn)) {
+            $rolesBuilder->where('roles.title_bn', 'like', '%' . $titleBn . '%');
+        }
+
+        if (!is_null($paginate) || !is_null($limit)) {
             $limit = $limit ?: 10;
-            $roles = $roles->paginate($limit);
+            $roles = $rolesBuilder->paginate($limit);
             $paginateData = (object)$roles->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
             $response['page_size'] = $paginateData->per_page;
             $response['total'] = $paginateData->total;
         } else {
-            $roles = $roles->get();
+            $roles = $rolesBuilder->get();
         }
         $response['order'] = $order;
         $response['data'] = $roles->toArray()['data'] ?? $roles->toArray();
@@ -81,8 +92,8 @@ class RoleService
      */
     public function getOneRole(int $id, Carbon $startTime): array
     {
-        /** @var Role|Builder $role */
-        $role = Role::select([
+        /** @var Role|Builder $roleBuilder */
+        $roleBuilder = Role::select([
             'roles.id',
             'roles.title_bn',
             'roles.title_en',
@@ -97,9 +108,12 @@ class RoleService
             'roles.created_at',
             'roles.updated_at'
         ]);
-        $role->leftJoin('permission_groups', 'permission_groups.id', 'roles.permission_group_id');
-        $role->where('roles.id', $id);
-        $role = $role->first();
+        $roleBuilder->leftJoin('permission_groups', 'permission_groups.id', 'roles.permission_group_id');
+
+        if (!empty($id)) {
+            $roleBuilder->where('roles.id', $id);
+        }
+        $role = $roleBuilder->first();
 
         return [
             "data" => $role ?: [],

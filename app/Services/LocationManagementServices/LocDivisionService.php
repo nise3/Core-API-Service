@@ -6,7 +6,6 @@ use App\Models\BaseModel;
 use App\Models\LocDivision;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -25,40 +24,50 @@ class LocDivisionService
      */
     public function getAllDivisions(Request $request, Carbon $startTime): array
     {
+        $titleEn = $request->query('title_en');
+        $titleBn = $request->query('title_bn');
         $paginate = $request->query('page');
         $limit = $request->query('limit');
+        $rowStatus = $request->query('row_status');
         $order = $request->query('order', 'ASC');
 
-        /** @var LocDivision|Builder $divisions */
-        $divisions = LocDivision::select([
+        /** @var Builder $divisionsBuilder */
+        $divisionsBuilder = LocDivision::select([
             'id',
             'title_bn',
             'title_en',
             'bbs_code',
+            'row_status',
+            'created_by',
+            'updated_by',
+            'created_at',
+            'updated_at'
         ]);
-        $divisions->orderBy('id', $order);
-        $divisions->where('row_status', BaseModel::ROW_STATUS_ACTIVE);
+        $divisionsBuilder->orderBy('id', $order);
 
-        if (!empty($request->query('title_en'))) {
-            $divisions->where('title_en', 'like', '%' . $request->query('title_en') . '%');
-        } elseif (!empty($request->query('title_bn'))) {
-            $divisions->where('title_bn', 'like', '%' . $request->query('title_bn') . '%');
+        if (!is_null($rowStatus)) {
+            $divisionsBuilder->where('row_status', $rowStatus);
+        }
+        if (!empty($titleEn)) {
+            $divisionsBuilder->where('title_en', 'like', '%' . $titleEn . '%');
+        } elseif (!empty($titleBn)) {
+            $divisionsBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if ($paginate || $limit) {
+        if (!is_null($paginate) || !is_null($limit)) {
             $limit = $limit ?: 10;
-            $divisions = $divisions->paginate($limit);
-            $paginateData = (object)$divisions->toArray();
+            $divisionsBuilder = $divisionsBuilder->paginate($limit);
+            $paginateData = (object)$divisionsBuilder->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
             $response['page_size'] = $paginateData->per_page;
             $response['total'] = $paginateData->total;
         } else {
-            $divisions = $divisions->get();
+            $divisionsBuilder = $divisionsBuilder->get();
         }
 
         $response['order'] = $order;
-        $response['data'] = $divisions->toArray()['data'] ?? $divisions->toArray();
+        $response['data'] = $divisionsBuilder->toArray()['data'] ?? $divisionsBuilder->toArray();
         $response['_response_status'] = [
             "success" => true,
             "code" => Response::HTTP_OK,
@@ -75,19 +84,25 @@ class LocDivisionService
      */
     public function getOneDivision(int $id, Carbon $startTime): array
     {
-        /** @var LocDivision|Builder $division */
-        $division = LocDivision::select([
+        /** @var LocDivision|Builder $divisionsBuilder */
+        $divisionsBuilder = LocDivision::select([
             'id',
             'title_bn',
             'title_en',
-            'bbs_code'
-        ])->where([
-            'id' => $id,
-            'row_status' => BaseModel::ROW_STATUS_ACTIVE
-        ])->first();
+            'bbs_code',
+            'row_status',
+            'created_by',
+            'updated_by',
+            'created_at',
+            'updated_at'
+        ]);
+        $divisionsBuilder->where('id', $id);
+
+        /** @var  $divisions */
+        $divisions = $divisionsBuilder->first();
 
         return [
-            "data" => $division ?: [],
+            "data" => $divisions ?: [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,

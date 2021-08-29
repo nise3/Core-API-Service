@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\LocDistrict;
 use App\Services\LocationManagementServices\LocDistrictService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
-use Psy\Util\Json;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -37,7 +36,7 @@ class LocDistrictController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function getList(Request $request):JsonResponse
     {
@@ -52,11 +51,10 @@ class LocDistrictController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param $id
-     * @return \Exception|JsonResponse|Throwable
+     * @param int $id
+     * @return Exception|JsonResponse|Throwable
      */
-    public function read(Request $request, int $id):JsonResponse
+    public function read( int $id):JsonResponse
     {
         try {
             $response = $this->locDistrictService->getOneDistrict($id, $this->startTime);
@@ -70,7 +68,7 @@ class LocDistrictController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function store(Request $request):JsonResponse
@@ -98,7 +96,7 @@ class LocDistrictController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function update(Request $request, int $id):JsonResponse
@@ -124,8 +122,8 @@ class LocDistrictController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param $id
-     * @return \Exception|JsonResponse|Throwable
+     * @param int $id
+     * @return Exception|JsonResponse|Throwable
      */
     public function destroy(int $id):JsonResponse
     {
