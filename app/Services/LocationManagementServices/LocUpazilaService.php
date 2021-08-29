@@ -139,12 +139,12 @@ class LocUpazilaService
             'loc_upazilas.updated_at'
         ]);
 
-        $upazilaBuilder->join('loc_divisions', function ($join) {
+        $upazilaBuilder->leftJoin('loc_divisions', function ($join) {
             $join->on('loc_divisions.id', '=', 'loc_upazilas.loc_division_id')
                 ->whereNull('loc_divisions.deleted_at');
         });
 
-        $upazilaBuilder->join('loc_districts', function ($join) {
+        $upazilaBuilder->leftJoin('loc_districts', function ($join) {
             $join->on('loc_districts.id', '=', 'loc_upazilas.loc_district_id')
                 ->whereNull('loc_districts.deleted_at');
         });
