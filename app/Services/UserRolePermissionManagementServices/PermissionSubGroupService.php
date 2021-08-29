@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PermissionSubGroupService
 {
-    const ROUTE_PREFIX = 'api.v1.permission-sub-groups.';
+    /*const ROUTE_PREFIX = 'api.v1.permission-sub-groups.';*/
 
     /**
      * @param Request $request
@@ -30,6 +30,7 @@ class PermissionSubGroupService
         $limit = $request->query('limit');
         $titleEn = $request->query('title_en');
         $titleBn = $request->query('title_bn');
+        $rowStatus = $request->query('row_status');
         $order = $request->query('order', "ASC");
 
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
@@ -46,6 +47,10 @@ class PermissionSubGroupService
 
         if (!empty($titleBn)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
+        }
+
+        if (!is_null($rowStatus)){
+            $permissionSubGroupBuilder->where('permission_sub_groups.row_status', $rowStatus);
         }
 
         $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);

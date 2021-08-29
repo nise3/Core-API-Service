@@ -10,13 +10,9 @@ use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use PhpParser\Node\Expr\Cast\Object_;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionService
@@ -32,6 +28,7 @@ class PermissionService
         $paginate = $request->query('page');
         $limit = $request->query('limit');
         $searchFilter = $request->query('name');
+        $rowStatus = $request->query('row_status');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
         /** @var Permission|Builder $permissionBuilder */
@@ -39,6 +36,7 @@ class PermissionService
             'id',
             'name',
             'uri',
+            'method',
             'row_status',
             'created_at',
             'updated_at'
@@ -50,7 +48,11 @@ class PermissionService
             $permissionBuilder->where('name', 'like', '%' . $searchFilter . '%');
         }
 
-        if ($paginate || $limit) {
+        if (!is_null($rowStatus)) {
+            $permissionBuilder->where('permissions.row_status', $rowStatus);
+        }
+
+        if (!is_null($paginate) || !is_null($limit)) {
             $limit = $limit ?: 10;
             /** @var Collection|Permission $permissions */
             $permissions = $permissionBuilder->paginate($limit);
@@ -84,11 +86,15 @@ class PermissionService
             'id',
             'name',
             'uri',
+            'method',
             'row_status',
             'created_at',
             'updated_at'
         ]);
-        $permissionBuilder->where('id', $id);
+
+        if (!empty($id)) {
+            $permissionBuilder->where('id', $id);
+        }
 
         $permission = $permissionBuilder->first();
         return [
@@ -204,7 +210,7 @@ class PermissionService
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
 
-        $data["permissions"]=is_array($request['permissions'])?$request['permissions']:explode(',',$request['permissions']);
+        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
 
         $rules = [
             'permissions' => 'required|array|min:1',

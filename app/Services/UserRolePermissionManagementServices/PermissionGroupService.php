@@ -10,7 +10,6 @@ use App\Models\PermissionGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -31,6 +30,7 @@ class PermissionGroupService
         $limit = $request->query('limit');
         $titleEn = $request->query('title_en');
         $titleBn = $request->query('title_bn');
+        $rowStatus = $request->query('row_status');
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
         /** @var PermissionGroup|Builder $permissionGroupBuilder */
@@ -53,8 +53,12 @@ class PermissionGroupService
             $permissionGroupBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
         }
 
+        if (!is_null($rowStatus)) {
+            $permissionGroupBuilder->where('row_status', $rowStatus);
+        }
+
         /** @var Collection|PermissionGroup $permissionGroups */
-        if ($paginate || $limit) {
+        if (!is_null($paginate) || !is_null($limit)) {
             $limit = $limit ?: 10;
             $permissionGroups = $permissionGroupBuilder->paginate($limit);
             $paginateData = (object)$permissionGroups->toArray();
@@ -94,7 +98,9 @@ class PermissionGroupService
             "updated_at"
         ]);
 
-        $permissionGroupBuilder->where('id', $id);
+        if (!empty($id)) {
+            $permissionGroupBuilder->where('id', $id);
+        }
 
         /** @var PermissionGroup $permissionGroup */
         $permissionGroup = $permissionGroupBuilder->first();
