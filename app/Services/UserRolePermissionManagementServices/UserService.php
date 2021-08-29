@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserService
 {
-    const ROUTE_PREFIX = 'api.v1.users.';
+    /*const ROUTE_PREFIX = 'api.v1.users.';*/
 
     /**
      * @param Request $request
@@ -30,11 +30,12 @@ class UserService
         $nameEn = $request->query('name_en');
         $nameBn = $request->query('name_bn');
         $email = $request->query('email');
+        $rowStatus = $request->query('row_status');
 
         $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
 
-        /** @var User|Builder $users */
-        $users = User::select([
+        /** @var User|Builder $usersBuilder */
+        $usersBuilder = User::select([
             "users.*",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
@@ -45,34 +46,65 @@ class UserService
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
-        $users->leftJoin('roles', 'roles.id', 'users.role_id');
-        $users->leftJoin('loc_divisions', 'loc_divisions.id', 'users.loc_division_id');
-        $users->leftJoin('loc_districts', 'loc_districts.id', 'users.loc_district_id');
-        $users->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
-        $users->orderBy('users.id', $order);
+
+        $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
+            $join->on('roles.id', '=', 'users.role_id')
+                ->whereNull('roles.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
+            $join->on('loc_divisions.id', '=', 'users.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->leftJoin('loc_districts', function ($join) use ($rowStatus) {
+            $join->on('loc_districts.id', '=', 'users.loc_district_id')
+                ->whereNull('loc_districts.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->leftJoin('loc_upazilas', function ($join) use ($rowStatus) {
+            $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
+                ->whereNull('loc_upazilas.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->orderBy('users.id', $order);
 
         if (!empty($nameEn)) {
-            $users = $users->where('users.name_en', 'like', '%' . $nameEn . '%');
+            $usersBuilder = $usersBuilder->where('users.name_en', 'like', '%' . $nameEn . '%');
         }
         if (!empty($nameBn)) {
-            $users = $users->where('users.name_bn', 'like', '%' . $nameBn . '%');
+            $usersBuilder = $usersBuilder->where('users.name_bn', 'like', '%' . $nameBn . '%');
         }
         if (!empty($email)) {
-            $users = $users->where('users.email', 'like', '%' . $email . '%');
+            $usersBuilder = $usersBuilder->where('users.email', 'like', '%' . $email . '%');
         }
-        $users->where('users.row_status', BaseModel::ROW_STATUS_ACTIVE);
-        $users->orderBy('users.id', $order);
 
-        if ($paginate || $limit) {
+        if (!is_null($rowStatus)) {
+            $usersBuilder->where('users.row_status', $rowStatus);
+        }
+
+        if (!is_null($paginate) || !is_null($limit)) {
             $limit = $limit ?: 10;
-            $users = $users->paginate($limit);
+            $users = $usersBuilder->paginate($limit);
             $paginateData = (object)$users->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
             $response['page_size'] = $paginateData->per_page;
             $response['total'] = $paginateData->total;
         } else {
-            $users = $users->get();
+            $users = $usersBuilder->get();
         }
         $response['order'] = $order;
         $response['data'] = $users->toArray()['data'] ?? $users->toArray();
@@ -91,8 +123,8 @@ class UserService
      */
     public function getOneUser(int $id, Carbon $startTime): array
     {
-        /** @var User|Builder $user */
-        $user = User::select([
+        /** @var User|Builder $userBuilder */
+        $userBuilder = User::select([
             "users.*",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
@@ -103,11 +135,28 @@ class UserService
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
-        $user->leftJoin('roles', 'roles.id', 'users.role_id');
-        $user->leftJoin('loc_divisions', 'loc_divisions.id', 'users.loc_division_id');
-        $user->leftJoin('loc_districts', 'loc_districts.id', 'users.loc_district_id');
-        $user->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
-        $user = $user->where('users.id', $id)->first();
+
+        $userBuilder->leftJoin('roles', function ($join) {
+            $join->on('roles.id', '=', 'users.role_id')
+                ->whereNull('roles.deleted_at');
+        });
+
+        $userBuilder->leftJoin('loc_divisions', function ($join) {
+            $join->on('loc_divisions.id', '=', 'users.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+        });
+
+        $userBuilder->leftJoin('loc_districts', function ($join) {
+            $join->on('loc_districts.id', '=', 'users.loc_district_id')
+                ->whereNull('loc_districts.deleted_at');
+        });
+
+        $userBuilder->leftJoin('loc_upazilas', function ($join) {
+            $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
+                ->whereNull('loc_upazilas.deleted_at');
+        });
+
+        $user = $userBuilder->where('users.id', $id)->first();
 
         return [
             "data" => $user ?: null,

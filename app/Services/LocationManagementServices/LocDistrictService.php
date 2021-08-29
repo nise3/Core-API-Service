@@ -22,13 +22,14 @@ class LocDistrictService
     {
         $titleEn = $request->query('title_en');
         $titleBn = $request->query('title_bn');
-        $paginate = $request->query('page');
+        $paginate = $request->query('page', 10);
         $limit = $request->query('limit');
+        $rowStatus = $request->query('row_status');
         $order = $request->query('order', 'ASC');
         $divisionId = $request->query('division_id');
 
-        /** @var LocDistrict|Builder $districts */
-        $districts = LocDistrict::select([
+        /** @var Builder $districtsBuilder */
+        $districtsBuilder = LocDistrict::select([
             'loc_districts.id',
             'loc_districts.loc_division_id',
             'loc_districts.title_bn',
@@ -37,35 +38,52 @@ class LocDistrictService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
+            'loc_districts.row_status',
+            'loc_districts.created_by',
+            'loc_districts.updated_by',
+            'loc_districts.created_at',
+            'loc_districts.updated_at'
+
         ]);
-        $districts->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
-        $districts->orderBy('loc_districts.id', $order);
-        $districts->where('loc_districts.row_status', BaseModel::ROW_STATUS_ACTIVE);
+
+        $districtsBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
+            $join->on('loc_divisions.id', '=', 'loc_districts.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('loc_divisions.row_status', $rowStatus);
+            }
+        });
+
+        $districtsBuilder->orderBy('loc_districts.id', $order);
+
+        if (!is_null($rowStatus)) {
+            $districtsBuilder->where('loc_districts.row_status', $rowStatus);
+        }
 
         if (!empty($titleEn)) {
-            $districts->where('loc_districts.title_en', 'like', '%' . $titleEn . '%');
+            $districtsBuilder->where('loc_districts.title_en', 'like', '%' . $titleEn . '%');
         } elseif (!empty($titleBn)) {
-            $districts->where('loc_districts.title_bn', 'like', '%' . $titleBn . '%');
+            $districtsBuilder->where('loc_districts.title_bn', 'like', '%' . $titleBn . '%');
         }
 
         if (!empty($divisionId)) {
-            $districts->where('loc_districts.loc_division_id', $divisionId);
+            $districtsBuilder->where('loc_districts.loc_division_id', $divisionId);
         }
 
-        if ($paginate || $limit) {
-            $limit=$limit?:10;
-            $districts = $districts->paginate($limit);
-            $paginateData = (object)$districts->toArray();
+        if (!is_null($paginate) || !is_null($limit)) {
+            $limit = $limit ?: 10;
+            $districtsBuilder = $districtsBuilder->paginate($limit);
+            $paginateData = (object)$districtsBuilder->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
             $response['page_size'] = $paginateData->per_page;
             $response['total'] = $paginateData->total;
         } else {
-            $districts = $districts->get();
+            $districtsBuilder = $districtsBuilder->get();
         }
 
         $response['order'] = $order;
-        $response['data'] = $districts->toArray()['data'] ?? $districts->toArray();
+        $response['data'] = $districtsBuilder->toArray()['data'] ?? $districtsBuilder->toArray();
         $response['_response_status'] = [
             "success" => true,
             "code" => Response::HTTP_OK,
@@ -82,8 +100,8 @@ class LocDistrictService
      */
     public function getOneDistrict(int $id, Carbon $startTime): array
     {
-        /** @var LocDistrict|Builder $district */
-        $district = LocDistrict::select([
+        /** @var Builder $districtBuilder */
+        $districtBuilder = LocDistrict::select([
             'loc_districts.id',
             'loc_districts.loc_division_id',
             'loc_districts.title_bn',
@@ -92,13 +110,22 @@ class LocDistrictService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
+            'loc_districts.row_status',
+            'loc_districts.created_by',
+            'loc_districts.updated_by',
+            'loc_districts.created_at',
+            'loc_districts.updated_at'
         ]);
-        $district->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_districts.loc_division_id');
-        $district->where('loc_districts.id', $id);
-        $district->where('loc_districts.row_status', BaseModel::ROW_STATUS_ACTIVE);
-        $district = $district->first();
+
+        $districtBuilder->leftJoin('loc_divisions', function ($join) {
+            $join->on('loc_divisions.id', '=', 'loc_districts.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+        });
+
+        $districtBuilder->where('loc_districts.id', $id);
+        $district = $districtBuilder->first();
         return [
-            "data" => $district ? $district : [],
+            "data" => $district ?: [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,

@@ -8,11 +8,9 @@ use App\Models\BaseModel;
 use App\Models\LocUpazila;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -27,14 +25,17 @@ class LocUpazilaService
      */
     public function getAllUpazilas(Request $request, Carbon $startTime): array
     {
-        $paginate = $request->query('page');
+        $titleEn = $request->query('title_en');
+        $titleBn = $request->query('title_bn');
+        $paginate = $request->query('page', 10);
         $limit = $request->query('limit');
+        $rowStatus = $request->query('row_status');
         $districtId = $request->query('district_id');
         $divisionId = $request->query('division_id');
         $order = $request->query('order', 'ASC');
 
-        /** @var LocUpazila|Builder $upazilas */
-        $upazilas = LocUpazila::select([
+        /** @var LocUpazila|Builder $upazilasBuilder */
+        $upazilasBuilder = LocUpazila::select([
             'loc_upazilas.id',
             'loc_upazilas.loc_district_id',
             'loc_upazilas.loc_division_id',
@@ -46,40 +47,63 @@ class LocUpazilaService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
+            'loc_upazilas.row_status',
+            'loc_upazilas.created_by',
+            'loc_upazilas.updated_by',
+            'loc_upazilas.created_at',
+            'loc_upazilas.updated_at'
         ]);
-        $upazilas->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_upazilas.loc_division_id');
-        $upazilas->leftJoin('loc_districts', 'loc_districts.id', '=', 'loc_upazilas.loc_division_id');
 
-        $upazilas->orderBy('loc_upazilas.id', $order);
-        $upazilas->where('loc_districts.row_status', LocUpazila::ROW_STATUS_ACTIVE);
-        if (!empty($request->query('title_en'))) {
-            $upazilas->where('loc_upazilas.title_en', 'like', '%' . $request->query('title_en') . '%');
-        } elseif (!empty($request->query('title_bn'))) {
-            $upazilas->where('loc_upazilas.title_bn', 'like', '%' . $request->query('title_bn') . '%');
+        $upazilasBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
+            $join->on('loc_divisions.id', '=', 'loc_upazilas.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('loc_divisions.row_status', $rowStatus);
+            }
+        });
+
+        $upazilasBuilder->leftJoin('loc_districts', function ($join) use ($rowStatus) {
+            $join->on('loc_upazilas.loc_district_id', '=', 'loc_districts.id')
+                ->whereNull('loc_districts.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('loc_districts.row_status', $rowStatus);
+            }
+        });
+
+        $upazilasBuilder->orderBy('loc_upazilas.id', $order);
+
+        if (!is_null($rowStatus)) {
+            $upazilasBuilder->where('loc_upazilas.row_status', $rowStatus);
+        }
+
+        if (!empty($titleEn)) {
+            $upazilasBuilder->where('loc_upazilas.title_en', 'like', '%' . $titleEn . '%');
+        } elseif (!empty($titleBn)) {
+            $upazilasBuilder->where('loc_upazilas.title_bn', 'like', '%' . $titleBn . '%');
         }
 
         if (!empty($districtId)) {
-            $upazilas->where('loc_upazilas.loc_district_id', $districtId);
+            $upazilasBuilder->where('loc_upazilas.loc_district_id', $districtId);
         }
 
         if (!empty($divisionId)) {
-            $upazilas->where('loc_upazilas.loc_division_id', $divisionId);
+            $upazilasBuilder->where('loc_upazilas.loc_division_id', $divisionId);
         }
 
-        if ($paginate || $limit) {
+        if (!is_null($paginate) || !is_null($limit)) {
             $limit = $limit ?: 10;
-            $upazilas = $upazilas->paginate($limit);
-            $paginateData = (object)$upazilas->toArray();
+            $upazilasBuilder = $upazilasBuilder->paginate($limit);
+            $paginateData = (object)$upazilasBuilder->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
             $response['page_size'] = $paginateData->per_page;
             $response['total'] = $paginateData->total;
         } else {
-            $upazilas = $upazilas->get();
+            $upazilasBuilder = $upazilasBuilder->get();
         }
 
         $response['order'] = $order;
-        $response['data'] = $upazilas->toArray()['data'] ?? $upazilas->toArray();
+        $response['data'] = $upazilasBuilder->toArray()['data'] ?? $upazilasBuilder->toArray();
         $response['_response_status'] = [
             "success" => true,
             "code" => Response::HTTP_OK,
@@ -95,8 +119,8 @@ class LocUpazilaService
      */
     public function getOneUpazila(int $id, Carbon $startTime): array
     {
-        /** @var LocUpazila|Builder $upazila */
-        $upazila = LocUpazila::select([
+        /** @var LocUpazila|Builder $upazilaBuilder */
+        $upazilaBuilder = LocUpazila::select([
             'loc_upazilas.id',
             'loc_upazilas.loc_district_id',
             'loc_upazilas.loc_division_id',
@@ -108,11 +132,28 @@ class LocUpazilaService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
+            'loc_upazilas.row_status',
+            'loc_upazilas.created_by',
+            'loc_upazilas.updated_by',
+            'loc_upazilas.created_at',
+            'loc_upazilas.updated_at'
         ]);
-        $upazila->join('loc_divisions', 'loc_divisions.id', '=', 'loc_upazilas.loc_division_id');
-        $upazila->join('loc_districts', 'loc_districts.id', '=', 'loc_upazilas.loc_division_id');
-        $upazila->where('loc_upazilas.id', $id);
-        $upazila = $upazila->first();
+
+        $upazilaBuilder->join('loc_divisions', function ($join) {
+            $join->on('loc_divisions.id', '=', 'loc_upazilas.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+        });
+
+        $upazilaBuilder->join('loc_districts', function ($join) {
+            $join->on('loc_districts.id', '=', 'loc_upazilas.loc_district_id')
+                ->whereNull('loc_districts.deleted_at');
+        });
+
+        if (!empty($id)) {
+            $upazilaBuilder->where('loc_upazilas.id', $id);
+        }
+
+        $upazila = $upazilaBuilder->first();
         return [
             "data" => $upazila ?: [],
             "_response_status" => [
