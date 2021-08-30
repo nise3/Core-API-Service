@@ -1620,10 +1620,10 @@
                         "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/title_en_optional"
+                        "$ref": "#/components/parameters/name_en_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/title_bn_optional"
+                        "$ref": "#/components/parameters/name_bn_optional"
                     },
                     {
                         "$ref": "#/components/parameters/email_optional"
