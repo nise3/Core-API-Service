@@ -19,6 +19,7 @@ class DivisionTest extends TestCase
             "title_bn" => "Test Division Bn",
             "bbs_code" => 1001
         ];
+
         $this->post(route("api.v1.divisions.store"), $formData)
             ->seeStatusCode(201);
 
