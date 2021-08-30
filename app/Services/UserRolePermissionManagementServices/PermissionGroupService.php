@@ -20,18 +20,18 @@ class PermissionGroupService
     const ROUTE_PREFIX = 'api.v1.permission-groups.';
 
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllPermissionGroups(Request $request, Carbon $startTime): array
+    public function getAllPermissionGroups(array $request, Carbon $startTime): array
     {
-        $paginate = $request->query('page');
-        $limit = $request->query('limit');
-        $titleEn = $request->query('title_en');
-        $titleBn = $request->query('title_bn');
-        $rowStatus = $request->query('row_status');
-        $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
+        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
+        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
         /** @var PermissionGroup|Builder $permissionGroupBuilder */
         $permissionGroupBuilder = PermissionGroup::select([
@@ -53,12 +53,12 @@ class PermissionGroupService
             $permissionGroupBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if (!is_null($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $permissionGroupBuilder->where('row_status', $rowStatus);
         }
 
         /** @var Collection|PermissionGroup $permissionGroups */
-        if (!is_null($paginate) || !is_null($limit)) {
+        if (is_numeric($paginate) || is_numeric($limit)) {
             $limit = $limit ?: 10;
             $permissionGroups = $permissionGroupBuilder->paginate($limit);
             $paginateData = (object)$permissionGroups->toArray();
@@ -180,6 +180,32 @@ class PermissionGroupService
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
         return Validator::make($data, $rules);
+    }
+
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+            'order.in' => 'Order must be within ASC or DESC',
+            'row_status.in' => 'Row status must be within 1 or 0'
+        ];
+
+        return Validator::make($request->all(), [
+            'title_en' => 'nullable|min:1',
+            'title_bn' => 'nullable|min:1',
+            'page' => 'numeric',
+            'limit' => 'numeric',
+            'order' => [
+                'string',
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
     }
 
 }

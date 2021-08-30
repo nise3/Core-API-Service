@@ -6,7 +6,7 @@ use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,20 +19,19 @@ class UserService
     /*const ROUTE_PREFIX = 'api.v1.users.';*/
 
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllUsers(Request $request, Carbon $startTime): array
+    public function getAllUsers(array $request, Carbon $startTime): array
     {
-        $paginate = $request->query('page');
-        $limit = $request->query('limit');
-        $nameEn = $request->query('name_en');
-        $nameBn = $request->query('name_bn');
-        $email = $request->query('email');
-        $rowStatus = $request->query('row_status');
-
-        $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
+        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
+        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $nameEn = array_key_exists('name_en', $request) ? $request['name_en'] : "";
+        $nameBn = array_key_exists('name_bn', $request) ? $request['name_bn'] : "";
+        $email = array_key_exists('email', $request) ? $request['email'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
@@ -58,7 +57,7 @@ class UserService
         $usersBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
             $join->on('loc_divisions.id', '=', 'users.loc_division_id')
                 ->whereNull('loc_divisions.deleted_at');
-            if (!is_null($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('roles.row_status');
             }
         });
@@ -66,7 +65,7 @@ class UserService
         $usersBuilder->leftJoin('loc_districts', function ($join) use ($rowStatus) {
             $join->on('loc_districts.id', '=', 'users.loc_district_id')
                 ->whereNull('loc_districts.deleted_at');
-            if (!is_null($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('roles.row_status');
             }
         });
@@ -74,7 +73,7 @@ class UserService
         $usersBuilder->leftJoin('loc_upazilas', function ($join) use ($rowStatus) {
             $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
                 ->whereNull('loc_upazilas.deleted_at');
-            if (!is_null($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('roles.row_status');
             }
         });
@@ -91,11 +90,11 @@ class UserService
             $usersBuilder = $usersBuilder->where('users.email', 'like', '%' . $email . '%');
         }
 
-        if (!is_null($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $usersBuilder->where('users.row_status', $rowStatus);
         }
 
-        if (!is_null($paginate) || !is_null($limit)) {
+        if (is_numeric($paginate) || is_numeric($limit)) {
             $limit = $limit ?: 10;
             $users = $usersBuilder->paginate($limit);
             $paginateData = (object)$users->toArray();
@@ -224,7 +223,7 @@ class UserService
      * @param int|null $id
      * @return Validator
      */
-    public function validator(Request $request, int $id = null): Validator
+    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "user_type" => "required|min:1",
@@ -252,24 +251,51 @@ class UserService
             ],
 
         ];
-        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules);
     }
 
-    public function roleIdValidation(Request $request): Validator
+    public function roleIdValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             'role_id' => 'required|numeric|min:1|exists:roles,id',
         ];
-        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules);
     }
 
-    public function permissionValidation(Request $request): Validator
+    public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
-        return \Illuminate\Support\Facades\Validator::make($data, $rules);
+        return Validator::make($data, $rules);
+    }
+
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+            'order.in' => 'Order must be within ASC or DESC',
+            'row_status.in' => 'Row status must be within 1 or 0'
+        ];
+
+        return Validator::make($request->all(), [
+            'page' => 'numeric',
+            'limit' => 'numeric',
+            'name_en' => 'string',
+            'name_bn' => 'string',
+            'email' => 'string',
+            'order' => [
+                'string',
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
     }
 }

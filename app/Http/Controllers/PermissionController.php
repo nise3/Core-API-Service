@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes\CustomExceptionHandler;
+//use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\Permission;
 use App\Services\UserRolePermissionManagementServices\PermissionService;
 use Carbon\Carbon;
@@ -37,7 +37,9 @@ class PermissionController extends Controller
     public function getList(Request $request): JsonResponse
     {
         try {
-            $response = $this->permissionService->getAllPermissions($request, $this->startTime);
+            $filter = $this->permissionService->filterValidator($request)->validate();
+
+            $response = $this->permissionService->getAllPermissions($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -64,14 +66,14 @@ class PermissionController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function store(Request $request):JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $validated = $this->permissionService->validator($request)->validate();
         try {
             $permission = new Permission();
-            $permission=$this->permissionService->store($validated, $permission);
+            $permission = $this->permissionService->store($validated, $permission);
             $response = [
-                "data"=>$permission?:[],
+                "data" => $permission ?: [],
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
@@ -90,14 +92,14 @@ class PermissionController extends Controller
      * @param int $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function update(Request $request, int $id):JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $permission = Permission::findOrFail($id);
         try {
             $validated = $this->permissionService->validator($request, $id)->validate();
-            $permission=$this->permissionService->update($validated, $permission);
+            $permission = $this->permissionService->update($validated, $permission);
             $response = [
-                "data"=>$permission?:[],
+                "data" => $permission ?: [],
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
@@ -106,7 +108,7 @@ class PermissionController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -115,7 +117,7 @@ class PermissionController extends Controller
      * @param int $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function destroy(int $id):JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $permission = Permission::findOrFail($id);
         try {
@@ -129,7 +131,7 @@ class PermissionController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -141,7 +143,7 @@ class PermissionController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function assignPermissionToOrganization(Request $request, int $organization_id):JsonResponse
+    public function assignPermissionToOrganization(Request $request, int $organization_id): JsonResponse
     {
         $validated = $this->permissionService->permissionValidation($request)->validated();
 
@@ -168,7 +170,7 @@ class PermissionController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function assignPermissionToInstitute(Request $request, int $institute_id):JsonResponse
+    public function assignPermissionToInstitute(Request $request, int $institute_id): JsonResponse
     {
         $validated = $this->permissionService->permissionValidation($request)->validated();
         try {
@@ -182,7 +184,7 @@ class PermissionController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
