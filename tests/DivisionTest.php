@@ -1,9 +1,16 @@
 <?php
 
+use Laravel\Lumen\Testing\DatabaseTransactions;
+
+//use Laravel\Lumen\Testing\DatabaseMigrations;
+
 use App\Models\LocDivision;
 
 class DivisionTest extends TestCase
 {
+//    use DatabaseMigrations;
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
