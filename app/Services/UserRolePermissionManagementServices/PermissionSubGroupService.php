@@ -142,7 +142,7 @@ class PermissionSubGroupService
     public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds): PermissionSubGroup
     {
         $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
-        $permissionSubGroup->permissions()->syncWithoutDetaching($validPermissions);
+        $permissionSubGroup->permissions()->sync($validPermissions);
         return $permissionSubGroup;
     }
 

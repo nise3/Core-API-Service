@@ -214,7 +214,7 @@ class UserService
     public function assignPermission(User $user, array $permissionIds): User
     {
         $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
-        $user->permissions()->syncWithoutDetaching($validPermissions);
+        $user->permissions()->sync($validPermissions);
         return $user;
     }
 
