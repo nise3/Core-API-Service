@@ -226,6 +226,9 @@ class LocUpazilaService
             'order.in' => 'Order must be within ASC or DESC',
             'row_status.in' => 'Row status must be within 1 or 0'
         ];
+
+        $request['order']=strtoupper($request['order']);
+
         return Validator::make($request->all(), [
             'title_en' => 'nullable|min:1',
             'title_bn' => 'nullable|min:1',
@@ -235,7 +238,7 @@ class LocUpazilaService
             'division_id' => 'numeric',
             'order' => [
                 'string',
-                 Rule::in([strtolower(BaseModel::ROW_ORDER_ASC), strtolower(BaseModel::ROW_ORDER_DESC)])
+                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
                 "numeric",
