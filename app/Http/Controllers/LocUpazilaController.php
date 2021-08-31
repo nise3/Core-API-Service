@@ -39,10 +39,12 @@ class LocUpazilaController extends Controller
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
      */
-    public function getList(Request $request): JsonResponse
+    public function getList(Request $request):JsonResponse
     {
+        $filter=$this->locUpazilaService->filterValidator($request)->validate();
+
         try {
-            $response = $this->locUpazilaService->getAllUpazilas($request, $this->startTime);
+            $response = $this->locUpazilaService->getAllUpazilas($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }

@@ -39,13 +39,16 @@ class RoleController extends Controller
     /**
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
-    public function getList(Request $request):JsonResponse
+    public function getList(Request $request): JsonResponse
     {
+        $filter = $this->roleService->filterValidator($request)->validate();
+
         try {
-            $response = $this->roleService->getAllRoles($request, $this->startTime);
+            $response = $this->roleService->getAllRoles($filter, $this->startTime);
         } catch (Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response);
     }
@@ -57,12 +60,12 @@ class RoleController extends Controller
      * @param $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function read(Request $request, int $id):JsonResponse
+    public function read(Request $request, int $id): JsonResponse
     {
         try {
             $response = $this->roleService->getOneRole($id, $this->startTime);
         } catch (Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response);
     }
@@ -103,7 +106,7 @@ class RoleController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function update(Request $request, int $id):JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $role = Role::findOrFail($id);
         $validated = $this->roleService->validator($request, $id)->validate();
@@ -129,7 +132,7 @@ class RoleController extends Controller
      * @param $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function destroy($id):JsonResponse
+    public function destroy($id): JsonResponse
     {
         $role = Role::findOrFail($id);
         try {
@@ -143,7 +146,7 @@ class RoleController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -154,7 +157,7 @@ class RoleController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function assignPermissionToRole(Request $request, $id):JsonResponse
+    public function assignPermissionToRole(Request $request, $id): JsonResponse
     {
         $role = Role::findOrFail($id);
         $validated = $this->roleService->permissionValidation($request)->validated();
@@ -170,7 +173,7 @@ class RoleController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

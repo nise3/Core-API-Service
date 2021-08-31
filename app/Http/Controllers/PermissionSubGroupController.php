@@ -28,11 +28,14 @@ class PermissionSubGroupController extends Controller
     /**
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
     {
+        $filter = $this->permissionSubGroupService->filterValidator($request)->validate();
+
         try {
-            $response = $this->permissionSubGroupService->getAllPermissionSubGroups($request, $this->startTime);
+            $response = $this->permissionSubGroupService->getAllPermissionSubGroups($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -136,7 +139,7 @@ class PermissionSubGroupController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function assignPermissionToPermissionSubGroup(Request $request, int $id):JsonResponse
+    public function assignPermissionToPermissionSubGroup(Request $request, int $id): JsonResponse
     {
         $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->permissionValidation($request)->validated();
@@ -152,7 +155,7 @@ class PermissionSubGroupController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

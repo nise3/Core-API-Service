@@ -1,9 +1,16 @@
 <?php
 
+use Laravel\Lumen\Testing\DatabaseTransactions;
+
+//use Laravel\Lumen\Testing\DatabaseMigrations;
+
 use App\Models\LocDivision;
 
 class DivisionTest extends TestCase
 {
+//    use DatabaseMigrations;
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
@@ -19,6 +26,7 @@ class DivisionTest extends TestCase
             "title_bn" => "Test Division Bn",
             "bbs_code" => 1001
         ];
+
         $this->post(route("api.v1.divisions.store"), $formData)
             ->seeStatusCode(201);
 
