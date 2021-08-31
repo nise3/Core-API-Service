@@ -18,18 +18,16 @@ use Symfony\Component\HttpFoundation\Response;
 class LocDivisionService
 {
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllDivisions(Request $request, Carbon $startTime): array
+    public function getAllDivisions(array $request, Carbon $startTime): array
     {
-        $titleEn = $request->query('title_en');
-        $titleBn = $request->query('title_bn');
-        $paginate = $request->query('page');
-        $limit = $request->query('limit');
-        $rowStatus = $request->query('row_status');
-        $order = $request->query('order', 'ASC');
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
         /** @var Builder $divisionsBuilder */
         $divisionsBuilder = LocDivision::select([
@@ -45,7 +43,7 @@ class LocDivisionService
         ]);
         $divisionsBuilder->orderBy('id', $order);
 
-        if (!is_null($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $divisionsBuilder->where('row_status', $rowStatus);
         }
         if (!empty($titleEn)) {
@@ -54,17 +52,7 @@ class LocDivisionService
             $divisionsBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if (!is_null($paginate) || !is_null($limit)) {
-            $limit = $limit ?: 10;
-            $divisionsBuilder = $divisionsBuilder->paginate($limit);
-            $paginateData = (object)$divisionsBuilder->toArray();
-            $response['current_page'] = $paginateData->current_page;
-            $response['total_page'] = $paginateData->last_page;
-            $response['page_size'] = $paginateData->per_page;
-            $response['total'] = $paginateData->total;
-        } else {
-            $divisionsBuilder = $divisionsBuilder->get();
-        }
+        $divisionsBuilder = $divisionsBuilder->get();
 
         $response['order'] = $order;
         $response['data'] = $divisionsBuilder->toArray()['data'] ?? $divisionsBuilder->toArray();
@@ -143,6 +131,7 @@ class LocDivisionService
 
     /**
      * @param Request $request
+     * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
@@ -156,5 +145,28 @@ class LocDivisionService
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ]);
+    }
+
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+            'order.in' => 'Order must be within ASC or DESC',
+            'row_status.in' => 'Row status must be within 1 or 0'
+        ];
+        return Validator::make($request->all(), [
+            'title_en' => 'nullable|min:1',
+            'title_bn' => 'nullable|min:1',
+            'order' => [
+                'string',
+                Rule::in([(BaseModel::ROW_ORDER_ASC), (BaseModel::ROW_ORDER_DESC)])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
     }
 }

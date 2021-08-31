@@ -19,18 +19,15 @@ class LocUpazilaService
     const ROUTE_PREFIX = 'api.v1.upazilas.';
 
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function getAllUpazilas(array $request, Carbon $startTime): array
     {
 
         $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
         $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $districtId = array_key_exists('district_id', $request) ? $request['district_id'] : "";
         $divisionId = array_key_exists('division_id', $request) ? $request['division_id'] : "";
@@ -92,19 +89,7 @@ class LocUpazilaService
             $upazilasBuilder->where('loc_upazilas.loc_division_id', $divisionId);
         }
 
-
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
-            $upazilasBuilder = $upazilasBuilder->paginate($limit);
-            $paginateData = (object)$upazilasBuilder->toArray();
-            $response['current_page'] = $paginateData->current_page;
-            $response['total_page'] = $paginateData->last_page;
-            $response['page_size'] = $paginateData->per_page;
-            $response['total'] = $paginateData->total;
-        } else {
-            $upazilasBuilder = $upazilasBuilder->get();
-        }
-
+        $upazilasBuilder = $upazilasBuilder->get();
 
         $response['order'] = $order;
         $response['data'] = $upazilasBuilder->toArray()['data'] ?? $upazilasBuilder->toArray();
@@ -222,23 +207,21 @@ class LocUpazilaService
 
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
         $customMessage = [
             'order.in' => 'Order must be within ASC or DESC',
             'row_status.in' => 'Row status must be within 1 or 0'
         ];
-
-        $request['order']=strtoupper($request['order']);
-
         return Validator::make($request->all(), [
             'title_en' => 'nullable|min:1',
             'title_bn' => 'nullable|min:1',
-            'page' => 'numeric',
-            'limit' => 'numeric',
             'district_id' => 'numeric',
             'division_id' => 'numeric',
             'order' => [
                 'string',
-                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
                 "numeric",

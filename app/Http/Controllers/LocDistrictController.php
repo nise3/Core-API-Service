@@ -37,11 +37,14 @@ class LocDistrictController extends Controller
      *
      * @param Request $request
      * @return Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
-    public function getList(Request $request):JsonResponse
+    public function getList(Request $request): JsonResponse
     {
+        $filter = $this->locDistrictService->filterValidator($request)->validate();
+
         try {
-            $response = $this->locDistrictService->getAllDistricts($request, $this->startTime);
+            $response = $this->locDistrictService->getAllDistricts($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -54,12 +57,12 @@ class LocDistrictController extends Controller
      * @param int $id
      * @return Exception|JsonResponse|Throwable
      */
-    public function read( int $id):JsonResponse
+    public function read(int $id): JsonResponse
     {
         try {
             $response = $this->locDistrictService->getOneDistrict($id, $this->startTime);
         } catch (Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response);
     }
@@ -71,7 +74,7 @@ class LocDistrictController extends Controller
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function store(Request $request):JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $validated = $this->locDistrictService->validator($request)->validate();
         try {
@@ -86,7 +89,7 @@ class LocDistrictController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -99,10 +102,10 @@ class LocDistrictController extends Controller
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function update(Request $request, int $id):JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $locDistrict = LocDistrict::findOrFail($id);
-        $validated = $this->locDistrictService->validator($request,$id)->validate();
+        $validated = $this->locDistrictService->validator($request, $id)->validate();
         try {
             $loc_district = $this->locDistrictService->update($locDistrict, $validated);
             $response = [
@@ -125,7 +128,7 @@ class LocDistrictController extends Controller
      * @param int $id
      * @return Exception|JsonResponse|Throwable
      */
-    public function destroy(int $id):JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $locDistrict = LocDistrict::findOrFail($id);
         try {

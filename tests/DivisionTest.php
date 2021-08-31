@@ -1,9 +1,16 @@
 <?php
 
+use Laravel\Lumen\Testing\DatabaseTransactions;
+
+//use Laravel\Lumen\Testing\DatabaseMigrations;
+
 use App\Models\LocDivision;
 
 class DivisionTest extends TestCase
 {
+//    use DatabaseMigrations;
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
@@ -11,7 +18,7 @@ class DivisionTest extends TestCase
      */
     const ROUTE_PREFIX = "api.v1.divisions.";
 
-    /**Division Create TestCase*/
+    /** Division Create TestCase */
     public function testCanCreateTask()
     {
         $formData = [
@@ -25,7 +32,7 @@ class DivisionTest extends TestCase
 
     }
 
-    /**Read TestCase*/
+    /** Read TestCase */
     public function testCanGetReadTask()
     {
         $this->get(route("api.v1.divisions.get-list"))
@@ -33,7 +40,7 @@ class DivisionTest extends TestCase
 
     }
 
-    /**Show TestCase*/
+    /** Show TestCase */
     public function testCanShowTask()
     {
         $lod_division = LocDivision::factory()->create();
@@ -42,7 +49,7 @@ class DivisionTest extends TestCase
 
     }
 
-    /**Put TestCase*/
+    /** Put TestCase */
     public function testCanUpdateTask()
     {
         $lod_division = LocDivision::factory()->create();
@@ -56,7 +63,7 @@ class DivisionTest extends TestCase
 
     }
 
-    /**Delete TestCase*/
+    /** Delete TestCase */
     public function testCanDeleteTask()
     {
         $lod_division = LocDivision::factory()->create();

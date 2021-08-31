@@ -15,18 +15,18 @@ use Symfony\Component\HttpFoundation\Response;
 class RoleService
 {
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllRoles(Request $request, Carbon $startTime): array
+    public function getAllRoles(array $request, Carbon $startTime): array
     {
-        $titleEn = $request->query('title_en');
-        $titleBn = $request->query('title_bn');
-        $paginate = $request->query('page');
-        $limit = $request->query('limit');
-        $rowStatus = $request->query('row_status');
-        $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
+        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
+        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
         /** @var Role|Builder $rolesBuilder */
         $rolesBuilder = Role::select([
@@ -47,12 +47,12 @@ class RoleService
 
         $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'roles.permission_group_id');
-            if (!is_null($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('permission_groups.row_status', $rowStatus);
             }
         });
 
-        if (!is_null($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $rolesBuilder->where('roles.row_status', $rowStatus);
         }
 
@@ -64,7 +64,7 @@ class RoleService
             $rolesBuilder->where('roles.title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if (!is_null($paginate) || !is_null($limit)) {
+        if (is_numeric($paginate) || is_numeric($limit)) {
             $limit = $limit ?: 10;
             $roles = $rolesBuilder->paginate($limit);
             $paginateData = (object)$roles->toArray();
@@ -203,5 +203,31 @@ class RoleService
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
         return Validator::make($data, $rules);
+    }
+
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+            'order.in' => 'Order must be within ASC or DESC',
+            'row_status.in' => 'Row status must be within 1 or 0'
+        ];
+
+        return Validator::make($request->all(), [
+            'title_en' => 'nullable|min:1',
+            'title_bn' => 'nullable|min:1',
+            'page' => 'numeric',
+            'limit' => 'numeric',
+            'order' => [
+                'string',
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
     }
 }

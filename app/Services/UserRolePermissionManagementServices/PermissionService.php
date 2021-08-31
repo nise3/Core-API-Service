@@ -19,17 +19,18 @@ class PermissionService
 {
 
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllPermissions(Request $request, Carbon $startTime): array
+    public function getAllPermissions(array $request, Carbon $startTime): array
     {
-        $paginate = $request->query('page');
-        $limit = $request->query('limit');
-        $searchFilter = $request->query('name');
-        $rowStatus = $request->query('row_status');
-        $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
+        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
+        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $searchFilter = array_key_exists('name', $request) ? $request['name'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $uri = array_key_exists('uri', $request) ? $request['uri'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
@@ -48,11 +49,15 @@ class PermissionService
             $permissionBuilder->where('name', 'like', '%' . $searchFilter . '%');
         }
 
-        if (!is_null($rowStatus)) {
+        if (!empty($uri)) {
+            $permissionBuilder->where('uri', 'like', '%' . $uri . '%');
+        }
+
+        if (is_numeric($rowStatus)) {
             $permissionBuilder->where('permissions.row_status', $rowStatus);
         }
 
-        if (!is_null($paginate) || !is_null($limit)) {
+        if (is_numeric($paginate) || is_numeric($limit)) {
             $limit = $limit ?: 10;
             /** @var Collection|Permission $permissions */
             $permissions = $permissionBuilder->paginate($limit);
@@ -219,5 +224,30 @@ class PermissionService
         return Validator::make($data, $rules);
     }
 
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+            'order.in' => 'Order must be within ASC or DESC',
+            'row_status.in' => 'Row status must be within 1 or 0'
+        ];
+
+        return Validator::make($request->all(), [
+            'page' => 'numeric',
+            'limit' => 'numeric',
+            'name' => 'string',
+            'uri' => 'string',
+            'order' => [
+                'string',
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
+    }
 
 }

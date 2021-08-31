@@ -32,13 +32,16 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
-    public function getList(Request $request):JsonResponse
+    public function getList(Request $request): JsonResponse
     {
+        $filter = $this->userService->filterValidator($request)->validate();
+
         try {
-            $response = $this->userService->getAllUsers($request, $this->startTime);
+            $response = $this->userService->getAllUsers($filter, $this->startTime);
         } catch (\Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response);
     }
@@ -50,12 +53,12 @@ class UserController extends Controller
      * @param int $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function read(Request $request, int $id):JsonResponse
+    public function read(Request $request, int $id): JsonResponse
     {
         try {
             $response = $this->userService->getOneUser($id, $this->startTime);
         } catch (\Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response);
     }
@@ -66,7 +69,7 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function store(Request $request):JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $user = new User();
         $validated = $this->userService->validator($request)->validate();
@@ -96,7 +99,7 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function update(Request $request, int $id):JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->validator($request, $id)->validate();
@@ -112,7 +115,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (\Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -122,7 +125,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function destroy(int $id):JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         try {
@@ -136,7 +139,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (\Throwable $e) {
-           return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -147,7 +150,7 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function assignPermissionToUser(Request $request, int $id):JsonResponse
+    public function assignPermissionToUser(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->permissionValidation($request)->validated();
@@ -174,7 +177,7 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function assignRoleToUser(Request $request, int $id):JsonResponse
+    public function assignRoleToUser(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->roleIdValidation($request)->validated();

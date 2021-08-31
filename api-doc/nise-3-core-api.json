@@ -15,7 +15,13 @@
             "url": "https://api.bus.softbd.xyz/core/api/v1",
             "description": "",
             "variables": {}
+        },
+        {
+            "url": "http://nise3-core.asm/api/v1",
+            "description": "",
+            "variables": {}
         }
+
     ],
     "paths": {
         "/": {
@@ -62,12 +68,6 @@
                 "description": "Optional extended description in Markdown.",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/limit"
-                    },
-                    {
                         "$ref": "#/components/parameters/order"
                     },
                     {
@@ -89,10 +89,6 @@
                                     "$ref": "#/components/schemas/division"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 1,
-                                    "page_size": "10",
-                                    "total": 7,
                                     "order": "asc",
                                     "data": [
                                         {
@@ -322,12 +318,6 @@
                 "summary": "get list",
                 "description": "Optional extended description in Markdown.",
                 "parameters": [
-                    {
-                        "$ref": "#/components/parameters/page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/limit"
-                    },
                     {
                         "$ref": "#/components/parameters/row_status_optional"
                     },
@@ -623,12 +613,6 @@
                 "description": "Optional extended description in Markdown.",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/limit"
-                    },
-                    {
                         "$ref": "#/components/parameters/order"
                     },
                     {
@@ -650,11 +634,9 @@
                                     "$ref": "#/components/schemas/upazila"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 50,
-                                    "page_size": "10",
                                     "total": 494,
                                     "order": "asc",
+                                    "row_status": 1,
                                     "data": [
                                         {
                                             "id": 1,
@@ -663,7 +645,7 @@
                                             "title_bn": "আমতলী ",
                                             "title_en": "AMTALI",
                                             "bbs_code": "09",
-                                            "row_status_optional": "1",
+                                            "row_status": "1",
                                             "district_title_bn": "Test Title (BN)",
                                             "district_title_en": "Test Title (EN)",
                                             "division_bbs_code": "10",
@@ -956,6 +938,7 @@
                                     "page_size": "10",
                                     "total": 40,
                                     "order": "ASC",
+                                    "uri": "api/v1/divisions/1",
                                     "data": [
                                         {
                                             "id": 2,
@@ -1637,10 +1620,10 @@
                         "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/title_en_optional"
+                        "$ref": "#/components/parameters/name_en_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/title_bn_optional"
+                        "$ref": "#/components/parameters/name_bn_optional"
                     },
                     {
                         "$ref": "#/components/parameters/email_optional"
