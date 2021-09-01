@@ -14,7 +14,7 @@ $router->get('/hello', 'ExampleController@hateoasResponse');
 
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
 
-    $router->get('/',['uses' => 'ApiInfoController@apiInfo']);
+    $router->get('/', ['uses' => 'ApiInfoController@apiInfo']);
 
     $router->post('auth/login', 'Auth\AuthController@login');
     $router->post('auth/register', 'Auth\AuthController@register');
@@ -27,6 +27,8 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('permission-groups', 'PermissionGroupController')->render();
     $customRouter()->resourceRoute('permission-sub-groups', 'PermissionSubGroupController')->render();
     $customRouter()->resourceRoute('users', 'UserController')->render();
+    $customRouter()->resourceRoute('gallery-categories', 'GalleryCategoryController')->render();
+    $customRouter()->resourceRoute('galleries', 'GalleryController')->render();
 
 
     /* assign permission to Roles*/

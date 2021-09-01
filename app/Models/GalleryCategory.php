@@ -26,12 +26,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class GalleryCategory extends BaseModel
 {
-    use ScopeRowStatusTrait, SoftDeletes, HasFactory;
+    use ScopeRowStatusTrait, SoftDeletes;
 
     protected $guarded = ['id'];
 
 
-
+    /**
+     * @return HasMany
+     */
     public function galleries(): HasMany
     {
         return $this->hasMany(Gallery::class);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GalleryCategory;
+use App\Services\ContentManagementServices\GalleryCategoryService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Exception;
@@ -13,21 +15,15 @@ use Throwable;
 
 class GalleryCategoryController extends Controller
 {
-    /**
-     * @var locDistrictService
-     */
-    public LocDistrictService $locDistrictService;
+
+    public GalleryCategoryService $galleryCategoryService;
     private Carbon $startTime;
 
-    /**
-     * LocDistrictController constructor.
-     * @param LocDistrictService $locDistrictService
-     */
-    public function __construct(LocDistrictService $locDistrictService)
+
+    public function __construct(GalleryCategoryService $galleryCategoryService)
     {
         $this->startTime = Carbon::now();
-
-        $this->locDistrictService = $locDistrictService;
+        $this->galleryCategoryService = $galleryCategoryService;
     }
 
     /**
@@ -39,10 +35,10 @@ class GalleryCategoryController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $filter = $this->locDistrictService->filterValidator($request)->validate();
+        $filter = $this->galleryCategoryService->filterValidator($request)->validate();
 
         try {
-            $response = $this->locDistrictService->getAllDistricts($filter, $this->startTime);
+            $response = $this->galleryCategoryService->getAllGalleryCategories($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -58,7 +54,7 @@ class GalleryCategoryController extends Controller
     public function read(int $id): JsonResponse
     {
         try {
-            $response = $this->locDistrictService->getOneDistrict($id, $this->startTime);
+            $response = $this->galleryCategoryService->getOneGalleryCategory($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -74,15 +70,15 @@ class GalleryCategoryController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $this->locDistrictService->validator($request)->validate();
+        $validated = $this->galleryCategoryService->validator($request)->validate();
         try {
-            $loc_district = $this->locDistrictService->store($validated);
+            $galleryCategory= $this->galleryCategoryService->store($validated);
             $response = [
-                'data' => $loc_district,
+                'data' => $galleryCategory,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "District added successfully",
+                    "message" => "GalleryCategory added successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now())
                 ]
             ];
@@ -102,16 +98,16 @@ class GalleryCategoryController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $locDistrict = LocDistrict::findOrFail($id);
-        $validated = $this->locDistrictService->validator($request, $id)->validate();
+        $galleryCategory = GalleryCategory::findOrFail($id);
+        $validated = $this->galleryCategoryService->validator($request, $id)->validate();
         try {
-            $loc_district = $this->locDistrictService->update($locDistrict, $validated);
+            $galleryCategory = $this->galleryCategoryService->update($galleryCategory, $validated);
             $response = [
-                'data' => $loc_district,
+                'data' => $galleryCategory,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "District updated successfully",
+                    "message" => "GalleryCategory updated successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
@@ -128,14 +124,14 @@ class GalleryCategoryController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $locDistrict = LocDistrict::findOrFail($id);
+        $galleryCategory = GalleryCategory::findOrFail($id);
         try {
-            $this->locDistrictService->destroy($locDistrict);
+            $this->galleryCategoryService->destroy($galleryCategory);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "District deleted successfully",
+                    "message" => "GalleryCategory deleted successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
