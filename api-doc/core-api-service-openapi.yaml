@@ -5,11 +5,8 @@ info:
   version: 1.0.0
 servers:
   - url: http://localhost:8000/api/v1
-    description: ''
-    variables: {}
   - url: https://api.bus.softbd.xyz/core/api/v1
-    description: ''
-    variables: {}
+  - url: http://nise3-core.asm/api/v1
 paths:
   /:
     get:
@@ -43,8 +40,6 @@ paths:
       summary: Returns a list of divisions.
       description: Optional extended description in Markdown.
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
@@ -57,10 +52,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/division'
               example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 7
                 order: asc
                 data:
                   - id: 3
@@ -208,8 +199,6 @@ paths:
       summary: get list
       description: Optional extended description in Markdown.
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/title_en_optional'
@@ -396,8 +385,6 @@ paths:
       summary: get list
       description: Optional extended description in Markdown.
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
@@ -410,11 +397,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/upazila'
               example:
-                current_page: 1
-                total_page: 50
-                page_size: '10'
                 total: 494
                 order: asc
+                row_status: 1
                 data:
                   - id: 1
                     loc_district_id: 1
@@ -422,7 +407,7 @@ paths:
                     title_bn: 'আমতলী '
                     title_en: AMTALI
                     bbs_code: '09'
-                    row_status_optional: '1'
+                    row_status: '1'
                     district_title_bn: Test Title (BN)
                     district_title_en: Test Title (EN)
                     division_bbs_code: '10'
@@ -606,6 +591,7 @@ paths:
                 page_size: '10'
                 total: 40
                 order: ASC
+                uri: api/v1/divisions/1
                 data:
                   - id: 2
                     name: divisions-read
@@ -1035,8 +1021,8 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
+        - $ref: '#/components/parameters/name_en_optional'
+        - $ref: '#/components/parameters/name_bn_optional'
         - $ref: '#/components/parameters/email_optional'
       responses:
         '200':
