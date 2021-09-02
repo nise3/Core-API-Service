@@ -176,7 +176,6 @@ class GalleryService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-//        dd($request->toArray());
         $rules = [
             'gallery_category_id' => [
                 'required',
@@ -198,8 +197,9 @@ class GalleryService
                 Rule::in([Gallery::CONTENT_TYPE_IMAGE, Gallery::CONTENT_TYPE_VIDEO])
             ],
             'is_youtube_video' => [
+                'int',
                 'required_if:content_type,' . Gallery::CONTENT_TYPE_VIDEO,
-                Rule::in([Gallery::IS_YOUTUBE_VIDEO, Gallery::IS_NOT_YOUTUBE_VIDEO])
+                Rule::in([Gallery::IS_YOUTUBE_VIDEO_YES, Gallery::IS_YOUTUBE_VIDEO_NO])
             ],
             'publish_date' => [
                 'nullable',
@@ -212,9 +212,9 @@ class GalleryService
             ],
         ];
 
-        if ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO) {
+        if ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
             $rules['you_tube_video_id'] = [
-                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO,
+                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_YES,
                 'string'
             ];
         } else {

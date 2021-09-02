@@ -15,7 +15,6 @@
         {
             "url": "http://nise3-core.asm/api/v1"
         }
-
     ],
     "paths": {
         "/": {
@@ -325,7 +324,6 @@
                         "$ref": "#/components/parameters/title_bn_optional"
                     }
                 ],
-
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -3823,8 +3821,426 @@
                     "permission_id"
                 ]
             },
-            "GalleryCategoyr":{
-                ""
+            "GalleryCategory": {
+                "type": "object",
+                "description": "Provide Gallery Categories",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "batch_id": {
+                        "type": "integer",
+                        "description": "Batch id",
+                        "example": 1
+                    },
+                    "programme_id": {
+                        "type": "integer",
+                        "description": "Programme id",
+                        "example": 1
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "gallery category image",
+                        "minLength": 191
+                    },
+                    "featured": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_bn",
+                    "title_en",
+                    "institute_id"
+                ]
+            },
+            "Gallery": {
+                "type": "object",
+                "description": "Provide Galleries",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "gallery_category_id": {
+                        "type": "integer",
+                        "description": "gallery category id"
+                    },
+                    "content_title": {
+                        "type": "string",
+                        "description": "Content title"
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "content_type": {
+                        "type": "integer",
+                        "description": "1=>image,2=>video",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "is_youtube_video": {
+                        "type": "integer",
+                        "description": "0=>not youtube vide,1=>youtube vide",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "publish_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "publish date"
+                    },
+                    "archive_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Archive date"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "gallery_category_id",
+                    "content_title",
+                    "institute_id",
+                    "content_type"
+                ]
+            },
+            "VideoCategory": {
+                "type": "object",
+                "description": "Provide video Categories",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "description": "VideoCategory Parent id",
+                        "example": 1
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "institute_id",
+                    "title_bn",
+                    "title_en"
+                ]
+            },
+            "video": {
+                "type": "object",
+                "description": "Provide videos",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "video_category_id": {
+                        "type": "integer",
+                        "description": "Video Category id"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of video"
+                    },
+                    "video_type": {
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "youtube_video_url": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "description": "Youtube video url"
+                    },
+                    "youtube_video_id": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "description": "Youtube video id"
+                    },
+                    "uploaded_video_path": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "description": "Uploaded video path"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn",
+                    "video_type",
+                    "institute_id",
+                    "video_category_id"
+                ]
+            },
+            "staticPage": {
+                "type": "object",
+                "description": "Provide static pages",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "page_contents": {
+                        "type": "string",
+                        "description": "page contents"
+                    },
+                    "page_id": {
+                        "type": "integer",
+                        "description": "Page id"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "create_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "page_id",
+                    "title_bn",
+                    "title_en",
+                    "institute_id",
+                    "page_contents"
+                ]
+            },
+            "slider": {
+                "type": "object",
+                "description": "Provide sliders",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "sub_title": {
+                        "type": "string",
+                        "description": " Subtitle",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "is_button_available": {
+                        "type": "integer",
+                        "description": "If button available",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "link": {
+                        "type": "string",
+                        "description": "Slider link"
+                    },
+                    "button_text": {
+                        "type": "string",
+                        "description": "Button text"
+
+                    },
+                    "slider": {
+                        "type": "string",
+                        "description": "slider"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
             }
         }
     }
