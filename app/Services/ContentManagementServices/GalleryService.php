@@ -15,8 +15,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GalleryService
 {
+    /**
+     * @param array $request
+     * @param Carbon $startTime
+     * @return array
+     */
     public function getAllGalleries(array $request, Carbon $startTime): array
     {
+
+        $contentTitle = array_key_exists('content_title', $request) ? $request['content_title'] : "";
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
         $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
@@ -28,7 +35,7 @@ class GalleryService
             'galleries.content_title',
             'galleries.content_type',
             'galleries.content_path',
-            'galleries.galleries.institute_id',
+            'galleries.institute_id',
             'galleries.you_tube_video_id',
             'galleries.gallery_category_id',
             'gallery_categories.title_en as gallery_category_title_en',
@@ -38,8 +45,8 @@ class GalleryService
             'galleries.archive_date',
             'galleries.created_by',
             'galleries.updated_by',
-            'gallery_categories.created_at',
-            'gallery_categories.updated_at'
+            'galleries.created_at',
+            'galleries.updated_at'
 
         ]);
         $galleryBuilder->join('gallery_categories', function ($join) use ($rowStatus) {
@@ -51,10 +58,13 @@ class GalleryService
         $galleryBuilder->orderBy('galleries.id', $order);
 
         if (is_numeric($rowStatus)) {
-            $galleryBuilder->where('gallery_categories.row_status', $rowStatus);
+            $galleryBuilder->where('galleries.row_status', $rowStatus);
+        }
+        if (!empty($contentTitle)) {
+            $galleryBuilder->where('galleries.title_en', 'like', '%' . $contentTitle . '%');
         }
 
-        /** @var Collection $organizations */
+        /** @var Collection $galleries */
 
         if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
@@ -79,7 +89,12 @@ class GalleryService
 
     }
 
-    public function getOneGallery(int $id, Carbon $startTime)
+    /**
+     * @param int $id
+     * @param Carbon $startTime
+     * @return array
+     */
+    public function getOneGallery(int $id, Carbon $startTime): array
     {
         /** @var Builder $galleryBuilder */
         $galleryBuilder = Gallery::select([
@@ -87,7 +102,7 @@ class GalleryService
             'galleries.content_title',
             'galleries.content_type',
             'galleries.content_path',
-            'galleries.galleries.institute_id',
+            'galleries.institute_id',
             'galleries.you_tube_video_id',
             'galleries.gallery_category_id',
             'gallery_categories.title_en as gallery_category_title_en',
@@ -97,8 +112,8 @@ class GalleryService
             'galleries.archive_date',
             'galleries.created_by',
             'galleries.updated_by',
-            'gallery_categories.created_at',
-            'gallery_categories.updated_at'
+            'galleries.created_at',
+            'galleries.updated_at'
 
         ]);
         $galleryBuilder->join('gallery_categories', function ($join) {
@@ -121,6 +136,10 @@ class GalleryService
 
     }
 
+    /**
+     * @param array $data
+     * @return Gallery
+     */
     public function store(array $data): Gallery
     {
         $gallery = new Gallery();
@@ -129,7 +148,11 @@ class GalleryService
         return $gallery;
     }
 
-
+    /**
+     * @param Gallery $gallery
+     * @param array $data
+     * @return Gallery
+     */
     public function update(Gallery $gallery, array $data): Gallery
     {
         $gallery->fill($data);
@@ -137,40 +160,69 @@ class GalleryService
         return $gallery;
     }
 
-
+    /**
+     * @param Gallery $gallery
+     * @return bool
+     */
     public function destroy(Gallery $gallery): bool
     {
         return $gallery->delete();
     }
 
-
+    /**
+     * @param Request $request
+     * @param int|null $id
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        //dd($request->content_path);
-        $contentType = Gallery::CONTENT_TYPES;
+//        dd($request->toArray());
         $rules = [
-            'gallery_category_id' => ['required', 'int', 'exists:gallery_categories,id'],
-            'content_title' => ['required', 'string', 'max:191'],
-            'institute_id' => ['required', 'int', 'exists:institutes,id'],
-            'content_type' => ['required', 'int', Rule::in(array_keys($contentType))],
-            'is_youtube_video' => ['required_if:' . Gallery::CONTENT_TYPES[$request->content_type] . ',Image'],
-            //'you_tube_video_id' => ['required_if:is_youtube_video,1', 'regex:/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/'],
-            'publish_date' => ['date'],
-            'archive_date' => ['date', 'after:publish_date'],
+            'gallery_category_id' => [
+                'required',
+                'int',
+                'exists:gallery_categories,id'
+            ],
+            'content_title' => [
+                'required',
+                'string',
+                'max:191'
+            ],
+            'institute_id' => [
+                'required',
+                'int'
+            ],
+            'content_type' => [
+                'required',
+                'int',
+                Rule::in([Gallery::CONTENT_TYPE_IMAGE, Gallery::CONTENT_TYPE_VIDEO])
+            ],
+            'is_youtube_video' => [
+                'required_if:content_type,' . Gallery::CONTENT_TYPE_VIDEO,
+                Rule::in([Gallery::IS_YOUTUBE_VIDEO, Gallery::IS_NOT_YOUTUBE_VIDEO])
+            ],
+            'publish_date' => [
+                'nullable',
+                'date'
+            ],
+            'archive_date' => [
+                'nullable',
+                'date',
+                'after:publish_date'
+            ],
         ];
 
-        if ($request->content_type == Gallery::CONTENT_TYPE_IMAGE) {
-            $rules['content_path'] = ['required_without:id', 'string'];
-            if (empty($request->content_path)) {
-                unset($rules['content_path']);
-            }
-        } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == 0) {
-            $rules['content_path'] = ['required_without:id', 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'];
-            if (empty($request->content_path)) {
-                unset($rules['content_path']);
-            }
-        } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == 1) {
-            $rules['you_tube_video_id'] = ['required_if:is_youtube_video,1', 'regex:/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/'];
+        if ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO) {
+            $rules['you_tube_video_id'] = [
+                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO,
+                'string'
+            ];
+        } else {
+            $rules['content_path'] = [
+                'required',
+                'string'
+            ];
+
         }
 
         return Validator::make($request->all(), $rules);

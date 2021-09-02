@@ -30,7 +30,10 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('gallery-categories', 'GalleryCategoryController')->render();
     $customRouter()->resourceRoute('galleries', 'GalleryController')->render();
     $customRouter()->resourceRoute('video-categories', 'VideoCategoryController')->render();
-    $customRouter()->resourceRoute('videos', 'VideoCategoryController')->render();
+    $customRouter()->resourceRoute('videos', 'VideoController')->render();
+    $customRouter()->resourceRoute('sliders', 'SliderController')->render();
+    $customRouter()->resourceRoute('static-pages', 'StaticPageController')->render();
+
 
 
     /* assign permission to Roles*/

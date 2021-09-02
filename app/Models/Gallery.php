@@ -33,10 +33,8 @@ class Gallery extends BaseModel
     const CONTENT_TYPE_IMAGE = 1;
     const CONTENT_TYPE_VIDEO = 2;
 
-    const CONTENT_TYPES = [
-        self::CONTENT_TYPE_IMAGE => 'Image',
-        self::CONTENT_TYPE_VIDEO => 'Video',
-    ];
+    const IS_YOUTUBE_VIDEO = 1;
+    const IS_NOT_YOUTUBE_VIDEO = 0;
 
 
     public function galleryCategory(): BelongsTo

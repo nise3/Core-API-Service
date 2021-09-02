@@ -2,42 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gallery;
-use App\Services\ContentManagementServices\GalleryService;
-use Illuminate\Http\Request;
+use App\Models\Video;
+use App\Services\ContentManagementServices\VideoService;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
+use Exception;
 
-/**
- * Class GalleryController
- * @package App\Http\Controllers
- */
-class GalleryController extends Controller
+class VideoController extends Controller
 {
-
-    /**
-     * @var GalleryService
-     */
-    public GalleryService $galleryService;
-    /**
-     * @var Carbon
-     */
+    public VideoService $videoService;
     private Carbon $startTime;
 
 
-    /**
-     * GalleryController constructor.
-     * @param GalleryService $galleryService
-     */
-    public function __construct(GalleryService $galleryService)
+    public function __construct(VideoService $videoService)
     {
         $this->startTime = Carbon::now();
-        $this->galleryService = $galleryService;
+        $this->videoService = $videoService;
     }
 
     /**
@@ -49,10 +34,10 @@ class GalleryController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $filter = $this->galleryService->filterValidator($request)->validate();
+        $filter = $this->videoService->filterValidator($request)->validate();
 
         try {
-            $response = $this->galleryService->getAllGalleries($filter, $this->startTime);
+            $response = $this->videoService->getAllVideos($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -68,7 +53,7 @@ class GalleryController extends Controller
     public function read(int $id): JsonResponse
     {
         try {
-            $response = $this->galleryService->getOneGallery($id, $this->startTime);
+            $response = $this->videoService->getOneVideoCategory($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -84,15 +69,15 @@ class GalleryController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $this->galleryService->validator($request)->validate();
+        $validated = $this->videoService->validator($request)->validate();
         try {
-            $gallery = $this->galleryService->store($validated);
+            $video = $this->videoService->store($validated);
             $response = [
-                'data' => $gallery,
+                'data' => $video,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "Gallery added successfully",
+                    "message" => "Video added successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now())
                 ]
             ];
@@ -112,16 +97,16 @@ class GalleryController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $gallery = Gallery::findOrFail($id);
-        $validated = $this->galleryService->validator($request, $id)->validate();
+        $video= Video::findOrFail($id);
+        $validated = $this->videoService->validator($request, $id)->validate();
         try {
-            $gallery = $this->galleryService->update($gallery, $validated);
+            $videoCategory = $this->videoService->update($video, $validated);
             $response = [
-                'data' => $gallery,
+                'data' => $video,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Gallery updated successfully",
+                    "message" => "Video updated successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
@@ -138,14 +123,14 @@ class GalleryController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $gallery = Gallery::findOrFail($id);
+        $video = Video::findOrFail($id);
         try {
-            $this->galleryService->destroy($gallery);
+            $this->videoService->destroy($video);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Gallery deleted successfully",
+                    "message" => "Video deleted successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];

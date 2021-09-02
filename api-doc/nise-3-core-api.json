@@ -325,6 +325,7 @@
                         "$ref": "#/components/parameters/title_bn_optional"
                     }
                 ],
+
                 "responses": {
                     "200": {
                         "description": "Successful",
@@ -3821,6 +3822,9 @@
                     "permission_sub_group_id",
                     "permission_id"
                 ]
+            },
+            "GalleryCategoyr":{
+                ""
             }
         }
     }

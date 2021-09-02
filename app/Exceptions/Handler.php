@@ -78,16 +78,14 @@ class Handler extends ExceptionHandler
                 "message" => "Don't have permission to access",
             ];
             return response()->json($errors);
-        }
-        elseif ($e instanceof ValidationException) {
+        } elseif ($e instanceof ValidationException) {
             $errors = [
                 "code" => ResponseAlias::HTTP_FORBIDDEN,
                 "message" => "Validation Fail",
                 'errors' => $e->errors()
             ];
             return response()->json($errors);
-        }
-        elseif ($e instanceof Exception || $e instanceof TypeError) {
+        } elseif ($e instanceof Exception || $e instanceof TypeError) {
             $errors = [
                 "code" => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
                 "message" => "Internal server error",

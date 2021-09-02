@@ -49,6 +49,8 @@ class VideoCategoryService
                 $join->where('parent.row_status', $rowStatus);
             }
         });
+        $videoCategoryBuilder->orderBy('video_categories.id', $order);
+
         if (is_numeric($rowStatus)) {
             $videoCategoryBuilder->where('video_categories.row_status', $rowStatus);
         }
@@ -57,6 +59,7 @@ class VideoCategoryService
         } elseif (!empty($titleBn)) {
             $videoCategoryBuilder->where('video_categories.title_bn', 'like', '%' . $titleBn . '%');
         }
+
         /** @var Collection $videoCategories */
 
         if (is_numeric($paginate) || is_numeric($pageSize)) {
@@ -104,6 +107,7 @@ class VideoCategoryService
         $videoCategoryBuilder->leftJoin('video_categories as parent', function ($join) {
             $join->on('parent.id', '=', 'video_categories.parent_id')
                 ->whereNull('parent.deleted_at');
+
 
         });
         $videoCategoryBuilder->where('video_categories.id', $id);
@@ -197,8 +201,7 @@ class VideoCategoryService
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public
-    function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $customMessage = [
             'order.in' => 'Order must be within ASC or DESC',

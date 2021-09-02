@@ -2,42 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gallery;
-use App\Services\ContentManagementServices\GalleryService;
-use Illuminate\Http\Request;
+use App\Models\StaticPage;
+use App\Services\ContentManagementServices\StaticPageService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
-/**
- * Class GalleryController
- * @package App\Http\Controllers
- */
-class GalleryController extends Controller
+class StaticPageController extends Controller
 {
-
     /**
-     * @var GalleryService
+     * @var StaticPageService
      */
-    public GalleryService $galleryService;
+    public StaticPageService $staticPageService;
+
     /**
      * @var Carbon
      */
     private Carbon $startTime;
 
-
     /**
-     * GalleryController constructor.
-     * @param GalleryService $galleryService
+     * @param StaticPageService $staticPageService
      */
-    public function __construct(GalleryService $galleryService)
+    public function __construct(StaticPageService $staticPageService)
     {
         $this->startTime = Carbon::now();
-        $this->galleryService = $galleryService;
+        $this->staticPageService = $staticPageService;
     }
 
     /**
@@ -49,10 +43,10 @@ class GalleryController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $filter = $this->galleryService->filterValidator($request)->validate();
+        $filter = $this->staticPageService->filterValidator($request)->validate();
 
         try {
-            $response = $this->galleryService->getAllGalleries($filter, $this->startTime);
+            $response = $this->staticPageService->getAllStaticPages($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -68,7 +62,7 @@ class GalleryController extends Controller
     public function read(int $id): JsonResponse
     {
         try {
-            $response = $this->galleryService->getOneGallery($id, $this->startTime);
+            $response = $this->staticPageService->getOneStaticPage($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -84,15 +78,15 @@ class GalleryController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $this->galleryService->validator($request)->validate();
+        $validated = $this->staticPageService->validator($request)->validate();
         try {
-            $gallery = $this->galleryService->store($validated);
+            $staticPage = $this->staticPageService->store($validated);
             $response = [
-                'data' => $gallery,
+                'data' => $staticPage,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "Gallery added successfully",
+                    "message" => "StaticPage added successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now())
                 ]
             ];
@@ -112,16 +106,16 @@ class GalleryController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $gallery = Gallery::findOrFail($id);
-        $validated = $this->galleryService->validator($request, $id)->validate();
+        $staticPage = StaticPage::findOrFail($id);
+        $validated = $this->staticPageService->validator($request, $id)->validate();
         try {
-            $gallery = $this->galleryService->update($gallery, $validated);
+            $staticPage = $this->staticPageService->update($staticPage, $validated);
             $response = [
-                'data' => $gallery,
+                'data' => $staticPage,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Gallery updated successfully",
+                    "message" => "StaticPage updated successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
@@ -138,14 +132,14 @@ class GalleryController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $gallery = Gallery::findOrFail($id);
+        $staticPage = StaticPage::findOrFail($id);
         try {
-            $this->galleryService->destroy($gallery);
+            $this->staticPageService->destroy($staticPage);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Gallery deleted successfully",
+                    "message" => "StaticPage deleted successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
