@@ -60,7 +60,8 @@ class GalleryCategoryService
         } elseif (!empty($titleBn)) {
             $galleryCategoryBuilder->where('gallery_categories.title_bn', 'like', '%' . $titleBn . '%');
         }
-        /** @var Collection $organizations */
+
+        /** @var Collection $galleryCategories */
 
         if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
@@ -109,7 +110,7 @@ class GalleryCategoryService
         ]);
         $galleryCategoryBuilder->where('gallery_categories.id', $id);
 
-        /** @var GalleryCategory $organization */
+        /** @var GalleryCategory $galleryCategory */
         $galleryCategory = $galleryCategoryBuilder->first();
 
         return [

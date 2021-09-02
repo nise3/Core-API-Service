@@ -29,6 +29,8 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('users', 'UserController')->render();
     $customRouter()->resourceRoute('gallery-categories', 'GalleryCategoryController')->render();
     $customRouter()->resourceRoute('galleries', 'GalleryController')->render();
+    $customRouter()->resourceRoute('video-categories', 'VideoCategoryController')->render();
+    $customRouter()->resourceRoute('videos', 'VideoCategoryController')->render();
 
 
     /* assign permission to Roles*/
