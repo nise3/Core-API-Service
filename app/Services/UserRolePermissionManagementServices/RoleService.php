@@ -168,7 +168,7 @@ class RoleService
     public function assignPermission(Role $role, array $permissionIds): Role
     {
         $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
-        $role->permissions()->syncWithoutDetaching($validPermissions);
+        $role->permissions()->sync($validPermissions);
         return $role;
     }
 

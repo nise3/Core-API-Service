@@ -42,6 +42,7 @@ class LocDivisionController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
+
         $filter = $this->locDivisionService->filterValidator($request)->validate();
 
         try {
