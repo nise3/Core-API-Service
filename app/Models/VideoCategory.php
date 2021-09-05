@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,4 +21,10 @@ class VideoCategory extends BaseModel
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function videos(): HasMany
+    {
+
+        return $this->hasMany(Video::class);
+    }
 }

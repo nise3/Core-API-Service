@@ -30,15 +30,6 @@ class Video extends BaseModel
     const VIDEO_TYPE_YOUTUBE_VIDEO = 1;
     const VIDEO_TYPE_UPLOADED_VIDEO = 2;
 
-//    public static function getVideoTypesArray(): array
-//    {
-//        return [
-//            self::VIDEO_TYPE_YOUTUBE_VIDEO => __('Youtube Video'),
-//            self::VIDEO_TYPE_UPLOADED_VIDEO => __('Uploaded Video'),
-//        ];
-//    }
-
-
     public function videoCategory(): belongsTo
     {
         return $this->belongsTo(VideoCategory::class);

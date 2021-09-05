@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class GalleryCategory extends BaseModel
 {
-    use ScopeRowStatusTrait, SoftDeletes;
+    use ScopeRowStatusTrait, SoftDeletes,HasFactory;
 
     protected $guarded = ['id'];
 

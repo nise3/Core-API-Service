@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Gallery extends BaseModel
 {
-    use ScopeRowStatusTrait, SoftDeletes;
+    use ScopeRowStatusTrait, SoftDeletes,HasFactory;
 
     protected $guarded = ['id'];
 
@@ -35,6 +35,8 @@ class Gallery extends BaseModel
 
     const IS_YOUTUBE_VIDEO_YES = 1;
     const IS_YOUTUBE_VIDEO_NO = 0;
+
+
 
 
     public function galleryCategory(): BelongsTo
