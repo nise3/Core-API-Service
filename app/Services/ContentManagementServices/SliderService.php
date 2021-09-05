@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
-use function Symfony\Component\String\s;
 
 class SliderService
 {
@@ -164,6 +163,7 @@ class SliderService
                 'max:191',
             ],
             'is_button_available' => [
+                'required',
                 'int',
                 Rule::in([Slider::IS_BUTTON_AVAILABLE_YES, Slider::IS_BUTTON_AVAILABLE_NO])
             ],

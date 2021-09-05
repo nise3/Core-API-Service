@@ -47,6 +47,12 @@ class StaticPageService
             $staticPageBuilder->where('static_pages.row_status', $rowStatus);
         }
 
+        if (!empty($titleEn)) {
+            $staticPageBuilder->where('static_pages.title', 'like', '%' . $titleEn . '%');
+        } elseif (!empty($titleBn)) {
+            $staticPageBuilder->where('static_pages.sub_title', 'like', '%' . $titleBn . '%');
+        }
+
         /** @var Collection $staticPages */
 
         if (is_numeric($paginate) || is_numeric($pageSize)) {
