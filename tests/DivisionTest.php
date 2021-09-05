@@ -22,13 +22,39 @@ class DivisionTest extends TestCase
     public function testCanCreateTask()
     {
         $formData = [
-            "title_en" => "Test Division EN",
-            "title_bn" => "Test Division Bn",
-            "bbs_code" => 1001
+            [
+                "title_en" => "Test Division EN",
+                "title_bn" => "Test Division Bn",
+                "bbs_code" => 1001
+            ],
+            [
+                "title_en" => "Test Division EN",
+                "title_bn" => "বিভাগের নাম",
+                "bbs_code" => "১২৩৪"
+            ],
+            [
+                "title_en" => "বিভাগের নাম",
+                "title_bn" => "Test Division Bn",
+                "bbs_code" => 1001
+            ],
+            [
+                "title_en" => "বিভাগের নাম",
+                "title_bn" => "বিভাগের নাম",
+                "bbs_code" => 1001
+            ],
+            [
+                "title_en" => "বিভাগের নাম",
+                "title_bn" => "বিভাগের নাম",
+            ],
+
+
         ];
 
-        $this->post(route("api.v1.divisions.store"), $formData)
-            ->seeStatusCode(201);
+        foreach ($formData as $data) {
+
+            $this->post(route("api.v1.divisions.store"), $data)
+                ->seeStatusCode(201);
+        }
 
     }
 
@@ -54,12 +80,36 @@ class DivisionTest extends TestCase
     {
         $lod_division = LocDivision::factory()->create();
         $formData = [
-            "title_en" => "Test Division EN(Edited)",
-            "title_bn" => "Test Division Bn(Edited)",
-            "bbs_code" => 1001
+            [
+                "title_en" => "Test Division EN",
+                "title_bn" => "Test Division Bn",
+                "bbs_code" => 1001
+            ],
+            [
+                "title_en" => "Test Division EN",
+                "title_bn" => "বিভাগের নাম",
+                "bbs_code" => "১২৩৪"
+            ],
+            [
+                "title_en" => "বিভাগের নাম",
+                "title_bn" => "Test Division Bn",
+                "bbs_code" => 1001
+            ],
+            [
+                "title_en" => "বিভাগের নাম",
+                "title_bn" => "বিভাগের নাম",
+                "bbs_code" => 1001111
+            ],
+            [
+                "title_en" => "বিভাগের নাম",
+                "title_bn" => "বিভাগের নাম",
+            ]
         ];
-        $this->put(route("api.v1.divisions.update", $lod_division->id), $formData)
-            ->seeStatusCode(200);
+
+        foreach ($formData as $data) {
+            $this->put(route("api.v1.divisions.update", $lod_division->id), $data)
+                ->seeStatusCode(200);
+        }
 
     }
 

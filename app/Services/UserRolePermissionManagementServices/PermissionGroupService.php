@@ -149,7 +149,7 @@ class PermissionGroupService
     {
         /** @var Collection|Permission $validPermissions */
         $validPermissions = Permission::whereIn('id', $permission_ids)->orderBy('id', 'ASC')->pluck('id')->toArray();
-        $permissionGroup->permissions()->syncWithoutDetaching($validPermissions);
+        $permissionGroup->permissions()->sync($validPermissions);
         return $permissionGroup;
     }
 
