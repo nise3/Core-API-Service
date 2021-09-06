@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GalleryCategorySeeder::class,
             VideoCategorySeeder::class,
+            SliderSeeder::class,
+            StaticPageSeeder::class,
             GeoLocationDatabaseSeeder::class,
             RoleTableSeeder::class,
             PermissionSeeder::class,

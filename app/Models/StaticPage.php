@@ -15,12 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string page_contents
  * @property int row_status
  */
-
 class StaticPage extends BaseModel
 {
-    use HasFactory,SoftDeletes;
-
-    const PAGE_ID_ABOUT_US = 'aboutus';
+    use HasFactory, SoftDeletes;
 
     protected $table = 'static_pages';
     protected $guarded = ['id'];
