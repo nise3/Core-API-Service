@@ -7,6 +7,7 @@ use App\Models\LocDistrict;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,7 @@ class LocDistrictService
      */
     public function getAllDistricts(array $request, Carbon $startTime): array
     {
+
         $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
         $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
@@ -177,8 +179,8 @@ class LocDistrictService
             $request['order'] = strtoupper($request['order']);
         }
         $customMessage = [
-            'order.in' => 'Order must be within ASC or DESC',
-            'row_status.in' => 'Row status must be within 1 or 0'
+            'order.in' => 'Sort order must be either ASC or DESC',
+            'row_status.in' => 'Row status must be either 1 or 0'
         ];
 
         return Validator::make($request->all(), [
@@ -187,7 +189,7 @@ class LocDistrictService
             'division_id' => 'numeric',
             'order' => [
                 'string',
-                Rule::in([(BaseModel::ROW_ORDER_ASC), (BaseModel::ROW_ORDER_DESC)])
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
                 "numeric",

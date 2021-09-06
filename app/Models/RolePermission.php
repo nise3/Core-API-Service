@@ -21,5 +21,5 @@ class RolePermission extends BaseModel
     /**
      * @var string[]
      */
-    protected $guarded = ['id'];
+    protected $fillable = ['role_id', 'permission_id'];
 }

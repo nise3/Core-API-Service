@@ -35,9 +35,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends AuthBaseModel
 {
 
-    use ScopeRowStatusTrait, SoftDeletes,HasFactory;
+    use ScopeRowStatusTrait, SoftDeletes, HasFactory;
 
-    protected $guarded = ['id'];
+    protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SOFT_DELETE;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -63,6 +63,4 @@ class User extends AuthBaseModel
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
-
-
 }
