@@ -4,35 +4,37 @@
 namespace App\Services\LocationManagementServices;
 
 
+use App\Models\BaseModel;
 use App\Models\LocUpazila;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 
 class LocUpazilaService
 {
     const ROUTE_PREFIX = 'api.v1.upazilas.';
+
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllUpazilas(Request $request, Carbon $startTime): array
+    public function getAllUpazilas(array $request, Carbon $startTime): array
     {
-        $paginateLink = [];
-        $page = [];
-        $paginate = $request->query('page');
-        $districtId = $request->query('district_id');
-        $divisionId = $request->query('division_id');
-        $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
 
-        /** @var LocUpazila|Builder $upazilas */
-        $upazilas = LocUpazila::select([
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $districtId = array_key_exists('district_id', $request) ? $request['district_id'] : "";
+        $divisionId = array_key_exists('division_id', $request) ? $request['division_id'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+
+        /** @var LocUpazila|Builder $upazilasBuilder */
+        $upazilasBuilder = LocUpazila::select([
             'loc_upazilas.id',
             'loc_upazilas.loc_district_id',
             'loc_upazilas.loc_division_id',
@@ -44,68 +46,59 @@ class LocUpazilaService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
+            'loc_upazilas.row_status',
+            'loc_upazilas.created_by',
+            'loc_upazilas.updated_by',
+            'loc_upazilas.created_at',
+            'loc_upazilas.updated_at'
         ]);
-        $upazilas->leftJoin('loc_divisions', 'loc_divisions.id', '=', 'loc_upazilas.loc_division_id');
-        $upazilas->leftJoin('loc_districts', 'loc_districts.id', '=', 'loc_upazilas.loc_division_id');
 
-        $upazilas->orderBy('loc_upazilas.id', $order);
-        $upazilas->where('loc_districts.row_status', LocUpazila::ROW_STATUS_ACTIVE);
-        if (!empty($request->query('title_en'))) {
-            $upazilas->where('loc_upazilas.title_en', 'like', '%' . $request->query('title_en') . '%');
-        } elseif (!empty($request->query('title_bn'))) {
-            $upazilas->where('loc_upazilas.title_bn', 'like', '%' . $request->query('title_bn') . '%');
+        $upazilasBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
+            $join->on('loc_divisions.id', '=', 'loc_upazilas.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+            if (is_numeric($rowStatus)) {
+                $join->where('loc_divisions.row_status', $rowStatus);
+            }
+        });
+
+        $upazilasBuilder->leftJoin('loc_districts', function ($join) use ($rowStatus) {
+            $join->on('loc_upazilas.loc_district_id', '=', 'loc_districts.id')
+                ->whereNull('loc_districts.deleted_at');
+            if (is_numeric($rowStatus)) {
+                $join->where('loc_districts.row_status', $rowStatus);
+            }
+        });
+
+        $upazilasBuilder->orderBy('loc_upazilas.id', $order);
+
+        if (is_numeric($rowStatus)) {
+            $upazilasBuilder->where('loc_upazilas.row_status', $rowStatus);
+        }
+
+        if (!empty($titleEn)) {
+            $upazilasBuilder->where('loc_upazilas.title_en', 'like', '%' . $titleEn . '%');
+        } elseif (!empty($titleBn)) {
+            $upazilasBuilder->where('loc_upazilas.title_bn', 'like', '%' . $titleBn . '%');
         }
 
         if (!empty($districtId)) {
-            $upazilas->where('loc_upazilas.loc_district_id', $districtId);
+            $upazilasBuilder->where('loc_upazilas.loc_district_id', $districtId);
         }
 
         if (!empty($divisionId)) {
-            $upazilas->where('loc_upazilas.loc_division_id', $divisionId);
+            $upazilasBuilder->where('loc_upazilas.loc_division_id', $divisionId);
         }
 
-        if (!empty($paginate)) {
-            $upazilas = $upazilas->paginate(10);
-            $paginateData = (object)$upazilas->toArray();
-            $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
-            ];
-            $paginateLink = $paginateData->links;
-        } else {
-            $upazilas = $upazilas->get();
-        }
+        $upazilasBuilder = $upazilasBuilder->get();
 
-        $data = [];
-        foreach ($upazilas as $upazila) {
-            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $upazila->id]);
-            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $upazila->id]);
-            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $upazila->id]);
-            $upazila['_links'] = $links;
-            $data[] = $upazila->toArray();
-        }
-        return [
-            "data" => $data,
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
-            ],
-            "_links" => [
-                'paginate' => $paginateLink,
-                'search' => [
-                    'parameters' => [
-                        'title_en',
-                        'title_bn'
-                    ],
-                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
-                ]
-            ],
-            "_page" => $page,
-            "_order" => $order
+        $response['order'] = $order;
+        $response['data'] = $upazilasBuilder->toArray()['data'] ?? $upazilasBuilder->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
         ];
+        return $response;
     }
 
     /**
@@ -115,10 +108,8 @@ class LocUpazilaService
      */
     public function getOneUpazila(int $id, Carbon $startTime): array
     {
-        $links = [];
-
-        /** @var LocUpazila|Builder $upazila */
-        $upazila = LocUpazila::select([
+        /** @var LocUpazila|Builder $upazilaBuilder */
+        $upazilaBuilder = LocUpazila::select([
             'loc_upazilas.id',
             'loc_upazilas.loc_district_id',
             'loc_upazilas.loc_division_id',
@@ -130,27 +121,35 @@ class LocUpazilaService
             'loc_districts.division_bbs_code',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
+            'loc_upazilas.row_status',
+            'loc_upazilas.created_by',
+            'loc_upazilas.updated_by',
+            'loc_upazilas.created_at',
+            'loc_upazilas.updated_at'
         ]);
-        $upazila->join('loc_divisions', 'loc_divisions.id', '=', 'loc_upazilas.loc_division_id');
-        $upazila->join('loc_districts', 'loc_districts.id', '=', 'loc_upazilas.loc_division_id');
-        $upazila->where('loc_upazilas.id', $id);
-        $upazila = $upazila->first();
 
-        if (!empty($upazila)) {
-            $links = [
-                'update' => route(self::ROUTE_PREFIX .'update', ['id' => $upazila->id]),
-                'delete' => route(self::ROUTE_PREFIX .'destroy', ['id' => $upazila->id])
-            ];
+        $upazilaBuilder->leftJoin('loc_divisions', function ($join) {
+            $join->on('loc_divisions.id', '=', 'loc_upazilas.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+        });
+
+        $upazilaBuilder->leftJoin('loc_districts', function ($join) {
+            $join->on('loc_districts.id', '=', 'loc_upazilas.loc_district_id')
+                ->whereNull('loc_districts.deleted_at');
+        });
+
+        if (!empty($id)) {
+            $upazilaBuilder->where('loc_upazilas.id', $id);
         }
 
+        $upazila = $upazilaBuilder->first();
         return [
-            "data" => $upazila ?: null,
+            "data" => $upazila ?: [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
-            ],
-            "_links" => $links
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
         ];
     }
 
@@ -177,19 +176,19 @@ class LocUpazilaService
 
     /**
      * @param LocUpazila $locUpazila
-     * @return LocUpazila
+     * @return bool
      */
-    public function destroy(LocUpazila $locUpazila): LocUpazila
+    public function destroy(LocUpazila $locUpazila): bool
     {
-         $locUpazila->delete();
-         return $locUpazila;
+        return $locUpazila->delete();
+
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
             'loc_district_id' => 'required|numeric|exists:loc_districts,id',
@@ -198,7 +197,37 @@ class LocUpazilaService
             'district_bbs_code' => 'nullable|min:1|exists:loc_districts,bbs_code',
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
-            'bbs_code' => 'nullable|min:1'
+            'bbs_code' => 'nullable|min:1',
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
         ]);
     }
+
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+            'order.in' => 'Order must be within ASC or DESC',
+            'row_status.in' => 'Row status must be within 1 or 0'
+        ];
+        return Validator::make($request->all(), [
+            'title_en' => 'nullable|min:1',
+            'title_bn' => 'nullable|min:1',
+            'district_id' => 'numeric',
+            'division_id' => 'numeric',
+            'order' => [
+                'string',
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
+    }
+
 }

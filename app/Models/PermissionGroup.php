@@ -24,7 +24,7 @@ class PermissionGroup extends BaseModel
     use ScopeRowStatusTrait, HasFactory;
 
     protected $table = 'permission_groups';
-    protected $guarded = ['id'];
+    protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SIMPLE;
 
     public function permissions(): BelongsToMany
     {

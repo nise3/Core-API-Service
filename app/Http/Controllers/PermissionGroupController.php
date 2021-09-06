@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes\CustomExceptionHandler;
+//use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\PermissionGroup;
 use App\Services\UserRolePermissionManagementServices\PermissionGroupService;
 use Carbon\Carbon;
@@ -33,11 +33,14 @@ class PermissionGroupController extends Controller
      * Display a listing of the resource.
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
     {
+        $filter = $this->permissionGroupService->filterValidator($request)->validate();
+
         try {
-            $response = $this->permissionGroupService->getAllPermissionGroups($request, $this->startTime);
+            $response = $this->permissionGroupService->getAllPermissionGroups($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -94,7 +97,7 @@ class PermissionGroupController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function update(Request $request, int $id):JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         /** @var PermissionGroup $permissionGroup */
         $permissionGroup = PermissionGroup::findOrFail($id);

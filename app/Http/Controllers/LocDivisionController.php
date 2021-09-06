@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Classes\ApiResponseStatus;
 use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\LocDivision;
 use App\Services\LocationManagementServices\LocDivisionService;
@@ -37,11 +38,15 @@ class LocDivisionController extends Controller
      *
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
     {
+
+        $filter = $this->locDivisionService->filterValidator($request)->validate();
+
         try {
-            $response = $this->locDivisionService->getAllDivisions($request, $this->startTime);
+            $response = $this->locDivisionService->getAllDivisions($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -128,7 +133,7 @@ class LocDivisionController extends Controller
     {
         $locDivision = LocDivision::findOrFail($id);
         try {
-          $this->locDivisionService->destroy($locDivision);
+            $this->locDivisionService->destroy($locDivision);
             $response = [
                 '_response_status' => [
                     "success" => true,

@@ -31,7 +31,7 @@ class Permission extends BaseModel
     public const METHOD_PATCH = 4;
     public const METHOD_DELETE = 5;
 
-    protected $guarded = ['id'];
+    protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SIMPLE;
 
     public function roles():hasMany
     {

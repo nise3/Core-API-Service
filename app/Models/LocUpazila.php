@@ -32,7 +32,7 @@ class LocUpazila extends BaseModel
     use ScopeRowStatusTrait, SoftDeletes;
 
     protected $table = 'loc_upazilas';
-    protected $guarded = ['id'];
+    protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SOFT_DELETE;
 
     public function locDistrict(): BelongsTo
     {

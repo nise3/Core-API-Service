@@ -7,30 +7,65 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000/api/v1",
-            "description": "",
-            "variables": {}
+            "url": "http://localhost:8000/api/v1"
         },
         {
-            "url": "https://bus.softbd.xyz/devportal/apis",
-            "description": "",
-            "variables": {}
+            "url": "https://api.bus.softbd.xyz/core/api/v1"
+        },
+        {
+            "url": "http://nise3-core.asm/api/v1"
         }
+
     ],
     "paths": {
+        "/": {
+            "get": {
+                "summary": "API description",
+                "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "service_name": "NISE-3 Core Api Service",
+                                    "service_version": "V1",
+                                    "lumen_version": "Lumen (8.2.4) (Laravel Components ^8.0)",
+                                    "modules": {
+                                        "LocationManagement": [
+                                            "LocDivision",
+                                            "LocDistrict",
+                                            "LocUpazila"
+                                        ],
+                                        "UserRoleManagement": [
+                                            "Permission",
+                                            "Role",
+                                            "User",
+                                            "PermissionGroup",
+                                            "PermissionSubGroup"
+                                        ],
+                                        "AuthManagement": [
+                                            "Auth"
+                                        ]
+                                    },
+                                    "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally"
+                                }
+                            }
+                        },
+                        "description": "success"
+                    }
+                }
+            }
+        },
         "/divisions": {
             "get": {
                 "summary": "Returns a list of divisions.",
                 "description": "Optional extended description in Markdown.",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/limit"
-                    },
-                    {
                         "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
                         "$ref": "#/components/parameters/title_en_optional"
@@ -48,17 +83,14 @@
                                     "$ref": "#/components/schemas/division"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 1,
-                                    "page_size": "10",
-                                    "total": 7,
                                     "order": "asc",
                                     "data": [
                                         {
                                             "id": 3,
                                             "title_bn": "ঢাকা",
                                             "title_en": "Dhaka",
-                                            "bbs_code": "30"
+                                            "bbs_code": "30",
+                                            "row_status": "1"
                                         }
                                     ],
                                     "_response_status": {
@@ -281,10 +313,7 @@
                 "description": "Optional extended description in Markdown.",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -578,13 +607,10 @@
                 "description": "Optional extended description in Markdown.",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/limit"
-                    },
-                    {
                         "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
                         "$ref": "#/components/parameters/title_en_optional"
@@ -602,11 +628,9 @@
                                     "$ref": "#/components/schemas/upazila"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 50,
-                                    "page_size": "10",
                                     "total": 494,
                                     "order": "asc",
+                                    "row_status": 1,
                                     "data": [
                                         {
                                             "id": 1,
@@ -615,6 +639,7 @@
                                             "title_bn": "আমতলী ",
                                             "title_en": "AMTALI",
                                             "bbs_code": "09",
+                                            "row_status": "1",
                                             "district_title_bn": "Test Title (BN)",
                                             "district_title_en": "Test Title (EN)",
                                             "division_bbs_code": "10",
@@ -907,6 +932,7 @@
                                     "page_size": "10",
                                     "total": 40,
                                     "order": "ASC",
+                                    "uri": "api/v1/divisions/1",
                                     "data": [
                                         {
                                             "id": 2,
@@ -1226,6 +1252,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -1246,6 +1275,7 @@
                                     "page_size": "10",
                                     "total": 5,
                                     "order": "asc",
+                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 1,
@@ -1581,10 +1611,13 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
-                        "$ref": "#/components/parameters/title_en_optional"
+                        "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/title_bn_optional"
+                        "$ref": "#/components/parameters/name_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_bn_optional"
                     },
                     {
                         "$ref": "#/components/parameters/email_optional"
@@ -1603,6 +1636,7 @@
                                     "total_page": 2,
                                     "page_size": "10",
                                     "total": 15,
+                                    "row_status": 1,
                                     "order": "ASC",
                                     "data": [
                                         {
@@ -2114,6 +2148,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -2134,6 +2171,7 @@
                                     "page_size": "10",
                                     "total": 7,
                                     "order": "ASC",
+                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 1,
@@ -2290,7 +2328,7 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/permissionGroup"
                                 },
-                                "example":{
+                                "example": {
                                     "data": {
                                         "id": 8,
                                         "title_en": "Test Title (EN)",
@@ -2376,7 +2414,6 @@
                 "responses": {
                     "200": {
                         "description": "success",
-
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2414,6 +2451,9 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
                         "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
@@ -2434,6 +2474,7 @@
                                     "page_size": "10",
                                     "total": 15,
                                     "order": "ASC",
+                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 7,
@@ -2732,7 +2773,17 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "row_status_optional": {
+                "name": "row_status",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
                 }
             },
             "limit": {
@@ -3110,13 +3161,16 @@
             "permissions": {
                 "name": "permissions",
                 "in": "query",
-                "style": "form",
                 "required": true,
-                "schema": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer",
-                        "uniqueItems": true
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "uniqueItems": true
+                            }
+                        }
                     }
                 }
             },
@@ -3230,8 +3284,7 @@
                         "description": "Division activation status",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "create_by": {
@@ -3298,8 +3351,7 @@
                         "description": "District activation status",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "create_by": {
@@ -3377,8 +3429,7 @@
                         "description": "District activation status",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "create_by": {
@@ -3436,8 +3487,7 @@
                         "example": "1=>Active,0=>Inactive,99=>Delete",
                         "enum": [
                             1,
-                            0,
-                            99
+                            0
                         ]
                     },
                     "created_at": {
@@ -3635,11 +3685,10 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "updated_at":{
+                    "updated_at": {
                         "type": "string",
                         "format": "date-time"
                     }
-
                 },
                 "required": [
                     "user_type",
@@ -3690,7 +3739,7 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "updated_at":{
+                    "updated_at": {
                         "type": "string",
                         "format": "date-time"
                     }
@@ -3745,7 +3794,7 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "updated_at":{
+                    "updated_at": {
                         "type": "string",
                         "format": "date-time"
                     }

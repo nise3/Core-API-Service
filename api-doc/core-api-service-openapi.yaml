@@ -5,20 +5,43 @@ info:
   version: 1.0.0
 servers:
   - url: http://localhost:8000/api/v1
-    description: ''
-    variables: {}
-  - url: https://bus.softbd.xyz/devportal/apis
-    description: ''
-    variables: {}
+  - url: https://api.bus.softbd.xyz/core/api/v1
+  - url: http://nise3-core.asm/api/v1
 paths:
+  /:
+    get:
+      summary: API description
+      description: It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                service_name: NISE-3 Core Api Service
+                service_version: V1
+                lumen_version: Lumen (8.2.4) (Laravel Components ^8.0)
+                modules:
+                  LocationManagement:
+                    - LocDivision
+                    - LocDistrict
+                    - LocUpazila
+                  UserRoleManagement:
+                    - Permission
+                    - Role
+                    - User
+                    - PermissionGroup
+                    - PermissionSubGroup
+                  AuthManagement:
+                    - Auth
+                description: It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally
+          description: success
   /divisions:
     get:
       summary: Returns a list of divisions.
       description: Optional extended description in Markdown.
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
         - $ref: '#/components/parameters/title_bn_optional'
       responses:
@@ -29,16 +52,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/division'
               example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 7
                 order: asc
                 data:
                   - id: 3
                     title_bn: ঢাকা
                     title_en: Dhaka
                     bbs_code: '30'
+                    row_status: '1'
                 _response_status:
                   success: true
                   code: 200
@@ -179,8 +199,7 @@ paths:
       summary: get list
       description: Optional extended description in Markdown.
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/title_en_optional'
         - $ref: '#/components/parameters/title_bn_optional'
@@ -366,9 +385,8 @@ paths:
       summary: get list
       description: Optional extended description in Markdown.
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
         - $ref: '#/components/parameters/title_bn_optional'
       responses:
@@ -379,11 +397,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/upazila'
               example:
-                current_page: 1
-                total_page: 50
-                page_size: '10'
                 total: 494
                 order: asc
+                row_status: 1
                 data:
                   - id: 1
                     loc_district_id: 1
@@ -391,6 +407,7 @@ paths:
                     title_bn: 'আমতলী '
                     title_en: AMTALI
                     bbs_code: '09'
+                    row_status: '1'
                     district_title_bn: Test Title (BN)
                     district_title_en: Test Title (EN)
                     division_bbs_code: '10'
@@ -574,6 +591,7 @@ paths:
                 page_size: '10'
                 total: 40
                 order: ASC
+                uri: api/v1/divisions/1
                 data:
                   - id: 2
                     name: divisions-read
@@ -772,6 +790,7 @@ paths:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
         - $ref: '#/components/parameters/title_bn_optional'
       responses:
@@ -787,6 +806,7 @@ paths:
                 page_size: '10'
                 total: 5
                 order: asc
+                row_status: '1'
                 data:
                   - id: 1
                     title_bn: সুপার এডমিন
@@ -1000,8 +1020,9 @@ paths:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
+        - $ref: '#/components/parameters/row_status_optional'
+        - $ref: '#/components/parameters/name_en_optional'
+        - $ref: '#/components/parameters/name_bn_optional'
         - $ref: '#/components/parameters/email_optional'
       responses:
         '200':
@@ -1015,6 +1036,7 @@ paths:
                 total_page: 2
                 page_size: '10'
                 total: 15
+                row_status: 1
                 order: ASC
                 data:
                   - id: 1
@@ -1357,6 +1379,7 @@ paths:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
         - $ref: '#/components/parameters/title_bn_optional'
       responses:
@@ -1372,6 +1395,7 @@ paths:
                 page_size: '10'
                 total: 7
                 order: ASC
+                row_status: '1'
                 data:
                   - id: 1
                     title_en: Professor En
@@ -1546,6 +1570,7 @@ paths:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
         - $ref: '#/components/parameters/title_bn_optional'
       responses:
@@ -1561,6 +1586,7 @@ paths:
                 page_size: '10'
                 total: 15
                 order: ASC
+                row_status: '1'
                 data:
                   - id: 7
                     permission_group_id: 3
@@ -1756,6 +1782,14 @@ components:
       style: form
       schema:
         type: integer
+        example: 1
+    row_status_optional:
+      name: row_status
+      in: query
+      required: false
+      schema:
+        type: integer
+        example: 1
     limit:
       name: limit
       in: query
@@ -2055,13 +2089,14 @@ components:
     permissions:
       name: permissions
       in: query
-      style: form
       required: true
-      schema:
-        type: array
-        items:
-          type: integer
-          uniqueItems: true
+      content:
+        multipart/form-data:
+          schema:
+            type: array
+            items:
+              type: integer
+              uniqueItems: true
     user_type:
       in: query
       name: user_type
@@ -2150,7 +2185,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         create_by:
           type: integer
           description: Division creater id
@@ -2203,7 +2237,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         create_by:
           type: integer
           description: District creater id
@@ -2265,7 +2298,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         create_by:
           type: integer
           description: District creater id
@@ -2310,7 +2342,6 @@ components:
           enum:
             - 1
             - 0
-            - 99
         created_at:
           type: string
           format: date-time

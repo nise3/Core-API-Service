@@ -32,7 +32,7 @@ class LocDistrict extends BaseModel
     use ScopeRowStatusTrait, SoftDeletes;
 
     protected $table = 'loc_districts';
-    protected $guarded = ['id'];
+    protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SOFT_DELETE;
 
     public function locDivision(): BelongsTo
     {

@@ -6,9 +6,9 @@ use App\Models\BaseModel;
 use App\Models\LocDivision;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,79 +17,52 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LocDivisionService
 {
-    const ROUTE_PREFIX = 'api.v1.divisions.';
-
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllDivisions(Request $request, Carbon $startTime): array
+    public function getAllDivisions(array $request, Carbon $startTime): array
     {
-        $paginateLink = [];
-        $page = [];
-        $paginate = $request->query('page');
-        $order = !empty($request->query('order')) ? $request->query('order') : 'ASC';
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
-        /** @var LocDivision|Builder $divisions */
-        $divisions = LocDivision::select([
+        /** @var Builder $divisionsBuilder */
+        $divisionsBuilder = LocDivision::select([
             'id',
             'title_bn',
             'title_en',
             'bbs_code',
+            'row_status',
+            'created_by',
+            'updated_by',
+            'created_at',
+            'updated_at'
         ]);
-        $divisions->orderBy('id', $order);
-        $divisions->where('row_status', BaseModel::ROW_STATUS_ACTIVE);
+        $divisionsBuilder->orderBy('id', $order);
 
-        if (!empty($request->query('title_en'))) {
-            $divisions->where('title_en', 'like', '%' . $request->query('title_en') . '%');
-        } elseif (!empty($request->query('title_bn'))) {
-            $divisions->where('title_bn', 'like', '%' . $request->query('title_bn') . '%');
+        if (is_numeric($rowStatus)) {
+            $divisionsBuilder->where('row_status', $rowStatus);
+        }
+        if (!empty($titleEn)) {
+            $divisionsBuilder->where('title_en', 'like', '%' . $titleEn . '%');
+        } elseif (!empty($titleBn)) {
+            $divisionsBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if ($paginate) {
-            $divisions = $divisions->paginate(10);
-            $paginateData = (object)$divisions->toArray();
-            $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
-            ];
-            $paginateLink = $paginateData->links;
-        } else {
-            $divisions = $divisions->get();
-        }
+        $divisionsBuilder = $divisionsBuilder->get();
 
-        $data = [];
-        foreach ($divisions as $division) {
-            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $division->id]);
-            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $division->id]);
-            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $division->id]);
-            $division['_links'] = $links;
-            $data[] = $division->toArray();
-
-        }
-        return [
-            "data" => $data,
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
-            ],
-            "_links" => [
-                'paginate' => $paginateLink,
-                'search' => [
-                    'parameters' => [
-                        'title_en',
-                        'title_bn'
-                    ],
-                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
-                ]
-            ],
-            "_page" => $page,
-            "_order" => $order
+        $response['order'] = $order;
+        $response['data'] = $divisionsBuilder->toArray()['data'] ?? $divisionsBuilder->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
         ];
+
+        return $response;
     }
 
     /**
@@ -99,34 +72,30 @@ class LocDivisionService
      */
     public function getOneDivision(int $id, Carbon $startTime): array
     {
-        $links = [];
-
-        /** @var LocDivision|Builder $division */
-        $division = LocDivision::select([
+        /** @var LocDivision|Builder $divisionsBuilder */
+        $divisionsBuilder = LocDivision::select([
             'id',
             'title_bn',
             'title_en',
-            'bbs_code'
-        ])->where([
-            'id' => $id,
-            'row_status' => BaseModel::ROW_STATUS_ACTIVE
-        ])->first();
+            'bbs_code',
+            'row_status',
+            'created_by',
+            'updated_by',
+            'created_at',
+            'updated_at'
+        ]);
+        $divisionsBuilder->where('id', $id);
 
-        if (!empty($division)) {
-            $links = [
-                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $division->id]),
-                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $division->id])
-            ];
-        }
+        /** @var  $divisions */
+        $divisions = $divisionsBuilder->first();
 
         return [
-            "data" => $division ? $division : [],
+            "data" => $divisions ?: [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
-            ],
-            "_links" => $links
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
         ];
     }
 
@@ -157,19 +126,61 @@ class LocDivisionService
      */
     public function destroy(LocDivision $locDivision): bool
     {
-         return $locDivision->delete();
+        return $locDivision->delete();
     }
 
     /**
      * @param Request $request
+     * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+        $customMessage = [
+            'row_status.in' => [
+                'type' => BaseModel::IN,
+                "message" => ':attribute field must be within 1 or 0'
+            ]
+        ];
+
         return Validator::make($request->all(), [
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
-            'bbs_code'=>'nullable|min:1'
-        ]);
+            'bbs_code' => 'nullable|min:1',
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
+    }
+
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+
+            'row_status.in' => [
+                'type' => BaseModel::IN,
+                "message" => 'The :attribute field must be within 1 or 0'
+            ]
+//            "numeric" => [
+//                "type" => 'Number',
+//                "message" => "The :attribute must be a number."
+//            ]
+        ];
+        return Validator::make($request->all(), [
+            'title_en' => 'nullable|min:1',
+            'title_bn' => 'nullable|min:1',
+            'order' => [
+                'string',
+                Rule::in([(BaseModel::ROW_ORDER_ASC), (BaseModel::ROW_ORDER_DESC)])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
     }
 }

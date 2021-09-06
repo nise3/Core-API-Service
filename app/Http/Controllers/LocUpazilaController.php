@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes\CustomExceptionHandler;
+
 use App\Models\LocUpazila;
-use App\Services\LocationManagementServices\locUpazilaService;
+
+use App\Services\LocationManagementServices\LocUpazilaService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,10 +39,12 @@ class LocUpazilaController extends Controller
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
      */
-    public function getList(Request $request): JsonResponse
+    public function getList(Request $request):JsonResponse
     {
+        $filter=$this->locUpazilaService->filterValidator($request)->validate();
+
         try {
-            $response = $this->locUpazilaService->getAllUpazilas($request, $this->startTime);
+            $response = $this->locUpazilaService->getAllUpazilas($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }

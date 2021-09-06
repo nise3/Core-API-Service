@@ -4,119 +4,115 @@ namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\BaseModel;
 use App\Models\Permission;
-use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 
 class UserService
 {
-    const ROUTE_PREFIX = 'api.v1.users.';
+    /*const ROUTE_PREFIX = 'api.v1.users.';*/
 
     /**
-     * @param Request $request
+     * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllUsers(Request $request, Carbon $startTime): array
+    public function getAllUsers(array $request, Carbon $startTime): array
     {
-        $paginateLink = [];
-        $page = [];
-        $paginate = $request->query('page');
-        $nameEn = $request->query('name_en');
-        $nameBn = $request->query('name_bn');
-        $email = $request->query('email');
+        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
+        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $nameEn = array_key_exists('name_en', $request) ? $request['name_en'] : "";
+        $nameBn = array_key_exists('name_bn', $request) ? $request['name_bn'] : "";
+        $email = array_key_exists('email', $request) ? $request['email'] : "";
+        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
+        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
-        $order = !empty($request->query('order')) ? $request->query('order') : "ASC";
-
-        /** @var User|Builder $users */
-        $users = User::select([
-            "users.id",
-            "users.name_en",
-            "users.name_bn",
-            "users.email",
-            "users.profile_pic",
-            "users.role_id",
+        /** @var User|Builder $usersBuilder */
+        $usersBuilder = User::select([
+            "users.*",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
-            "users.organization_id",
-            "users.institute_id",
-            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
-            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
-            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
-        $users->leftJoin('roles', 'roles.id', 'users.role_id');
-        $users->leftJoin('loc_divisions', 'loc_divisions.id', 'users.loc_division_id');
-        $users->leftJoin('loc_districts', 'loc_districts.id', 'users.loc_district_id');
-        $users->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
-        $users->orderBy('users.id', $order);
+
+        $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
+            $join->on('roles.id', '=', 'users.role_id')
+                ->whereNull('roles.deleted_at');
+            if (!is_null($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
+            $join->on('loc_divisions.id', '=', 'users.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+            if (is_numeric($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->leftJoin('loc_districts', function ($join) use ($rowStatus) {
+            $join->on('loc_districts.id', '=', 'users.loc_district_id')
+                ->whereNull('loc_districts.deleted_at');
+            if (is_numeric($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->leftJoin('loc_upazilas', function ($join) use ($rowStatus) {
+            $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
+                ->whereNull('loc_upazilas.deleted_at');
+            if (is_numeric($rowStatus)) {
+                $join->where('roles.row_status');
+            }
+        });
+
+        $usersBuilder->orderBy('users.id', $order);
 
         if (!empty($nameEn)) {
-            $users = $users->where('users.name_en', 'like', '%' . $nameEn . '%');
+            $usersBuilder = $usersBuilder->where('users.name_en', 'like', '%' . $nameEn . '%');
         }
         if (!empty($nameBn)) {
-            $users = $users->where('users.name_bn', 'like', '%' . $nameBn . '%');
+            $usersBuilder = $usersBuilder->where('users.name_bn', 'like', '%' . $nameBn . '%');
         }
         if (!empty($email)) {
-            $users = $users->where('users.email', 'like', '%' . $email . '%');
+            $usersBuilder = $usersBuilder->where('users.email', 'like', '%' . $email . '%');
         }
-        $users->where('users.row_status', BaseModel::ROW_STATUS_ACTIVE);
-        $users->orderBy('users.id', $order);
 
-        if (!empty($paginate)) {
-            $users = $users->paginate(10);
+        if (is_numeric($rowStatus)) {
+            $usersBuilder->where('users.row_status', $rowStatus);
+        }
+
+        if (is_numeric($paginate) || is_numeric($limit)) {
+            $limit = $limit ?: 10;
+            $users = $usersBuilder->paginate($limit);
             $paginateData = (object)$users->toArray();
-            $page = [
-                "size" => $paginateData->per_page,
-                "total_element" => $paginateData->total,
-                "total_page" => $paginateData->last_page,
-                "current_page" => $paginateData->current_page
-            ];
-            $paginateLink = $paginateData->links;
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
         } else {
-            $users = $users->get();
+            $users = $usersBuilder->get();
         }
-
-        $data = [];
-        foreach ($users as $user) {
-            $links['read'] = route(self::ROUTE_PREFIX . 'read', ['id' => $user->id]);
-            $links['update'] = route(self::ROUTE_PREFIX . 'update', ['id' => $user->id]);
-            $links['delete'] = route(self::ROUTE_PREFIX . 'destroy', ['id' => $user->id]);
-            $user['_links'] = $links;
-            $data[] = $user->toArray();
-        }
-        return [
-            "data" => $data ?: null,
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
-            ],
-            "_links" => [
-                'paginate' => $paginateLink,
-                'search' => [
-                    'parameters' => [
-                        'name',
-                        'key'
-                    ],
-                    '_link' => route(self::ROUTE_PREFIX . 'get-list')
-                ]
-            ],
-            "_page" => $page,
-            "_order" => $order
+        $response['order'] = $order;
+        $response['data'] = $users->toArray()['data'] ?? $users->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
         ];
+        return $response;
     }
 
     /**
@@ -126,49 +122,48 @@ class UserService
      */
     public function getOneUser(int $id, Carbon $startTime): array
     {
-        /** @var User|Builder $user */
-        $user = User::select([
-            "users.id",
-            "users.name_en",
-            "users.name_bn",
-            "users.email",
-            "users.profile_pic",
-            "users.role_id",
+        /** @var User|Builder $userBuilder */
+        $userBuilder = User::select([
+            "users.*",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
-            "users.organization_id",
-            "users.institute_id",
-            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
-            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
-            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
         ]);
-        $user->leftJoin('roles', 'roles.id', 'users.role_id');
-        $user->leftJoin('loc_divisions', 'loc_divisions.id', 'users.loc_division_id');
-        $user->leftJoin('loc_districts', 'loc_districts.id', 'users.loc_district_id');
-        $user->leftJoin('loc_upazilas', 'loc_upazilas.id', 'users.loc_upazila_id');
-        $user = $user->where('users.id', $id)->first();
 
-        $links = [];
-        if (!empty($user)) {
-            $links = [
-                'update' => route(self::ROUTE_PREFIX . 'update', ['id' => $user->id]),
-                'delete' => route(self::ROUTE_PREFIX . 'destroy', ['id' => $user->id])
-            ];
-        }
+        $userBuilder->leftJoin('roles', function ($join) {
+            $join->on('roles.id', '=', 'users.role_id')
+                ->whereNull('roles.deleted_at');
+        });
+
+        $userBuilder->leftJoin('loc_divisions', function ($join) {
+            $join->on('loc_divisions.id', '=', 'users.loc_division_id')
+                ->whereNull('loc_divisions.deleted_at');
+        });
+
+        $userBuilder->leftJoin('loc_districts', function ($join) {
+            $join->on('loc_districts.id', '=', 'users.loc_district_id')
+                ->whereNull('loc_districts.deleted_at');
+        });
+
+        $userBuilder->leftJoin('loc_upazilas', function ($join) {
+            $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
+                ->whereNull('loc_upazilas.deleted_at');
+        });
+
+        $user = $userBuilder->where('users.id', $id)->first();
+
         return [
             "data" => $user ?: null,
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
-               "query_time" =>$startTime->diffInSeconds(Carbon::now()),
-            ],
-            "_links" => $links
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
         ];
     }
 
@@ -219,7 +214,7 @@ class UserService
     public function assignPermission(User $user, array $permissionIds): User
     {
         $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
-        $user->permissions()->syncWithoutDetaching($validPermissions);
+        $user->permissions()->sync($validPermissions);
         return $user;
     }
 
@@ -228,43 +223,79 @@ class UserService
      * @param int|null $id
      * @return Validator
      */
-    public function validator(Request $request, int $id = null): Validator
+    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
+            "user_type" => "required|min:1",
+            "username" => 'required|string|unique:users,username,' . $id,
+            "organization_id" => 'nullable|numeric',
+            "institute_id" => 'nullable|numeric',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|min:3',
             "name_bn" => 'required|min:3',
-            "organization_id" => 'nullable|numeric',
-            "institute_id" => 'nullable|numeric',
-            "loc_district_id" => 'nullable|exists:loc_divisions,id',
+            "email" => 'required|email|unique:users,email,' . $id,
+            "mobile" => "nullable|string",
             "loc_division_id" => 'nullable|exists:loc_districts,id',
+            "loc_district_id" => 'nullable|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
-            "password" => 'nullable|min:6'
+            "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "password" => 'nullable|min:6',
+            "profile_pic" => 'nullable|string',
+            "created_by" => "nullable|numeric",
+            "updated_by" => "nullable|numeric",
+            "remember_token" => "nullable|string",
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+
         ];
-        if (!empty($id)) {
-            $rules['email'] = 'required|email|unique:users,email,' . $id;
-            $rules['username'] = 'required|string|unique:users,username,' . $id;
-        } else {
-            $rules['email'] = 'required|email|unique:users,email';
-            $rules['username'] = 'required|string|unique:users,username';
-        }
-        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules);
     }
 
-    public function roleIdValidation(Request $request): Validator
+    public function roleIdValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             'role_id' => 'required|numeric|min:1|exists:roles,id',
         ];
-        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules);
     }
 
-    public function permissionValidation(Request $request): Validator
+    public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
+        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|numeric|distinct|min:1'
         ];
-        return \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
+        return Validator::make($data, $rules);
+    }
+
+    public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        if (!empty($request['order'])) {
+            $request['order'] = strtoupper($request['order']);
+        }
+        $customMessage = [
+            'order.in' => 'Order must be within ASC or DESC',
+            'row_status.in' => 'Row status must be within 1 or 0'
+        ];
+
+        return Validator::make($request->all(), [
+            'page' => 'numeric',
+            'limit' => 'numeric',
+            'name_en' => 'string',
+            'name_bn' => 'string',
+            'email' => 'string',
+            'order' => [
+                'string',
+                Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
+            ],
+            'row_status' => [
+                "numeric",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+        ], $customMessage);
     }
 }

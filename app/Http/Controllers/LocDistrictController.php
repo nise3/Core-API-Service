@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\LocDistrict;
 use App\Services\LocationManagementServices\LocDistrictService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
-use Psy\Util\Json;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -37,12 +36,15 @@ class LocDistrictController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
-    public function getList(Request $request):JsonResponse
+    public function getList(Request $request): JsonResponse
     {
+        $filter = $this->locDistrictService->filterValidator($request)->validate();
+
         try {
-            $response = $this->locDistrictService->getAllDistricts($request, $this->startTime);
+            $response = $this->locDistrictService->getAllDistricts($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -52,16 +54,15 @@ class LocDistrictController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param $id
-     * @return \Exception|JsonResponse|Throwable
+     * @param int $id
+     * @return Exception|JsonResponse|Throwable
      */
-    public function read(Request $request, int $id):JsonResponse
+    public function read(int $id): JsonResponse
     {
         try {
             $response = $this->locDistrictService->getOneDistrict($id, $this->startTime);
         } catch (Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response);
     }
@@ -70,10 +71,10 @@ class LocDistrictController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function store(Request $request):JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $validated = $this->locDistrictService->validator($request)->validate();
         try {
@@ -88,7 +89,7 @@ class LocDistrictController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-          return $e;
+            return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -98,13 +99,13 @@ class LocDistrictController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function update(Request $request, int $id):JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $locDistrict = LocDistrict::findOrFail($id);
-        $validated = $this->locDistrictService->validator($request,$id)->validate();
+        $validated = $this->locDistrictService->validator($request, $id)->validate();
         try {
             $loc_district = $this->locDistrictService->update($locDistrict, $validated);
             $response = [
@@ -124,10 +125,10 @@ class LocDistrictController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param $id
-     * @return \Exception|JsonResponse|Throwable
+     * @param int $id
+     * @return Exception|JsonResponse|Throwable
      */
-    public function destroy(int $id):JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $locDistrict = LocDistrict::findOrFail($id);
         try {
