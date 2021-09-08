@@ -21,7 +21,7 @@ class LocDistrictService
      */
     public function getAllDistricts(array $request, Carbon $startTime): array
     {
-
+        /** TODO: Use Laravel Collection to manipulate the any array */
         $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
         $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
@@ -178,9 +178,16 @@ class LocDistrictService
         if (!empty($request['order'])) {
             $request['order'] = strtoupper($request['order']);
         }
+
         $customMessage = [
-            'order.in' => 'Sort order must be either ASC or DESC',
-            'row_status.in' => 'Row status must be either 1 or 0'
+            'order.in' => [
+                'code' => 1029,
+                "message" => 'Sort order must be either ASC or DESC',
+            ],
+            'row_status.in' => [
+                "code" => 1029,
+                "message" => 'Row status must be either 1 or 0'
+            ]
         ];
 
         return Validator::make($request->all(), [
