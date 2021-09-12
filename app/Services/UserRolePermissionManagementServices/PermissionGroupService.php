@@ -27,7 +27,7 @@ class PermissionGroupService
     public function getAllPermissionGroups(array $request, Carbon $startTime): array
     {
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
         $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
@@ -58,9 +58,9 @@ class PermissionGroupService
         }
 
         /** @var Collection|PermissionGroup $permissionGroups */
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
-            $permissionGroups = $permissionGroupBuilder->paginate($limit);
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $permissionGroups = $permissionGroupBuilder->paginate($pageSize);
             $paginateData = (object)$permissionGroups->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -196,7 +196,7 @@ class PermissionGroupService
             'title_en' => 'nullable|min:1',
             'title_bn' => 'nullable|min:1',
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

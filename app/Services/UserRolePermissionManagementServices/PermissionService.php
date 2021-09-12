@@ -26,7 +26,7 @@ class PermissionService
     public function getAllPermissions(array $request, Carbon $startTime): array
     {
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $searchFilter = array_key_exists('name', $request) ? $request['name'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $uri = array_key_exists('uri', $request) ? $request['uri'] : "";
@@ -57,10 +57,10 @@ class PermissionService
             $permissionBuilder->where('permissions.row_status', $rowStatus);
         }
 
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
             /** @var Collection|Permission $permissions */
-            $permissions = $permissionBuilder->paginate($limit);
+            $permissions = $permissionBuilder->paginate($pageSize);
             $paginateData = (object)$permissions->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -236,7 +236,7 @@ class PermissionService
 
         return Validator::make($request->all(), [
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'name' => 'string',
             'uri' => 'string',
             'order' => [

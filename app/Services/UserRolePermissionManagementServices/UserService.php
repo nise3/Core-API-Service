@@ -26,7 +26,7 @@ class UserService
     public function getAllUsers(array $request, Carbon $startTime): array
     {
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $nameEn = array_key_exists('name_en', $request) ? $request['name_en'] : "";
         $nameBn = array_key_exists('name_bn', $request) ? $request['name_bn'] : "";
         $email = array_key_exists('email', $request) ? $request['email'] : "";
@@ -94,9 +94,9 @@ class UserService
             $usersBuilder->where('users.row_status', $rowStatus);
         }
 
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
-            $users = $usersBuilder->paginate($limit);
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $users = $usersBuilder->paginate($pageSize);
             $paginateData = (object)$users->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -221,7 +221,7 @@ class UserService
     /**
      * @param Request $request
      * @param int|null $id
-     * @return Validator
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
@@ -284,7 +284,7 @@ class UserService
 
         return Validator::make($request->all(), [
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'name_en' => 'string',
             'name_bn' => 'string',
             'email' => 'string',

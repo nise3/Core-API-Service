@@ -27,7 +27,7 @@ class PermissionSubGroupService
     {
 
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $titleEn = array_key_exists('title_en',$request) ? $request['title_en'] : "";
         $titleBn = array_key_exists('title_bn',$request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
@@ -56,9 +56,9 @@ class PermissionSubGroupService
         $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);
 
         /** @var Collection|PermissionSubGroup $permissionSubGroups */
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
-            $permissionSubGroups = $permissionSubGroupBuilder->paginate($limit);
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $permissionSubGroups = $permissionSubGroupBuilder->paginate($pageSize);
             $paginateData = (object)$permissionSubGroups->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -192,7 +192,7 @@ class PermissionSubGroupService
 
         return Validator::make($request->all(), [
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'title_en' => 'nullable|min:1',
             'title_bn' => 'nullable|min:1',
             'order' => [
