@@ -18,8 +18,7 @@ class CreateGalleriesTable extends Migration
         Schema::create('galleries', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('gallery_category_id');
-            $table->unsignedTinyInteger('content_type')
-                ->comment('1 => Image, 2 => Video');
+            $table->unsignedTinyInteger('content_type')->comment('1 => Image, 2 => Video');
             $table->string('content_title', 191)->nullable();
             $table->string('content_path', 191);
             $table->unsignedInteger('institute_id');
@@ -29,6 +28,7 @@ class CreateGalleriesTable extends Migration
             $table->string('you_tube_video_id', 191)->nullable();
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

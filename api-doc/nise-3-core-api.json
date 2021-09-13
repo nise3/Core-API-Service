@@ -15,7 +15,6 @@
         {
             "url": "http://nise3-core.asm/api/v1"
         }
-
     ],
     "paths": {
         "/": {
@@ -53,12 +52,15 @@
                         },
                         "description": "success"
                     }
-                }
+                },
+                "tags": [
+                    "Api info"
+                ]
             }
         },
         "/divisions": {
             "get": {
-                "summary": "Returns a list of divisions.",
+                "summary": "get list",
                 "description": "Optional extended description in Markdown.",
                 "parameters": [
                     {
@@ -906,7 +908,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -1246,7 +1248,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -1605,7 +1607,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -2142,7 +2144,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -2445,7 +2447,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -2763,10 +2765,1776 @@
                     "PermissionSubGroup"
                 ]
             }
+        },
+        "/gallery-categories": {
+            "get": {
+                "summary": "get list",
+                "description": "Api endpoint to get the list of galley Category.A successful request will return code 200",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GalleryCategory"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 2,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "galleryCategory-1",
+                                            "title_bn": "galleryCategory-1",
+                                            "institute_id": 1,
+                                            "programme_id": 1,
+                                            "batch_id": 2,
+                                            "featured": 0,
+                                            "image": "image.jpg",
+                                            "row_status": 1,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-02T03:39:47.000000Z",
+                                            "updated_at": "2021-09-02T05:39:41.000000Z"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "title_en": "galleryCategory-3",
+                                            "title_bn": "galleryCategory-3",
+                                            "institute_id": 1,
+                                            "programme_id": 1,
+                                            "batch_id": 1,
+                                            "featured": 1,
+                                            "image": "image.jpg",
+                                            "row_status": 1,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-05T04:36:54.000000Z",
+                                            "updated_at": "2021-09-05T04:36:54.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "GalleyCategory"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Api endpoint to store a gallery category.A successful request will return 200",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/batch_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/programme_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/image"
+                    },
+                    {
+                        "$ref": "#/components/parameters/featured"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GalleryCategory"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": "1",
+                                        "programme_id": "1",
+                                        "batch_id": "1",
+                                        "image": "image.jpg",
+                                        "featured": "1",
+                                        "updated_at": "2021-09-05T04:36:54.000000Z",
+                                        "created_at": "2021-09-05T04:36:54.000000Z",
+                                        "id": 3
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "GalleryCategory added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "GalleyCategory"
+                ]
+            }
+        },
+        "/gallery-categories/{galleryCategoryId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Api endpoint to get the specified galley Category.A successful request will return code 200",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/galleryCategoryId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GalleryCategory"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": 1,
+                                        "programme_id": 1,
+                                        "batch_id": 2,
+                                        "featured": 0,
+                                        "image": "image.jpg",
+                                        "row_status": 1,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-02T03:39:47.000000Z",
+                                        "updated_at": "2021-09-02T05:39:41.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "GalleyCategory"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Api endpoint to update the specified galley Category.A successful request will return code 200",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/galleryCategoryId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/batch_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/programme_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/image"
+                    },
+                    {
+                        "$ref": "#/components/parameters/featured"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GalleryCategory"
+                                },
+                                "example": {
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "GalleyCategory"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "Api endpoint to delete the specified galley Category",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/galleryCategoryId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GalleryCategory"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "GalleryCategory deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "GalleyCategory"
+                ]
+            }
+        },
+        "/galleries": {
+            "get": {
+                "summary": "get list",
+                "description": "Api endpoint to get the list of galley ",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/content_title"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Gallery"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 2,
+                                    "page_size": 10,
+                                    "total": 12,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "content_title": "content-title_2",
+                                            "content_type": 2,
+                                            "content_path": "aaaaaaaaa",
+                                            "institute_id": 1,
+                                            "you_tube_video_id": "aaaaaaaaaaa",
+                                            "gallery_category_id": 1,
+                                            "gallery_category_title_en": "Test Title (EN)",
+                                            "gallery_category_title_bn": "Test Title (BN)",
+                                            "is_youtube_video": 0,
+                                            "publish_date": null,
+                                            "archive_date": null,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-02T11:05:20.000000Z",
+                                            "updated_at": "2021-09-02T11:32:44.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "content_title": "content-title_2",
+                                            "content_type": 1,
+                                            "content_path": "",
+                                            "institute_id": 1,
+                                            "you_tube_video_id": null,
+                                            "gallery_category_id": 1,
+                                            "gallery_category_title_en": "Test Title (EN)",
+                                            "gallery_category_title_bn": "Test Title (BN)",
+                                            "is_youtube_video": 1,
+                                            "publish_date": null,
+                                            "archive_date": null,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-02T11:14:49.000000Z",
+                                            "updated_at": "2021-09-02T11:14:49.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Gallery"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Api endpoint to store a galley",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Gallery"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Gallery"
+                                },
+                                "example": {
+                                    "data": {
+                                        "gallery_category_id": "1",
+                                        "content_title": "content_title",
+                                        "institute_id": "1",
+                                        "content_type": "2",
+                                        "is_youtube_video": "1",
+                                        "publish_date": "",
+                                        "archive_date": "",
+                                        "you_tube_video_id": "pQ145X",
+                                        "updated_at": "2021-09-05T06:16:36.000000Z",
+                                        "created_at": "2021-09-05T06:16:36.000000Z",
+                                        "id": 13
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Gallery added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Gallery"
+                ]
+            }
+        },
+        "/galleries/{galleryId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Api endpoint to ge the specified gallery",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/galleryId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Gallery"
+                                },
+                                "example": {
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Gallery"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "APi endpoint to update the specified gallery",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/galleryId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Gallery"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Gallery"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "gallery_category_id": "1",
+                                        "content_type": "2",
+                                        "content_title": "content_title",
+                                        "content_path": "aaaaaaaaa",
+                                        "institute_id": "1",
+                                        "is_youtube_video": "1",
+                                        "publish_date": "",
+                                        "archive_date": "",
+                                        "you_tube_video_id": "pQ145X",
+                                        "row_status": 1,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-02T11:05:20.000000Z",
+                                        "updated_at": "2021-09-05T06:39:42.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Gallery updated successfully",
+                                        "query_time": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Gallery"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "APi endpoint to delete the specified gallery",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/galleryId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/parameters/galleryId"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Gallery deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Gallery"
+                ]
+            }
+        },
+        "/video-categories": {
+            "get": {
+                "summary": "get list",
+                "description": "Api endpoint to get the list of video categories",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VideoCategory"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 6,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "parent_id": 1,
+                                            "parent_category_title_en": "abc",
+                                            "parent_category_title_bn": "abc",
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T05:18:21.000000Z",
+                                            "updated_at": "2021-09-02T05:50:54.000000Z"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "parent_id": 0,
+                                            "parent_category_title_en": null,
+                                            "parent_category_title_bn": null,
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T05:29:46.000000Z",
+                                            "updated_at": "2021-09-02T05:29:46.000000Z"
+                                        },
+                                        {
+                                            "id": 4,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "parent_id": 0,
+                                            "parent_category_title_en": null,
+                                            "parent_category_title_bn": null,
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T05:51:27.000000Z",
+                                            "updated_at": "2021-09-02T05:51:27.000000Z"
+                                        },
+                                        {
+                                            "id": 5,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "parent_id": 0,
+                                            "parent_category_title_en": null,
+                                            "parent_category_title_bn": null,
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T05:52:26.000000Z",
+                                            "updated_at": "2021-09-02T05:52:26.000000Z"
+                                        },
+                                        {
+                                            "id": 6,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "parent_id": 0,
+                                            "parent_category_title_en": null,
+                                            "parent_category_title_bn": null,
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T05:53:10.000000Z",
+                                            "updated_at": "2021-09-02T05:53:10.000000Z"
+                                        },
+                                        {
+                                            "id": 7,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "parent_id": null,
+                                            "parent_category_title_en": null,
+                                            "parent_category_title_bn": null,
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T05:53:17.000000Z",
+                                            "updated_at": "2021-09-02T05:53:17.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "videoCategory"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Api endpoint to store a   video category",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VideoCategory"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VideoCategory"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "title_en",
+                                        "title_bn": "title_bn",
+                                        "institute_id": "1",
+                                        "parent_id": "1",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-05T06:53:29.000000Z",
+                                        "created_at": "2021-09-05T06:53:29.000000Z",
+                                        "id": 8
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "VideoCategory added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "videoCategory"
+                ]
+            }
+        },
+        "/video-categories/{videoCategoryId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Api endpoint to get the specified of videoCategory",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/videoCategoryId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VideoCategory"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "parent_id": 1,
+                                        "parent_category_title_en": "abc",
+                                        "parent_category_title_bn": "abc",
+                                        "row_status": 0,
+                                        "created_at": "2021-09-02T05:18:21.000000Z",
+                                        "updated_at": "2021-09-05T07:04:29.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "videoCategory"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Api endpoint to update the specified  video category",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/videoCategoryId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VideoCategory"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VideoCategory"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "title_en",
+                                        "title_bn": "title_bn",
+                                        "institute_id": "1",
+                                        "parent_id": "1",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-05T06:53:29.000000Z",
+                                        "created_at": "2021-09-05T06:53:29.000000Z",
+                                        "id": 8
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "VideoCategory updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "videoCategory"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "Api endpoint to delete the specified of videoCategory",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/videoCategoryId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VideoCategory"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "VideoCategory deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "videoCategory"
+                ]
+            }
+        },
+        "/videos": {
+            "get": {
+                "summary": "get list",
+                "description": "Api endpoint to get the list of videos",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/video"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 1,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "description": null,
+                                            "institute_id": 1,
+                                            "video_category_id": 2,
+                                            "video_category_title_en": "abc",
+                                            "video_category_title_bn": "abc",
+                                            "uploaded_video_path": "https://www.youtube.com/watch?v=pP23CtOI-1U",
+                                            "video_type": 1,
+                                            "youtube_video_id": "pP23CtOI-1U",
+                                            "youtube_video_url": "https://www.youtube.com/watch?v=pP23CtOI-1U",
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T07:29:14.000000Z",
+                                            "updated_at": "2021-09-02T07:31:54.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "video"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Api endpoint to store a  video",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/video"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/video"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "title_en",
+                                        "title_bn": "title_bn",
+                                        "description": "shhajdhkjadjasdgyagapaojagaf",
+                                        "video_type": "2",
+                                        "youtube_video_id": "",
+                                        "youtube_video_url": "",
+                                        "uploaded_video_path": "aaaaaaaasdsdlak;ldkos",
+                                        "institute_id": "1",
+                                        "video_category_id": "1",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-05T07:22:14.000000Z",
+                                        "created_at": "2021-09-05T07:22:14.000000Z",
+                                        "id": 3
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Video added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "video"
+                ]
+            }
+        },
+        "/videos/{videoId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Api endpoint to get the specified of video categories",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/videoId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/video"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "description": null,
+                                        "institute_id": 1,
+                                        "video_category_id": 2,
+                                        "video_category_title_en": "abc",
+                                        "video_category_title_bn": "abc",
+                                        "uploaded_video_path": "https://www.youtube.com/watch?v=pP23CtOI-1U",
+                                        "video_type": 1,
+                                        "youtube_video_id": "pP23CtOI-1U",
+                                        "youtube_video_url": "https://www.youtube.com/watch?v=pP23CtOI-1U",
+                                        "row_status": 1,
+                                        "created_at": "2021-09-02T07:29:14.000000Z",
+                                        "updated_at": "2021-09-02T07:31:54.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "video"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Api endpoint to update the specified  video",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/videoId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/video"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/video"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 3,
+                                        "title_en": "title_en",
+                                        "title_bn": "title_bn",
+                                        "description": "shhajdhkjadjasdgyagapaojagaf",
+                                        "video_type": "2",
+                                        "youtube_video_id": "",
+                                        "youtube_video_url": "",
+                                        "uploaded_video_path": "aaaaaaaasdsdlak;ldkos",
+                                        "institute_id": "1",
+                                        "video_category_id": "1",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-05T07:22:14.000000Z",
+                                        "created_at": "2021-09-05T07:22:14.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Video updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "video"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "Api endpoint to delete the specified of video categories",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/videoId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/video"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Video deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "video"
+                ]
+            }
+        },
+        "/sliders": {
+            "get": {
+                "summary": "get list",
+                "description": "Api endpoint to get the list of slider",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sub_title"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/video"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 1,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "description": null,
+                                            "institute_id": 1,
+                                            "video_category_id": 2,
+                                            "video_category_title_en": "abc",
+                                            "video_category_title_bn": "abc",
+                                            "uploaded_video_path": "https://www.youtube.com/watch?v=pP23CtOI-1U",
+                                            "video_type": 1,
+                                            "youtube_video_id": "pP23CtOI-1U",
+                                            "youtube_video_url": "https://www.youtube.com/watch?v=pP23CtOI-1U",
+                                            "row_status": 1,
+                                            "created_at": "2021-09-02T07:29:14.000000Z",
+                                            "updated_at": "2021-09-02T07:31:54.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Slider"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Api endpoint to store a  slider",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Slider"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Slider"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title": "title",
+                                        "sub_title": "sub_title",
+                                        "is_button_available": "",
+                                        "link": "",
+                                        "button_text": "",
+                                        "institute_id": "1",
+                                        "slider": "",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-05T07:52:46.000000Z",
+                                        "created_at": "2021-09-05T07:52:46.000000Z",
+                                        "id": 3
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Slider added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Slider"
+                ]
+            }
+        },
+        "/sliders/{sliderId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Api endpoint to get the specified slider",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/sliderId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Slider"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "institute_id": 1,
+                                        "title": "abc",
+                                        "sub_title": "abc",
+                                        "is_button_available": 1,
+                                        "link": "akjskjasjlksj",
+                                        "button_text": "bbbbbb",
+                                        "slider": "aaaaaaaaaaaa",
+                                        "row_status": 1,
+                                        "created_at": "2021-09-02T09:12:54.000000Z",
+                                        "updated_at": "2021-09-02T09:13:55.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Slider"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Api endpoint to update the specified  slider",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/sliderId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Slider"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Slider"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title": "title",
+                                        "sub_title": "sub_title",
+                                        "is_button_available": "",
+                                        "link": "",
+                                        "button_text": "",
+                                        "institute_id": "1",
+                                        "slider": "",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-05T07:52:46.000000Z",
+                                        "created_at": "2021-09-05T07:52:46.000000Z",
+                                        "id": 3
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Slider updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Slider"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "Api endpoint to delete the specified slider",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/sliderId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Slider"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Slider deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Slider"
+                ]
+            }
+        },
+        "/static-pages": {
+            "get": {
+                "summary": "get list",
+                "description": "Api endpoint to get the list of static pages",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StaticPage"
+                                },
+                                "example": {
+                                    "current_page": 1,
+                                    "total_page": 1,
+                                    "page_size": "10",
+                                    "total": 2,
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "institute_id": 2,
+                                            "page_id": "2",
+                                            "page_contents": "asdbdbnsjdhkjahesldkhewiw",
+                                            "created_by": null,
+                                            "created_at": "2021-09-02T10:03:58.000000Z",
+                                            "updated_at": "2021-09-02T12:59:04.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "title_en": "abc",
+                                            "title_bn": "abc",
+                                            "institute_id": 1,
+                                            "page_id": "1",
+                                            "page_contents": "abclsdks;oe;ooee",
+                                            "created_by": null,
+                                            "created_at": "2021-09-02T10:04:56.000000Z",
+                                            "updated_at": "2021-09-02T10:04:56.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "StaticPage"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Api endpoint to get the list of StaticPages",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StaticPage"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StaticPage"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "title_en",
+                                        "title_bn": "title_bn",
+                                        "institute_id": "1",
+                                        "page_id": "1",
+                                        "page_contents": "asjkdksjksj;lada';kd,'laad",
+                                        "updated_at": "2021-09-05T09:03:16.000000Z",
+                                        "created_at": "2021-09-05T09:03:16.000000Z",
+                                        "id": 3
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "StaticPage added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "StaticPage"
+                ]
+            }
+        },
+        "/static-pages/{staticPageId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Api endpoint to get the  specified StaticPage",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/staticPageId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StaticPage"
+                                },
+                                "example": {
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "StaticPage"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Api endpoint to update the  specified StaticPage",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/staticPageId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StaticPage"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StaticPage"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 3,
+                                        "title_en": "title_en",
+                                        "title_bn": "title_bn",
+                                        "institute_id": "1",
+                                        "page_id": "1",
+                                        "page_contents": "asjkdksjksj;lada';kd,'laad",
+                                        "updated_at": "2021-09-05T09:03:16.000000Z",
+                                        "created_at": "2021-09-05T09:03:16.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "StaticPage updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "StaticPage"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "Api endpoint to delete the  specified StaticPage",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/staticPageId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StaticPage"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "StaticPage deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "StaticPage"
+                ]
+            }
         }
     },
     "components": {
         "parameters": {
+            "staticPageId": {
+                "name": "staticPageId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "sub_title": {
+                "name": "sub_title",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
+            "title": {
+                "name": "title",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "example": "title"
+                }
+            },
+            "sliderId": {
+                "name": "sliderId",
+                "in": "path",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "videoId": {
+                "name": "videoId",
+                "in": "path",
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "videoCategoryId": {
+                "name": "videoCategoryId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "galleryId": {
+                "name": "galleryId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "gallery_category_id": {
+                "name": "gallery_category_id",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "content_type": {
+                "name": "content_type",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                }
+            },
+            "content_title": {
+                "name": "content_title",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "content_title"
+                }
+            },
+            "content_path": {
+                "name": "content_path",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "storage/image.jpg"
+                }
+            },
+            "is_youtube_video": {
+                "name": "is_youtube_video",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "default": 0
+                }
+            },
+            "publish_date": {
+                "name": "publish_date",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "archive_date": {
+                "name": "archive_date",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "you_tube_video_id": {
+                "name": "you_tube_video_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "galleryCategoryId": {
+                "name": "galleryCategoryId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "batch_id": {
+                "name": "batch_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "programme_id": {
+                "name": "programme_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "image": {
+                "name": "image",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "image.jpg",
+                    "maxLength": 191
+                }
+            },
+            "featured": {
+                "name": "featured",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "example": 1,
+                    "default": false
+                }
+            },
             "page": {
                 "name": "page",
                 "in": "query",
@@ -2786,8 +4554,8 @@
                     "example": 1
                 }
             },
-            "limit": {
-                "name": "limit",
+            "page_size": {
+                "name": "page_size",
                 "in": "query",
                 "required": false,
                 "style": "form",
@@ -3098,7 +4866,8 @@
                 "required": true,
                 "style": "form",
                 "schema": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             },
             "institute_id_optional": {
@@ -3820,6 +5589,443 @@
                 "required": [
                     "permission_sub_group_id",
                     "permission_id"
+                ]
+            },
+            "GalleryCategory": {
+                "type": "object",
+                "description": "Provide Gallery Categories",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "batch_id": {
+                        "type": "integer",
+                        "description": "Batch id",
+                        "example": 1
+                    },
+                    "programme_id": {
+                        "type": "integer",
+                        "description": "Programme id",
+                        "example": 1
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "gallery category image",
+                        "minLength": 191
+                    },
+                    "featured": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "District activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_bn",
+                    "title_en",
+                    "institute_id"
+                ]
+            },
+            "Gallery": {
+                "type": "object",
+                "description": "Provide Galleries",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "gallery_category_id": {
+                        "type": "integer",
+                        "description": "gallery category id",
+                        "example": 1
+                    },
+                    "content_title": {
+                        "type": "string",
+                        "description": "Content title",
+                        "example": "content_title"
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "content_type": {
+                        "type": "integer",
+                        "description": "1=>image,2=>video",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "is_youtube_video": {
+                        "type": "integer",
+                        "description": "0=>not youtube vide,1=>youtube vide",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "you_tube_video_id": {
+                        "type": "string",
+                        "description": "youtube video id ",
+                        "example": "pQ145X"
+                    },
+                    "content_path": {
+                        "type": "string",
+                        "description": "content path"
+                    },
+                    "publish_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "publish date"
+                    },
+                    "archive_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Archive date"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": " activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "gallery_category_id",
+                    "content_title",
+                    "institute_id",
+                    "content_type"
+                ]
+            },
+            "VideoCategory": {
+                "type": "object",
+                "description": "Provide video Categories",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "description": "VideoCategory Parent id",
+                        "example": 1
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": " activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "institute_id",
+                    "title_bn",
+                    "title_en"
+                ]
+            },
+            "video": {
+                "type": "object",
+                "description": "Provide videos",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "video_category_id": {
+                        "type": "integer",
+                        "description": "Video Category id"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of video"
+                    },
+                    "video_type": {
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "youtube_video_url": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "description": "Youtube video url"
+                    },
+                    "youtube_video_id": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "description": "Youtube video id"
+                    },
+                    "uploaded_video_path": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "description": "Uploaded video path"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn",
+                    "video_type",
+                    "institute_id",
+                    "video_category_id"
+                ]
+            },
+            "StaticPage": {
+                "type": "object",
+                "description": "Provide static pages",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "page_contents": {
+                        "type": "string",
+                        "description": "page contents"
+                    },
+                    "page_id": {
+                        "type": "integer",
+                        "description": "Page id"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "page_id",
+                    "title_bn",
+                    "title_en",
+                    "institute_id",
+                    "page_contents"
+                ]
+            },
+            "Slider": {
+                "type": "object",
+                "description": "Provide sliders",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary Key",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "sub_title": {
+                        "type": "string",
+                        "description": " Subtitle",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "is_button_available": {
+                        "type": "integer",
+                        "description": "If button available",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "link": {
+                        "type": "string",
+                        "description": "Slider link"
+                    },
+                    "button_text": {
+                        "type": "string",
+                        "description": "Button text"
+                    },
+                    "slider": {
+                        "type": "string",
+                        "description": "slider"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title",
+                    "sub_title",
+                    "institute_id",
+                    "is_button_available"
                 ]
             }
         }
