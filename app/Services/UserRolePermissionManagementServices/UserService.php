@@ -35,15 +35,34 @@ class UserService
 
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
-            "users.*",
+            "users.id",
+            "users.name_en",
+            "users.name_bn",
+            "users.user_type",
+            "users.username",
+            "users.institute_id",
+            "users.role_id",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
+            "users.email",
+            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
+            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
+            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
+            "users.email_verified_at",
+            "users.mobile_verified_at",
+            "users.password",
+            "users.row_status",
+            "users.created_by",
+            "users.updated_by",
+            "users.created_at",
+            "users.updated_at",
+
         ]);
 
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
@@ -124,15 +143,33 @@ class UserService
     {
         /** @var User|Builder $userBuilder */
         $userBuilder = User::select([
-            "users.*",
+            "users.id",
+            "users.name_en",
+            "users.name_bn",
+            "users.user_type",
+            "users.username",
+            "users.institute_id",
+            "users.role_id",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
+            "users.email",
+            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
+            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
+            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
+            "users.email_verified_at",
+            "users.mobile_verified_at",
+            "users.password",
+            "users.row_status",
+            "users.created_by",
+            "users.updated_by",
+            "users.created_at",
+            "users.updated_at",
         ]);
 
         $userBuilder->leftJoin('roles', function ($join) {

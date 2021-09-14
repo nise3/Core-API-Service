@@ -908,7 +908,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -1157,7 +1157,7 @@
         },
         "/permissions/{instituteId}/assign-permissions-to-institute": {
             "post": {
-                "summary": "store",
+                "summary": "Assign permission to institute",
                 "parameters": [
                     {
                         "name": "instituteId",
@@ -1199,7 +1199,7 @@
         },
         "/permissions/{organizationId}/assign-permissions-to-organization": {
             "post": {
-                "summary": "store",
+                "summary": "Assign permission to organization",
                 "parameters": [
                     {
                         "name": "organizationId",
@@ -1248,7 +1248,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -1544,7 +1544,7 @@
         },
         "/roles/{roleId}/assign-permissions": {
             "post": {
-                "summary": "store",
+                "summary": "Assign permission to role",
                 "parameters": [
                     {
                         "name": "roleId",
@@ -1607,7 +1607,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -2003,7 +2003,7 @@
         },
         "/users/{userId}/assign-role": {
             "post": {
-                "summary": "store",
+                "summary": "Assign role to user",
                 "parameters": [
                     {
                         "name": "userId",
@@ -2072,7 +2072,7 @@
         },
         "/users/{userId}/assign-permissions": {
             "post": {
-                "summary": "store",
+                "summary": "Assign permission to user",
                 "parameters": [
                     {
                         "name": "userId",
@@ -2144,7 +2144,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -2398,7 +2398,7 @@
         },
         "/permission-groups/{permissionGroupId}/assign-permissions": {
             "post": {
-                "summary": "store",
+                "summary": "Assign permission to permissionGroup",
                 "parameters": [
                     {
                         "name": "permissionGroupId",
@@ -2447,7 +2447,7 @@
                         "$ref": "#/components/parameters/page"
                     },
                     {
-                        "$ref": "#/components/parameters/limit"
+                        "$ref": "#/components/parameters/page_size"
                     },
                     {
                         "$ref": "#/components/parameters/order"
@@ -2716,7 +2716,7 @@
         },
         "/permission-sub-groups/{permissionSubGroupId}/assign-permissions": {
             "post": {
-                "summary": "store",
+                "summary": "Assign permission to permissionSubGroup",
                 "parameters": [
                     {
                         "name": "permissionSubGroupId",
@@ -4375,6 +4375,7 @@
             "sliderId": {
                 "name": "sliderId",
                 "in": "path",
+                "required": true,
                 "schema": {
                     "type": "integer",
                     "example": 1
@@ -4383,6 +4384,7 @@
             "videoId": {
                 "name": "videoId",
                 "in": "path",
+                "required": true,
                 "schema": {
                     "type": "integer",
                     "example": 1
@@ -4554,8 +4556,8 @@
                     "example": 1
                 }
             },
-            "limit": {
-                "name": "limit",
+            "page_size": {
+                "name": "page_size",
                 "in": "query",
                 "required": false,
                 "style": "form",

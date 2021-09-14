@@ -35,20 +35,27 @@ class RoleService
             'roles.title_en',
             'roles.key',
             'roles.description',
-            'roles.permission_group_id',
             'roles.organization_id',
             'roles.institute_id',
+            'roles.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'roles.permission_sub_group_id',
+            'permission_sub_groups.title_en as permission_sub_group_title_en',
+            'permission_sub_groups.title_bn as permission_sub_group_title_bn',
             'roles.row_status',
             'roles.created_at',
-            'roles.updated_at'
         ]);
-
         $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'roles.permission_group_id');
             if (is_numeric($rowStatus)) {
                 $join->where('permission_groups.row_status', $rowStatus);
+            }
+        });
+        $rolesBuilder->leftJoin('permission_sub_groups', function ($join) use ($rowStatus) {
+            $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
+            if (is_numeric($rowStatus)) {
+                $join->where('permission_sub_groups.row_status', $rowStatus);
             }
         });
 
@@ -99,16 +106,24 @@ class RoleService
             'roles.title_en',
             'roles.key',
             'roles.description',
-            'roles.permission_group_id',
             'roles.organization_id',
             'roles.institute_id',
+            'roles.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'roles.permission_sub_group_id',
+            'permission_sub_groups.title_en as permission_sub_group_title_en',
+            'permission_sub_groups.title_bn as permission_sub_group_title_bn',
             'roles.row_status',
             'roles.created_at',
             'roles.updated_at'
         ]);
-        $roleBuilder->leftJoin('permission_groups', 'permission_groups.id', 'roles.permission_group_id');
+        $roleBuilder->leftJoin('permission_groups', function ($join) {
+            $join->on('permission_groups.id', '=', 'roles.permission_group_id');
+        });
+        $roleBuilder->leftJoin('permission_sub_groups', function ($join) {
+            $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
+        });
 
         if (!empty($id)) {
             $roleBuilder->where('roles.id', $id);
@@ -184,6 +199,7 @@ class RoleService
             'title_bn' => 'required|min:2',
             'description' => 'nullable',
             'permission_group_id' => 'nullable|exists:permission_groups,id',
+            'permission_sub_group_id' => 'nullable|exists: permission_sub_groups,id',
             'organization_id' => 'nullable|numeric',
             'institute_id' => 'nullable|numeric',
             'key' => 'required|min:2|unique:roles,key,' . $id,

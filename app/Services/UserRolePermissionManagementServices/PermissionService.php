@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *
+ */
 class PermissionService
 {
+
 
     /**
      * @param array $request
@@ -34,13 +38,13 @@ class PermissionService
 
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
-            'id',
-            'name',
-            'uri',
-            'method',
-            'row_status',
-            'created_at',
-            'updated_at'
+            'permissions.id',
+            'permissions.name',
+            'permissions.uri',
+            'permissions.method',
+            'permissions.row_status',
+            'permissions.created_at',
+            'permissions.updated_at'
         ]);
 
         $permissionBuilder->orderBy('id', $order);
@@ -71,6 +75,12 @@ class PermissionService
         }
         $response['order'] = $order;
         $response['data'] = $permissions->toArray()['data'] ?? $permissions->toArray();
+
+        foreach ($response['data'] as $index => $item) {
+            $mn = $this->getMethodName($item["method"]);
+            $response['data'][$index] = array_merge($response['data'][$index], ["method_name" => $mn]);
+        }
+
         $response['_response_status'] = [
             "success" => true,
             "code" => Response::HTTP_OK,
@@ -88,13 +98,13 @@ class PermissionService
     {
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
-            'id',
-            'name',
-            'uri',
-            'method',
-            'row_status',
-            'created_at',
-            'updated_at'
+            'permissions.id',
+            'permissions.name',
+            'permissions.uri',
+            'permissions.method',
+            'permissions.row_status',
+            'permissions.created_at',
+            'permissions.updated_at'
         ]);
 
         if (!empty($id)) {
@@ -142,6 +152,34 @@ class PermissionService
     public function destroy(Permission $permission): bool
     {
         return $permission->delete();
+    }
+
+    /**
+     * @param $item
+     * @return string
+     */
+    private function getMethodName($item): string
+    {
+        $methodName = "";
+        switch ($item) {
+            case 1:
+                $methodName = "GET";
+                break;
+            case 2:
+                $methodName = "POST";
+                break;
+            case 3:
+                $methodName = "PUT";
+                break;
+            case 4:
+                $methodName = "PATCH";
+                break;
+            case 5:
+                $methodName = "DELETE";
+                break;
+
+        }
+        return $methodName;
     }
 
     /**
@@ -212,6 +250,10 @@ class PermissionService
         return Validator::make($request->all(), $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
 
@@ -224,6 +266,10 @@ class PermissionService
         return Validator::make($data, $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         if (!empty($request['order'])) {

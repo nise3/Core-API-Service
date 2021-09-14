@@ -35,13 +35,13 @@ class PermissionGroupService
 
         /** @var PermissionGroup|Builder $permissionGroupBuilder */
         $permissionGroupBuilder = PermissionGroup::select([
-            'id',
-            'title_en',
-            'title_bn',
-            'key',
-            "row_status",
-            "created_at",
-            "updated_at"
+            'permission_groups.id',
+            'permission_groups.title_en',
+            'permission_groups.title_bn',
+            'permission_groups.key',
+            "permission_groups.row_status",
+            "permission_groups.created_at",
+            "permission_groups.updated_at"
         ]);
 
         $permissionGroupBuilder->orderBy('id', $order);
@@ -89,13 +89,13 @@ class PermissionGroupService
     {
         /** @var PermissionGroup|Builder $permissionGroupBuilder */
         $permissionGroupBuilder = PermissionGroup::select([
-            'id',
-            'title_en',
-            'title_bn',
-            'key',
-            "row_status",
-            "created_at",
-            "updated_at"
+            'permission_groups.id',
+            'permission_groups.title_en',
+            'permission_groups.title_bn',
+            'permission_groups.key',
+            "permission_groups.row_status",
+            "permission_groups.created_at",
+            "permission_groups.updated_at"
         ]);
 
         if (!empty($id)) {

@@ -28,16 +28,23 @@ class PermissionSubGroupService
 
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
         $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $titleEn = array_key_exists('title_en',$request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn',$request) ? $request['title_bn'] : "";
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
         $permissionSubGroupBuilder = PermissionSubGroup::select([
-            'permission_sub_groups.*',
+            'permission_sub_groups.id',
+            'permission_sub_groups.title_en',
+            'permission_sub_groups.title_bn',
+            'permission_sub_groups.key',
+            'permission_sub_groups.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'permission_sub_groups.row_status',
+            "permission_sub_groups.created_at",
+            "permission_sub_groups.updated_at"
         ]);
         $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
 
@@ -49,7 +56,7 @@ class PermissionSubGroupService
             $permissionSubGroupBuilder->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if (is_numeric($rowStatus)){
+        if (is_numeric($rowStatus)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.row_status', $rowStatus);
         }
 
@@ -87,9 +94,16 @@ class PermissionSubGroupService
     {
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
         $permissionSubGroupBuilder = PermissionSubGroup::select([
-            'permission_sub_groups.*',
+            'permission_sub_groups.id',
+            'permission_sub_groups.title_en',
+            'permission_sub_groups.title_bn',
+            'permission_sub_groups.key',
+            'permission_sub_groups.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'permission_sub_groups.row_status',
+            "permission_sub_groups.created_at",
+            "permission_sub_groups.updated_at"
         ]);
         $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
         $permissionSubGroupBuilder->where('permission_sub_groups.id', $id);
