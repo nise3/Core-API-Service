@@ -139,14 +139,14 @@ class PermissionSubGroupController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function assignPermissionToPermissionSubGroup(Request $request, int $id): JsonResponse
+    public function assignPermissionToPermissionSubGroup(Request $request, int $id):JsonResponse
     {
         $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->permissionValidation($request)->validated();
         try {
             $permissionSubGroup = $this->permissionSubGroupService->assignPermission($permissionSubGroup, $validated['permissions']);
             $response = [
-                'data' => $permissionSubGroup,
+                'data' => $permissionSubGroup->permissions()->get(),
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,

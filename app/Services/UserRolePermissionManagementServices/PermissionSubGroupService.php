@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,8 +29,8 @@ class PermissionSubGroupService
 
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
         $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
-        $titleEn = array_key_exists('title_en',$request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn',$request) ? $request['title_bn'] : "";
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
@@ -49,7 +50,7 @@ class PermissionSubGroupService
             $permissionSubGroupBuilder->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if (is_numeric($rowStatus)){
+        if (is_numeric($rowStatus)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.row_status', $rowStatus);
         }
 
@@ -93,6 +94,8 @@ class PermissionSubGroupService
         ]);
         $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
         $permissionSubGroupBuilder->where('permission_sub_groups.id', $id);
+
+        $permissionSubGroupBuilder->with('permissions');
 
         /** @var PermissionSubGroup $permissionSubGroup */
         $permissionSubGroup = $permissionSubGroupBuilder->first();
@@ -139,9 +142,14 @@ class PermissionSubGroupService
         return $permissionSubGroup->delete();
     }
 
-    public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds): PermissionSubGroup
+    public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds):PermissionSubGroup
     {
-        $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
+        $validPermissions = DB::table('permission_group_permissions')
+            ->where('permission_group_id', $permissionSubGroup->id)
+            ->whereIn('permission_id', $permissionIds)
+            ->orderBy('permission_id', 'ASC')
+            ->pluck('permission_id')
+            ->toArray();
         $permissionSubGroup->permissions()->sync($validPermissions);
         return $permissionSubGroup;
     }

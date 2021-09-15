@@ -131,6 +131,8 @@ class GalleryCategoryService
     public function store(array $data): GalleryCategory
     {
         $galleryCategory = new GalleryCategory();
+        $directory="gallery-category/".date('Y-m');
+
         $galleryCategory->fill($data);
         $galleryCategory->save();
         return $galleryCategory;
