@@ -44,7 +44,7 @@ class PermissionSeeder extends Seeder
             ]
         ];
 
-        $moludes = [
+        $modules = [
             'divisions',
             'districts',
             'upazilas',
@@ -55,12 +55,13 @@ class PermissionSeeder extends Seeder
             'permission-sub-groups'
         ];
 
-        foreach ($moludes as $module) {
+        foreach ($modules as $module) {
             foreach ($methods as $key => $method) {
                 Permission::create([
                     'name' => $module . '-' . $key,
                     'uri' => self::ROUTE_PREFIX . $module . $method['uri'],
-                    'method' => $method['method']
+                    'method' => $method['method'],
+                    'module' => $module
                 ]);
             }
         }

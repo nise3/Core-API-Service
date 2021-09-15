@@ -615,6 +615,7 @@ paths:
         - $ref: '#/components/parameters/name'
         - $ref: '#/components/parameters/uri'
         - $ref: '#/components/parameters/method'
+        - $ref: '#/components/parameters/module'
       responses:
         '200':
           description: success
@@ -626,7 +627,8 @@ paths:
                 data:
                   name: Demo Name
                   method: '1'
-                  uri: api/v1/demo_name
+                  module: roles
+                  uri: api/v1/roles
                   updated_at: '2021-08-22T10:01:18.000000Z'
                   created_at: '2021-08-22T10:01:18.000000Z'
                   id: 42
@@ -657,11 +659,13 @@ paths:
               example:
                 data:
                   id: 1
-                  name: Demo Named
-                  uri: api/v1/demod
+                  name: divisions-get_all
+                  module: divisions
+                  uri: api/v1/divisions
+                  method: 1
                   row_status: 1
-                  created_at: '2021-08-11T12:23:12.000000Z'
-                  updated_at: '2021-08-22T10:03:38.000000Z'
+                  created_at: '2021-09-15T06:33:37.000000Z'
+                  updated_at: '2021-09-15T06:33:37.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -683,6 +687,7 @@ paths:
         - $ref: '#/components/parameters/uri'
         - $ref: '#/components/parameters/method'
         - $ref: '#/components/parameters/row_status'
+        - $ref: '#/components/parameters/module'
       responses:
         '200':
           description: Update Permission
@@ -693,6 +698,7 @@ paths:
               example:
                 data:
                   id: 1
+                  module: divisions
                   name: Demo Named
                   uri: api/v1/demod
                   method: '1'
@@ -839,6 +845,7 @@ paths:
         - $ref: '#/components/parameters/title_bn'
         - $ref: '#/components/parameters/description'
         - $ref: '#/components/parameters/permission_group_id_optional'
+        - $ref: '#/components/parameters/permission_sub_group_id_optional'
         - $ref: '#/components/parameters/organization_id'
         - $ref: '#/components/parameters/institute_id_optional'
       responses:
@@ -918,6 +925,7 @@ paths:
         - $ref: '#/components/parameters/title_bn'
         - $ref: '#/components/parameters/description'
         - $ref: '#/components/parameters/permission_group_id_optional'
+        - $ref: '#/components/parameters/permission_sub_group_id_optional'
         - $ref: '#/components/parameters/organization_id'
         - $ref: '#/components/parameters/institute_id_optional'
         - $ref: '#/components/parameters/row_status'
@@ -3135,6 +3143,14 @@ components:
       schema:
         type: number
         example: '1'
+    module:
+      name: module
+      in: query
+      required: true
+      style: form
+      schema:
+        type: string
+        example: roles
     uri_optional:
       name: uri
       in: query
@@ -3268,6 +3284,13 @@ components:
         type: integer
     permission_group_id_optional:
       name: permission_group_id
+      in: query
+      required: false
+      style: form
+      schema:
+        type: integer
+    permission_sub_group_id_optional:
+      name: permission_sub_group_id
       in: query
       required: false
       style: form
@@ -3523,6 +3546,9 @@ components:
         uri:
           type: string
           description: Permission Uri
+        module:
+          type: string
+          description: Module name
         method:
           type: integer
           example: 1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE
@@ -3548,6 +3574,7 @@ components:
         - name
         - uri
         - method
+        - module
     organizationPermission:
       type: object
       description: Associate model
@@ -3586,6 +3613,8 @@ components:
         title_bn:
           type: string
         permission_group_id:
+          type: integer
+        permission_sub_group_id:
           type: integer
         organization_id:
           type: integer

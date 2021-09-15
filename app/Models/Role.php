@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string description
  * @property string key
  * @property int $permission_group_id
+ * @property int $permission_sub_group_id
  * @property int $organization_id
  * @property int $institute_id
  * @property Carbon $created_at

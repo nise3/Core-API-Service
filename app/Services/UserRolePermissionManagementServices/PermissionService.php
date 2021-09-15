@@ -39,6 +39,7 @@ class PermissionService
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
             'permissions.id',
+            'permissions.module',
             'permissions.name',
             'permissions.uri',
             'permissions.method',
@@ -100,6 +101,7 @@ class PermissionService
         $permissionBuilder = Permission::select([
             'permissions.id',
             'permissions.name',
+            'permissions.module',
             'permissions.uri',
             'permissions.method',
             'permissions.row_status',
@@ -247,6 +249,7 @@ class PermissionService
         $rules = [
             'name' => 'required|min:2',
             'method' => 'required|numeric',
+            'module' => 'required|string',
             'uri' => 'required|min:2|unique:permissions,uri,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
