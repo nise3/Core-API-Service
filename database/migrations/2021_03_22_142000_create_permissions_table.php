@@ -15,6 +15,7 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->mediumIncrements('id');
+            $table->string('module',191);
             $table->string('name');
             $table->string('uri', 300);
             $table->unsignedTinyInteger('method')->comment('1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE');

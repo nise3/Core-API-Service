@@ -30,7 +30,7 @@ class UserService
     public function getAllUsers(array $request, Carbon $startTime): array
     {
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $nameEn = array_key_exists('name_en', $request) ? $request['name_en'] : "";
         $nameBn = array_key_exists('name_bn', $request) ? $request['name_bn'] : "";
         $email = array_key_exists('email', $request) ? $request['email'] : "";
@@ -39,15 +39,34 @@ class UserService
 
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
-            "users.*",
+            "users.id",
+            "users.name_en",
+            "users.name_bn",
+            "users.user_type",
+            "users.username",
+            "users.institute_id",
+            "users.role_id",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
+            "users.email",
+            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
+            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
+            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
+            "users.email_verified_at",
+            "users.mobile_verified_at",
+            "users.password",
+            "users.row_status",
+            "users.created_by",
+            "users.updated_by",
+            "users.created_at",
+            "users.updated_at",
+
         ]);
 
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
@@ -98,9 +117,9 @@ class UserService
             $usersBuilder->where('users.row_status', $rowStatus);
         }
 
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
-            $users = $usersBuilder->paginate($limit);
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $users = $usersBuilder->paginate($pageSize);
             $paginateData = (object)$users->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -128,15 +147,33 @@ class UserService
     {
         /** @var User|Builder $userBuilder */
         $userBuilder = User::select([
-            "users.*",
+            "users.id",
+            "users.name_en",
+            "users.name_bn",
+            "users.user_type",
+            "users.username",
+            "users.institute_id",
+            "users.role_id",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
+            "users.email",
+            "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
+            "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
             'loc_districts.title_bn as loc_district_title_bn',
+            "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title_bn as loc_upazila_title_bn',
+            "users.email_verified_at",
+            "users.mobile_verified_at",
+            "users.password",
+            "users.row_status",
+            "users.created_by",
+            "users.updated_by",
+            "users.created_at",
+            "users.updated_at",
         ]);
 
         $userBuilder->leftJoin('roles', function ($join) {
@@ -296,10 +333,16 @@ class UserService
     /**
      * @param Request $request
      * @param int|null $id
-     * @return Validator
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     public function registerUserValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+        $customMessage = [
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
+        ];
         $rules = [
             'permission_sub_group_id' => 'required|numeric',
             "user_type" => "required|min:1",
@@ -327,7 +370,7 @@ class UserService
             ],
 
         ];
-        return Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules, $customMessage);
     }
 
     /**
@@ -390,13 +433,19 @@ class UserService
             $request['order'] = strtoupper($request['order']);
         }
         $customMessage = [
-            'order.in' => 'Order must be within ASC or DESC',
-            'row_status.in' => 'Row status must be within 1 or 0'
+            'order.in' => [
+                'code' => 30000,
+                "message" => 'Order must be within ASC or DESC',
+            ],
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
         ];
 
         return Validator::make($request->all(), [
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'name_en' => 'string',
             'name_bn' => 'string',
             'email' => 'string',
