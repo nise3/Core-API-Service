@@ -184,7 +184,12 @@ class UserController extends Controller
         $validated = $this->userService->registerUserValidator($request)->validate();
         try {
             $validated['password'] = array_key_exists('password', $validated) ? $validated['password'] : '123456';
+            $validated['username']=strtolower(str_replace(" ","_",$validated['username']));
+
             $httpClient = $this->userService->idpUserCreate($validated);
+
+            Log::info('idp_user_info:'.json_encode($httpClient));
+
             if ($httpClient->json('id')) {
                 $validated['idp_user_id'] = $httpClient->json('id');
                 $user = $this->userService->createRegisterUser($user, $validated);
@@ -200,6 +205,15 @@ class UserController extends Controller
                 DB::commit();
             }else{
                 DB::rollBack();
+                $response = [
+                    'data' => $user ?: [],
+                    '_response_status' => [
+                        "success" => false,
+                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                        "message" => "User is not created",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
             }
         } catch (Throwable $e) {
             DB::rollBack();

@@ -463,15 +463,18 @@ class UserService
     /**
      * @param array $data
      */
-    public function idpUserCreate(array $data)
+    public function idpUserCreate(array $postField)
     {
 
+
         $data = [
-            'name' => $data['name_en'],
-            'email' => $data['email'],
-            'username' => $data['username'],
-            'password' => $data['password']
+            'name' => $postField['name_en'],
+            'email' => $postField['email'],
+            'username' => $postField['username'],
+            'password' => $postField['password']
         ];
+
+        Log::info('Idp_user_payLoad:'.json_encode($data));
 
         return Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([
