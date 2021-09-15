@@ -3,6 +3,7 @@
 
 namespace App\Services\ContentManagementServices;
 
+use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\GalleryCategory;
 use Carbon\Carbon;
@@ -130,6 +131,11 @@ class GalleryCategoryService
      */
     public function store(array $data): GalleryCategory
     {
+        if (!empty($data['image'])) {
+            $filename = FileHandler::storeFile($data['image'], 'images/gallery-category');
+            $data['image'] = 'images/gallery-category/' . $filename;
+        }
+
         $galleryCategory = new GalleryCategory();
         $galleryCategory->fill($data);
         $galleryCategory->save();
@@ -188,8 +194,10 @@ class GalleryCategoryService
             ],
             'image' => [
                 'nullable',
-                'string',
+                'image',
+                'mimes:jpg,bmp,png,jpeg,svg',
             ],
+
             'featured' => [
                 'nullable',
                 'boolean'

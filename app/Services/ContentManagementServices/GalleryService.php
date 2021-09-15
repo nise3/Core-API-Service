@@ -3,6 +3,7 @@
 
 namespace App\Services\ContentManagementServices;
 
+use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Gallery;
 use Carbon\Carbon;
@@ -142,6 +143,17 @@ class GalleryService
      */
     public function store(array $data): Gallery
     {
+        if ($data['content_type'] == Gallery::CONTENT_TYPE_IMAGE) {
+            $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
+            $data['content_path'] = 'images/gallery/' . $filename;
+        } else if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_YES) {
+            $filename = $data['you_tube_video_id'];
+            $data['you_tube_video_id'] = $filename;
+        } elseif ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
+            $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
+            $data['content_path'] = 'videos/gallery/' . $filename;
+        }
+
         $gallery = new Gallery();
         $gallery->fill($data);
         $gallery->save();
@@ -218,18 +230,27 @@ class GalleryService
             ],
         ];
 
-        if ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
+        if ($request->content_type == Gallery::CONTENT_TYPE_IMAGE) {
+            $rules['content_path'] = ['required_without:id', 'mimes:jpg,bmp,png'];
+            if (empty($request->content_path)) {
+                unset($rules['content_path']);
+            }
+        } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_NO) {
+
+            $rules['content_path'] = [
+                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_NO,
+                'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'];
+            if (empty($request->content_path)) {
+                unset($rules['content_path']);
+            }
+        } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
             $rules['you_tube_video_id'] = [
                 'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_YES,
                 'string'
             ];
-        } else {
-            $rules['content_path'] = [
-                'required',
-                'string'
-            ];
-
         }
+
+
 
         return Validator::make($request->all(), $rules, $customMessage);
     }
