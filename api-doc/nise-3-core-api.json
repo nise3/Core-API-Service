@@ -2015,7 +2015,7 @@
                 "tags": [
                     "User"
                 ]
-            },
+            }
         },
         "/users/{userId}/assign-role": {
             "post": {

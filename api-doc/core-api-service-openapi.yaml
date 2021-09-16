@@ -4,6 +4,7 @@ info:
   description: API description in Markdown.
   version: 1.0.0
 servers:
+  - url: http://localhost:8001/api/v1
   - url: http://localhost:8000/api/v1
   - url: https://api.bus.softbd.xyz/core/api/v1
   - url: http://nise3-core.asm/api/v1
@@ -1382,6 +1383,286 @@ paths:
                   query_time: 0
       tags:
         - User
+  /users/{userId}/permissions:
+    get:
+      summary: get the list of permission and menuItems
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 7d04c997-18c9-4430-98b1-14adf5ee88d7
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              example:
+                data:
+                  permissions:
+                    - module: divisions
+                      name: divisions-get_all
+                    - module: divisions
+                      name: divisions-read
+                    - module: divisions
+                      name: divisions-add
+                    - module: divisions
+                      name: divisions-update
+                    - module: divisions
+                      name: divisions-delete
+                    - module: districts
+                      name: districts-get_all
+                    - module: districts
+                      name: districts-read
+                    - module: districts
+                      name: districts-add
+                    - module: districts
+                      name: districts-update
+                    - module: districts
+                      name: districts-delete
+                  menu_items:
+                    - menu_name: divisions
+                      title: divisions-get_all
+                      type: item
+                      title_lang_key: EN
+                      permission_key: divisions-get_all
+                      url: api/v1/divisions
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 1
+                      route: null
+                      parameters: null
+                    - menu_name: divisions
+                      title: divisions-read
+                      type: item
+                      title_lang_key: EN
+                      permission_key: divisions-read
+                      url: api/v1/divisions/{id}
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 2
+                      route: null
+                      parameters: null
+                    - menu_name: divisions
+                      title: divisions-add
+                      type: item
+                      title_lang_key: EN
+                      permission_key: divisions-add
+                      url: api/v1/divisions
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 3
+                      route: null
+                      parameters: null
+                    - menu_name: divisions
+                      title: divisions-update
+                      type: item
+                      title_lang_key: EN
+                      permission_key: divisions-update
+                      url: api/v1/divisions/{id}
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 4
+                      route: null
+                      parameters: null
+                    - menu_name: divisions
+                      title: divisions-delete
+                      type: item
+                      title_lang_key: EN
+                      permission_key: divisions-delete
+                      url: api/v1/divisions/{id}
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 5
+                      route: null
+                      parameters: null
+                    - menu_name: divisions
+                      title: divisions-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/divisions
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 1
+                      route: null
+                      parameters: null
+                    - menu_name: districts
+                      title: districts-get_all
+                      type: item
+                      title_lang_key: EN
+                      permission_key: districts-get_all
+                      url: api/v1/districts
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 1
+                      route: null
+                      parameters: null
+                    - menu_name: districts
+                      title: districts-read
+                      type: item
+                      title_lang_key: EN
+                      permission_key: districts-read
+                      url: api/v1/districts/{id}
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 2
+                      route: null
+                      parameters: null
+                    - menu_name: districts
+                      title: districts-add
+                      type: item
+                      title_lang_key: EN
+                      permission_key: districts-add
+                      url: api/v1/districts
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 3
+                      route: null
+                      parameters: null
+                    - menu_name: districts
+                      title: districts-update
+                      type: item
+                      title_lang_key: EN
+                      permission_key: districts-update
+                      url: api/v1/districts/{id}
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 4
+                      route: null
+                      parameters: null
+                    - menu_name: districts
+                      title: districts-delete
+                      type: item
+                      title_lang_key: EN
+                      permission_key: districts-delete
+                      url: api/v1/districts/{id}
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 5
+                      route: null
+                      parameters: null
+                    - menu_name: districts
+                      title: districts-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/districts
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 2
+                      route: null
+                      parameters: null
+                    - menu_name: upazilas
+                      title: upazilas-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/upazilas
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 3
+                      route: null
+                      parameters: null
+                    - menu_name: users
+                      title: users-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/users
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 4
+                      route: null
+                      parameters: null
+                    - menu_name: roles
+                      title: roles-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/roles
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 5
+                      route: null
+                      parameters: null
+                    - menu_name: permissions
+                      title: permissions-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/permissions
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 6
+                      route: null
+                      parameters: null
+                    - menu_name: permission-groups
+                      title: permission-groups-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/permission-groups
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 7
+                      route: null
+                      parameters: null
+                    - menu_name: permission-sub-groups
+                      title: permission-sub-groups-custom-menuItem
+                      type: item
+                      title_lang_key: EN
+                      permission_key: null
+                      url: api/v1/permission-sub-groups
+                      target: _self
+                      icon_class: null
+                      color: null
+                      parent_id: null
+                      order: 8
+                      route: null
+                      parameters: null
+                _response_status:
+                  success: true
+                  code: 200
+                  message: User Permission List
+                  query_time: 0
+      tags:
+        - User
   /permission-groups:
     get:
       summary: get list
@@ -1460,6 +1741,22 @@ paths:
           schema:
             type: integer
             example: 1
+        - name: permission
+          in: query
+          schema:
+            type: integer
+            example: 1
+            enum:
+              - 0
+              - 1
+        - name: permission_sub_group
+          in: query
+          schema:
+            type: integer
+            example: 1
+            enum:
+              - 0
+              - 1
       responses:
         '200':
           description: Get one Division
@@ -1849,9 +2146,20 @@ paths:
         - $ref: '#/components/parameters/institute_id'
         - $ref: '#/components/parameters/batch_id'
         - $ref: '#/components/parameters/programme_id'
-        - $ref: '#/components/parameters/image'
         - $ref: '#/components/parameters/featured'
         - $ref: '#/components/parameters/row_status'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+            encoding:
+              image:
+                contentType: image/png,image/jpeg
       responses:
         '201':
           description: successful
@@ -1932,7 +2240,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GalleryCategory'
-              example: { }
+              example: {}
       tags:
         - GalleyCategory
     delete:
@@ -2065,7 +2373,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Gallery'
-              example: { }
+              example: {}
       tags:
         - Gallery
     put:
@@ -2773,7 +3081,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StaticPage'
-              example: { }
+              example: {}
       tags:
         - StaticPage
     put:
@@ -2964,10 +3272,11 @@ components:
       name: image
       in: query
       required: false
-      schema:
-        type: string
-        example: image.jpg
-        maxLength: 191
+      content:
+        multipart/form-data:
+          schema:
+            type: string
+            format: binary
     featured:
       name: featured
       in: query
@@ -3903,6 +4212,7 @@ components:
           example: pQ145X
         content_path:
           type: string
+          format: binary
           description: content path
         publish_date:
           type: string

@@ -72,8 +72,8 @@ class UserService
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')
                 ->whereNull('roles.deleted_at');
-            if (!is_null($rowStatus)) {
-                $join->where('roles.row_status');
+            if (is_numeric($rowStatus)) {
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
@@ -81,7 +81,7 @@ class UserService
             $join->on('loc_divisions.id', '=', 'users.loc_division_id')
                 ->whereNull('loc_divisions.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status');
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
@@ -89,7 +89,7 @@ class UserService
             $join->on('loc_districts.id', '=', 'users.loc_district_id')
                 ->whereNull('loc_districts.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status');
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
@@ -97,7 +97,7 @@ class UserService
             $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
                 ->whereNull('loc_upazilas.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status');
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
