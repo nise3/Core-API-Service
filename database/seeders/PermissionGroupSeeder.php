@@ -27,19 +27,19 @@ class PermissionGroupSeeder extends Seeder
             ->count(3)
             ->state(new Sequence(
                 [
-                    'title_en' =>  'System User',
-                    'title_bn' =>  'System User',
-                    'key' => 'system_user',
+                    'title_en' =>  'System',
+                    'title_bn' =>  'System',
+                    'key' => 'system',
                 ],
                 [
-                    'title_en' =>  'Organization User',
-                    'title_bn' =>  'Organization User',
-                    'key' => 'organization_user',
+                    'title_en' =>  'Organization',
+                    'title_bn' =>  'Organization',
+                    'key' => 'organization',
                 ],
                 [
-                    'title_en' =>  'Institute User',
-                    'title_bn' =>  'Institute User',
-                    'key' => 'institute_user',
+                    'title_en' =>  'Institute',
+                    'title_bn' =>  'Institute',
+                    'key' => 'institute',
                 ]
             ))
             ->has(PermissionSubGroup::factory()->count(2))

@@ -35,6 +35,7 @@ class PermissionSubGroupService
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
+
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
         $permissionSubGroupBuilder = PermissionSubGroup::select([
             'permission_sub_groups.id',
