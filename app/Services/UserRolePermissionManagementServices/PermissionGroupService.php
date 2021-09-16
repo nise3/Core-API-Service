@@ -32,6 +32,7 @@ class PermissionGroupService
         $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $key = array_key_exists('key', $request) ? $request['key'] : null;
 
         /** @var PermissionGroup|Builder $permissionGroupBuilder */
         $permissionGroupBuilder = PermissionGroup::select([
@@ -55,6 +56,10 @@ class PermissionGroupService
 
         if (is_numeric($rowStatus)) {
             $permissionGroupBuilder->where('row_status', $rowStatus);
+        }
+
+        if ($key) {
+            $permissionGroupBuilder->where('permission_groups.key', $key);
         }
 
         /** @var Collection|PermissionGroup $permissionGroups */
@@ -222,6 +227,7 @@ class PermissionGroupService
             'title_bn' => 'nullable|min:1',
             'page' => 'numeric',
             'page_size' => 'numeric',
+            'key'=>'nullable|string',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

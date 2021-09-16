@@ -70,7 +70,7 @@ class PermissionSeeder extends Seeder
                     'method' => $method['method'],
                     'module' => $module
                 ]);
-                DB::table('menu_items')->insert([
+                $parentId=DB::table('menu_items')->insertGetId([
                     'menu_id'=>$menuId,
                     'title'=>$permissionKey,
                     'title_lang_key'=>'EN',
@@ -79,6 +79,18 @@ class PermissionSeeder extends Seeder
                     'url'=>self::ROUTE_PREFIX . $module . $method['uri'],
                     'order'=>$order++
                 ]);
+
+                DB::table('menu_items')->insertGetId([
+                    'menu_id'=>$menuId,
+                    'title'=>$permissionKey.'-Child',
+                    'title_lang_key'=>'EN',
+                    'type'=>'item',
+                    'permission_key'=>$permissionKey,
+                    'url'=>self::ROUTE_PREFIX . $module . $method['uri'],
+                    'parent_id'=>$parentId,
+                    'order'=>$order++
+                ]);
+
             }
             /** Menu Without Permission */
             DB::table('menu_items')->insert([
