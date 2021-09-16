@@ -4944,8 +4944,7 @@
                 "in": "query",
                 "required": true,
                 "schema": {
-                    "type": "string",
-                    "example": 1
+                    "type": "string"
                 }
             },
             "color": {
@@ -6748,7 +6747,8 @@
                         "minLength": 2,
                         "maxLength": 191
                     }
-                }
+                },
+                "required": ["name","type"]
             },
             "MenuItems": {
                 "type": "object",

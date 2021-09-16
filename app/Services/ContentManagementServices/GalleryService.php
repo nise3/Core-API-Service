@@ -143,15 +143,26 @@ class GalleryService
      */
     public function store(array $data): Gallery
     {
-        if ($data['content_type'] == Gallery::CONTENT_TYPE_IMAGE) {
-            $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
-            $data['content_path'] = 'images/gallery/' . $filename;
-        } else if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_YES) {
+
+        if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_YES) {
+            preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $data['you_tube_video_id'], $matches);
             $filename = $data['you_tube_video_id'];
-            $data['you_tube_video_id'] = $filename;
+            $data['you_tube_video_id'] = $matches[1];
         } elseif ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
             $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
-            $data['content_path'] = 'videos/gallery/' . $filename;
+            if ($filename) {
+                $filename = 'videos/gallery/' . $filename;
+            }
+        } else {
+            $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
+            if ($filename) {
+                $filename = 'images/gallery/' . $filename;
+            }
+        }
+        if (!$filename) {
+            $data['content_path'] = '';
+        } else {
+            $data['content_path'] = $filename;
         }
 
         $gallery = new Gallery();
@@ -232,25 +243,18 @@ class GalleryService
 
         if ($request->content_type == Gallery::CONTENT_TYPE_IMAGE) {
             $rules['content_path'] = ['required_without:id', 'mimes:jpg,bmp,png'];
-            if (empty($request->content_path)) {
-                unset($rules['content_path']);
-            }
-        } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_NO) {
 
+        } elseif ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_NO) {
             $rules['content_path'] = [
                 'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_NO,
-                'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'];
-            if (empty($request->content_path)) {
-                unset($rules['content_path']);
-            }
+                'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'
+            ];
         } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
             $rules['you_tube_video_id'] = [
                 'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_YES,
-                'string'
+                'regex:/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/'
             ];
         }
-
-
 
         return Validator::make($request->all(), $rules, $customMessage);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Services\ContentManagementServices;
 
+use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Slider;
 use Carbon\Carbon;
@@ -117,6 +118,10 @@ class SliderService
      */
     public function store(array $data): Slider
     {
+        if (!empty($data['slider'])) {
+            $filename = FileHandler::storeFile($data['slider'], 'images/slider');
+            $data['slider'] = 'images/slider/' . $filename;
+        }
         $slider = new Slider();
         $slider->fill($data);
         $slider->save();
@@ -130,6 +135,14 @@ class SliderService
      */
     public function update(Slider $slider, array $data): Slider
     {
+        if (!empty($data['slider'])) {
+            if (!empty($slider->slider)) {
+                FileHandler::deleteFile($slider->slider);
+            }
+
+            $filename = FileHandler::storeFile($data['slider'], 'images/slider');
+            $data['slider'] = 'images/slider/' . $filename;
+        }
         $slider->fill($data);
         $slider->save();
         return $slider;
@@ -191,9 +204,9 @@ class SliderService
                 'int',
             ],
             'slider' => [
-                'nullable',
-                'string',
-                'max:191'
+                'image',
+                'max:512',
+                'dimensions:max_width=1920,max_height=1080',
             ],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',

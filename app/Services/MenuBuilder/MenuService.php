@@ -150,8 +150,8 @@ class MenuService
     public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
-            'name' => 'required|max:191',
-            'type' => 'required|max:191'
+            'name' => 'required|string|max:191',
+            'type' => 'required|string|max:191'
         ]);
     }
 
