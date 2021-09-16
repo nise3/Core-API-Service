@@ -2276,6 +2276,24 @@
                             "type": "integer",
                             "example": 1
                         }
+                    },
+                    {
+                        "name": "permission",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1,
+                            "enum": [0,1]
+                        }
+                    },
+                    {
+                        "name": "permission_sub_group",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1,
+                            "enum": [0,1]
+                        }
                     }
                 ],
                 "responses": {
@@ -2886,6 +2904,9 @@
                         "$ref": "#/components/parameters/programme_id"
                     },
                     {
+                        "$ref": "#/components/parameters/image"
+                    },
+                    {
                         "$ref": "#/components/parameters/featured"
                     },
                     {
@@ -2893,7 +2914,6 @@
                     }
                 ],
                 "requestBody": {
-                    "required": false,
                     "content": {
                         "multipart/form-data": {
                             "schema": {
@@ -2903,6 +2923,11 @@
                                         "type": "string",
                                         "format": "binary"
                                     }
+                                }
+                            },
+                            "encoding": {
+                                "image": {
+                                    "contentType": "image/png,image/jpeg"
                                 }
                             }
                         }
@@ -4546,10 +4571,13 @@
                 "name": "image",
                 "in": "query",
                 "required": false,
-                "schema": {
-                    "type": "string",
-                    "example": "image.jpg",
-                    "maxLength": 191
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "string",
+                            "format": "binary"
+                        }
+                    }
                 }
             },
             "featured": {
@@ -5742,15 +5770,6 @@
                         "description": "gallery category id",
                         "example": 1
                     },
-                    "content_type": {
-                        "type": "integer",
-                        "nullable": false,
-                        "description": "1 => Image, 2 => Video",
-                        "enum": [
-                            1,
-                            2
-                        ]
-                    },
                     "content_title": {
                         "type": "string",
                         "description": "Content title",
@@ -5760,6 +5779,14 @@
                         "type": "integer",
                         "description": "Institute id",
                         "example": 1
+                    },
+                    "content_type": {
+                        "type": "integer",
+                        "description": "1=>image,2=>video",
+                        "enum": [
+                            1,
+                            2
+                        ]
                     },
                     "is_youtube_video": {
                         "type": "integer",

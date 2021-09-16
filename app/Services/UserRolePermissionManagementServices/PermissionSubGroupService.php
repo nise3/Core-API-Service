@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,6 +109,8 @@ class PermissionSubGroupService
         $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
         $permissionSubGroupBuilder->where('permission_sub_groups.id', $id);
 
+        $permissionSubGroupBuilder->with('permissions');
+
         /** @var PermissionSubGroup $permissionSubGroup */
         $permissionSubGroup = $permissionSubGroupBuilder->first();
 
@@ -153,9 +156,14 @@ class PermissionSubGroupService
         return $permissionSubGroup->delete();
     }
 
-    public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds): PermissionSubGroup
+    public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds):PermissionSubGroup
     {
-        $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
+        $validPermissions = DB::table('permission_group_permissions')
+            ->where('permission_group_id', $permissionSubGroup->id)
+            ->whereIn('permission_id', $permissionIds)
+            ->orderBy('permission_id', 'ASC')
+            ->pluck('permission_id')
+            ->toArray();
         $permissionSubGroup->permissions()->sync($validPermissions);
         return $permissionSubGroup;
     }

@@ -85,8 +85,11 @@ class PermissionGroupService
      * @param Carbon $startTime
      * @return array
      */
-    public function getOnePermissionGroup(int $id, Carbon $startTime): array
+    public function getOnePermissionGroup(Request $request, int $id, Carbon $startTime): array
     {
+        $permissionSubGroup = $request->query('permission_sub_group', 0);
+        $permission = $request->query('permission', 0);
+
         /** @var PermissionGroup|Builder $permissionGroupBuilder */
         $permissionGroupBuilder = PermissionGroup::select([
             'permission_groups.id',
@@ -102,8 +105,18 @@ class PermissionGroupService
             $permissionGroupBuilder->where('id', $id);
         }
 
+        if($permissionSubGroup==1){
+            $permissionGroupBuilder->with('permissionSubGroup');
+        }
+
+        if($permission==1){
+            $permissionGroupBuilder->with('permissions');
+        }
+
+
         /** @var PermissionGroup $permissionGroup */
         $permissionGroup = $permissionGroupBuilder->first();
+
         return [
             "data" => $permissionGroup ?: [],
             "_response_status" => [

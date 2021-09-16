@@ -3,6 +3,9 @@
 /** @var Router $router */
 
 use App\Helpers\Classes\CustomRouter;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Laravel\Lumen\Routing\Router;
 
 $customRouter = function (string $as = '') use ($router) {
@@ -35,13 +38,14 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('static-pages', 'StaticPageController')->render();
 
 
-
     /* assign permission to Roles*/
     $router->post('roles/{id}/assign-permissions', ['as' => 'roles.assign-permissions', 'uses' => 'RoleController@assignPermissionToRole']);
 
     $router->post('users/{id}/assign-permissions', ['as' => 'users.assign-permissions', 'uses' => 'UserController@assignPermissionToUser']);
 
     $router->post('users/{id}/assign-role', ['as' => 'users.assign-role', 'uses' => 'UserController@assignRoleToUser']);
+
+    $router->get('users/{id}/permissions', ['as' => 'users.permissions', 'uses' => 'UserController@getUserPermissionList']);
 
     /* assign permission to organizations*/
     $router->post('permissions/{organization_id}/assign-permissions-to-organization', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
@@ -60,5 +64,9 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         $router->post('auth/profile', 'Auth\AuthController@profile');
         $router->post('auth/logout', 'Auth\AuthController@logout');
     });
+
+    /** Register User */
+    $router->post('register-users', ['as' => 'users.register-users', 'uses' => 'UserController@registerUser']);
+
 
 });

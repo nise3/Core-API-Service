@@ -5,6 +5,7 @@ namespace App\Helpers\Classes;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 /**
  * Class FileHandler
@@ -16,26 +17,29 @@ class FileHandler
      * @param UploadedFile|null $file
      * @param string|null $dir
      * @param string|null $fileName
-     * @return null|string Stored file name, null if uploaded file is null or unable to upload
+     * @return string|null Stored file name, null if uploaded file is null or unable to upload
      */
     public static function storeFile(?UploadedFile $file, ?string $dir = '', ?string $fileName = ''): ?string
     {
         if (!$file) {
             return null;
         }
-
         $fileName = $fileName ?: md5(time()) . '.' . $file->getClientOriginalExtension();
+        if ($dir) {
+            if (file_exists($dir)) {
+                mkdir($dir, 0777);
+            }
+        }
         //TODO: add image resizer to store thumbnails
         try {
-            /** @var Storage $path */
-            Storage::putFileAs(
+            $path = Storage::putFileAs(
                 $dir, $file, $fileName
             );
-        } catch (\Exception $exception) {
-            return null;
+        } catch (Throwable $exception) {
+            return $exception;
         }
 
-        return $fileName;
+        return $path;
     }
 
     /**
