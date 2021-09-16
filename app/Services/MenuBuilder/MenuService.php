@@ -37,7 +37,7 @@ class MenuService
         $menuBuilder->orderBy('menus.id', $order);
 
         if (!empty($name)) {
-            $menuBuilder->where('menus.title_en', 'like', '%' . $name . '%');
+            $menuBuilder->where('menus.name', 'like', '%' . $name . '%');
         }
         /** @var Collection $menus */
         $menus = $menuBuilder->get();
