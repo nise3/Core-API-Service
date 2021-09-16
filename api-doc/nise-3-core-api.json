@@ -5380,7 +5380,7 @@
             "mobile": {
                 "in": "query",
                 "name": "mobile",
-                "required": false,
+                "required": true,
                 "schema": {
                     "type": "string"
                 }

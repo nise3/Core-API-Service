@@ -252,18 +252,6 @@ class UserService
      */
     public function store(User $user, array $data): User
     {
-        $idpUserInfo = [
-            'name' => $data['name_en'],
-            'email' => $data['email'],
-            'username' => $data['username'],
-            'password' => $data['password']
-        ];
-        $httpClient = $this->idpUserCreate($idpUserInfo);
-
-        if ($httpClient->json('id')) {
-            $data['idp_user_id'] = $httpClient->json('id');
-        }
-
         $data['password'] = Hash::make($data['password']);
         return $user->create($data);
     }
