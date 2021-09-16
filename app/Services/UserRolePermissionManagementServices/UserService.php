@@ -40,6 +40,7 @@ class UserService
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
             "users.id",
+            'users.idp_user_id',
             "users.name_en",
             "users.name_bn",
             "users.user_type",
@@ -148,6 +149,7 @@ class UserService
         /** @var User|Builder $userBuilder */
         $userBuilder = User::select([
             "users.id",
+            'users.idp_user_id',
             "users.name_en",
             "users.name_bn",
             "users.user_type",
