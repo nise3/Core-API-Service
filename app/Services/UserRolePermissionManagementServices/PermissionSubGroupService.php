@@ -34,6 +34,7 @@ class PermissionSubGroupService
         $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $permissionGroupId = array_key_exists('permission_group_id', $request) ? $request['permission_group_id'] : "";
 
 
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
@@ -61,6 +62,10 @@ class PermissionSubGroupService
 
         if (is_numeric($rowStatus)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.row_status', $rowStatus);
+        }
+
+        if (is_numeric($permissionGroupId)) {
+            $permissionSubGroupBuilder->where('permission_sub_groups.permission_group_id', $permissionGroupId);
         }
 
         $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);
@@ -231,6 +236,7 @@ class PermissionSubGroupService
             'page_size' => 'numeric',
             'title_en' => 'nullable|min:1',
             'title_bn' => 'nullable|min:1',
+            'permission_group_id' => 'nullable|numeric',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
