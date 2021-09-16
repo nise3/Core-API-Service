@@ -76,18 +76,36 @@ class UserController extends Controller
     {
 
         $user = new User();
+        $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $validated = $this->userService->validator($request)->validate();
         try {
-            $user = $this->userService->store($user, $validated);
-            $response = [
-                'data' => $user ?: [],
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "User added successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
+            $httpClient = $this->userService->idpUserCreate($validated);
+            if ($httpClient->json('id')) {
+                $validated['idp_user_id'] = $httpClient->json('id');
+                $user = $this->userService->store($user, $validated);
+                $response = [
+                    'data' => $user ?? [],
+                    '_response_status' => [
+                        "success" => true,
+                        "code" => ResponseAlias::HTTP_CREATED,
+                        "message" => "User added successfully",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+                DB::commit();
+            } else {
+                DB::rollBack();
+                $response = [
+                    'data' => $user ?: [],
+                    '_response_status' => [
+                        "success" => false,
+                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                        "message" => "User is not created",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+            }
+
         } catch (Throwable $e) {
             return $e;
         }
@@ -179,12 +197,15 @@ class UserController extends Controller
      */
     public function registerUser(Request $request)
     {
-        DB::beginTransaction();
         $user = new User();
+
+        $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
+        $request['password'] = $request['password'] ?? '123456';
+
         $validated = $this->userService->registerUserValidator($request)->validate();
+
+        DB::beginTransaction();
         try {
-            $validated['password'] = array_key_exists('password', $validated) ? $validated['password'] : '123456';
-            $validated['username']=strtolower(str_replace(" ","_",$validated['username']));
             $httpClient = $this->userService->idpUserCreate($validated);
             if ($httpClient->json('id')) {
                 $validated['idp_user_id'] = $httpClient->json('id');
@@ -199,7 +220,7 @@ class UserController extends Controller
                     ]
                 ];
                 DB::commit();
-            }else{
+            } else {
                 DB::rollBack();
                 $response = [
                     'data' => $user ?: [],
