@@ -33,6 +33,8 @@ abstract class BaseModel extends Model
     public const IDP_USER_PASSWORD = 'admin';
     public const IDP_USER_CREATE_ENDPOINT = 'https://identity.bus.softbd.xyz/scim2/Users';
 
+
+
     /**User Type*/
     public const SYSTEM_USER = 1;
     public const ORGANIZATION_USER =2;

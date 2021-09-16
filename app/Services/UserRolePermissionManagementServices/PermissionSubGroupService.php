@@ -5,6 +5,7 @@ namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\BaseModel;
 use App\Models\Permission;
+use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -156,10 +157,11 @@ class PermissionSubGroupService
         return $permissionSubGroup->delete();
     }
 
-    public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds):PermissionSubGroup
+    public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds): PermissionSubGroup
     {
+
         $validPermissions = DB::table('permission_group_permissions')
-            ->where('permission_group_id', $permissionSubGroup->id)
+            ->where('permission_group_id', $permissionSubGroup->permission_group_id ?? null)
             ->whereIn('permission_id', $permissionIds)
             ->orderBy('permission_id', 'ASC')
             ->pluck('permission_id')

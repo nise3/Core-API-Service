@@ -158,7 +158,7 @@ class UserController extends Controller
         try {
             $user = $this->userService->getUserPermission($id);
             $response = [
-                'data' => $user->permissions ?? [],
+                'data' => $user ?? [],
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
@@ -185,11 +185,7 @@ class UserController extends Controller
         try {
             $validated['password'] = array_key_exists('password', $validated) ? $validated['password'] : '123456';
             $validated['username']=strtolower(str_replace(" ","_",$validated['username']));
-
             $httpClient = $this->userService->idpUserCreate($validated);
-
-            Log::info('idp_user_info:'.json_encode($httpClient));
-
             if ($httpClient->json('id')) {
                 $validated['idp_user_id'] = $httpClient->json('id');
                 $user = $this->userService->createRegisterUser($user, $validated);

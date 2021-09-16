@@ -18,9 +18,9 @@ class LocDistrictsTableSeeder extends Seeder
     public function run()
     {
 
-        Schema::disableForeignKeyConstraints();
-
-        DB::table('loc_districts')->truncate();
+//        Schema::disableForeignKeyConstraints();
+//
+//        DB::table('loc_districts')->truncate();
 
         DB::table('loc_districts')->insert(array(
             0 =>
@@ -921,6 +921,6 @@ class LocDistrictsTableSeeder extends Seeder
                 ),
         ));
 
-        Schema::enableForeignKeyConstraints();
+//        Schema::enableForeignKeyConstraints();
     }
 }

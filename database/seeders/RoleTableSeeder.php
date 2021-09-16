@@ -16,9 +16,9 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        Schema::disableForeignKeyConstraints();
-
-        DB::table('roles')->truncate();
+//        Schema::disableForeignKeyConstraints();
+//
+//        DB::table('roles')->truncate();
 
         DB::table('roles')->insert(array(
             0 =>
@@ -58,6 +58,6 @@ class RoleTableSeeder extends Seeder
                 ),
         ));
 
-        Schema::enableForeignKeyConstraints();
+//        Schema::enableForeignKeyConstraints();
     }
 }
