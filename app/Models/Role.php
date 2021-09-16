@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string description
  * @property string key
  * @property int $permission_group_id
+ * @property int $permission_sub_group_id
  * @property int $organization_id
  * @property int $institute_id
  * @property Carbon $created_at
@@ -31,6 +32,8 @@ class Role extends BaseModel
     use ScopeRowStatusTrait, SoftDeletes, HasFactory;
 
     protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SIMPLE_SOFT_DELETE;
+
+
 
     public function permissions(): BelongsToMany
     {

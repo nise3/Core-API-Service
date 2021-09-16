@@ -17,14 +17,14 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        Schema::disableForeignKeyConstraints();
-        DB::table('users')->truncate();
+//        Schema::disableForeignKeyConstraints();
+//        DB::table('users')->truncate();
 
         $roles = Role::all();
 
         foreach ($roles as $role) {
             User::factory()->count(3)->for($role)->create();
         }
-        Schema::enableForeignKeyConstraints();
+//        Schema::enableForeignKeyConstraints();
     }
 }

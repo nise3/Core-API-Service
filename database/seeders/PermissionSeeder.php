@@ -18,8 +18,8 @@ class PermissionSeeder extends Seeder
 
     public function run()
     {
-        Schema::disableForeignKeyConstraints();
-        DB::table('permissions')->truncate();
+//        Schema::disableForeignKeyConstraints();
+//        DB::table('permissions')->truncate();
 
         $methods = [
             'get_all' => [
@@ -44,7 +44,7 @@ class PermissionSeeder extends Seeder
             ]
         ];
 
-        $moludes = [
+        $modules = [
             'divisions',
             'districts',
             'upazilas',
@@ -54,16 +54,43 @@ class PermissionSeeder extends Seeder
             'permission-groups',
             'permission-sub-groups'
         ];
-
-        foreach ($moludes as $module) {
+        $menuOrder=1;
+        foreach ($modules as $module) {
+            $menuId=DB::table('menus')->insertGetId(
+                [
+                    'name'=>$module
+                ]
+            );
+            $order=1;
             foreach ($methods as $key => $method) {
+                $permissionKey=$module . '-' . $key;
                 Permission::create([
-                    'name' => $module . '-' . $key,
+                    'name' => $permissionKey,
                     'uri' => self::ROUTE_PREFIX . $module . $method['uri'],
-                    'method' => $method['method']
+                    'method' => $method['method'],
+                    'module' => $module
+                ]);
+                DB::table('menu_items')->insert([
+                    'menu_id'=>$menuId,
+                    'title'=>$permissionKey,
+                    'title_lang_key'=>'EN',
+                    'type'=>'item',
+                    'permission_key'=>$permissionKey,
+                    'url'=>self::ROUTE_PREFIX . $module . $method['uri'],
+                    'order'=>$order++
                 ]);
             }
+            /** Menu Without Permission */
+            DB::table('menu_items')->insert([
+                'menu_id'=>$menuId,
+                'title'=>$module.'-custom-menuItem',
+                'title_lang_key'=>'EN',
+                'type'=>'item',
+                'permission_key'=>null,
+                'url'=>self::ROUTE_PREFIX . $module,
+                'order'=>$menuOrder++
+            ]);
         }
-        Schema::enableForeignKeyConstraints();
+//        Schema::enableForeignKeyConstraints();
     }
 }

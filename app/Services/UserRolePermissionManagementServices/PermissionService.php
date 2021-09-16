@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *
+ */
 class PermissionService
 {
+
 
     /**
      * @param array $request
@@ -26,7 +30,7 @@ class PermissionService
     public function getAllPermissions(array $request, Carbon $startTime): array
     {
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $searchFilter = array_key_exists('name', $request) ? $request['name'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $uri = array_key_exists('uri', $request) ? $request['uri'] : "";
@@ -34,13 +38,14 @@ class PermissionService
 
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
-            'id',
-            'name',
-            'uri',
-            'method',
-            'row_status',
-            'created_at',
-            'updated_at'
+            'permissions.id',
+            'permissions.module',
+            'permissions.name',
+            'permissions.uri',
+            'permissions.method',
+            'permissions.row_status',
+            'permissions.created_at',
+            'permissions.updated_at'
         ]);
 
         $permissionBuilder->orderBy('id', $order);
@@ -57,10 +62,10 @@ class PermissionService
             $permissionBuilder->where('permissions.row_status', $rowStatus);
         }
 
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
             /** @var Collection|Permission $permissions */
-            $permissions = $permissionBuilder->paginate($limit);
+            $permissions = $permissionBuilder->paginate($pageSize);
             $paginateData = (object)$permissions->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -71,6 +76,12 @@ class PermissionService
         }
         $response['order'] = $order;
         $response['data'] = $permissions->toArray()['data'] ?? $permissions->toArray();
+
+        foreach ($response['data'] as $index => $item) {
+            $mn = $this->getMethodName($item["method"]);
+            $response['data'][$index] = array_merge($response['data'][$index], ["method_name" => $mn]);
+        }
+
         $response['_response_status'] = [
             "success" => true,
             "code" => Response::HTTP_OK,
@@ -88,13 +99,14 @@ class PermissionService
     {
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
-            'id',
-            'name',
-            'uri',
-            'method',
-            'row_status',
-            'created_at',
-            'updated_at'
+            'permissions.id',
+            'permissions.name',
+            'permissions.module',
+            'permissions.uri',
+            'permissions.method',
+            'permissions.row_status',
+            'permissions.created_at',
+            'permissions.updated_at'
         ]);
 
         if (!empty($id)) {
@@ -142,6 +154,34 @@ class PermissionService
     public function destroy(Permission $permission): bool
     {
         return $permission->delete();
+    }
+
+    /**
+     * @param $item
+     * @return string
+     */
+    private function getMethodName($item): string
+    {
+        $methodName = "";
+        switch ($item) {
+            case 1:
+                $methodName = "GET";
+                break;
+            case 2:
+                $methodName = "POST";
+                break;
+            case 3:
+                $methodName = "PUT";
+                break;
+            case 4:
+                $methodName = "PATCH";
+                break;
+            case 5:
+                $methodName = "DELETE";
+                break;
+
+        }
+        return $methodName;
     }
 
     /**
@@ -200,18 +240,29 @@ class PermissionService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+        $customMessage = [
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
+        ];
         $rules = [
             'name' => 'required|min:2',
             'method' => 'required|numeric',
+            'module' => 'required|string',
             'uri' => 'required|min:2|unique:permissions,uri,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
-        return Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules, $customMessage);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
 
@@ -224,19 +275,29 @@ class PermissionService
         return Validator::make($data, $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         if (!empty($request['order'])) {
             $request['order'] = strtoupper($request['order']);
         }
         $customMessage = [
-            'order.in' => 'Order must be within ASC or DESC',
-            'row_status.in' => 'Row status must be within 1 or 0'
+            'order.in' => [
+                'code' => 30000,
+                "message" => 'Order must be within ASC or DESC',
+            ],
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
         ];
 
         return Validator::make($request->all(), [
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'name' => 'string',
             'uri' => 'string',
             'order' => [

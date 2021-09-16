@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BaseModel;
 use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -66,18 +69,18 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return array|\Exception|Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
     {
+
         $user = new User();
         $validated = $this->userService->validator($request)->validate();
         try {
-            $validated['password'] = Hash::make('password');
             $user = $this->userService->store($user, $validated);
             $response = [
-                'data' => $user,
+                'data' => $user ?: [],
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
@@ -139,6 +142,77 @@ class UserController extends Controller
                 ]
             ];
         } catch (\Throwable $e) {
+            return $e;
+        }
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return \Exception|JsonResponse|Throwable
+     */
+    public function getUserPermissionList(Request $request, string $id)
+    {
+        try {
+            $user = $this->userService->getUserPermission($id);
+            $response = [
+                'data' => $user ?? [],
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "User Permission List",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+        } catch (Throwable $e) {
+            return $e;
+        }
+        return Response::json($response, ResponseAlias::HTTP_OK);
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Exception|JsonResponse|Throwable
+     */
+    public function registerUser(Request $request)
+    {
+        DB::beginTransaction();
+        $user = new User();
+        $validated = $this->userService->registerUserValidator($request)->validate();
+        try {
+            $validated['password'] = array_key_exists('password', $validated) ? $validated['password'] : '123456';
+            $validated['username']=strtolower(str_replace(" ","_",$validated['username']));
+            $httpClient = $this->userService->idpUserCreate($validated);
+            if ($httpClient->json('id')) {
+                $validated['idp_user_id'] = $httpClient->json('id');
+                $user = $this->userService->createRegisterUser($user, $validated);
+                $response = [
+                    'data' => $user ?: [],
+                    '_response_status' => [
+                        "success" => true,
+                        "code" => ResponseAlias::HTTP_CREATED,
+                        "message" => "User added successfully",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+                DB::commit();
+            }else{
+                DB::rollBack();
+                $response = [
+                    'data' => $user ?: [],
+                    '_response_status' => [
+                        "success" => false,
+                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                        "message" => "User is not created",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+            }
+        } catch (Throwable $e) {
+            DB::rollBack();
             return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);

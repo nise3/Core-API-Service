@@ -52,10 +52,10 @@ class PermissionGroupController extends Controller
      * @param int $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function read(int $id): JsonResponse
+    public function read(Request $request,int $id): JsonResponse
     {
         try {
-            $response = $this->permissionGroupService->getOnePermissionGroup($id, $this->startTime);
+            $response = $this->permissionGroupService->getOnePermissionGroup($request,$id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -157,8 +157,9 @@ class PermissionGroupController extends Controller
         $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->permissionValidation($request)->validated();
         try {
-            $this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
+            $permissionGroup=$this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
             $response = [
+                'data'=>$permissionGroup->permissions()->get(),
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,

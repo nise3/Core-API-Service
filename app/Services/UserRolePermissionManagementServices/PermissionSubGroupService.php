@@ -5,11 +5,13 @@ namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\BaseModel;
 use App\Models\Permission;
+use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,17 +29,24 @@ class PermissionSubGroupService
     {
 
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
-        $titleEn = array_key_exists('title_en',$request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn',$request) ? $request['title_bn'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
+        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
+        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
         $permissionSubGroupBuilder = PermissionSubGroup::select([
-            'permission_sub_groups.*',
+            'permission_sub_groups.id',
+            'permission_sub_groups.title_en',
+            'permission_sub_groups.title_bn',
+            'permission_sub_groups.key',
+            'permission_sub_groups.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'permission_sub_groups.row_status',
+            "permission_sub_groups.created_at",
+            "permission_sub_groups.updated_at"
         ]);
         $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
 
@@ -49,16 +58,16 @@ class PermissionSubGroupService
             $permissionSubGroupBuilder->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if (is_numeric($rowStatus)){
+        if (is_numeric($rowStatus)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.row_status', $rowStatus);
         }
 
         $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);
 
         /** @var Collection|PermissionSubGroup $permissionSubGroups */
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
-            $permissionSubGroups = $permissionSubGroupBuilder->paginate($limit);
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $permissionSubGroups = $permissionSubGroupBuilder->paginate($pageSize);
             $paginateData = (object)$permissionSubGroups->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -87,12 +96,21 @@ class PermissionSubGroupService
     {
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
         $permissionSubGroupBuilder = PermissionSubGroup::select([
-            'permission_sub_groups.*',
+            'permission_sub_groups.id',
+            'permission_sub_groups.title_en',
+            'permission_sub_groups.title_bn',
+            'permission_sub_groups.key',
+            'permission_sub_groups.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'permission_sub_groups.row_status',
+            "permission_sub_groups.created_at",
+            "permission_sub_groups.updated_at"
         ]);
         $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
         $permissionSubGroupBuilder->where('permission_sub_groups.id', $id);
+
+        $permissionSubGroupBuilder->with('permissions');
 
         /** @var PermissionSubGroup $permissionSubGroup */
         $permissionSubGroup = $permissionSubGroupBuilder->first();
@@ -141,7 +159,13 @@ class PermissionSubGroupService
 
     public function assignPermission(PermissionSubGroup $permissionSubGroup, array $permissionIds): PermissionSubGroup
     {
-        $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
+
+        $validPermissions = DB::table('permission_group_permissions')
+            ->where('permission_group_id', $permissionSubGroup->permission_group_id ?? null)
+            ->whereIn('permission_id', $permissionIds)
+            ->orderBy('permission_id', 'ASC')
+            ->pluck('permission_id')
+            ->toArray();
         $permissionSubGroup->permissions()->sync($validPermissions);
         return $permissionSubGroup;
     }
@@ -153,6 +177,12 @@ class PermissionSubGroupService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+        $customMessage = [
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
+        ];
         $rules = [
             'permission_group_id' => 'required|numeric|exists:permission_groups,id',
             'title_en' => 'required|min:2',
@@ -163,7 +193,7 @@ class PermissionSubGroupService
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
-        return Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules, $customMessage);
     }
 
     /**
@@ -186,13 +216,18 @@ class PermissionSubGroupService
             $request['order'] = strtoupper($request['order']);
         }
         $customMessage = [
-            'order.in' => 'Order must be within ASC or DESC',
-            'row_status.in' => 'Row status must be within 1 or 0'
+            'order.in' => [
+                'code' => 30000,
+                "message" => 'Order must be within ASC or DESC',
+            ],
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
         ];
-
         return Validator::make($request->all(), [
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'title_en' => 'nullable|min:1',
             'title_bn' => 'nullable|min:1',
             'order' => [

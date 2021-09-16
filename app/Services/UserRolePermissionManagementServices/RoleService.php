@@ -24,7 +24,7 @@ class RoleService
         $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
         $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
         $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $limit = array_key_exists('limit', $request) ? $request['limit'] : "";
+        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
 
@@ -35,20 +35,27 @@ class RoleService
             'roles.title_en',
             'roles.key',
             'roles.description',
-            'roles.permission_group_id',
             'roles.organization_id',
             'roles.institute_id',
+            'roles.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'roles.permission_sub_group_id',
+            'permission_sub_groups.title_en as permission_sub_group_title_en',
+            'permission_sub_groups.title_bn as permission_sub_group_title_bn',
             'roles.row_status',
             'roles.created_at',
-            'roles.updated_at'
         ]);
-
         $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'roles.permission_group_id');
             if (is_numeric($rowStatus)) {
                 $join->where('permission_groups.row_status', $rowStatus);
+            }
+        });
+        $rolesBuilder->leftJoin('permission_sub_groups', function ($join) use ($rowStatus) {
+            $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
+            if (is_numeric($rowStatus)) {
+                $join->where('permission_sub_groups.row_status', $rowStatus);
             }
         });
 
@@ -64,9 +71,9 @@ class RoleService
             $rolesBuilder->where('roles.title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        if (is_numeric($paginate) || is_numeric($limit)) {
-            $limit = $limit ?: 10;
-            $roles = $rolesBuilder->paginate($limit);
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $roles = $rolesBuilder->paginate($pageSize);
             $paginateData = (object)$roles->toArray();
             $response['current_page'] = $paginateData->current_page;
             $response['total_page'] = $paginateData->last_page;
@@ -99,16 +106,24 @@ class RoleService
             'roles.title_en',
             'roles.key',
             'roles.description',
-            'roles.permission_group_id',
             'roles.organization_id',
             'roles.institute_id',
+            'roles.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
             'permission_groups.title_bn as permission_group_title_bn',
+            'roles.permission_sub_group_id',
+            'permission_sub_groups.title_en as permission_sub_group_title_en',
+            'permission_sub_groups.title_bn as permission_sub_group_title_bn',
             'roles.row_status',
             'roles.created_at',
             'roles.updated_at'
         ]);
-        $roleBuilder->leftJoin('permission_groups', 'permission_groups.id', 'roles.permission_group_id');
+        $roleBuilder->leftJoin('permission_groups', function ($join) {
+            $join->on('permission_groups.id', '=', 'roles.permission_group_id');
+        });
+        $roleBuilder->leftJoin('permission_sub_groups', function ($join) {
+            $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
+        });
 
         if (!empty($id)) {
             $roleBuilder->where('roles.id', $id);
@@ -179,11 +194,18 @@ class RoleService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+        $customMessage = [
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
+        ];
         $rules = [
             'title_en' => 'required|min:2',
             'title_bn' => 'required|min:2',
             'description' => 'nullable',
             'permission_group_id' => 'nullable|exists:permission_groups,id',
+            'permission_sub_group_id' => 'nullable|exists: permission_sub_groups,id',
             'organization_id' => 'nullable|numeric',
             'institute_id' => 'nullable|numeric',
             'key' => 'required|min:2|unique:roles,key,' . $id,
@@ -192,7 +214,7 @@ class RoleService
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
-        return Validator::make($request->all(), $rules);
+        return Validator::make($request->all(), $rules, $customMessage);
     }
 
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
@@ -211,15 +233,21 @@ class RoleService
             $request['order'] = strtoupper($request['order']);
         }
         $customMessage = [
-            'order.in' => 'Order must be within ASC or DESC',
-            'row_status.in' => 'Row status must be within 1 or 0'
+            'order.in' => [
+                'code' => 30000,
+                "message" => 'Order must be within ASC or DESC',
+            ],
+            'row_status.in' => [
+                'code' => 30000,
+                'message' => 'Row status must be within 1 or 0'
+            ]
         ];
 
         return Validator::make($request->all(), [
             'title_en' => 'nullable|min:1',
             'title_bn' => 'nullable|min:1',
             'page' => 'numeric',
-            'limit' => 'numeric',
+            'page_size' => 'numeric',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

@@ -17,9 +17,9 @@ class LocUpazilasTableSeeder extends Seeder
      */
     public function run()
     {
-        Schema::disableForeignKeyConstraints();
-
-        DB::table('loc_upazilas')->truncate();
+//        Schema::disableForeignKeyConstraints();
+//
+//        DB::table('loc_upazilas')->truncate();
 
         DB::table('loc_upazilas')->insert(array(
             0 =>
@@ -7928,6 +7928,6 @@ class LocUpazilasTableSeeder extends Seeder
                 ),
         ));
 
-        Schema::enableForeignKeyConstraints();
+//        Schema::enableForeignKeyConstraints();
     }
 }
