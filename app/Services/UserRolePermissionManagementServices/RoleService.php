@@ -125,9 +125,7 @@ class RoleService
             $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
         });
 
-        if (!empty($id)) {
-            $roleBuilder->where('roles.id', $id);
-        }
+        $roleBuilder->where('roles.id', $id);
         $role = $roleBuilder->first();
 
         return [

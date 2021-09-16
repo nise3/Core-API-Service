@@ -85,7 +85,7 @@ class VideoService
         return $response;
     }
 
-    public function getOneVideoCategory(int $id, Carbon $startTime)
+    public function getOneVideo(int $id, Carbon $startTime): array
     {
         /** @var Builder $videoBuilder */
         $videoBuilder = Video::select([

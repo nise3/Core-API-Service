@@ -138,13 +138,11 @@ class LocUpazilaService
                 ->whereNull('loc_districts.deleted_at');
         });
 
-        if (!empty($id)) {
-            $upazilaBuilder->where('loc_upazilas.id', $id);
-        }
-
+        $upazilaBuilder->where('loc_upazilas.id', $id);
         $upazila = $upazilaBuilder->first();
+
         return [
-            "data" => $upazila ?: [],
+            "data" => $upazila ?? new \stdClass(),
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
@@ -159,7 +157,11 @@ class LocUpazilaService
      */
     public function store(array $data): LocUpazila
     {
-        return LocUpazila::create($data);
+        $locUpazila = new LocUpazila();
+        $locUpazila->fill($data);
+        $locUpazila->save();
+
+        return $locUpazila;
     }
 
     /**

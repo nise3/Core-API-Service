@@ -53,7 +53,7 @@ class VideoController extends Controller
     public function read(int $id): JsonResponse
     {
         try {
-            $response = $this->videoService->getOneVideoCategory($id, $this->startTime);
+            $response = $this->videoService->getOneVideo($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
