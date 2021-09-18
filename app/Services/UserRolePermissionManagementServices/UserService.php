@@ -233,12 +233,18 @@ class UserService
 
         if ($user->user_type == 2 && !is_null($user->organization_id)) {
             $url = 'http://localhost:8002/api/v1/organizations/' . $user->organization_id;
+            if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
+                $url = "https://gateway.bus.softbd.xyz/api/v1/organizations/" . $user->organization_id;
+            }
             $responseData = Http::retry(3)->get($url)->throw(function ($response, $e) {
                 return $e;
             })->json();
             $organization = $responseData['data'];
         } else if ($user->user_type == 3 && !is_null($user->institute_id)) {
             $url = 'http://localhost:8001/api/v1/institutes/' . $user->institute_id;
+            if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
+                $url = "https://gateway.bus.softbd.xyz/api/v1/institutes/" . $user->institute_id;
+            }
             $responseData = Http::retry(3)->get($url)->throw(function ($response, $e) {
                 return $e;
             })->json();
