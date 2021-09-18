@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\LocUpazila;
-
-use App\Services\LocationManagementServices\LocUpazilaService;
+use App\Models\MenuItem;
+use Exception;
+use App\Services\MenuBuilder\MenuItemService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,37 +13,33 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
-class LocUpazilaController extends Controller
+
+class MenuItemController extends Controller
 {
-    /**
-     * @var locUpazilaService
-     */
-    public LocUpazilaService $locUpazilaService;
-    public Carbon $startTime;
 
-    /**
-     * LocUpazilaController constructor.
-     * @param LocUpazilaService $locUpazilaService
-     * @param Carbon $startTime
-     */
-    public function __construct(LocUpazilaService $locUpazilaService, Carbon $startTime)
+    public MenuItemService $menuItemService;
+
+
+    private Carbon $startTime;
+
+
+    public function __construct(MenuItemService $menuItemService)
     {
-        $this->locUpazilaService = $locUpazilaService;
-        $this->startTime = $startTime;
+        $this->startTime = Carbon::now();
+        $this->menuItemService = $menuItemService;
     }
 
 
     /**
-     * Display a listing of the resource.
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
-    public function getList(Request $request):JsonResponse
+    public function getList(Request $request)
     {
-        $filter=$this->locUpazilaService->filterValidator($request)->validate();
-
+        $filter = $this->menuItemService->filterValidator($request)->validate();
         try {
-            $response = $this->locUpazilaService->getAllUpazilas($filter, $this->startTime);
+            $response = $this->menuItemService->getAllMenuItems($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -52,39 +47,37 @@ class LocUpazilaController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
-    public function read(Request $request, int $id): JsonResponse
+    public function read(int $id): JsonResponse
     {
         try {
-            $response = $this->locUpazilaService->getOneUpazila($id, $this->startTime);
+            $response = $this->menuItemService->getOneMenuItem($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
         return Response::json($response);
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $this->locUpazilaService->validator($request)->validate();
+        $validated = $this->menuItemService->validator($request)->validate();
         try {
-            $locUpazila = $this->locUpazilaService->store($validated);
+            $menuItem = $this->menuItemService->store($validated);
             $response = [
-                'data' => $locUpazila,
+                'data' => $menuItem,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "Upazila added successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    "message" => "MenuItem added successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now())
                 ]
             ];
         } catch (Throwable $e) {
@@ -93,30 +86,29 @@ class LocUpazilaController extends Controller
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
-
     /**
      * Update the specified resource in storage.
+     *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $locUpazila = LocUpazila::findOrFail($id);
-        $validated = $this->locUpazilaService->validator($request, $id)->validate();
+        $menuItem = MenuItem::findOrFail($id);
+        $validated = $this->menuItemService->validator($request, $id)->validate();
         try {
-            $loc_upazila = $this->locUpazilaService->update($validated, $locUpazila);
+            $menuItem = $this->menuItemService->update($menuItem, $validated);
             $response = [
-                'data' => $loc_upazila,
+                'data' => $menuItem,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Upazila updated successfully",
+                    "message" => "MenuItem updated successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
-
         } catch (Throwable $e) {
             return $e;
         }
@@ -126,18 +118,18 @@ class LocUpazilaController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function destroy(int $id): JsonResponse
     {
-        $locUpazila = LocUpazila::findOrFail($id);
+        $menuItem = MenuItem::findOrFail($id);
         try {
-            $this->locUpazilaService->destroy($locUpazila);
+            $this->menuItemService->destroy($menuItem);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Upazila deleted successfully",
+                    "message" => "MenuItem deleted successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];

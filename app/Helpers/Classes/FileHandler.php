@@ -19,7 +19,7 @@ class FileHandler
      * @param string|null $fileName
      * @return string|null Stored file name, null if uploaded file is null or unable to upload
      */
-    public static function storePhoto(?UploadedFile $file, ?string $dir = '', ?string $fileName = ''): ?string
+    public static function storeFile(?UploadedFile $file, ?string $dir = '', ?string $fileName = ''): ?string
     {
         if (!$file) {
             return null;
@@ -53,7 +53,6 @@ class FileHandler
         }
 
         try {
-            /** @var Storage $path */
             if (Storage::exists($path)) {
                 Storage::delete($path);
             }

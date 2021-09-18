@@ -2,6 +2,7 @@
 
 namespace App\Services\ContentManagementServices;
 
+use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Video;
 use Carbon\Carbon;
@@ -85,7 +86,7 @@ class VideoService
         return $response;
     }
 
-    public function getOneVideoCategory(int $id, Carbon $startTime)
+    public function getOneVideo(int $id, Carbon $startTime): array
     {
         /** @var Builder $videoBuilder */
         $videoBuilder = Video::select([
@@ -125,12 +126,32 @@ class VideoService
         ];
     }
 
+    protected function getYoutubeVideoKey($url): string
+    {
+        if (strlen($url) > 11) {
+            if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
+                return $match[1];
+            } else {
+                return '';
+            }
+        }
+
+        return $url;
+    }
+
     /**
      * @param array $data
      * @return Video
      */
     public function store(array $data): Video
     {
+        if (!empty($data['uploaded_video_path'])) {
+            $filename = FileHandler::storeFile($data['uploaded_video_path'], 'videos/video');
+            $data['uploaded_video_path'] = 'videos/video' . $filename;
+        } else {
+            $data['youtube_video_id'] = $this->getYoutubeVideoKey($data['youtube_video_url']);
+        }
+
         $video = new Video();
         $video->fill($data);
         $video->save();
@@ -144,6 +165,16 @@ class VideoService
      */
     public function update(Video $video, array $data): Video
     {
+        if (!empty($data['uploaded_video_path'])) {
+            if (!empty($video->uploaded_video_path)) {
+                FileHandler::deleteFile($video->uploaded_video_path);
+            }
+            $filename = FileHandler::storeFile($data['uploaded_video_path'], 'videos/video');
+            $data['uploaded_video_path'] = 'videos/video' . $filename;
+        } else {
+            $data['youtube_video_id'] = $this->getYoutubeVideoKey($data['youtube_video_url']);
+        }
+
         $video->fill($data);
         $video->save();
         return $video;
@@ -207,6 +238,7 @@ class VideoService
             'uploaded_video_path' => [
                 'nullable',
                 'required_if:video_type,' . Video::VIDEO_TYPE_UPLOADED_VIDEO,
+                'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'
             ],
 
             'institute_id' => [

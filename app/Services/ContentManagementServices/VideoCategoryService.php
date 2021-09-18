@@ -93,7 +93,7 @@ class VideoCategoryService
     {
         /** @var Builder $videoCategoryBuilder */
         $videoCategoryBuilder = VideoCategory::select([
-            'video_categories.id as id',
+            'video_categories.id',
             'video_categories.title_en',
             'video_categories.title_bn',
             'video_categories.parent_id',
@@ -107,8 +107,6 @@ class VideoCategoryService
         $videoCategoryBuilder->leftJoin('video_categories as parent', function ($join) {
             $join->on('parent.id', '=', 'video_categories.parent_id')
                 ->whereNull('parent.deleted_at');
-
-
         });
         $videoCategoryBuilder->where('video_categories.id', $id);
 

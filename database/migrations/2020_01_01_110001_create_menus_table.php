@@ -19,6 +19,7 @@ class CreateMenusTable extends Migration {
             $table->engine = 'InnoDB';
 			$table->smallIncrements('id');
 			$table->string('name', 191)->unique();
+            $table->string('type', 191);
 			$table->timestamps();
 		});
 	}

@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8001/api/v1"
+            "url": "http://localhost:8000/api/v1"
         },
         {
             "url": "https://api.bus.softbd.xyz/core/api/v1"
@@ -1413,14 +1413,39 @@
                                         "title_en": "Super Admin",
                                         "key": "super_admin",
                                         "description": null,
-                                        "permission_group_id": null,
                                         "organization_id": null,
                                         "institute_id": null,
+                                        "permission_group_id": null,
                                         "permission_group_title_en": null,
                                         "permission_group_title_bn": null,
+                                        "permission_sub_group_id": null,
+                                        "permission_sub_group_title_en": null,
+                                        "permission_sub_group_title_bn": null,
                                         "row_status": 1,
                                         "created_at": null,
-                                        "updated_at": null
+                                        "updated_at": null,
+                                        "permissions": [
+                                            {
+                                                "id": 1,
+                                                "module": "divisions",
+                                                "name": "divisions-get_all",
+                                                "uri": "api/v1/divisions",
+                                                "method": 1,
+                                                "row_status": 1,
+                                                "created_at": "2021-09-16T06:28:04.000000Z",
+                                                "updated_at": "2021-09-16T06:28:04.000000Z"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "module": "divisions",
+                                                "name": "divisions-read",
+                                                "uri": "api/v1/divisions/{id}",
+                                                "method": 1,
+                                                "row_status": 1,
+                                                "created_at": "2021-09-16T06:28:04.000000Z",
+                                                "updated_at": "2021-09-16T06:28:04.000000Z"
+                                            }
+                                        ]
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -2638,7 +2663,10 @@
                         "schema": {
                             "type": "integer",
                             "example": 1,
-                            "enum": [0,1]
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -2647,7 +2675,10 @@
                         "schema": {
                             "type": "integer",
                             "example": 1,
-                            "enum": [0,1]
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     }
                 ],
@@ -3236,7 +3267,7 @@
                     }
                 },
                 "tags": [
-                    "GalleyCategory"
+                    "GalleryCategory"
                 ]
             },
             "post": {
@@ -3318,7 +3349,7 @@
                     }
                 },
                 "tags": [
-                    "GalleyCategory"
+                    "GalleryCategory"
                 ]
             }
         },
@@ -3366,7 +3397,7 @@
                     }
                 },
                 "tags": [
-                    "GalleyCategory"
+                    "GalleryCategory"
                 ]
             },
             "put": {
@@ -3416,7 +3447,7 @@
                     }
                 },
                 "tags": [
-                    "GalleyCategory"
+                    "GalleryCategory"
                 ]
             },
             "delete": {
@@ -3448,7 +3479,7 @@
                     }
                 },
                 "tags": [
-                    "GalleyCategory"
+                    "GalleryCategory"
                 ]
             }
         },
@@ -4749,10 +4780,602 @@
                     "StaticPage"
                 ]
             }
+        },
+        "/menus": {
+            "get": {
+                "summary": "get list",
+                "description": "get all menus",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "name": "name_update",
+                                            "type": "type_update",
+                                            "created_at": "2021-09-16T06:28:57.000000Z",
+                                            "updated_at": "2021-09-16T06:30:40.000000Z"
+                                        },
+                                        {
+                                            "id": 4,
+                                            "name": "menu1",
+                                            "type": "group",
+                                            "created_at": "2021-09-16T06:34:33.000000Z",
+                                            "updated_at": "2021-09-16T06:34:33.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Menu"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/type"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "data": {
+                                        "name": "menu 1",
+                                        "type": "group",
+                                        "updated_at": "2021-09-16T06:56:38.000000Z",
+                                        "created_at": "2021-09-16T06:56:38.000000Z",
+                                        "id": 5
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Menu added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Menu"
+                ]
+            }
+        },
+        "/menus/{menuId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/menuId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get one ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "name": "menu1",
+                                        "type": "group",
+                                        "created_at": "2021-09-16T06:28:57.000000Z",
+                                        "updated_at": "2021-09-16T06:30:40.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Menu"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/menuId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/type"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "name": "menu_update ",
+                                        "type": "group_update",
+                                        "created_at": "2021-09-16T06:28:57.000000Z",
+                                        "updated_at": "2021-09-16T07:08:22.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Menu updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                },
+                "tags": [
+                    "Menu"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/menuId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Menu deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Menu"
+                ]
+            }
+        },
+        "/menu-items": {
+            "get": {
+                "summary": "get list",
+                "description": "get all menuItems",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "MenuItem"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/title"
+                    },
+                    {
+                        "$ref": "#/components/parameters/menu_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_lang_key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/url"
+                    },
+                    {
+                        "$ref": "#/components/parameters/target"
+                    },
+                    {
+                        "$ref": "#/components/parameters/icon_class"
+                    },
+                    {
+                        "$ref": "#/components/parameters/color"
+                    },
+                    {
+                        "$ref": "#/components/parameters/parent_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/route"
+                    },
+                    {
+                        "$ref": "#/components/parameters/permission_key"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MenuItems"
+                                },
+                                "example": {
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "menu_id": 4,
+                                            "title": "title",
+                                            "title_lang_key": "title_bangla",
+                                            "permission_key": "get_permission",
+                                            "url": "wwww.nise3",
+                                            "target": "self",
+                                            "icon_class": "fa fa-dashboard",
+                                            "color": "blue",
+                                            "parent_id": 1,
+                                            "order": 0,
+                                            "route": "1",
+                                            "parameters": null,
+                                            "created_at": "2021-09-16T07:31:51.000000Z",
+                                            "updated_at": "2021-09-16T07:31:51.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "menu_id": 4,
+                                            "title": "title",
+                                            "title_lang_key": "title",
+                                            "permission_key": "ssssss",
+                                            "url": "aaaaaaaaaaa",
+                                            "target": "aaaaaaaaa",
+                                            "icon_class": "d;laksds",
+                                            "color": "blue",
+                                            "parent_id": 1,
+                                            "order": 0,
+                                            "route": "1",
+                                            "parameters": null,
+                                            "created_at": "2021-09-16T07:42:05.000000Z",
+                                            "updated_at": "2021-09-16T07:42:05.000000Z"
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "MenuItem"
+                ]
+            }
+        },
+        "/menu-items/{menuItemId}": {
+            "get": {
+                "summary": "get one",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/menuItemId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get one ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MenuItems"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "menu_id": "4",
+                                        "title": "title_update",
+                                        "title_lang_key": "title_update",
+                                        "permission_key": "post_permission",
+                                        "url": "www.nise3.com/update",
+                                        "target": "seld",
+                                        "icon_class": "fa fa -dashboard",
+                                        "color": "red",
+                                        "parent_id": "2",
+                                        "order": 0,
+                                        "route": "1",
+                                        "parameters": null,
+                                        "created_at": "2021-09-16T07:31:51.000000Z",
+                                        "updated_at": "2021-09-16T08:04:36.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "MenuItem updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "MenuItem"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/menuItemId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title"
+                    },
+                    {
+                        "$ref": "#/components/parameters/menu_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_lang_key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/url"
+                    },
+                    {
+                        "$ref": "#/components/parameters/target"
+                    },
+                    {
+                        "$ref": "#/components/parameters/icon_class"
+                    },
+                    {
+                        "$ref": "#/components/parameters/color"
+                    },
+                    {
+                        "$ref": "#/components/parameters/parent_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/route"
+                    },
+                    {
+                        "$ref": "#/components/parameters/permission_key"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "menu_id": "4",
+                                        "title": "title_update",
+                                        "title_lang_key": "title_update",
+                                        "permission_key": "post_permission",
+                                        "url": "www.nise3.com/update",
+                                        "target": "seld",
+                                        "icon_class": "fa fa -dashboard",
+                                        "color": "red",
+                                        "parent_id": "2",
+                                        "order": 0,
+                                        "route": "1",
+                                        "parameters": null,
+                                        "created_at": "2021-09-16T07:31:51.000000Z",
+                                        "updated_at": "2021-09-16T08:04:36.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "MenuItem updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "MenuItem"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/menuItemId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MenuItems"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "MenuItem deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "MenuItem"
+                ]
+            }
         }
     },
     "components": {
         "parameters": {
+            "menuItemId": {
+                "name": "menuItemId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "parameters": {
+                "name": "parameters",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "route": {
+                "name": "route",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "parent_id": {
+                "name": "parent_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "icon_class": {
+                "name": "icon_class",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "color": {
+                "name": "color",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "target": {
+                "name": "target",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "url": {
+                "name": "url",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "permission_key": {
+                "name": "permission_key",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "title_lang_key": {
+                "name": "title_lang_key",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "menu_id": {
+                "name": "menu_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
             "staticPageId": {
                 "name": "staticPageId",
                 "in": "path",
@@ -5120,8 +5743,7 @@
                 "required": true,
                 "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "Demo Name"
+                    "type": "string"
                 }
             },
             "name_optional": {
@@ -5446,6 +6068,24 @@
                 "required": false,
                 "schema": {
                     "type": "string"
+                }
+            },
+            "type": {
+                "in": "query",
+                "name": "type",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "group"
+                }
+            },
+            "menuId": {
+                "name": "menuId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -6464,6 +7104,112 @@
                     "sub_title",
                     "institute_id",
                     "is_button_available"
+                ]
+            },
+            "Menu": {
+                "type": "object",
+                "description": "Provide menus",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary key",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Menu name",
+                        "minLength": 2,
+                        "maxLength": 191
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Menu type",
+                        "minLength": 2,
+                        "maxLength": 191
+                    }
+                },
+                "required": [
+                    "name",
+                    "type"
+                ]
+            },
+            "MenuItems": {
+                "type": "object",
+                "description": "Menu items",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary key",
+                        "readOnly": true
+                    },
+                    "menu_id": {
+                        "type": "integer",
+                        "description": "Menu id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "title en",
+                        "minLength": 1,
+                        "maxLength": 191
+                    },
+                    "title_lang_key": {
+                        "type": "string",
+                        "description": "title lang key",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "permission_key": {
+                        "type": "string",
+                        "description": "permission key",
+                        "minLength": 1,
+                        "maxLength": 191
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "required when route is not present",
+                        "minLength": 1,
+                        "maxLength": 191
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "target value",
+                        "minLength": 1,
+                        "maxLength": 191,
+                        "default": true
+                    },
+                    "icon_class": {
+                        "type": "string",
+                        "description": "icon",
+                        "minLength": 1,
+                        "maxLength": 191
+                    },
+                    "color": {
+                        "type": "string",
+                        "description": "color",
+                        "minLength": 1,
+                        "maxLength": 191
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "description": "parent id"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "description": "order integer"
+                    },
+                    "route": {
+                        "type": "string",
+                        "description": "required when route is not present",
+                        "minLength": 1,
+                        "maxLength": 191
+                    },
+                    "parameters": {
+                        "type": "string",
+                        "description": "parameters"
+                    }
+                },
+                "required": [
+                    "icon_class"
                 ]
             }
         }

@@ -3,6 +3,7 @@
 
 namespace App\Services\ContentManagementServices;
 
+use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Gallery;
 use Carbon\Carbon;
@@ -142,6 +143,30 @@ class GalleryService
      */
     public function store(array $data): Gallery
     {
+        $filename = null;
+        if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_YES) {
+            preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $data['you_tube_video_id'], $matches);
+            $filename = $data['you_tube_video_id'];
+            $data['you_tube_video_id'] = $matches[1];
+        } elseif (!empty($data['content_path'])) {
+            if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
+                $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
+                if ($filename) {
+                    $filename = 'videos/gallery/' . $filename;
+                }
+            } else {
+                $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
+                if ($filename) {
+                    $filename = 'images/gallery/' . $filename;
+                }
+            }
+        }
+        if (!$filename) {
+            $data['content_path'] = '';
+        } else {
+            $data['content_path'] = $filename;
+        }
+
         $gallery = new Gallery();
         $gallery->fill($data);
         $gallery->save();
@@ -155,6 +180,29 @@ class GalleryService
      */
     public function update(Gallery $gallery, array $data): Gallery
     {
+        if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_YES) {
+            if (!empty($gallery->content_path) && $gallery->content_path !== '') {
+                FileHandler::deleteFile($gallery->content_path);
+            }
+            preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $data['you_tube_video_id'], $matches);
+            $data['content_path'] = $data['you_tube_video_id'];
+            $data['you_tube_video_id'] = $matches[1];
+        } elseif (!empty($data['content_path'])) {
+            if (!empty($gallery->content_path) && $gallery->content_path !== '') {
+                FileHandler::deleteFile($gallery->content_path);
+            }
+            if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
+                $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
+                if ($filename) {
+                    $data['content_path'] = 'videos/gallery/' . $filename;
+                }
+            } else {
+                $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
+                if ($filename) {
+                    $data['content_path'] = 'images/gallery/' . $filename;
+                }
+            }
+        }
         $gallery->fill($data);
         $gallery->save();
         return $gallery;
@@ -176,6 +224,8 @@ class GalleryService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+
+//        dd($request->toArray());
         $customMessage = [
             'row_status.in' => [
                 'code' => 30000,
@@ -218,19 +268,20 @@ class GalleryService
             ],
         ];
 
-        if ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
+        if ($request->content_type == Gallery::CONTENT_TYPE_IMAGE) {
+            $rules['content_path'] = ['required_without:id', 'mimes:jpg,bmp,png'];
+
+        } elseif ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_NO) {
+            $rules['content_path'] = [
+                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_NO,
+                'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'
+            ];
+        } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
             $rules['you_tube_video_id'] = [
                 'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_YES,
-                'string'
+                'regex:/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/'
             ];
-        } else {
-            $rules['content_path'] = [
-                'required',
-                'string'
-            ];
-
         }
-
         return Validator::make($request->all(), $rules, $customMessage);
     }
 
