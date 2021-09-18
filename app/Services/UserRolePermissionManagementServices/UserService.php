@@ -210,18 +210,8 @@ class UserService
         ];
     }
 
-    public function getUserType(int $user_type_id): string
-    {
-        if ($user_type_id == 1) return 'system';
-        else if ($user_type_id == 2) return 'organization';
-        else if ($user_type_id == 3) return 'institute';
-        else return '';
-    }
-
     public function getUserPermission(string $id): array
     {
-
-
         $user = User::where('idp_user_id', $id)->first();
 
         if ($user == null)
@@ -229,37 +219,38 @@ class UserService
 
         $institute = null;
         $organization = null;
-        $isSystemUser = $user->user_type == 1;
-        $isOrganizationUser = $user->user_type == 2;
-        $isInstituteUser = $user->user_type == 3;
+        $isSystemUser = $user->user_type == BaseModel::SYSTEM_USER;
+        $isOrganizationUser = $user->user_type == BaseModel::ORGANIZATION_USER;
+        $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
 
-
-        if ($user->user_type == 2 && !is_null($user->organization_id)) {
+        if ($user->user_type == BaseModel::ORGANIZATION_USER && !is_null($user->organization_id)) {
             $url = BaseModel::ORGANIZATION_FETCH_ENDPOINT_LOCAL . 'organizations/' . $user->organization_id;
             if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
                 $url = BaseModel::ORGANIZATION_FETCH_ENDPOINT_REMOTE . 'organizations/' . $user->organization_id;
             }
-            $responseData = Http::retry(3)->get($url)->throw(function ($response, $e) {
-                return $e;
+            $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
+                return $exception;
             })->json();
-            $organization = $responseData['data'];
-        } else if ($user->user_type == 3 && !is_null($user->institute_id)) {
+            $organization = $responseData['data'] ?? [];
+        } else if ($user->user_type == BaseModel::INSTITUTE_USER && !is_null($user->institute_id)) {
             $url = BaseModel::INSTITUTE_FETCH_ENDPOINT_LOCAL . 'institutes/' . $user->institute_id;
             if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
                 $url = BaseModel::INSTITUTE_FETCH_ENDPOINT_REMOTE . 'institutes/' . $user->institute_id;
             }
-            $responseData = Http::retry(3)->get($url)->throw(function ($response, $e) {
-                return $e;
+            $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
+                return $exception;
             })->json();
-            $institute = $responseData['data'];
+            $institute = $responseData['data'] ?? [];
         }
 
-
         $role = Role::find($user->role_id);
+
         $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:module,name')->first();
 
         $permissions = $rolePermissions->permissions ?? [];
+
         $conditionalPermissions = [];
+
         foreach ($permissions as $permission) {
             $conditionalPermissions[] = $permission->name;
         }
@@ -284,11 +275,11 @@ class UserService
         $menuItemBuilder->orWhereNull('permission_key');
         $menuItem = $menuItemBuilder->get()->toArray();
         return [
-            'userType' => $this->getUserType($user->user_type),
+            'userType' => BaseModel::USER_TYPE[$user->user_type],
             'isSystemUser' => $isSystemUser,
             'isInstituteUser' => $isInstituteUser,
             'isOrganizationUser' => $isOrganizationUser,
-            'permissions' => $permissions,
+            'permissions' => $conditionalPermissions,
             'menu_items' => $menuItem,
             'role_id' => $user->role_id,
             'role' => $role,
