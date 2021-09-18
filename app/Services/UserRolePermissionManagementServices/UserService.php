@@ -211,7 +211,7 @@ class UserService
     public function getUserPermission(string $id): Role
     {
         $user = User::where('idp_user_id', $id)->first();
-        return Role::where('id', $user->role_id ?? null)->with('permissions:module,name')->first();
+        return Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
 
     }
 

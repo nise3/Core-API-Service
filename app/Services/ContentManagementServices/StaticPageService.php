@@ -214,8 +214,8 @@ class StaticPageService
         }
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
+            'title_en' => 'nullable|string|min:1',
+            'title_bn' => 'nullable|string|min:1',
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric',
             'order' => [

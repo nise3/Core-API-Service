@@ -165,6 +165,16 @@ class VideoService
      */
     public function update(Video $video, array $data): Video
     {
+        if (!empty($data['uploaded_video_path'])) {
+            if (!empty($video->uploaded_video_path)) {
+                FileHandler::deleteFile($video->uploaded_video_path);
+            }
+            $filename = FileHandler::storeFile($data['uploaded_video_path'], 'videos/video');
+            $data['uploaded_video_path'] = 'videos/video' . $filename;
+        } else {
+            $data['youtube_video_id'] = $this->getYoutubeVideoKey($data['youtube_video_url']);
+        }
+
         $video->fill($data);
         $video->save();
         return $video;
