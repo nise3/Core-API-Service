@@ -48,4 +48,10 @@ abstract class BaseModel extends Model
         self::ORGANIZATION_USER => 'organization',
         self::INSTITUTE_USER => 'institute',
     ];
+
+    /**get institute and organization api url*/
+    public const INSTITUTE_FETCH_ENDPOINT_LOCAL='http://localhost:8001/api/v1/';
+    public const INSTITUTE_FETCH_ENDPOINT_REMOTE='http://nise3-institute.default/api/v1/';
+    public const ORGANIZATION_FETCH_ENDPOINT_LOCAL='http://localhost:8002/api/v1/';
+    public const ORGANIZATION_FETCH_ENDPOINT_REMOTE='http://nise3-org-management.default/api/v1/';
 }
