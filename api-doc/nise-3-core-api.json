@@ -1413,14 +1413,39 @@
                                         "title_en": "Super Admin",
                                         "key": "super_admin",
                                         "description": null,
-                                        "permission_group_id": null,
                                         "organization_id": null,
                                         "institute_id": null,
+                                        "permission_group_id": null,
                                         "permission_group_title_en": null,
                                         "permission_group_title_bn": null,
+                                        "permission_sub_group_id": null,
+                                        "permission_sub_group_title_en": null,
+                                        "permission_sub_group_title_bn": null,
                                         "row_status": 1,
                                         "created_at": null,
-                                        "updated_at": null
+                                        "updated_at": null,
+                                        "permissions": [
+                                            {
+                                                "id": 1,
+                                                "module": "divisions",
+                                                "name": "divisions-get_all",
+                                                "uri": "api/v1/divisions",
+                                                "method": 1,
+                                                "row_status": 1,
+                                                "created_at": "2021-09-16T06:28:04.000000Z",
+                                                "updated_at": "2021-09-16T06:28:04.000000Z"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "module": "divisions",
+                                                "name": "divisions-read",
+                                                "uri": "api/v1/divisions/{id}",
+                                                "method": 1,
+                                                "row_status": 1,
+                                                "created_at": "2021-09-16T06:28:04.000000Z",
+                                                "updated_at": "2021-09-16T06:28:04.000000Z"
+                                            }
+                                        ]
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -7103,7 +7128,10 @@
                         "maxLength": 191
                     }
                 },
-                "required": ["name","type"]
+                "required": [
+                    "name",
+                    "type"
+                ]
             },
             "MenuItems": {
                 "type": "object",
