@@ -74,7 +74,7 @@ class UserService
             $join->on('roles.id', '=', 'users.role_id')
                 ->whereNull('roles.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status',$rowStatus);
+                $join->where('roles.row_status', $rowStatus);
             }
         });
 
@@ -82,7 +82,7 @@ class UserService
             $join->on('loc_divisions.id', '=', 'users.loc_division_id')
                 ->whereNull('loc_divisions.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status',$rowStatus);
+                $join->where('roles.row_status', $rowStatus);
             }
         });
 
@@ -90,7 +90,7 @@ class UserService
             $join->on('loc_districts.id', '=', 'users.loc_district_id')
                 ->whereNull('loc_districts.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status',$rowStatus);
+                $join->where('roles.row_status', $rowStatus);
             }
         });
 
@@ -98,7 +98,7 @@ class UserService
             $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
                 ->whereNull('loc_upazilas.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status',$rowStatus);
+                $join->where('roles.row_status', $rowStatus);
             }
         });
 
@@ -210,17 +210,58 @@ class UserService
         ];
     }
 
-    public function getUserPermission(string $id)
+    public function getUserType(int $user_type_id): string
     {
+        if ($user_type_id == 1) return 'system';
+        else if ($user_type_id == 2) return 'organization';
+        else if ($user_type_id == 3) return 'institute';
+        else return '';
+    }
+
+    public function getUserPermission(string $id): array
+    {
+
+
         $user = User::where('idp_user_id', $id)->first();
-        $rolePermissions= Role::where('id', $user->role_id ?? null)->with('permissions:module,name')->first();
-        $permissions=$rolePermissions->permissions??[];
-        $conditionalPermissions=[];
-        foreach ($permissions as $permission){
-              $conditionalPermissions[]=$permission->name;
+
+        $institute = null;
+        $organization = null;
+        $isSystemUser = $user->user_type == 1;
+        $isOrganizationUser = $user->user_type == 2;
+        $isInstituteUser = $user->user_type == 3;
+
+
+        if ($user->user_type == 2 && !is_null($user->organization_id)) {
+            $url = 'http://localhost:8002/api/v1/organizations/' . $user->organization_id;
+            if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
+                $url = "https://gateway.bus.softbd.xyz/api/v1/organizations/" . $user->organization_id;
+            }
+            $responseData = Http::retry(3)->get($url)->throw(function ($response, $e) {
+                return $e;
+            })->json();
+            $organization = $responseData['data'];
+        } else if ($user->user_type == 3 && !is_null($user->institute_id)) {
+            $url = 'http://localhost:8001/api/v1/institutes/' . $user->institute_id;
+            if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
+                $url = "https://gateway.bus.softbd.xyz/api/v1/institutes/" . $user->institute_id;
+            }
+            $responseData = Http::retry(3)->get($url)->throw(function ($response, $e) {
+                return $e;
+            })->json();
+            $institute = $responseData['data'];
+        }
+
+
+        $role = Role::find($user->role_id);
+        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:module,name')->first();
+
+        $permissions = $rolePermissions->permissions ?? [];
+        $conditionalPermissions = [];
+        foreach ($permissions as $permission) {
+            $conditionalPermissions[] = $permission->name;
         }
         /** @var  $menuItemBuilder */
-        $menuItemBuilder=DB::table('menu_items')->select([
+        $menuItemBuilder = DB::table('menu_items')->select([
             "menus.name as menu_name",
             "menu_items.title",
             "menu_items.type",
@@ -235,13 +276,26 @@ class UserService
             "menu_items.route",
             "menu_items.parameters",
         ]);
-        $menuItemBuilder->leftJoin('menus','menus.id','=','menu_items.menu_id');
-        $menuItemBuilder->whereIn('permission_key',$conditionalPermissions);
+        $menuItemBuilder->leftJoin('menus', 'menus.id', '=', 'menu_items.menu_id');
+        $menuItemBuilder->whereIn('permission_key', $conditionalPermissions);
         $menuItemBuilder->orWhereNull('permission_key');
-        $menuItem=$menuItemBuilder->get()->toArray();
+        $menuItem = $menuItemBuilder->get()->toArray();
         return [
-            'permissions'=>$permissions,
-            'menu_items'=>$menuItem
+            'userType' => $this->getUserType($user->user_type),
+            'isSystemUser' => $isSystemUser,
+            'isInstituteUser' => $isInstituteUser,
+            'isOrganizationUser' => $isOrganizationUser,
+            'permissions' => $permissions,
+            'menu_items' => $menuItem,
+            'role_id' => $user->role_id,
+            'role' => $role,
+            'institute_id' => $user->institute_id,
+            'institute' => $institute,
+            'organization_id' => $user->organization_id,
+            'organization' => $organization,
+            'username' => $user->username,
+            'displayName' => $user->name_en
+
         ];
     }
 
@@ -494,8 +548,7 @@ class UserService
         ];
 
 
-
-        $client=Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
+        $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([
                 'Content-Type' => 'application/json'
             ])->withOptions([
@@ -518,8 +571,8 @@ class UserService
                 ],
             ]);
 
-        Log::channel('idp_user')->info('idp_user_payload',$data);
-        Log::channel('idp_user')->info('idp_user_info',$client->json());
+        Log::channel('idp_user')->info('idp_user_payload', $data);
+        Log::channel('idp_user')->info('idp_user_info', $client->json());
 
         return $client;
 
