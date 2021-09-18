@@ -245,7 +245,7 @@ class UserService
 
         $role = Role::find($user->role_id);
 
-        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:module,name')->first();
+        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
 
         $permissions = $rolePermissions->permissions ?? [];
 
