@@ -19,8 +19,9 @@ class CreateMenuItemsTable extends Migration {
             $table->engine = 'InnoDB';
 
             $table->mediumIncrements('id');
-            $table->unsignedSmallInteger('menu_id')->nullable();
+            $table->unsignedSmallInteger('menu_id');
             $table->string('title', 191)->nullable();
+            $table->string('type');
             $table->string('title_lang_key', 255)->nullable();
             $table->string('permission_key', 191)->nullable();
             $table->string('url', 191);
@@ -32,7 +33,6 @@ class CreateMenuItemsTable extends Migration {
             $table->string('route', 191)->nullable();
             $table->text('parameters')->nullable();
             $table->timestamps();
-
             $table->foreign('menu_id')
                 ->references('id')
                 ->on('menus')

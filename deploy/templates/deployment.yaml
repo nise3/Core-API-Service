@@ -43,7 +43,7 @@ spec:
             postStart:
               exec:
                 command:
-                  - "sh" 
+                  - "sh"
                   - "-c"
                   - >
                     mv /app/.env.example /app/.env;

@@ -17,7 +17,6 @@ class CreateMenusTable extends Migration {
 		{
 		    /** Please select engine that support transaction */
             $table->engine = 'InnoDB';
-
 			$table->smallIncrements('id');
 			$table->string('name', 191)->unique();
             $table->string('type', 191);

@@ -40,6 +40,7 @@ class UserService
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
             "users.id",
+            'users.idp_user_id',
             "users.name_en",
             "users.name_bn",
             "users.user_type",
@@ -72,8 +73,8 @@ class UserService
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')
                 ->whereNull('roles.deleted_at');
-            if (!is_null($rowStatus)) {
-                $join->where('roles.row_status');
+            if (is_numeric($rowStatus)) {
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
@@ -81,7 +82,7 @@ class UserService
             $join->on('loc_divisions.id', '=', 'users.loc_division_id')
                 ->whereNull('loc_divisions.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status');
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
@@ -89,7 +90,7 @@ class UserService
             $join->on('loc_districts.id', '=', 'users.loc_district_id')
                 ->whereNull('loc_districts.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status');
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
@@ -97,7 +98,7 @@ class UserService
             $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
                 ->whereNull('loc_upazilas.deleted_at');
             if (is_numeric($rowStatus)) {
-                $join->where('roles.row_status');
+                $join->where('roles.row_status',$rowStatus);
             }
         });
 
@@ -148,6 +149,7 @@ class UserService
         /** @var User|Builder $userBuilder */
         $userBuilder = User::select([
             "users.id",
+            'users.idp_user_id',
             "users.name_en",
             "users.name_bn",
             "users.user_type",
@@ -208,11 +210,39 @@ class UserService
         ];
     }
 
-    public function getUserPermission(string $id): Role
+    public function getUserPermission(string $id)
     {
         $user = User::where('idp_user_id', $id)->first();
-        return Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
-
+        $rolePermissions= Role::where('id', $user->role_id ?? null)->with('permissions:module,name')->first();
+        $permissions=$rolePermissions->permissions??[];
+        $conditionalPermissions=[];
+        foreach ($permissions as $permission){
+              $conditionalPermissions[]=$permission->name;
+        }
+        /** @var  $menuItemBuilder */
+        $menuItemBuilder=DB::table('menu_items')->select([
+            "menus.name as menu_name",
+            "menu_items.title",
+            "menu_items.type",
+            "menu_items.title_lang_key",
+            "menu_items.permission_key",
+            "menu_items.url",
+            "menu_items.target",
+            "menu_items.icon_class",
+            "menu_items.color",
+            "menu_items.parent_id",
+            "menu_items.order",
+            "menu_items.route",
+            "menu_items.parameters",
+        ]);
+        $menuItemBuilder->leftJoin('menus','menus.id','=','menu_items.menu_id');
+        $menuItemBuilder->whereIn('permission_key',$conditionalPermissions);
+        $menuItemBuilder->orWhereNull('permission_key');
+        $menuItem=$menuItemBuilder->get()->toArray();
+        return [
+            'permissions'=>$permissions,
+            'menu_items'=>$menuItem
+        ];
     }
 
     /**
@@ -222,18 +252,6 @@ class UserService
      */
     public function store(User $user, array $data): User
     {
-        $idpUserInfo = [
-            'name' => $data['name_en'],
-            'email' => $data['email'],
-            'username' => $data['username'],
-            'password' => $data['password']
-        ];
-        $httpClient = $this->idpUserCreate($idpUserInfo);
-
-        if ($httpClient->json('id')) {
-            $data['idp_user_id'] = $httpClient->json('id');
-        }
-
         $data['password'] = Hash::make($data['password']);
         return $user->create($data);
     }
@@ -395,7 +413,9 @@ class UserService
             "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
             "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "password" => 'required|confirmed|min:6',
+            "password" => [
+                'required_if:' . $id . ',==,null|confirmed|min:6'
+            ],
             "profile_pic" => 'nullable|string',
             "created_by" => "nullable|numeric",
             "updated_by" => "nullable|numeric",
@@ -466,7 +486,6 @@ class UserService
     public function idpUserCreate(array $postField)
     {
 
-
         $data = [
             'name' => $postField['name_en'],
             'email' => $postField['email'],
@@ -474,9 +493,9 @@ class UserService
             'password' => $postField['password']
         ];
 
-        Log::info('Idp_user_payLoad:'.json_encode($data));
 
-        return Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
+
+        $client=Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([
                 'Content-Type' => 'application/json'
             ])->withOptions([
@@ -498,6 +517,11 @@ class UserService
                     ]
                 ],
             ]);
+
+        Log::channel('idp_user')->info('idp_user_payload',$data);
+        Log::channel('idp_user')->info('idp_user_info',$client->json());
+
+        return $client;
 
     }
 

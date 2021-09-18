@@ -19,9 +19,9 @@ class LocDivisionsTableSeeder extends Seeder
     {
 
 
-        Schema::disableForeignKeyConstraints();
-
-        DB::table('loc_divisions')->truncate();
+//        Schema::disableForeignKeyConstraints();
+//
+//        DB::table('loc_divisions')->truncate();
 
         DB::table('loc_divisions')->insert(array(
             0 =>
@@ -122,6 +122,6 @@ class LocDivisionsTableSeeder extends Seeder
                 ),
         ));
 
-        Schema::enableForeignKeyConstraints();
+//        Schema::enableForeignKeyConstraints();
     }
 }
