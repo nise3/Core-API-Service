@@ -256,7 +256,8 @@ class UserService
 
 
         $role = Role::find($user->role_id);
-        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:module,name')->first();
+        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
+
 
         $permissions = $rolePermissions->permissions ?? [];
         $conditionalPermissions = [];
@@ -288,7 +289,7 @@ class UserService
             'isSystemUser' => $isSystemUser,
             'isInstituteUser' => $isInstituteUser,
             'isOrganizationUser' => $isOrganizationUser,
-            'permissions' => $permissions,
+            'permissions' => $conditionalPermissions,
             'menu_items' => $menuItem,
             'role_id' => $user->role_id,
             'role' => $role,
@@ -346,7 +347,7 @@ class UserService
             'key' => str_replace('', '_', $data['name_en']),
             'title_en' => $data['name_en'],
             'title_bn' => $data['name_bn'],
-            'permission_group_id' => $data['permission_sub_group_id'] ?? null,
+            'permission_sub_group_id' => $data['permission_sub_group_id'] ?? null,
             'organization_id' => $data['organization_id'] ?? null,
             'institute_id' => $data['institute_id'] ?? null,
         ];
