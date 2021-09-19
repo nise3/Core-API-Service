@@ -1271,6 +1271,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
                     }
                 ],
                 "responses": {
@@ -1664,6 +1670,15 @@
                     },
                     {
                         "$ref": "#/components/parameters/email_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_type_optional"
                     }
                 ],
                 "responses": {
@@ -5898,9 +5913,17 @@
                 "name": "organization_id",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "integer"
+                }
+            },
+            "organization_id_optional": {
+                "name": "organization_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
                 }
             },
             "institute_id": {
@@ -5918,7 +5941,8 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             },
             "loc_upazila_id": {
@@ -5998,6 +6022,14 @@
                 "in": "query",
                 "name": "user_type",
                 "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "user_type_optional": {
+                "in": "query",
+                "name": "user_type",
+                "required": false,
                 "schema": {
                     "type": "integer"
                 }

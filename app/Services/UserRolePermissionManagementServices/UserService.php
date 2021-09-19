@@ -36,6 +36,9 @@ class UserService
         $email = array_key_exists('email', $request) ? $request['email'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $organizationId = array_key_exists('organization_id', $request) ? $request['organization_id'] : "";
+        $instituteId = array_key_exists('institute_id', $request) ? $request['institute_id'] : "";
+        $userType = array_key_exists('user_type', $request) ? $request['user_type'] : "";
 
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
@@ -46,6 +49,7 @@ class UserService
             "users.user_type",
             "users.username",
             "users.institute_id",
+            "users.organization_id",
             "users.role_id",
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
@@ -117,6 +121,15 @@ class UserService
         if (is_numeric($rowStatus)) {
             $usersBuilder->where('users.row_status', $rowStatus);
         }
+        if (is_numeric($organizationId)) {
+            $usersBuilder->where('users.organization_id', $organizationId);
+        }
+        if (is_numeric($instituteId)) {
+            $usersBuilder->where('users.institute_id', $instituteId);
+        }
+        if (is_numeric($userType)) {
+            $usersBuilder->where('users.user_type', $userType);
+        }
 
         if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
@@ -154,6 +167,7 @@ class UserService
             "users.name_bn",
             "users.user_type",
             "users.username",
+            "users.organization_id",
             "users.institute_id",
             "users.role_id",
             'roles.title_en as role_title_en',
@@ -442,7 +456,7 @@ class UserService
     /**
      * @param Request $request
      * @param int|null $id
-     * @return Validator
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
@@ -517,6 +531,9 @@ class UserService
             'name_en' => 'string',
             'name_bn' => 'string',
             'email' => 'string',
+            "organization_id" => 'nullable|numeric',
+            "institute_id" => 'nullable|numeric',
+            'user_type' => 'nullable|numeric',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
