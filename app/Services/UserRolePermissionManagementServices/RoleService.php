@@ -203,7 +203,7 @@ class RoleService
             'title_bn' => 'required|min:2',
             'description' => 'nullable',
             'permission_group_id' => 'nullable|exists:permission_groups,id',
-            'permission_sub_group_id' => 'nullable|exists: permission_sub_groups,id',
+            'permission_sub_group_id' => 'nullable|exists:permission_sub_groups,id',
             'organization_id' => 'nullable|numeric',
             'institute_id' => 'nullable|numeric',
             'key' => 'required|min:2|unique:roles,key,' . $id,
