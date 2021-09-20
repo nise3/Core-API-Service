@@ -27,6 +27,8 @@ class RoleService
         $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
         $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
         $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $organizationId = array_key_exists('organization_id', $request) ? $request['organization_id'] : "";
+        $instituteId = array_key_exists('institute_id', $request) ? $request['institute_id'] : "";
 
         /** @var Role|Builder $rolesBuilder */
         $rolesBuilder = Role::select([
@@ -61,6 +63,12 @@ class RoleService
 
         if (is_numeric($rowStatus)) {
             $rolesBuilder->where('roles.row_status', $rowStatus);
+        }
+        if (is_numeric($organizationId)) {
+            $rolesBuilder->where('roles.organization_id', $organizationId);
+        }
+        if (is_numeric($instituteId)) {
+            $rolesBuilder->where('roles.institute_id', $instituteId);
         }
 
         $rolesBuilder->orderBy('roles.id', $order);
@@ -203,7 +211,7 @@ class RoleService
             'title_bn' => 'required|min:2',
             'description' => 'nullable',
             'permission_group_id' => 'nullable|exists:permission_groups,id',
-            'permission_sub_group_id' => 'nullable|exists: permission_sub_groups,id',
+            'permission_sub_group_id' => 'nullable|exists:permission_sub_groups,id',
             'organization_id' => 'nullable|numeric',
             'institute_id' => 'nullable|numeric',
             'key' => 'required|min:2|unique:roles,key,' . $id,
@@ -246,6 +254,8 @@ class RoleService
             'title_bn' => 'nullable|min:1',
             'page' => 'numeric',
             'page_size' => 'numeric',
+            "organization_id" => 'nullable|numeric',
+            "institute_id" => 'nullable|numeric',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

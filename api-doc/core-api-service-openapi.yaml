@@ -2260,7 +2260,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GalleryCategory'
-              example: {}
+              example: { }
       tags:
         - GalleryCategory
     delete:
@@ -2393,7 +2393,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Gallery'
-              example: {}
+              example: { }
       tags:
         - Gallery
     put:
@@ -3101,7 +3101,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StaticPage'
-              example: {}
+              example: { }
       tags:
         - StaticPage
     put:
@@ -3303,7 +3303,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Menu'
-              example: {}
+              example: { }
       tags:
         - MenuItem
     post:
