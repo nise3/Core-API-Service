@@ -26,13 +26,13 @@ class PermissionGroupService
      */
     public function getAllPermissionGroups(array $request, Carbon $startTime): array
     {
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
-        $key = array_key_exists('key', $request) ? $request['key'] : null;
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
+        $key = $request['key'] ?? null;
 
         /** @var PermissionGroup|Builder $permissionGroupBuilder */
         $permissionGroupBuilder = PermissionGroup::select([
@@ -110,11 +110,11 @@ class PermissionGroupService
             $permissionGroupBuilder->where('id', $id);
         }
 
-        if($permissionSubGroup==1){
+        if ($permissionSubGroup == 1) {
             $permissionGroupBuilder->with('permissionSubGroup');
         }
 
-        if($permission==1){
+        if ($permission == 1) {
             $permissionGroupBuilder->with('permissions');
         }
 
@@ -227,7 +227,7 @@ class PermissionGroupService
             'title_bn' => 'nullable|min:1',
             'page' => 'numeric',
             'page_size' => 'numeric',
-            'key'=>'nullable|string',
+            'key' => 'nullable|string',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
