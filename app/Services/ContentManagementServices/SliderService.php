@@ -175,11 +175,13 @@ class SliderService
                 'required',
                 'string',
                 'max:191',
+                'min:2'
             ],
             'sub_title' => [
                 'required',
                 'string',
                 'max:191',
+                'min:2'
             ],
             'is_button_available' => [
                 'required',
@@ -196,7 +198,7 @@ class SliderService
                 'nullable',
                 'requiredIf:is_button_available,' . Slider::IS_BUTTON_AVAILABLE_YES,
                 'string',
-                'max:191'
+                'max:20'
             ],
 
             'institute_id' => [
@@ -236,10 +238,10 @@ class SliderService
         }
 
         return Validator::make($request->all(), [
-            'title' => 'nullable|min:1',
-            'sub_title' => 'nullable|min:1',
+            'title' => 'nullable|max:191|min:2',
+            'sub_title' => 'nullable|max:191|min:2',
             'page' => 'numeric|gt:0',
-            'page_size' => 'numeric',
+            'page_size' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

@@ -144,9 +144,9 @@ class LocDivisionService
         ];
 
         return Validator::make($request->all(), [
-            'title_en' => 'required|min:2',
-            'title_bn' => 'required|min:2',
-            'bbs_code' => 'nullable|min:1',
+            'title_en' => 'required|string|max:191|min:2',
+            'title_bn' => 'required|string|max:500|min:2',
+            'bbs_code' => 'nullable|max:4|min:1',
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -170,8 +170,8 @@ class LocDivisionService
             ]
         ];
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
+            'title_en' => 'nullable|string|max:191|min:1',
+            'title_bn' => 'nullable|max:500|string|min:1',
             'order' => [
                 'string',
                 Rule::in([(BaseModel::ROW_ORDER_ASC), (BaseModel::ROW_ORDER_DESC)])

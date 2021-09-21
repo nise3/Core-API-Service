@@ -225,7 +225,6 @@ class GalleryService
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
 
-//        dd($request->toArray());
         $customMessage = [
             'row_status.in' => [
                 'code' => 30000,
@@ -241,7 +240,8 @@ class GalleryService
             'content_title' => [
                 'required',
                 'string',
-                'max:191'
+                'max:191',
+                'min:2'
             ],
             'institute_id' => [
                 'required',
@@ -309,7 +309,7 @@ class GalleryService
 
         return Validator::make($request->all(), [
             'page' => 'numeric|gt:0',
-            'pageSize' => 'numeric',
+            'pageSize' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

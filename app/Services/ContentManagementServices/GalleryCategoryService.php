@@ -137,7 +137,7 @@ class GalleryCategoryService
         }
 
         $galleryCategory = new GalleryCategory();
-        $directory="gallery-category/".date('Y-m');
+        $directory = "gallery-category/" . date('Y-m');
 
         $galleryCategory->fill($data);
         $galleryCategory->save();
@@ -180,8 +180,8 @@ class GalleryCategoryService
             ]
         ];
         $rules = [
-            'title_en' => ['required', 'string', 'max:191'],
-            'title_bn' => ['required', 'string', 'max:191'],
+            'title_en' => ['required', 'string', 'max:191', 'min:2'],
+            'title_bn' => ['required', 'string', 'max:191', 'min:2'],
             'institute_id' => [
                 'required',
                 'int',
@@ -234,10 +234,10 @@ class GalleryCategoryService
         }
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|min:191|min:2',
             'page' => 'numeric|gt:0',
-            'page_size' => 'numeric',
+            'page_size' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

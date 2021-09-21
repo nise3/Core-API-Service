@@ -247,10 +247,10 @@ class PermissionService
             ]
         ];
         $rules = [
-            'name' => 'required|min:2',
+            'name' => 'required|string|max:191|min:2',
             'method' => 'required|numeric',
-            'module' => 'required|string',
-            'uri' => 'required|min:2|unique:permissions,uri,' . $id,
+            'module' => 'required|max:191|string',
+            'uri' => 'required|max:300|min:2|unique:permissions,uri,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -296,10 +296,10 @@ class PermissionService
         ];
 
         return Validator::make($request->all(), [
-            'page' => 'numeric',
-            'page_size' => 'numeric',
-            'name' => 'string',
-            'uri' => 'string',
+            'page' => 'numeric|gt:0',
+            'page_size' => 'numeric|gt:0',
+            'name' => 'string|max:191|min:2',
+            'uri' => 'string|max:300|min:2',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

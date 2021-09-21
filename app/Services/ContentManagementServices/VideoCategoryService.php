@@ -177,11 +177,13 @@ class VideoCategoryService
                 'required',
                 'string',
                 'max:191',
+                'min:2'
             ],
             'title_bn' => [
                 'required',
                 'string',
                 'max:191',
+                'min:2'
             ],
             'institute_id' => [
                 'required',
@@ -222,10 +224,10 @@ class VideoCategoryService
         }
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
+            'title_en' => 'nullable|string|max:191|min:2',
+            'title_bn' => 'nullable|string|max:191|min:2',
             'page' => 'numeric|gt:0',
-            'page_size' => 'numeric',
+            'page_size' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

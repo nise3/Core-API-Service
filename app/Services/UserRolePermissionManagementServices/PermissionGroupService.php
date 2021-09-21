@@ -110,11 +110,11 @@ class PermissionGroupService
             $permissionGroupBuilder->where('id', $id);
         }
 
-        if($permissionSubGroup==1){
+        if ($permissionSubGroup == 1) {
             $permissionGroupBuilder->with('permissionSubGroup');
         }
 
-        if($permission==1){
+        if ($permission == 1) {
             $permissionGroupBuilder->with('permissions');
         }
 
@@ -185,9 +185,9 @@ class PermissionGroupService
             ]
         ];
         $rules = [
-            'title_en' => 'required|min:2',
-            'title_bn' => 'required|min:2',
-            "key" => 'required|min:2|unique:permission_groups,key,' . $id,
+            'title_en' => 'required|max:191|min:2',
+            'title_bn' => 'required|max:300|min:2',
+            "key" => 'required|max:191|min:2|unique:permission_groups,key,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -223,11 +223,11 @@ class PermissionGroupService
         ];
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
-            'page' => 'numeric',
-            'page_size' => 'numeric',
-            'key'=>'nullable|string',
+            'title_en' => 'nullable|string|max:191|min:2',
+            'title_bn' => 'nullable|string|max:300|min:2',
+            'page' => 'numeric|gt:0',
+            'page_size' => 'numeric|gt:0',
+            'key' => 'nullable|max:191|string',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

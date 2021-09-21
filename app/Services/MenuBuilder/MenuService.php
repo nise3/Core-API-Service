@@ -135,7 +135,7 @@ class MenuService
         }
 
         return Validator::make($request->all(), [
-            'name' => 'nullable|min:1',
+            'name' => 'nullable|max:191|min:2',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
@@ -150,8 +150,8 @@ class MenuService
     public function validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($request->all(), [
-            'name' => 'required|string|max:191',
-            'type' => 'required|string|max:191'
+            'name' => 'required|string|max:191|min:2',
+            'type' => 'required|string|max:191|min:2'
         ]);
     }
 
