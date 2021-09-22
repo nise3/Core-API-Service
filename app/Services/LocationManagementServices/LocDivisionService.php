@@ -24,10 +24,10 @@ class LocDivisionService
      */
     public function getAllDivisions(array $request, Carbon $startTime): array
     {
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var Builder $divisionsBuilder */
         $divisionsBuilder = LocDivision::select([

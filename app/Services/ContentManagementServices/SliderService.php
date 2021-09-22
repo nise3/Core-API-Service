@@ -18,12 +18,12 @@ class SliderService
     public function getAllSliders(array $request, Carbon $startTime): array
     {
 
-        $title = array_key_exists('title', $request) ? $request['title'] : "";
-        $subTitle = array_key_exists('sub_title', $request) ? $request['sub_title'] : "";
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $title = $request['title'] ?? "";
+        $subTitle = $request['sub_title'] ?? "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var Builder $sliderBuilder */
 

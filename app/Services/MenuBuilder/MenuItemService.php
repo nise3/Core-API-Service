@@ -21,8 +21,8 @@ class MenuItemService
      */
     public function getAllMenuItems(array $request, Carbon $startTime): array
     {
-        $title = array_key_exists('title', $request) ? $request['title'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $title = $request['title'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
 
         /** @var Builder $menuItemBuilder */

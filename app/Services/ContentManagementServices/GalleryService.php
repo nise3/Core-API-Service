@@ -24,11 +24,11 @@ class GalleryService
     public function getAllGalleries(array $request, Carbon $startTime): array
     {
 
-        $contentTitle = array_key_exists('content_title', $request) ? $request['content_title'] : "";
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $contentTitle = $request['content_title'] ?? "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var Builder $galleryBuilder */
         $galleryBuilder = Gallery::select([
@@ -309,6 +309,7 @@ class GalleryService
 
         return Validator::make($request->all(), [
             'page' => 'numeric|gt:0',
+            'content_title' => 'string|max:191|min:2',
             'pageSize' => 'numeric|gt:0',
             'order' => [
                 'string',

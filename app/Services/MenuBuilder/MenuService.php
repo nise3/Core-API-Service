@@ -22,8 +22,8 @@ class MenuService
      */
     public function getAllMenus(array $request, Carbon $startTime): array
     {
-        $name = array_key_exists('name', $request) ? $request['name'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $name = $request['name'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
 
         /** @var Builder $menuBuilder */

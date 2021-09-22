@@ -26,12 +26,12 @@ class LocUpazilaService
     public function getAllUpazilas(array $request, Carbon $startTime): array
     {
 
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $districtId = array_key_exists('district_id', $request) ? $request['district_id'] : "";
-        $divisionId = array_key_exists('division_id', $request) ? $request['division_id'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $districtId = $request['district_id'] ?? "";
+        $divisionId = $request['division_id'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var LocUpazila|Builder $upazilasBuilder */
         $upazilasBuilder = LocUpazila::select([
