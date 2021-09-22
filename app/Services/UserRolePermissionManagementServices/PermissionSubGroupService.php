@@ -191,8 +191,8 @@ class PermissionSubGroupService
         ];
         $rules = [
             'permission_group_id' => 'required|numeric|exists:permission_groups,id',
-            'title_en' => 'string|max:191|required|min:2',
-            'title_bn' => 'required|max:300|string|min:2',
+            'title_en' => 'required|string|max:191||min:2',
+            'title_bn' => 'required|string|max:300|min:2',
             "key" => 'required|string|max:191|min:2|unique:permission_sub_groups,key,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',

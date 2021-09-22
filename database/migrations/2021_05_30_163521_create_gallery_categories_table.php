@@ -16,7 +16,7 @@ class CreateGalleryCategoriesTable extends Migration
         Schema::create('gallery_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title_en', 191);
-            $table->string('title_bn', 191);
+            $table->string('title_bn', 500);
             $table->unsignedInteger('institute_id');
             $table->unsignedInteger('batch_id')->nullable();
             $table->unsignedInteger('programme_id')->nullable();

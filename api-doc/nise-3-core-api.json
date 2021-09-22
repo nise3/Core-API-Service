@@ -7081,7 +7081,7 @@
                         "type": "string",
                         "description": " Title In English",
                         "minLength": 1,
-                        "maxLength": 255
+                        "maxLength": 500
                     },
                     "sub_title": {
                         "type": "string",
