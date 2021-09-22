@@ -309,7 +309,7 @@ class GalleryService
 
         return Validator::make($request->all(), [
             'page' => 'numeric|gt:0',
-            'content_title' => 'string|max:500|min:2',
+            'content_title' => 'nullable|max:500|min:2',
             'pageSize' => 'numeric|gt:0',
             'order' => [
                 'string',

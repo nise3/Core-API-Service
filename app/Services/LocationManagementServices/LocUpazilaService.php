@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LocUpazilaService
 {
-    const ROUTE_PREFIX = 'api.v1.upazilas.';
 
     /**
      * @param array $request
@@ -230,8 +229,8 @@ class LocUpazilaService
             ]
         ];
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|string|max:191|min:2',
-            'title_bn' => 'nullable|string|max:500|min:2',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:500|min:2',
             'district_id' => 'numeric|exists:loc_districts,id',
             'division_id' => 'numeric|exists:loc_divisions,id',
             'order' => [

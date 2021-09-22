@@ -4,8 +4,6 @@
 namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\BaseModel;
-use App\Models\Permission;
-use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PermissionSubGroupService
 {
-    /*const ROUTE_PREFIX = 'api.v1.permission-sub-groups.';*/
 
     /**
      * @param array $request

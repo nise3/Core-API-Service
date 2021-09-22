@@ -223,8 +223,8 @@ class PermissionGroupService
         ];
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|string|max:191|min:2',
-            'title_bn' => 'nullable|string|max:300|min:2',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:300|min:2',
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric|gt:0',
             'key' => 'nullable|max:191|string',

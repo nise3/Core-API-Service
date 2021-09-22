@@ -22,9 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserService
 {
-    /*const ROUTE_PREFIX = 'api.v1.users.';*/
-
-
     /**
      * @param array $request
      * @param Carbon $startTime
@@ -329,7 +326,7 @@ class UserService
      * @param array $data
      * @return User
      */
-    public function createRegisterUser(User $user, array $data):User
+    public function createRegisterUser(User $user, array $data): User
     {
         $data['password'] = Hash::make($data['password']);
 

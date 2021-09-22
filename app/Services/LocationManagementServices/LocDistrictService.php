@@ -7,7 +7,6 @@ use App\Models\LocDistrict;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -196,8 +195,8 @@ class LocDistrictService
         ];
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|string|max:191|min:2',
-            'title_bn' => 'nullable|string|max:500|min:2',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:500|min:2',
             'division_id' => 'numeric|exists:loc_divisions,id',
             'order' => [
                 'string',

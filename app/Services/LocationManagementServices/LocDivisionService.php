@@ -170,8 +170,8 @@ class LocDivisionService
             ]
         ];
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|string|max:191|min:1',
-            'title_bn' => 'nullable|max:500|string|min:1',
+            'title_en' => 'nullable|max:191|min:1',
+            'title_bn' => 'nullable|max:500|min:1',
             'order' => [
                 'string',
                 Rule::in([(BaseModel::ROW_ORDER_ASC), (BaseModel::ROW_ORDER_DESC)])

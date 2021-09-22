@@ -48,9 +48,9 @@ class StaticPageService
         }
 
         if (!empty($titleEn)) {
-            $staticPageBuilder->where('static_pages.title', 'like', '%' . $titleEn . '%');
+            $staticPageBuilder->where('static_pages.title_en', 'like', '%' . $titleEn . '%');
         } elseif (!empty($titleBn)) {
-            $staticPageBuilder->where('static_pages.sub_title', 'like', '%' . $titleBn . '%');
+            $staticPageBuilder->where('static_pages.title_bn', 'like', '%' . $titleBn . '%');
         }
 
         /** @var Collection $staticPages */
@@ -214,8 +214,8 @@ class StaticPageService
         }
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|string|max:191|min:2',
-            'title_bn' => 'nullable|string|max:500|min:2',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:500|min:2',
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric|gt:0',
             'order' => [

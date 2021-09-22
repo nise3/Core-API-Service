@@ -298,8 +298,8 @@ class PermissionService
         return Validator::make($request->all(), [
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric|gt:0',
-            'name' => 'string|max:191|min:2',
-            'uri' => 'string|max:300|min:2',
+            'name' => 'max:191|min:2',
+            'uri' => 'max:300|min:2',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
