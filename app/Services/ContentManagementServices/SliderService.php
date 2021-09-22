@@ -174,13 +174,13 @@ class SliderService
             'title' => [
                 'required',
                 'string',
-                'max:191',
+                'max:500',
                 'min:2'
             ],
             'sub_title' => [
                 'required',
                 'string',
-                'max:191',
+                'max:500',
                 'min:2'
             ],
             'is_button_available' => [
@@ -238,8 +238,8 @@ class SliderService
         }
 
         return Validator::make($request->all(), [
-            'title' => 'nullable|max:191|min:2',
-            'sub_title' => 'nullable|max:191|min:2',
+            'title' => 'nullable|max:500|min:2',
+            'sub_title' => 'nullable|max:500|min:2',
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric|gt:0',
             'order' => [

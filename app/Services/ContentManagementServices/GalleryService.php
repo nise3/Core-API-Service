@@ -240,7 +240,7 @@ class GalleryService
             'content_title' => [
                 'required',
                 'string',
-                'max:191',
+                'max:500',
                 'min:2'
             ],
             'institute_id' => [
@@ -309,7 +309,7 @@ class GalleryService
 
         return Validator::make($request->all(), [
             'page' => 'numeric|gt:0',
-            'content_title' => 'string|max:191|min:2',
+            'content_title' => 'string|max:500|min:2',
             'pageSize' => 'numeric|gt:0',
             'order' => [
                 'string',
