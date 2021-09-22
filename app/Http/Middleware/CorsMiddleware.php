@@ -43,10 +43,19 @@ class CorsMiddleware
 
     private function fetchUserFromDB($request)
     {
-        $header = explode(" ", $request->header('Authorization'));
-        $tokenParts = explode(".", $header[1]);
-        $tokenPayload = base64_decode($tokenParts[1]);
-        $jwtPayload = json_decode($tokenPayload);
-        return User::where('idp_user_id', $jwtPayload->sub)->first();
+        $token = $request->header('Authorization');
+        if ($token) {
+            $header = explode(" ", $token);
+            if (sizeof($header) > 1) {
+                $tokenParts = explode(".", $header[1]);
+                if (sizeof($tokenParts) == 3) {
+                    $tokenPayload = base64_decode($tokenParts[1]);
+                    $jwtPayload = json_decode($tokenPayload);
+                }
+            }
+        }
+        return User::where('idp_user_id', $jwtPayload->sub ?? null)
+            ->whereNotNull('idp_user_id')
+            ->first();
     }
 }
