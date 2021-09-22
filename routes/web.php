@@ -13,6 +13,15 @@ $customRouter = function (string $as = '') use ($router) {
     return $custom->as($as);
 };
 
+$router->get('/jwt',function (Request $request){
+
+    $header= explode(" ",$request->header('Authorization'));
+    $tokenParts = explode(".",$header[1]);
+    $tokenPayload = base64_decode($tokenParts[1]);
+    $jwtPayload = json_decode($tokenPayload);
+    return $jwtPayload->sub;
+});
+
 $router->get('/hello', 'ExampleController@hateoasResponse');
 
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {

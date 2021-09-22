@@ -57,6 +57,7 @@ class UserService
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
             "users.email",
+            "users.mobile",
             "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
@@ -176,6 +177,7 @@ class UserService
             'roles.title_en as role_title_en',
             'roles.title_bn as role_title_bn',
             "users.email",
+            "users.mobile",
             "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
             'loc_divisions.title_bn as loc_divisions_title_bn',
@@ -327,7 +329,7 @@ class UserService
      * @param array $data
      * @return User
      */
-    public function createRegisterUser(User $user, array $data)
+    public function createRegisterUser(User $user, array $data):User
     {
         $data['password'] = Hash::make($data['password']);
 
@@ -488,9 +490,9 @@ class UserService
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
-            ],
-
+            ]
         ];
+
         return Validator::make($request->all(), $rules);
     }
 

@@ -250,7 +250,7 @@ class PermissionService
             'name' => 'required|min:2',
             'method' => 'required|numeric',
             'module' => 'required|string',
-            'uri' => 'required|min:2|unique:permissions,uri,' . $id,
+            'uri' => 'required|unique_with:permissions,method,'.$id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
