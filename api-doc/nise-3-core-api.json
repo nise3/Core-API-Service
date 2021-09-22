@@ -4766,6 +4766,50 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/sliderId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Slider"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "institute_id": 1,
+                                        "title": "abc",
+                                        "sub_title": "abc",
+                                        "is_button_available": 1,
+                                        "link": "akjskjasjlksj",
+                                        "button_text": "bbbbbb",
+                                        "slider": "aaaaaaaaaaaa",
+                                        "row_status": 1,
+                                        "created_at": "2021-09-02T09:12:54.000000Z",
+                                        "updated_at": "2021-09-02T09:13:55.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Slider"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Api endpoint to update the specified  slider",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/sliderId"
                     },
                     {
                         "$ref": "#/components/parameters/institute_id"
@@ -4830,59 +4874,6 @@
                                         "format": "binary"
                                     }
                                 }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Slider"
-                                },
-                                "example": {
-                                    "data": {
-                                        "id": 1,
-                                        "institute_id": 1,
-                                        "title": "abc",
-                                        "sub_title": "abc",
-                                        "is_button_available": 1,
-                                        "link": "akjskjasjlksj",
-                                        "button_text": "bbbbbb",
-                                        "slider": "aaaaaaaaaaaa",
-                                        "row_status": 1,
-                                        "created_at": "2021-09-02T09:12:54.000000Z",
-                                        "updated_at": "2021-09-02T09:13:55.000000Z"
-                                    },
-                                    "_response_status": {
-                                        "success": true,
-                                        "code": 200,
-                                        "query_time": 0
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Slider"
-                ]
-            },
-            "put": {
-                "summary": "update",
-                "description": "Api endpoint to update the specified  slider",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/sliderId"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Slider"
                             }
                         }
                     }
