@@ -207,6 +207,7 @@ class SliderService
             ],
             'slider' => [
                 'image',
+                'required',
                 'max:512',
                 'dimensions:max_width=1920,max_height=1080',
             ],

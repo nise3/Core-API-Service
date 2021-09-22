@@ -34,6 +34,7 @@ class VideoController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
+
         $filter = $this->videoService->filterValidator($request)->validate();
 
         try {
@@ -69,6 +70,7 @@ class VideoController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+
         $validated = $this->videoService->validator($request)->validate();
         try {
             $video = $this->videoService->store($validated);
@@ -97,7 +99,7 @@ class VideoController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $video= Video::findOrFail($id);
+        $video = Video::findOrFail($id);
         $validated = $this->videoService->validator($request, $id)->validate();
         try {
             $videoCategory = $this->videoService->update($video, $validated);

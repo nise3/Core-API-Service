@@ -35,6 +35,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('video-categories', 'VideoCategoryController')->render();
     $customRouter()->resourceRoute('videos', 'VideoController')->render();
     $customRouter()->resourceRoute('sliders', 'SliderController')->render();
+    $customRouter()->resourceRoute('static-pages', 'StaticPageController')->render();
     $customRouter()->resourceRoute('menus', 'MenuController')->render();
     $customRouter()->resourceRoute('menu-items', 'MenuItemController')->render();
 

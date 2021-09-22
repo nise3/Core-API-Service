@@ -197,6 +197,7 @@ class VideoService
      */
     public function validator($request, $id = null): \Illuminate\Contracts\Validation\Validator
     {
+
         $customMessage = [
             'row_status.in' => [
                 'code' => 30000,
@@ -256,6 +257,7 @@ class VideoService
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ]
         ];
+
 
         return Validator::make($request->all(), $rules, $customMessage);
     }
