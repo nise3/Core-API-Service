@@ -28,13 +28,13 @@ class PermissionSubGroupService
     public function getAllPermissionSubGroups(array $request, Carbon $startTime): array
     {
 
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
-        $permissionGroupId = array_key_exists('permission_group_id', $request) ? $request['permission_group_id'] : "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
+        $permissionGroupId = $request['permission_group_id'] ?? "";
 
 
         /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */

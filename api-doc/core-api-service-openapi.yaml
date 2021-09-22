@@ -801,6 +801,8 @@ paths:
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
         - $ref: '#/components/parameters/title_bn_optional'
+        - $ref: '#/components/parameters/organization_id_optional'
+        - $ref: '#/components/parameters/institute_id_optional'
       responses:
         '200':
           description: Successful
@@ -1054,6 +1056,9 @@ paths:
         - $ref: '#/components/parameters/name_en_optional'
         - $ref: '#/components/parameters/name_bn_optional'
         - $ref: '#/components/parameters/email_optional'
+        - $ref: '#/components/parameters/organization_id_optional'
+        - $ref: '#/components/parameters/institute_id_optional'
+        - $ref: '#/components/parameters/user_type_optional'
       responses:
         '200':
           description: Successful
@@ -2260,7 +2265,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GalleryCategory'
-              example: { }
+              example: {}
       tags:
         - GalleryCategory
     delete:
@@ -2393,7 +2398,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Gallery'
-              example: { }
+              example: {}
       tags:
         - Gallery
     put:
@@ -3101,7 +3106,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StaticPage'
-              example: { }
+              example: {}
       tags:
         - StaticPage
     put:
@@ -3303,7 +3308,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Menu'
-              example: { }
+              example: {}
       tags:
         - MenuItem
     post:
@@ -3950,9 +3955,15 @@ components:
       name: organization_id
       in: query
       required: false
-      style: form
       schema:
         type: integer
+    organization_id_optional:
+      name: organization_id
+      in: query
+      required: false
+      schema:
+        type: integer
+        example: 1
     institute_id:
       name: institute_id
       in: query
@@ -3967,6 +3978,7 @@ components:
       style: form
       schema:
         type: integer
+        example: 1
     loc_upazila_id:
       name: loc_upazila_id
       in: query
@@ -4027,6 +4039,12 @@ components:
       in: query
       name: user_type
       required: true
+      schema:
+        type: integer
+    user_type_optional:
+      in: query
+      name: user_type
+      required: false
       schema:
         type: integer
     mobile:

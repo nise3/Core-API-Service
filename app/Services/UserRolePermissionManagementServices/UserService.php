@@ -6,7 +6,9 @@ use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\Common\HttpClient;
 use Carbon\Carbon;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +24,7 @@ class UserService
 {
     /*const ROUTE_PREFIX = 'api.v1.users.';*/
 
+
     /**
      * @param array $request
      * @param Carbon $startTime
@@ -29,16 +32,16 @@ class UserService
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $nameEn = array_key_exists('name_en', $request) ? $request['name_en'] : "";
-        $nameBn = array_key_exists('name_bn', $request) ? $request['name_bn'] : "";
-        $email = array_key_exists('email', $request) ? $request['email'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
-        $organizationId = array_key_exists('organization_id', $request) ? $request['organization_id'] : "";
-        $instituteId = array_key_exists('institute_id', $request) ? $request['institute_id'] : "";
-        $userType = array_key_exists('user_type', $request) ? $request['user_type'] : "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $nameEn = $request['name_en'] ?? "";
+        $nameBn = $request['name_bn'] ?? "";
+        $email = $request['email'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
+        $organizationId = $request['organization_id'] ?? "";
+        $instituteId = $request['institute_id'] ?? "";
+        $userType = $request['user_type'] ?? "";
 
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
@@ -546,7 +549,8 @@ class UserService
     }
 
     /**
-     * @param array $data
+     * @param array $postField
+     * @return PromiseInterface|\Illuminate\Http\Client\Response
      */
     public function idpUserCreate(array $postField)
     {
