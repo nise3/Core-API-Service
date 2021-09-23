@@ -14,6 +14,7 @@ use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class UserService
     public function getAllUsers(array $request, Carbon $startTime): array
     {
         $authUser = AuthUser::getUser();
-
+        Log::info('UserInfo'.json_encode($authUser));
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -158,7 +159,6 @@ class UserService
         } else {
             $response['data'] = [];
         }
-
 
         $response['_response_status'] = [
             "success" => true,
@@ -398,9 +398,11 @@ class UserService
                 unlink($user->profile_pic);
             }
             $directory = "user-avatar";
-            $data['profile_pic'] = FileHandler::storeFile($data['profile_pic'], $directory);
+            $data['profile_pic'] = url().Storage::url(FileHandler::storeFile($data['profile_pic'], $directory));
         }
-        $data['password'] = Hash::make($data['password']);
+        if(!empty( $data['password'])){
+            $data['password'] = Hash::make($data['password']);
+        }
         $user->fill($data);
         $user->save($data);
         return $user;

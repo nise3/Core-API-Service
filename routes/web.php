@@ -15,12 +15,17 @@ $customRouter = function (string $as = '') use ($router) {
 
 $router->get('/hello', 'ExampleController@hateoasResponse');
 
+
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
 
     $router->get('/', ['uses' => 'ApiInfoController@apiInfo']);
 
     $router->post('auth/login', 'Auth\AuthController@login');
     $router->post('auth/register', 'Auth\AuthController@register');
+
+    $router->get('url',function (){
+        echo url();
+    });
 
     $customRouter()->resourceRoute('divisions', 'LocDivisionController')->render();
     $customRouter()->resourceRoute('districts', 'LocDistrictController')->render();

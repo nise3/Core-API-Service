@@ -44,6 +44,7 @@ class CorsMiddleware
     private function fetchUserFromDB($request)
     {
         $token = $request->header('Token');
+        Log::info("header: ".json_encode($request->header()));
         if ($token) {
             $header = explode(" ", $token);
             if (sizeof($header) > 1) {
@@ -51,6 +52,7 @@ class CorsMiddleware
                 if (sizeof($tokenParts) == 3) {
                     $tokenPayload = base64_decode($tokenParts[1]);
                     $jwtPayload = json_decode($tokenPayload);
+                    Log::info($jwtPayload);
                 }
             }
         }
