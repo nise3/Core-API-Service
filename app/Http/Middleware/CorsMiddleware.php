@@ -43,7 +43,7 @@ class CorsMiddleware
 
     private function fetchUserFromDB($request)
     {
-        $token = $request->header('Authorization');
+        $token = $request->header('Token');
         if ($token) {
             $header = explode(" ", $token);
             if (sizeof($header) > 1) {
