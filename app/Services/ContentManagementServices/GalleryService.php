@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -150,19 +151,13 @@ class GalleryService
             $data['you_tube_video_id'] = $matches[1];
         } elseif (!empty($data['content_path'])) {
             if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
-                $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
-                if ($filename) {
-                    $filename = 'videos/gallery/' . $filename;
-                }
+                $filename = Storage::url(FileHandler::storeFile($data['content_path'], 'videos/gallery'));
             } else {
-                $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
-                if ($filename) {
-                    $filename = 'images/gallery/' . $filename;
-                }
+                $filename = Storage::url(FileHandler::storeFile($data['content_path'], 'images/gallery'));
             }
         }
         if (!$filename) {
-            $data['content_path'] = '';
+            $data['content_path'] = null;
         } else {
             $data['content_path'] = $filename;
         }
@@ -192,14 +187,14 @@ class GalleryService
                 FileHandler::deleteFile($gallery->content_path);
             }
             if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
-                $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
+                $filename = Storage::url(FileHandler::storeFile($data['content_path'], 'videos/gallery'));
                 if ($filename) {
-                    $data['content_path'] = 'videos/gallery/' . $filename;
+                    $data['content_path'] = $filename;
                 }
             } else {
-                $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
+                $filename = Storage::url(FileHandler::storeFile($data['content_path'], 'images/gallery'));
                 if ($filename) {
-                    $data['content_path'] = 'images/gallery/' . $filename;
+                    $data['content_path'] = $filename;
                 }
             }
         }
@@ -224,7 +219,6 @@ class GalleryService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-
         $customMessage = [
             'row_status.in' => [
                 'code' => 30000,

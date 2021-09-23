@@ -58,7 +58,8 @@ class GalleryCategoryService
 
         if (!empty($titleEn)) {
             $galleryCategoryBuilder->where('gallery_categories.title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
+        }
+        if (!empty($titleBn)) {
             $galleryCategoryBuilder->where('gallery_categories.title_bn', 'like', '%' . $titleBn . '%');
         }
 

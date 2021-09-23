@@ -9,10 +9,12 @@ use App\Models\User;
 use App\Services\Common\HttpClient;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +22,9 @@ use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 
+/**
+ *
+ */
 class UserService
 {
     /**
@@ -132,6 +137,7 @@ class UserService
             $usersBuilder->where('users.user_type', $userType);
         }
 
+        /** Collection $users */
         if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $users = $usersBuilder->paginate($pageSize);
@@ -214,6 +220,7 @@ class UserService
                 ->whereNull('loc_upazilas.deleted_at');
         });
 
+        /** @var User $user */
         $user = $userBuilder->where('users.id', $id)->first();
 
         return [
@@ -226,6 +233,9 @@ class UserService
         ];
     }
 
+    /**
+     * @throws RequestException
+     */
     public function getUserPermission(string $id): array
     {
         $user = User::where('idp_user_id', $id)->first();
@@ -240,19 +250,25 @@ class UserService
         $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
 
         if ($user->user_type == BaseModel::ORGANIZATION_USER && !is_null($user->organization_id)) {
+
             $url = BaseModel::ORGANIZATION_FETCH_ENDPOINT_LOCAL . 'organizations/' . $user->organization_id;
+
             if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
                 $url = BaseModel::ORGANIZATION_FETCH_ENDPOINT_REMOTE . 'organizations/' . $user->organization_id;
             }
             $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
                 return $exception;
             })->json();
+
             $organization = $responseData['data'] ?? [];
         } else if ($user->user_type == BaseModel::INSTITUTE_USER && !is_null($user->institute_id)) {
+
             $url = BaseModel::INSTITUTE_FETCH_ENDPOINT_LOCAL . 'institutes/' . $user->institute_id;
+
             if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
                 $url = BaseModel::INSTITUTE_FETCH_ENDPOINT_REMOTE . 'institutes/' . $user->institute_id;
             }
+
             $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
                 return $exception;
             })->json();
@@ -317,7 +333,9 @@ class UserService
     public function store(User $user, array $data): User
     {
         $data['password'] = Hash::make($data['password']);
-        return $user->create($data);
+        $user->fill($data);
+        $user->save();
+        return $user;
     }
 
 
@@ -405,6 +423,11 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param User $user
+     * @param array $permissionIds
+     * @return User
+     */
     public function assignPermission(User $user, array $permissionIds): User
     {
         $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
@@ -493,6 +516,10 @@ class UserService
         return Validator::make($request->all(), $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function roleIdValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
@@ -501,6 +528,10 @@ class UserService
         return Validator::make($request->all(), $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
@@ -511,6 +542,10 @@ class UserService
         return Validator::make($data, $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         if (!empty($request['order'])) {

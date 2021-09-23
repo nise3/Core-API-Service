@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +50,8 @@ class SliderService
 
         if (!empty($title)) {
             $sliderBuilder->where('sliders.title', 'like', '%' . $title . '%');
-        } elseif (!empty($subTitle)) {
+        }
+        if (!empty($subTitle)) {
             $sliderBuilder->where('sliders.sub_title', 'like', '%' . $subTitle . '%');
         }
 
@@ -119,8 +121,8 @@ class SliderService
     public function store(array $data): Slider
     {
         if (!empty($data['slider'])) {
-            $filename = FileHandler::storeFile($data['slider'], 'images/slider');
-            $data['slider'] = 'images/slider/' . $filename;
+            $filename = Storage::url(FileHandler::storeFile($data['slider'], 'images/slider'));
+            $data['slider'] = $filename;
         }
         $slider = new Slider();
         $slider->fill($data);
@@ -140,8 +142,8 @@ class SliderService
                 FileHandler::deleteFile($slider->slider);
             }
 
-            $filename = FileHandler::storeFile($data['slider'], 'images/slider');
-            $data['slider'] = 'images/slider/' . $filename;
+            $filename = Storage::url(FileHandler::storeFile($data['slider'], 'images/slider'));
+            $data['slider'] = $filename;
         }
         $slider->fill($data);
         $slider->save();

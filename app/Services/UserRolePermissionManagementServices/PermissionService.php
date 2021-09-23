@@ -31,7 +31,7 @@ class PermissionService
     {
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
-        $searchFilter = $request['name'] ?? "";
+        $name = $request['name'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $uri = $request['uri'] ?? "";
         $order = $request['order'] ?? "ASC";
@@ -50,8 +50,8 @@ class PermissionService
 
         $permissionBuilder->orderBy('id', $order);
 
-        if (!empty($searchFilter)) {
-            $permissionBuilder->where('name', 'like', '%' . $searchFilter . '%');
+        if (!empty($name)) {
+            $permissionBuilder->where('name', 'like', '%' . $name . '%');
         }
 
         if (!empty($uri)) {
@@ -62,9 +62,10 @@ class PermissionService
             $permissionBuilder->where('permissions.row_status', $rowStatus);
         }
 
+        /** @var Collection|Permission $permissions */
+
         if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
-            /** @var Collection|Permission $permissions */
             $permissions = $permissionBuilder->paginate($pageSize);
             $paginateData = (object)$permissions->toArray();
             $response['current_page'] = $paginateData->current_page;
@@ -109,9 +110,9 @@ class PermissionService
             'permissions.updated_at'
         ]);
 
-        if (!empty($id)) {
-            $permissionBuilder->where('id', $id);
-        }
+
+        $permissionBuilder->where('id', $id);
+
 
         $permission = $permissionBuilder->first();
         return [
@@ -132,7 +133,9 @@ class PermissionService
      */
     public function store(array $data, Permission $permission): Permission
     {
-        return $permission->create($data);
+        $permission->fill($data);
+        $permission->save($data);
+        return $permission;
     }
 
     /**

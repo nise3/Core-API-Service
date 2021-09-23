@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PermissionGroupService
 {
-    const ROUTE_PREFIX = 'api.v1.permission-groups.';
 
     /**
      * @param array $request
@@ -86,6 +85,7 @@ class PermissionGroupService
     }
 
     /**
+     * @param Request $request
      * @param int $id
      * @param Carbon $startTime
      * @return array
@@ -106,9 +106,8 @@ class PermissionGroupService
             "permission_groups.updated_at"
         ]);
 
-        if (!empty($id)) {
-            $permissionGroupBuilder->where('id', $id);
-        }
+        $permissionGroupBuilder->where('id', $id);
+
 
         if ($permissionSubGroup == 1) {
             $permissionGroupBuilder->with('permissionSubGroup');
@@ -139,7 +138,9 @@ class PermissionGroupService
      */
     public function store(array $data, PermissionGroup $permissionGroup): PermissionGroup
     {
-        return $permissionGroup->create($data);
+        $permissionGroup->fill($data);
+        $permissionGroup->save();
+        return $permissionGroup;
     }
 
     /**

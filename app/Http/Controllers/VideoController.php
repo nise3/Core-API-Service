@@ -101,6 +101,7 @@ class VideoController extends Controller
     {
         $video = Video::findOrFail($id);
         $validated = $this->videoService->validator($request, $id)->validate();
+
         try {
             $videoCategory = $this->videoService->update($video, $validated);
             $response = [

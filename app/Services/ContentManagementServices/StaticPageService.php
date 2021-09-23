@@ -49,7 +49,8 @@ class StaticPageService
 
         if (!empty($titleEn)) {
             $staticPageBuilder->where('static_pages.title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
+        }
+        if (!empty($titleBn)) {
             $staticPageBuilder->where('static_pages.title_bn', 'like', '%' . $titleBn . '%');
         }
 
