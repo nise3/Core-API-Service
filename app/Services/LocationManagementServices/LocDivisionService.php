@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Models\LocDivision;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -48,14 +49,16 @@ class LocDivisionService
         }
         if (!empty($titleEn)) {
             $divisionsBuilder->where('title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
+        }
+        if (!empty($titleBn)) {
             $divisionsBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
         }
 
-        $divisionsBuilder = $divisionsBuilder->get();
+        /** @var Collection $divisions */
+        $divisions = $divisionsBuilder->get();
 
         $response['order'] = $order;
-        $response['data'] = $divisionsBuilder->toArray()['data'] ?? $divisionsBuilder->toArray();
+        $response['data'] = $divisions->toArray()['data'] ?? $divisions->toArray();
         $response['_response_status'] = [
             "success" => true,
             "code" => Response::HTTP_OK,
@@ -86,7 +89,7 @@ class LocDivisionService
         ]);
         $divisionsBuilder->where('id', $id);
 
-        /** @var  $divisions */
+        /** @var  LocDivision $divisions */
         $divisions = $divisionsBuilder->first();
 
         return [
@@ -170,8 +173,8 @@ class LocDivisionService
             ]
         ];
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|max:191|min:1',
-            'title_bn' => 'nullable|max:500|min:1',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:500|min:2',
             'order' => [
                 'string',
                 Rule::in([(BaseModel::ROW_ORDER_ASC), (BaseModel::ROW_ORDER_DESC)])
