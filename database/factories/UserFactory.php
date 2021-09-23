@@ -18,14 +18,15 @@ class UserFactory extends Factory
 
     public function definition(): array
     {
-        $this->faker->addProvider(new Internet( $this->faker));
+        $name=$this->faker->unique->name;
+        $userName=str_replace(" ","_",$name);
     	return [
-            'name_en' => $this->faker->name,
-            'name_bn' => $this->faker->name,
+            'name_en' => $name,
+            'name_bn' => $name,
             'email' => $this->faker->safeEmail(),
-            'username' => $this->faker->unique()->userName(),
+            'username' => $userName,
             'email_verified_at' => Carbon::now(),
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123456'),
     	];
     }
 }

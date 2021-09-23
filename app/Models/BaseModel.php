@@ -54,4 +54,8 @@ abstract class BaseModel extends Model
     public const INSTITUTE_FETCH_ENDPOINT_REMOTE='http://nise3-institute.default/api/v1/';
     public const ORGANIZATION_FETCH_ENDPOINT_LOCAL='http://localhost:8002/api/v1/';
     public const ORGANIZATION_FETCH_ENDPOINT_REMOTE='http://nise3-org-management.default/api/v1/';
+
+
+    /** User Avatar Base Path */
+    public const USER_AVATAR_BASE_URL="api/v1/";
 }

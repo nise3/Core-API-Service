@@ -2,6 +2,7 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
+use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\Role;
@@ -329,7 +330,7 @@ class UserService
      * @param array $data
      * @return User
      */
-    public function createRegisterUser(User $user, array $data):User
+    public function createRegisterUser(User $user, array $data): User
     {
         $data['password'] = Hash::make($data['password']);
 
@@ -381,6 +382,13 @@ class UserService
      */
     public function update(array $data, User $user): User
     {
+        if (!empty($data['profile_pic'])) {
+            if (file_exists($user->profile_pic)) {
+                unlink($user->profile_pic);
+            }
+            $directory = "user-avatar";
+            $data['profile_pic'] = FileHandler::storeFile($data['profile_pic'], $directory);
+        }
         $data['password'] = Hash::make($data['password']);
         $user->fill($data);
         $user->save($data);
@@ -481,7 +489,8 @@ class UserService
             "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => [
-                'required_if:' . $id . ',==,null|confirmed|min:6'
+                'required_if:' . $id . ',==,null',
+                'string'
             ],
             "profile_pic" => 'nullable|string',
             "created_by" => "nullable|numeric",
@@ -491,6 +500,53 @@ class UserService
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ]
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
+    /**
+     * @param Request $request
+     * @param int|null $id
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function profileUpdatedvalidator(Request $request, User $user): \Illuminate\Contracts\Validation\Validator
+    {
+        $rules = [
+            "name_en" => 'required|min:3|max:255',
+            "name_bn" => 'required|min:3|max:500',
+            "mobile" => [
+                'nullable',
+                'regex: /^(?:\+88|88)?(01[3-9]\d{8})$/'
+            ],
+            "current_password" => [
+                'required_with:password',
+                function ($attribute, $value, $fail) use ($user) {
+                    if (!Hash::check($value, $user->password)) {
+                        $fail([
+                            [
+                                "code" => 46001,
+                                "message" => 'Your password was not updated, since the provided current password does not match.'
+                            ]
+                        ]);
+                    }
+                }
+
+            ],
+            "password" => [
+                'required_with:password_confirmation',
+                'string',
+                'different:current_password',
+                'confirmed'
+            ],
+            "password_confirmation" => 'required_with:password',
+            "profile_pic" => [
+                'nullable',
+                'image',
+                'mimes:jpg,bmp,png,jpeg,svg',
+            ],
+            "created_by" => "nullable|numeric",
+            "updated_by" => "nullable|numeric",
         ];
 
         return Validator::make($request->all(), $rules);
