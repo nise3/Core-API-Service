@@ -13,14 +13,20 @@ class CreateStaticPagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('static_pages', function (Blueprint $table) {
+        Schema::create('static_pages_and_block', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('institute_id');
-            $table->string('page_id', 191)->index('static_page_i_page_id');
+            $table->tinyInteger('type')->comment("1=>Block, 2=>Static Page");
+            $table->unsignedInteger('institute_id')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
+            $table->string('page_id', 191);
             $table->string('title_en', 191);
-            $table->string('title_bn', 191);
-            $table->text('page_contents');
+            $table->string('title_bn', 500);
+            $table->text('page_contents')->nullable();
+            $table->tinyInteger('content_type')->comment("1=>Image,2=>Video,3=>Youtube");
+            $table->string('content_path')->nullable();
+            $table->string('content_properties')->nullable();
             $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->tinyInteger('row_status')->default(1);
             $table->timestamps();
             $table->softDeletes();

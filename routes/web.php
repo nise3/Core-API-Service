@@ -13,16 +13,8 @@ $customRouter = function (string $as = '') use ($router) {
     return $custom->as($as);
 };
 
-$router->get('/jwt',function (Request $request){
-
-    $header= explode(" ",$request->header('Authorization'));
-    $tokenParts = explode(".",$header[1]);
-    $tokenPayload = base64_decode($tokenParts[1]);
-    $jwtPayload = json_decode($tokenPayload);
-    return $jwtPayload->sub;
-});
-
 $router->get('/hello', 'ExampleController@hateoasResponse');
+
 
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
 
@@ -30,6 +22,10 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
     $router->post('auth/login', 'Auth\AuthController@login');
     $router->post('auth/register', 'Auth\AuthController@register');
+
+    $router->get('url',function (){
+        echo url();
+    });
 
     $customRouter()->resourceRoute('divisions', 'LocDivisionController')->render();
     $customRouter()->resourceRoute('districts', 'LocDistrictController')->render();
@@ -57,6 +53,8 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
     $router->get('users/{id}/permissions', ['as' => 'users.permissions', 'uses' => 'UserController@getUserPermissionList']);
 
+    $router->post('users/{id}/profile-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updateProfile']);
+
     /* assign permission to organizations*/
     $router->post('permissions/{organization_id}/assign-permissions-to-organization', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
 
@@ -77,6 +75,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
     /** Register User */
     $router->post('register-users', ['as' => 'users.register-users', 'uses' => 'UserController@registerUser']);
+
 
 
 });

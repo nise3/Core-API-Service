@@ -96,7 +96,6 @@ class UserController extends Controller
             } else {
                 DB::rollBack();
                 $response = [
-                    'data' => $user ?: [],
                     '_response_status' => [
                         "success" => false,
                         "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
@@ -139,6 +138,28 @@ class UserController extends Controller
             return $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
+    }
+
+    public function updateProfile(Request $request, int $id)
+    {
+        $user = User::findOrFail($id);
+        $validated = $this->userService->profileUpdatedvalidator($request, $user)->validate();
+        try {
+            $user = $this->userService->update($validated, $user);
+            $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "User updated successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+        } catch (\Throwable $e) {
+            return $e;
+        }
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
+
     }
 
     /**

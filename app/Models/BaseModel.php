@@ -34,14 +34,16 @@ abstract class BaseModel extends Model
     public const IDP_USER_CREATE_ENDPOINT = 'https://identity.bus.softbd.xyz/scim2/Users';
 
 
-
     /**User Type*/
     public const SYSTEM_USER = 1;
-    public const ORGANIZATION_USER =2;
+    public const ORGANIZATION_USER = 2;
     public const INSTITUTE_USER = 3;
 
+    /**User Types*/
+    public const USER_TYPES = [self::SYSTEM_USER, self::ORGANIZATION_USER, self::INSTITUTE_USER];
+
     /** System Admin Role Key */
-    public const SYSTEM_USER_ROLE_KEY='system_user';
+    public const SYSTEM_USER_ROLE_KEY = 'system_user';
 
     public const USER_TYPE = [
         self::SYSTEM_USER => 'system',
@@ -50,8 +52,11 @@ abstract class BaseModel extends Model
     ];
 
     /**get institute and organization api url*/
-    public const INSTITUTE_FETCH_ENDPOINT_LOCAL='http://localhost:8001/api/v1/';
-    public const INSTITUTE_FETCH_ENDPOINT_REMOTE='http://nise3-institute.default/api/v1/';
-    public const ORGANIZATION_FETCH_ENDPOINT_LOCAL='http://localhost:8002/api/v1/';
-    public const ORGANIZATION_FETCH_ENDPOINT_REMOTE='http://nise3-org-management.default/api/v1/';
+    public const INSTITUTE_FETCH_ENDPOINT_LOCAL = 'http://localhost:8001/api/v1/';
+    public const INSTITUTE_FETCH_ENDPOINT_REMOTE = 'http://nise3-institute.default/api/v1/';
+    public const ORGANIZATION_FETCH_ENDPOINT_LOCAL = 'http://localhost:8002/api/v1/';
+    public const ORGANIZATION_FETCH_ENDPOINT_REMOTE = 'http://nise3-org-management.default/api/v1/';
+
+    /** User Avatar Base Path */
+    public const USER_AVATAR_BASE_URL="api/v1/";
 }

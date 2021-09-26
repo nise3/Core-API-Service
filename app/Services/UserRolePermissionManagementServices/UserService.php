@@ -2,6 +2,8 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
+use App\Facade\AuthUser;
+use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\Role;
@@ -12,6 +14,7 @@ use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -32,6 +35,8 @@ class UserService
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
+        $authUser = AuthUser::getUser();
+        Log::info('UserInfo'.json_encode($authUser));
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -39,9 +44,9 @@ class UserService
         $email = $request['email'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
-        $organizationId = $request['organization_id'] ?? "";
-        $instituteId = $request['institute_id'] ?? "";
-        $userType = $request['user_type'] ?? "";
+        $organizationId = $authUser->organization_id ?? "";
+        $instituteId = $authUser->institute_id ?? "";
+        $userType = $authUser->user_type ?? "";
 
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
@@ -131,23 +136,30 @@ class UserService
         if (is_numeric($instituteId)) {
             $usersBuilder->where('users.institute_id', $instituteId);
         }
-        if (is_numeric($userType)) {
+        if (is_numeric($userType) && in_array($userType, [BaseModel::USER_TYPES])) {
             $usersBuilder->where('users.user_type', $userType);
         }
 
-        if (is_numeric($paginate) || is_numeric($pageSize)) {
-            $pageSize = $pageSize ?: 10;
-            $users = $usersBuilder->paginate($pageSize);
-            $paginateData = (object)$users->toArray();
-            $response['current_page'] = $paginateData->current_page;
-            $response['total_page'] = $paginateData->last_page;
-            $response['page_size'] = $paginateData->per_page;
-            $response['total'] = $paginateData->total;
-        } else {
-            $users = $usersBuilder->get();
-        }
         $response['order'] = $order;
-        $response['data'] = $users->toArray()['data'] ?? $users->toArray();
+
+        if ($authUser) {
+            if (is_numeric($paginate) || is_numeric($pageSize)) {
+                $pageSize = $pageSize ?: 10;
+                $users = $usersBuilder->paginate($pageSize);
+                $paginateData = (object)$users->toArray();
+                $response['data'] = $users->toArray()['data'] ?? [];
+                $response['current_page'] = $paginateData->current_page;
+                $response['total_page'] = $paginateData->last_page;
+                $response['page_size'] = $paginateData->per_page;
+                $response['total'] = $paginateData->total;
+            } else {
+                $users = $usersBuilder->get();
+                $response['data'] = $users->toArray() ?? [];
+            }
+        } else {
+            $response['data'] = [];
+        }
+
         $response['_response_status'] = [
             "success" => true,
             "code" => Response::HTTP_OK,
@@ -329,7 +341,7 @@ class UserService
      * @param array $data
      * @return User
      */
-    public function createRegisterUser(User $user, array $data):User
+    public function createRegisterUser(User $user, array $data): User
     {
         $data['password'] = Hash::make($data['password']);
 
@@ -381,7 +393,16 @@ class UserService
      */
     public function update(array $data, User $user): User
     {
-        $data['password'] = Hash::make($data['password']);
+        if (!empty($data['profile_pic'])) {
+            if (file_exists($user->profile_pic)) {
+                unlink($user->profile_pic);
+            }
+            $directory = "user-avatar";
+            $data['profile_pic'] = url().Storage::url(FileHandler::storeFile($data['profile_pic'], $directory));
+        }
+        if(!empty( $data['password'])){
+            $data['password'] = Hash::make($data['password']);
+        }
         $user->fill($data);
         $user->save($data);
         return $user;
@@ -481,7 +502,8 @@ class UserService
             "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => [
-                'required_if:' . $id . ',==,null|confirmed|min:6'
+                'required_if:' . $id . ',==,null',
+                'string'
             ],
             "profile_pic" => 'nullable|string',
             "created_by" => "nullable|numeric",
@@ -491,6 +513,53 @@ class UserService
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ]
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
+    /**
+     * @param Request $request
+     * @param int|null $id
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function profileUpdatedvalidator(Request $request, User $user): \Illuminate\Contracts\Validation\Validator
+    {
+        $rules = [
+            "name_en" => 'required|min:3|max:255',
+            "name_bn" => 'required|min:3|max:500',
+            "mobile" => [
+                'nullable',
+                'regex: /^(?:\+88|88)?(01[3-9]\d{8})$/'
+            ],
+            "current_password" => [
+                'required_with:password',
+                function ($attribute, $value, $fail) use ($user) {
+                    if (!Hash::check($value, $user->password)) {
+                        $fail([
+                            [
+                                "code" => 46001,
+                                "message" => 'Your password was not updated, since the provided current password does not match.'
+                            ]
+                        ]);
+                    }
+                }
+
+            ],
+            "password" => [
+                'required_with:password_confirmation',
+                'string',
+                'different:current_password',
+                'confirmed'
+            ],
+            "password_confirmation" => 'required_with:password',
+            "profile_pic" => [
+                'nullable',
+                'image',
+                'mimes:jpg,bmp,png,jpeg,svg',
+            ],
+            "created_by" => "nullable|numeric",
+            "updated_by" => "nullable|numeric",
         ];
 
         return Validator::make($request->all(), $rules);
