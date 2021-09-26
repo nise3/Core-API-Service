@@ -4,8 +4,6 @@
 namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\BaseModel;
-use App\Models\Permission;
-use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PermissionSubGroupService
 {
-    /*const ROUTE_PREFIX = 'api.v1.permission-sub-groups.';*/
 
     /**
      * @param array $request
@@ -191,9 +188,9 @@ class PermissionSubGroupService
         ];
         $rules = [
             'permission_group_id' => 'required|numeric|exists:permission_groups,id',
-            'title_en' => 'required|min:2',
-            'title_bn' => 'required|min:2',
-            "key" => 'required|min:2|unique:permission_sub_groups,key,' . $id,
+            'title_en' => 'required|string|max:191||min:2',
+            'title_bn' => 'required|string|max:300|min:2',
+            "key" => 'required|string|max:191|min:2|unique:permission_sub_groups,key,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -232,11 +229,11 @@ class PermissionSubGroupService
             ]
         ];
         return Validator::make($request->all(), [
-            'page' => 'numeric',
-            'page_size' => 'numeric',
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
-            'permission_group_id' => 'nullable|numeric',
+            'page' => 'numeric|gt:0',
+            'page_size' => 'numeric|gt:0',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:300|min:2',
+            'permission_group_id' => 'nullable|numeric|exists:permission_groups,id',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

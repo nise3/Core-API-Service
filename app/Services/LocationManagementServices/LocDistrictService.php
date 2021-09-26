@@ -7,7 +7,6 @@ use App\Models\LocDistrict;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,12 +20,11 @@ class LocDistrictService
      */
     public function getAllDistricts(array $request, Carbon $startTime): array
     {
-        /** TODO: Use Laravel Collection to manipulate the any array */
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $divisionId = array_key_exists('division_id', $request) ? $request['division_id'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $divisionId = $request['division_id'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var Builder $districtsBuilder */
         $districtsBuilder = LocDistrict::select([
@@ -168,10 +166,10 @@ class LocDistrictService
         ];
         return Validator::make($request->all(), [
             'loc_division_id' => 'required|numeric|exists:loc_divisions,id',
-            'title_en' => 'required|min:2',
-            'title_bn' => 'required|min:2',
-            'bbs_code' => 'nullable|min:1',
-            'division_bbs_code' => 'nullable|min:1|exists:loc_divisions,bbs_code',
+            'title_en' => 'required|string|max:191|min:2',
+            'title_bn' => 'required|string|max:500|min:2',
+            'bbs_code' => 'nullable|max:5|min:1',
+            'division_bbs_code' => 'nullable|min:1|max:4|exists:loc_divisions,bbs_code',
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -197,9 +195,9 @@ class LocDistrictService
         ];
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
-            'division_id' => 'numeric',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:500|min:2',
+            'division_id' => 'numeric|exists:loc_divisions,id',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

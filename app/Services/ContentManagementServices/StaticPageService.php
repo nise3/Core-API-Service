@@ -22,12 +22,12 @@ class StaticPageService
      */
     public function getAllStaticPages(array $request, Carbon $startTime): array
     {
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var Builder $staticPageBuilder */
         $staticPageBuilder = StaticPage::select([
@@ -48,9 +48,9 @@ class StaticPageService
         }
 
         if (!empty($titleEn)) {
-            $staticPageBuilder->where('static_pages.title', 'like', '%' . $titleEn . '%');
+            $staticPageBuilder->where('static_pages.title_en', 'like', '%' . $titleEn . '%');
         } elseif (!empty($titleBn)) {
-            $staticPageBuilder->where('static_pages.sub_title', 'like', '%' . $titleBn . '%');
+            $staticPageBuilder->where('static_pages.title_bn', 'like', '%' . $titleBn . '%');
         }
 
         /** @var Collection $staticPages */
@@ -163,15 +163,16 @@ class StaticPageService
             'title_en' => [
                 'required',
                 'string',
-                'max:191'
+                'max:191',
+                'min:2'
             ],
             'title_bn' => [
                 'required',
                 'string',
-                'max:191'
+                'max:500',
+                'min:2'
             ],
             'institute_id' => [
-                'bail',
                 'required',
                 'int',
             ],
@@ -183,8 +184,7 @@ class StaticPageService
             ],
             'page_contents' => [
                 'required',
-                'string',
-                'max:5000'
+                'string'
             ],
         ];
 
@@ -214,10 +214,10 @@ class StaticPageService
         }
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|string|min:1',
-            'title_bn' => 'nullable|string|min:1',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:500|min:2',
             'page' => 'numeric|gt:0',
-            'page_size' => 'numeric',
+            'page_size' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

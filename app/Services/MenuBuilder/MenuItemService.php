@@ -21,8 +21,8 @@ class MenuItemService
      */
     public function getAllMenuItems(array $request, Carbon $startTime): array
     {
-        $title = array_key_exists('title', $request) ? $request['title'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $title = $request['title'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
 
         /** @var Builder $menuItemBuilder */
@@ -44,8 +44,8 @@ class MenuItemService
             'menu_items.updated_at',
         ]);
 
-        $menuItemBuilder->leftJoin('menus', 'menu_items.menu_id', '=','menus.id');
-        $menuItemBuilder->leftJoin('menu_items as parent', 'menu_items.parent_id', '=','parent.id');
+        $menuItemBuilder->leftJoin('menus', 'menu_items.menu_id', '=', 'menus.id');
+        $menuItemBuilder->leftJoin('menu_items as parent', 'menu_items.parent_id', '=', 'parent.id');
         $menuItemBuilder->orderBy('menu_items.id', $order);
 
         if (!empty($title)) {
@@ -162,7 +162,7 @@ class MenuItemService
         }
 
         return Validator::make($request->all(), [
-            'title' => 'nullable|min:1',
+            'title' => 'nullable|max:191|min:2',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
@@ -178,16 +178,16 @@ class MenuItemService
     {
         $rules = [
             'menu_id' => 'nullable|int|exists:menus,id',
-            'title' => 'required_without:title_lang_key',
-            'title_lang_key' => 'required_without:title',
-            'permission_key' => 'nullable|string',
-            'url' => 'required_without:route|string',
-            'target' => 'nullable|string',
-            'icon_class' => 'required|string',
-            'color' => 'nullable|string',
+            'title' => 'required_without:title_lang_key|max:191|min:2',
+            'title_lang_key' => 'required_without:title|max:255|min:2',
+            'permission_key' => 'nullable|string|max:191',
+            'url' => 'required_without:route|string|max:191',
+            'target' => 'nullable|string|max:191',
+            'icon_class' => 'required|string|max:191',
+            'color' => 'nullable|string|max:191',
             'parent_id' => 'nullable|int|exists:menu_items,id',
             'order' => 'int' | 'required',
-            'route' => 'required_without:url|string',
+            'route' => 'required_without:url|string|max:191',
             'parameters' => 'nullable|string'
         ];
 

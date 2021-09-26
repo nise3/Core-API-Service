@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LocUpazilaService
 {
-    const ROUTE_PREFIX = 'api.v1.upazilas.';
 
     /**
      * @param array $request
@@ -26,12 +25,12 @@ class LocUpazilaService
     public function getAllUpazilas(array $request, Carbon $startTime): array
     {
 
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $districtId = array_key_exists('district_id', $request) ? $request['district_id'] : "";
-        $divisionId = array_key_exists('division_id', $request) ? $request['division_id'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $districtId = $request['district_id'] ?? "";
+        $divisionId = $request['division_id'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var LocUpazila|Builder $upazilasBuilder */
         $upazilasBuilder = LocUpazila::select([
@@ -188,6 +187,7 @@ class LocUpazilaService
 
     /**
      * @param Request $request
+     * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
@@ -203,9 +203,9 @@ class LocUpazilaService
             'loc_division_id' => 'required|numeric|exists:loc_divisions,id',
             'division_bbs_code' => 'nullable|min:1|exists:loc_divisions,bbs_code',
             'district_bbs_code' => 'nullable|min:1|exists:loc_districts,bbs_code',
-            'title_en' => 'required|min:2',
-            'title_bn' => 'required|min:2',
-            'bbs_code' => 'nullable|min:1',
+            'title_en' => 'required|string|max:191|min:2',
+            'title_bn' => 'required|string|max:500|min:2',
+            'bbs_code' => 'nullable|max:6|min:1',
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -229,10 +229,10 @@ class LocUpazilaService
             ]
         ];
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
-            'district_id' => 'numeric',
-            'division_id' => 'numeric',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|max:500|min:2',
+            'district_id' => 'numeric|exists:loc_districts,id',
+            'division_id' => 'numeric|exists:loc_divisions,id',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
