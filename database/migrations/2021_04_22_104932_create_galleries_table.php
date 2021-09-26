@@ -21,6 +21,9 @@ class CreateGalleriesTable extends Migration
             $table->unsignedTinyInteger('content_type')->comment('1 => Image, 2 => Video');
             $table->string('content_title', 191)->nullable();
             $table->string('content_path', 191);
+            $table->string('content_properties', 191)->nullable();
+            $table->string('alt_title_en')->nullable();
+            $table->string('alt_title_bn')->nullable();
             $table->unsignedInteger('institute_id')->nullable();
             $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedTinyInteger('is_youtube_video')->default(0);

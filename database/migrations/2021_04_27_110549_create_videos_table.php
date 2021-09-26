@@ -26,6 +26,8 @@ class CreateVideosTable extends Migration
             $table->string('youtube_video_url', 255)->nullable();
             $table->string('youtube_video_id', 20)->nullable();
             $table->string('uploaded_video_path', 191)->nullable();
+            $table->string("alt_title_en")->nullable();
+            $table->string("alt_title_bn")->nullable();
             $table->unsignedInteger("created_by")->nullable();
             $table->unsignedInteger("updated_by")->nullable();
             $table->unsignedTinyInteger('row_status')->default(1);
