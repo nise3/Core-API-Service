@@ -24,14 +24,13 @@ class FileHandler
         if (!$file) {
             return null;
         }
-        $fileName = $fileName ?: md5(time()) . '.' . $file->getClientOriginalExtension();
-        if ($dir) {
+        $fileName = $fileName ?: md5(time()) . '.' . strtolower($file->getClientOriginalExtension());
+        if ($dir){
             $dir=$dir."/".date('Y/F');
             if (file_exists($dir)) {
                 mkdir($dir, 0777);
             }
         }
-        //TODO: add image resizer to store thumbnails
         try {
             $path = Storage::putFileAs(
                 $dir, $file, $fileName

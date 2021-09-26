@@ -2212,42 +2212,6 @@
                                             {
                                                 "module": "divisions",
                                                 "name": "divisions-get_all"
-                                            },
-                                            {
-                                                "module": "divisions",
-                                                "name": "divisions-read"
-                                            },
-                                            {
-                                                "module": "divisions",
-                                                "name": "divisions-add"
-                                            },
-                                            {
-                                                "module": "divisions",
-                                                "name": "divisions-update"
-                                            },
-                                            {
-                                                "module": "divisions",
-                                                "name": "divisions-delete"
-                                            },
-                                            {
-                                                "module": "districts",
-                                                "name": "districts-get_all"
-                                            },
-                                            {
-                                                "module": "districts",
-                                                "name": "districts-read"
-                                            },
-                                            {
-                                                "module": "districts",
-                                                "name": "districts-add"
-                                            },
-                                            {
-                                                "module": "districts",
-                                                "name": "districts-update"
-                                            },
-                                            {
-                                                "module": "districts",
-                                                "name": "districts-delete"
                                             }
                                         ],
                                         "menu_items": [
@@ -2265,270 +2229,93 @@
                                                 "order": 1,
                                                 "route": null,
                                                 "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "divisions",
-                                                "title": "divisions-read",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "divisions-read",
-                                                "url": "api/v1/divisions/{id}",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 2,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "divisions",
-                                                "title": "divisions-add",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "divisions-add",
-                                                "url": "api/v1/divisions",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 3,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "divisions",
-                                                "title": "divisions-update",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "divisions-update",
-                                                "url": "api/v1/divisions/{id}",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 4,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "divisions",
-                                                "title": "divisions-delete",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "divisions-delete",
-                                                "url": "api/v1/divisions/{id}",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 5,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "divisions",
-                                                "title": "divisions-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/divisions",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 1,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "districts",
-                                                "title": "districts-get_all",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "districts-get_all",
-                                                "url": "api/v1/districts",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 1,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "districts",
-                                                "title": "districts-read",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "districts-read",
-                                                "url": "api/v1/districts/{id}",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 2,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "districts",
-                                                "title": "districts-add",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "districts-add",
-                                                "url": "api/v1/districts",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 3,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "districts",
-                                                "title": "districts-update",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "districts-update",
-                                                "url": "api/v1/districts/{id}",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 4,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "districts",
-                                                "title": "districts-delete",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": "districts-delete",
-                                                "url": "api/v1/districts/{id}",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 5,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "districts",
-                                                "title": "districts-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/districts",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 2,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "upazilas",
-                                                "title": "upazilas-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/upazilas",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 3,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "users",
-                                                "title": "users-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/users",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 4,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "roles",
-                                                "title": "roles-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/roles",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 5,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "permissions",
-                                                "title": "permissions-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/permissions",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 6,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "permission-groups",
-                                                "title": "permission-groups-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/permission-groups",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 7,
-                                                "route": null,
-                                                "parameters": null
-                                            },
-                                            {
-                                                "menu_name": "permission-sub-groups",
-                                                "title": "permission-sub-groups-custom-menuItem",
-                                                "type": "item",
-                                                "title_lang_key": "EN",
-                                                "permission_key": null,
-                                                "url": "api/v1/permission-sub-groups",
-                                                "target": "_self",
-                                                "icon_class": null,
-                                                "color": null,
-                                                "parent_id": null,
-                                                "order": 8,
-                                                "route": null,
-                                                "parameters": null
                                             }
+
                                         ]
                                     },
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
-                                        "message": "User Permission List",
+                                        "message": "User Permission And Menu List",
                                         "query_time": 0
                                     }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/users/{userId}/profile-update": {
+            "post": {
+                "summary": "Update User Profile",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/name_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/mobile"
+                    },
+                    {
+                        "name": "current_password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "password"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/password"
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "password"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "profile_pic": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+
                                 }
                             }
                         }
@@ -5678,6 +5465,13 @@
         }
     },
     "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "apiKey",
+                "name": "Token",
+                "in": "header"
+            }
+        },
         "parameters": {
             "menuItemId": {
                 "name": "menuItemId",

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\Classes\AuthUserHandler;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,9 +14,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(\Illuminate\Contracts\Routing\ResponseFactory::class, function() {
+        $this->app->singleton(\Illuminate\Contracts\Routing\ResponseFactory::class, function () {
             return new \Laravel\Lumen\Http\ResponseFactory();
         });
+
+        app()->singleton('authUser', AuthUserHandler::class);
 
     }
 }

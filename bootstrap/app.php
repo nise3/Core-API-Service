@@ -49,6 +49,14 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton('filesystem', function ($app) {
+    return $app->loadComponent(
+        'filesystems',
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        'filesystem'
+    );
+});
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
@@ -63,7 +71,7 @@ $app->singleton(
 $app->configure('app');
 $app->configure('auth');
 $app->configure('services');
-
+$app->configure('filesystems');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -96,7 +104,8 @@ $app->middleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-
+$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 //$app->register(Laravel\Passport\PassportServiceProvider::class);
 //$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 //

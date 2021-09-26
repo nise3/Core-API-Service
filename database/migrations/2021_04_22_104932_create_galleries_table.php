@@ -21,10 +21,11 @@ class CreateGalleriesTable extends Migration
             $table->unsignedTinyInteger('content_type')->comment('1 => Image, 2 => Video');
             $table->string('content_title', 500)->nullable();
             $table->string('content_path', 191);
-            $table->unsignedInteger('institute_id');
+            $table->unsignedInteger('institute_id')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedTinyInteger('is_youtube_video')->default(0);
-            $table->dateTime('publish_date')->nullable();
-            $table->dateTime('archive_date')->nullable();
+            $table->timestamp('publish_date')->nullable();
+            $table->timestamp('archive_date')->nullable();
             $table->string('you_tube_video_id', 191)->nullable();
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->unsignedInteger('created_by')->nullable();

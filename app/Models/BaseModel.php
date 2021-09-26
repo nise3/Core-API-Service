@@ -12,8 +12,8 @@ abstract class BaseModel extends Model
 {
     protected $hidden = ['pivot'];
 
-    public const ROW_STATUS_ACTIVE = 1;
-    public const ROW_STATUS_INACTIVE = 0;
+    public const ROW_STATUS_ACTIVE = '1';
+    public const ROW_STATUS_INACTIVE = '0';
 
     public const ROW_ORDER_ASC = 'ASC';
     public const ROW_ORDER_DESC = 'DESC';
@@ -39,6 +39,9 @@ abstract class BaseModel extends Model
     public const ORGANIZATION_USER = 2;
     public const INSTITUTE_USER = 3;
 
+    /**User Types*/
+    public const USER_TYPES = [self::SYSTEM_USER, self::ORGANIZATION_USER, self::INSTITUTE_USER];
+
     /** System Admin Role Key */
     public const SYSTEM_USER_ROLE_KEY = 'system_user';
 
@@ -53,4 +56,7 @@ abstract class BaseModel extends Model
     public const INSTITUTE_FETCH_ENDPOINT_REMOTE = 'http://nise3-institute.default/api/v1/';
     public const ORGANIZATION_FETCH_ENDPOINT_LOCAL = 'http://localhost:8002/api/v1/';
     public const ORGANIZATION_FETCH_ENDPOINT_REMOTE = 'http://nise3-org-management.default/api/v1/';
+
+    /** User Avatar Base Path */
+    public const USER_AVATAR_BASE_URL="api/v1/";
 }

@@ -301,6 +301,10 @@ return [
         'code' => 46000,
         'message' => 'The password is incorrect.',
     ],
+    'current_password' => [
+        'code' => 46001,
+        'message' => 'Your password was not updated, since the provided current password does not match.',
+    ],
     'present' => [
         'code' => 47000,
         'message' => 'The :attribute field must be present.',

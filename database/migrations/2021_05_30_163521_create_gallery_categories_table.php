@@ -17,7 +17,8 @@ class CreateGalleryCategoriesTable extends Migration
             $table->increments('id');
             $table->string('title_en', 191);
             $table->string('title_bn', 500);
-            $table->unsignedInteger('institute_id');
+            $table->unsignedInteger('institute_id')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedInteger('batch_id')->nullable();
             $table->unsignedInteger('programme_id')->nullable();
             $table->string('image', 191)->nullable();
