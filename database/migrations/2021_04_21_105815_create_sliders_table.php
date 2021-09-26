@@ -15,14 +15,17 @@ class CreateSlidersTable extends Migration
     {
         Schema::create('sliders', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('institute_id')->index('static_assets_fk_institute_id');
+            $table->unsignedInteger('institute_id')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
             $table->string('title', 191);
-            $table->string('sub_title', 191);
+            $table->string('sub_title', 500);
             $table->unsignedTinyInteger('is_button_available')->default(0);
             $table->string('button_text', 20)->nullable();
             $table->string('link', 191)->nullable();
-            $table->string('slider', 191)->nullable();
+            $table->text('slider_images')->comment("[image_link1,image_link2.........]")->nullable();
             $table->unsignedTinyInteger('row_status')->default(1);
+            $table->unsignedInteger("created_by")->nullable();
+            $table->unsignedInteger("updated_by")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
