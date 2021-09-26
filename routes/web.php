@@ -43,6 +43,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('static-pages', 'StaticPageController')->render();
     $customRouter()->resourceRoute('menus', 'MenuController')->render();
     $customRouter()->resourceRoute('menu-items', 'MenuItemController')->render();
+    $customRouter()->resourceRoute('partners', 'PartnerController')->render();
 
 
     /* assign permission to Roles*/

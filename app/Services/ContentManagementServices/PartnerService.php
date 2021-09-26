@@ -11,16 +11,26 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use stdClass;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class PartnerService
 {
 
-
+    /**
+     * @param array $request
+     * @param Carbon $startTime
+     * @return array
+     */
     public function getPartnerList(array $request, Carbon $startTime): array
     {
-        $titleEn = $request['title_en'] ?? null;
-        $titleBn = $request['title_bn'] ?? null;
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request["order"] ?? "ASC";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
 
         /** @var Builder $partnerBuilder */
         $partnerBuilder = Partner::select([
@@ -37,6 +47,81 @@ class PartnerService
             "updated_at",
         ]);
 
+        $partnerBuilder->whereNull("deleted_at");
+        $partnerBuilder->orderBy("id", $order);
+
+        if (is_numeric($rowStatus)) {
+            $partnerBuilder->where('partners.row_status', $rowStatus);
+        }
+
+        if (!empty($titleEn)) {
+            $partnerBuilder->where("partners.title_en", "=", $titleEn);
+        }
+
+        if (!empty($titleBn)) {
+            $partnerBuilder->where("partners.title_en", "=", $titleBn);
+        }
+
+        /** @var Partner $partner */
+
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $users = $partnerBuilder->paginate($pageSize);
+            $paginateData = (object)$users->toArray();
+            $response['data'] = $users->toArray()['data'] ?? [];
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
+        } else {
+            $users = $partnerBuilder->get();
+            $response['data'] = $users->toArray() ?? [];
+        }
+
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
+        ];
+        return $response;
+    }
+
+
+    /**
+     * @param int $id
+     * @param Carbon $startTime
+     * @return array
+     */
+    public function getOnePartner(int $id, Carbon $startTime): array
+    {
+        /** @var Builder $partnerBuilder */
+        $partnerBuilder = Partner::select([
+            "id",
+            "title_en",
+            "title_bn",
+            "image",
+            "domain",
+            "alt_title_en",
+            "alt_title_bn",
+            "created_by",
+            "updated_by",
+            "created_at",
+            "updated_at",
+        ]);
+        $partnerBuilder->whereNull("deleted_at");
+        $partnerBuilder->where("id", $id);
+
+        /** @var Partner $partner */
+        $partner = $partnerBuilder->first();
+
+        return [
+            "data" => $partner ?? new stdClass(),
+            "_response_status" => [
+                "success" => true,
+                "code" => Response::HTTP_OK,
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
+        ];
 
     }
 
@@ -78,7 +163,7 @@ class PartnerService
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validation(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request,int $id): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "title_en" => "required|max:191|min:2",
