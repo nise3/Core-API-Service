@@ -20,8 +20,6 @@ class CreateNoticeOrNewsTable extends Migration
             $table->string('title_bn', 500);
             $table->text('description_en')->nullable();
             $table->text('description_bn')->nullable();
-            $table->dateTime('publish_date')->nullable();
-            $table->dateTime('archive_date')->nullable();
             $table->string('image')->nullable();
             $table->string('file')->nullable();
             $table->string("image_alt_title_en")->nullable();

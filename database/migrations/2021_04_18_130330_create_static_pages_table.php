@@ -29,8 +29,6 @@ class CreateStaticPagesTable extends Migration
             $table->string('content_properties')->nullable();
             $table->string('alt_title_en')->nullable();
             $table->string('alt_title_bn')->nullable();
-            $table->string('title_bn', 500);
-            $table->text('page_contents');
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
             $table->tinyInteger('row_status')->default(1);

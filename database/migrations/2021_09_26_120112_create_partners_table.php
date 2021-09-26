@@ -18,10 +18,12 @@ class CreatePartnersTable extends Migration
             $table->string('title_en',191);
             $table->string('title_bn',500);
             $table->string('image');
-            $table->string("alt_title_en");
-            $table->string("alt_title_bn");
+            $table->string('domain')->nullable();
+            $table->string("alt_title_en",191);
+            $table->string("alt_title_bn",191);
             $table->tinyInteger("created_by");
             $table->tinyInteger("updated_by");
+            $table->tinyInteger("row_status")->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
