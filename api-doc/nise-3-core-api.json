@@ -2230,7 +2230,6 @@
                                                 "route": null,
                                                 "parameters": null
                                             }
-
                                         ]
                                     },
                                     "_response_status": {
@@ -2305,7 +2304,6 @@
                                     }
                                 }
                             }
-
                         }
                     }
                 },
@@ -2315,7 +2313,6 @@
                         "content": {
                             "application/json": {
                                 "example": {
-
                                 }
                             }
                         }
@@ -3078,7 +3075,10 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id_optional"
                     },
                     {
                         "$ref": "#/components/parameters/batch_id"
@@ -3091,28 +3091,11 @@
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
+                    },
+                    {
+                        "$ref": "#/components/parameters/image"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            },
-                            "encoding": {
-                                "image": {
-                                    "contentType": "image/png,image/jpeg"
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -5737,13 +5720,8 @@
                 "name": "image",
                 "in": "query",
                 "required": false,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "string",
-                            "format": "binary"
-                        }
-                    }
+                "schema": {
+                    "type": "string"
                 }
             },
             "featured": {

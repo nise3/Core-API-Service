@@ -41,6 +41,7 @@ class GalleryCategoryService
             'gallery_categories.title_en',
             'gallery_categories.title_bn',
             'gallery_categories.institute_id',
+            'gallery_categories.organization_id',
             'gallery_categories.programme_id',
             'gallery_categories.batch_id',
             'gallery_categories.featured',
@@ -101,6 +102,7 @@ class GalleryCategoryService
             'gallery_categories.title_en',
             'gallery_categories.title_bn',
             'gallery_categories.institute_id',
+            'gallery_categories.organization_id',
             'gallery_categories.programme_id',
             'gallery_categories.batch_id',
             'gallery_categories.featured',
@@ -187,7 +189,11 @@ class GalleryCategoryService
             'title_en' => ['required', 'string', 'max:191', 'min:2'],
             'title_bn' => ['required', 'string', 'max:500', 'min:2'],
             'institute_id' => [
-                'required',
+                'nullable',
+                'int',
+            ],
+            'organization_id' => [
+                'nullable',
                 'int',
             ],
             'programme_id' => [
@@ -200,8 +206,7 @@ class GalleryCategoryService
             ],
             'image' => [
                 'nullable',
-                'image',
-                'mimes:jpg,bmp,png,jpeg,svg',
+                'string',
             ],
 
             'featured' => [

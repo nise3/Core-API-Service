@@ -19,7 +19,7 @@ class StaticPage extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'static_pages';
+    protected $table = 'static_pages_and_block';
     protected $guarded = ['id'];
 
 }
