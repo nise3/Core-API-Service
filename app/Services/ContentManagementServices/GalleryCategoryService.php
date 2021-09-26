@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -133,13 +134,11 @@ class GalleryCategoryService
     public function store(array $data): GalleryCategory
     {
         if (!empty($data['image'])) {
-            $filename = FileHandler::storeFile($data['image'], 'images/gallery-category');
-            $data['image'] = 'images/gallery-category/' . $filename;
+            $filename = Storage::url(FileHandler::storeFile($data['image'], 'images/gallery-category'));
+            $data['image'] = $filename;
         }
 
         $galleryCategory = new GalleryCategory();
-        $directory = "gallery-category/" . date('Y-m');
-
         $galleryCategory->fill($data);
         $galleryCategory->save();
         return $galleryCategory;
@@ -153,6 +152,10 @@ class GalleryCategoryService
      */
     public function update(GalleryCategory $galleryCategory, array $data): GalleryCategory
     {
+        if (!empty($data['image'])) {
+            $filename = Storage::url(FileHandler::storeFile($data['image'], 'images/gallery-category'));
+            $data['image'] = $filename;
+        }
         $galleryCategory->fill($data);
         $galleryCategory->save();
         return $galleryCategory;

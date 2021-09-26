@@ -141,7 +141,6 @@ class SliderService
             if (!empty($slider->slider)) {
                 FileHandler::deleteFile($slider->slider);
             }
-
             $filename = Storage::url(FileHandler::storeFile($data['slider'], 'images/slider'));
             $data['slider'] = $filename;
         }
