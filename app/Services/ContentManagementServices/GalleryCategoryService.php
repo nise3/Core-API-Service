@@ -52,6 +52,7 @@ class GalleryCategoryService
             'gallery_categories.created_at',
             'gallery_categories.updated_at'
         ]);
+
         $galleryCategoryBuilder->orderBy('gallery_categories.id', $order);
 
         if (is_numeric($rowStatus)) {
