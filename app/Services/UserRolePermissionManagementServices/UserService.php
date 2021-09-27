@@ -30,10 +30,10 @@ class UserService
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllUsers(array $request, Carbon $startTime): array
+    public function getAllUsers(array $request, Carbon $startTime)
     {
         $authUser = AuthUser::getUser();
-        Log::info('UserInfo'.json_encode($authUser));
+
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -133,12 +133,11 @@ class UserService
         if (is_numeric($instituteId)) {
             $usersBuilder->where('users.institute_id', $instituteId);
         }
-        if (is_numeric($userType) && in_array($userType, [BaseModel::USER_TYPES])) {
+
+        if (is_numeric($userType) && in_array($userType, BaseModel::USER_TYPES)) {
             $usersBuilder->where('users.user_type', $userType);
         }
-
         $response['order'] = $order;
-
         if ($authUser) {
             if (is_numeric($paginate) || is_numeric($pageSize)) {
                 $pageSize = $pageSize ?: 10;
@@ -238,7 +237,7 @@ class UserService
         ];
     }
 
-    public function getUserPermission(string $id): array
+    public function getUserPermissionWithMenuItems(string $id): array
     {
         $user = User::where('idp_user_id', $id)->first();
 
@@ -321,6 +320,33 @@ class UserService
         ];
     }
 
+
+    /**
+     * @param string $id
+     * @return array
+     */
+    public function getAuthPermission(string $id): array
+    {
+        $user = User::where('idp_user_id', $id)->first();
+
+        if ($user == null)
+            return [];
+
+        $role = Role::find($user->role_id);
+        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
+        $permissions = $rolePermissions->permissions ?? [];
+        $permissionKeys = [];
+        foreach ($permissions as $permission) {
+            $permissionKeys[] = $permission->name;
+        }
+
+        return [
+            'user' => $user,
+            'role' => $role,
+            'permissions' => $permissionKeys
+        ];
+    }
+
     /**
      * @param array $data
      * @param User $user
@@ -395,9 +421,9 @@ class UserService
                 unlink($user->profile_pic);
             }
             $directory = "user-avatar";
-            $data['profile_pic'] = url().Storage::url(FileHandler::storeFile($data['profile_pic'], $directory));
+            $data['profile_pic'] = url() . Storage::url(FileHandler::storeFile($data['profile_pic'], $directory));
         }
-        if(!empty( $data['password'])){
+        if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
         $user->fill($data);
@@ -486,16 +512,20 @@ class UserService
         $rules = [
             "user_type" => "required|min:1",
             "username" => 'required|string|unique:users,username,' . $id,
-            "organization_id" => 'nullable|numeric',
-            "institute_id" => 'nullable|numeric',
+            "organization_id" => 'nullable|numeric|gt:0',
+            "institute_id" => 'nullable|numeric|gt:0',
             "role_id" => 'nullable|exists:roles,id',
-            "name_en" => 'required|min:3',
-            "name_bn" => 'required|min:3',
+            "name_en" => 'required|string|min:3',
+            "name_bn" => 'required|string|min:3',
             "email" => 'required|email',
-            "mobile" => "nullable|string",
-            "loc_division_id" => 'nullable|exists:loc_districts,id',
-            "loc_district_id" => 'nullable|exists:loc_divisions,id',
-            "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
+            "mobile" => [
+                "nullable",
+                "string",
+                'regex: /^(?:\+88|88)?(01[3-9]\d{8})$/',
+            ],
+            "loc_division_id" => 'nullable|gt:0|exists:loc_districts,id',
+            "loc_district_id" => 'nullable|gt:0|exists:loc_divisions,id',
+            "loc_upazila_id" => 'nullable|gt:0|exists:loc_upazilas,id',
             "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => [
@@ -503,8 +533,8 @@ class UserService
                 'string'
             ],
             "profile_pic" => 'nullable|string',
-            "created_by" => "nullable|numeric",
-            "updated_by" => "nullable|numeric",
+            "created_by" => "nullable|numeric|gt:0",
+            "updated_by" => "nullable|numeric|gt:0",
             "remember_token" => "nullable|string",
             'row_status' => [
                 'required_if:' . $id . ',!=,null',

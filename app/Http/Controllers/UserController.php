@@ -74,7 +74,6 @@ class UserController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-
         $user = new User();
         $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $validated = $this->userService->validator($request)->validate();
@@ -195,7 +194,7 @@ class UserController extends Controller
     public function getUserPermissionList(Request $request, string $id)
     {
         try {
-            $user = $this->userService->getUserPermission($id);
+            $user = $this->userService->getUserPermissionWithMenuItems($id);
             $response = [
                 'data' => $user ?? [],
                 '_response_status' => [

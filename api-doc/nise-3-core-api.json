@@ -5467,6 +5467,276 @@
                     "MenuItem"
                 ]
             }
+        },
+        "/partners": {
+            "get": {
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "order": "ASC",
+                                    "current_page": 1,
+                                    "total_page": 3,
+                                    "page_size": 10,
+                                    "total": 30,
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "SoftBdLtd",
+                                            "title_bn": "SoftBdLtd",
+                                            "image": "https://www.google.com",
+                                            "domain": "https://www.google.com",
+                                            "alt_title_en": "",
+                                            "alt_title_bn": "",
+                                            "created_by": 0,
+                                            "updated_by": 0,
+                                            "created_at": "2021-09-27T05:06:55.000000Z",
+                                            "updated_at": "2021-09-27T05:06:55.000000Z"
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            },
+            "post": {
+                "summary": "Create a partner",
+                "description": "Create Partner Service",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/partner"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "SoftBdLtd",
+                                        "title_bn": "SoftBdLtd",
+                                        "image": "https://www.google.com",
+                                        "domain": "https://www.google.com",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "updated_at": "2021-09-27T05:07:28.000000Z",
+                                        "created_at": "2021-09-27T05:07:28.000000Z",
+                                        "id": 1
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Partner is added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            }
+        },
+        "/partners/{partnerId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "partnerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "ABC",
+                                        "title_bn": "ABC",
+                                        "image": "https://www.google.com",
+                                        "domain": "",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "created_by": 0,
+                                        "updated_by": 0,
+                                        "created_at": "2021-09-27T05:06:55.000000Z",
+                                        "updated_at": "2021-09-27T05:16:34.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            },
+            "put": {
+                "summary": "Create a partner",
+                "description": "Create Partner Service",
+                "parameters": [
+                    {
+                        "name": "partnerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/partner"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 3,
+                                        "title_en": "ABC",
+                                        "title_bn": "ABC",
+                                        "image": "https://www.google.com",
+                                        "domain": "https://www.google.com",
+                                        "alt_title_en": "sssssssssss",
+                                        "alt_title_bn": "sssssssssssss",
+                                        "created_by": "1",
+                                        "updated_by": "1",
+                                        "row_status": "0",
+                                        "created_at": "2021-09-27T05:07:03.000000Z",
+                                        "updated_at": "2021-09-27T05:20:44.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Partner Item is updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "partnerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json":
+                            {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Partner deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            }
         }
     },
     "components": {
@@ -5771,8 +6041,7 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "row_status_optional": {
@@ -5781,7 +6050,7 @@
                 "required": false,
                 "schema": {
                     "type": "integer",
-                    "example": 1
+                    "enum": [0,1]
                 }
             },
             "page_size": {
@@ -5790,8 +6059,7 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 10
+                    "type": "integer"
                 }
             },
             "order": {
@@ -6204,7 +6472,8 @@
                 "name": "user_type",
                 "required": true,
                 "schema": {
-                    "type": "integer"
+                    "type": "integer",
+                    "enum": [1,2,3]
                 }
             },
             "user_type_optional": {
@@ -6218,7 +6487,7 @@
             "mobile": {
                 "in": "query",
                 "name": "mobile",
-                "required": true,
+                "required": false,
                 "schema": {
                     "type": "string"
                 }
@@ -7317,6 +7586,50 @@
                     "sub_title",
                     "institute_id",
                     "is_button_available"
+                ]
+            },
+            "partner": {
+                "type": "object",
+                "description": "Provide the partner information",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "primary key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string"
+                    },
+                    "title_bn": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "domain": {
+                        "type": "string"
+                    },
+                    "alt_title_en": {
+                        "type": "string"
+                    },
+                    "alt_title_bn": {
+                        "type": "string"
+                    },
+                    "created_by": {
+                        "type": "integer"
+                    },
+                    "updated_by": {
+                        "type": "integer"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "enum": [0,1]
+                    }
+                },
+                "required": [
+                    "title_bn",
+                    "title_en",
+                    "image"
                 ]
             },
             "Menu": {
