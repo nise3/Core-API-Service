@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Log;
 
 class AuthJwtTokenMiddleware
 {
+    public UserService $userService;
+
+    public function __construct()
+    {
+        $this->userService = new UserService();
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -40,7 +47,6 @@ class AuthJwtTokenMiddleware
 
     /**
      * @param $request
-     * @return mixed
      */
     private function fetchUserFromDB($request)
     {
@@ -54,16 +60,12 @@ class AuthJwtTokenMiddleware
                     $jwtPayload = json_decode($tokenPayload);
                 }
             }
+
+            $authUserInfo = $this->userService->getAuthPermission($jwtPayload->sub ?? null);
+            Log::info("userInfoWithIdpId:" . json_encode($authUserInfo));
+            AuthUser::setUser($authUserInfo['user'] ?? null);
+            AuthUser::setRole($authUserInfo['role'] ?? null);
+            AuthUser::setPermissions($authUserInfo['permissions'] ?? []);
         }
-
-        $userService = new UserService();
-        $idpUserId = $jwtPayload->sub ?? null;
-        $authUserInfo = $userService->getAuthPermission($idpUserId);
-        Log::info("userInfoWithIdpId:" . json_encode($authUserInfo));
-        AuthUser::setUser($authUserInfo['user'] ?? null);
-        AuthUser::setRole($authUserInfo['role'] ?? null);
-        AuthUser::setPermissions($authUserInfo['permissions'] ?? []);
-
-
     }
 }
