@@ -18,12 +18,12 @@ class SliderService
     public function getAllSliders(array $request, Carbon $startTime): array
     {
 
-        $title = array_key_exists('title', $request) ? $request['title'] : "";
-        $subTitle = array_key_exists('sub_title', $request) ? $request['sub_title'] : "";
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $title = $request['title'] ?? "";
+        $subTitle = $request['sub_title'] ?? "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var Builder $sliderBuilder */
 
@@ -174,12 +174,14 @@ class SliderService
             'title' => [
                 'required',
                 'string',
-                'max:191',
+                'max:500',
+                'min:2'
             ],
             'sub_title' => [
                 'required',
                 'string',
-                'max:191',
+                'max:500',
+                'min:2'
             ],
             'is_button_available' => [
                 'required',
@@ -196,7 +198,7 @@ class SliderService
                 'nullable',
                 'requiredIf:is_button_available,' . Slider::IS_BUTTON_AVAILABLE_YES,
                 'string',
-                'max:191'
+                'max:20'
             ],
 
             'institute_id' => [
@@ -205,6 +207,7 @@ class SliderService
             ],
             'slider' => [
                 'image',
+                'required',
                 'max:512',
                 'dimensions:max_width=1920,max_height=1080',
             ],
@@ -236,10 +239,10 @@ class SliderService
         }
 
         return Validator::make($request->all(), [
-            'title' => 'nullable|min:1',
-            'sub_title' => 'nullable|min:1',
+            'title' => 'nullable|max:500|min:2',
+            'sub_title' => 'nullable|max:500|min:2',
             'page' => 'numeric|gt:0',
-            'page_size' => 'numeric',
+            'page_size' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

@@ -2,43 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Video;
-use App\Services\ContentManagementServices\VideoService;
+use App\Models\Partner;
+use App\Services\ContentManagementServices\PartnerService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
-use Exception;
 
-class VideoController extends Controller
+class PartnerController extends Controller
 {
-    public VideoService $videoService;
+    public PartnerService $partnerService;
+
     private Carbon $startTime;
 
-
-    public function __construct(VideoService $videoService)
+    public function __construct(PartnerService $partnerService)
     {
         $this->startTime = Carbon::now();
-        $this->videoService = $videoService;
+        $this->partnerService = $partnerService;
     }
 
+
     /**
-     * Display a listing of the resource.
-     *
      * @param Request $request
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function getList(Request $request): JsonResponse
+    public function getList(Request $request):JsonResponse
     {
-
-        $filter = $this->videoService->filterValidator($request)->validate();
-
+        $filter = $this->partnerService->filtervalidation($request)->validate();
         try {
-            $response = $this->videoService->getAllVideos($filter, $this->startTime);
+            $response = $this->partnerService->getPartnerList($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -46,40 +43,37 @@ class VideoController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param int $id
      * @return Exception|JsonResponse|Throwable
      */
     public function read(int $id): JsonResponse
     {
         try {
-            $response = $this->videoService->getOneVideo($id, $this->startTime);
+            $response = $this->partnerService->getOnePartner($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
         return Response::json($response);
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
      * @param Request $request
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
     {
-
-        $validated = $this->videoService->validator($request)->validate();
+        $partner=new Partner();
+        $validated = $this->partnerService->validator($request)->validate();
         try {
-            $video = $this->videoService->store($validated);
+            $partner = $this->partnerService->store($partner,$validated);
             $response = [
-                'data' => $video,
+                'data' => $partner,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "Video added successfully",
+                    "message" => "Partner is added successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now())
                 ]
             ];
@@ -99,16 +93,16 @@ class VideoController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $video = Video::findOrFail($id);
-        $validated = $this->videoService->validator($request, $id)->validate();
+        $partner = Partner::findOrFail($id);
+        $validated = $this->partnerService->validator($request, $id)->validate();
         try {
-            $videoCategory = $this->videoService->update($video, $validated);
+            $partner = $this->partnerService->update($partner, $validated);
             $response = [
-                'data' => $video,
+                'data' => $partner,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Video updated successfully",
+                    "message" => "Partner Item is updated successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
@@ -125,14 +119,14 @@ class VideoController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $video = Video::findOrFail($id);
+        $partner = Partner::findOrFail($id);
         try {
-            $this->videoService->destroy($video);
+            $this->partnerService->destroy($partner);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Video deleted successfully",
+                    "message" => "MenuItem deleted successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
@@ -141,4 +135,5 @@ class VideoController extends Controller
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
+
 }

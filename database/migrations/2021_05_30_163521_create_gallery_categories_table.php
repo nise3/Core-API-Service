@@ -22,6 +22,8 @@ class CreateGalleryCategoriesTable extends Migration
             $table->unsignedInteger('batch_id')->nullable();
             $table->unsignedInteger('programme_id')->nullable();
             $table->string('image', 191)->nullable();
+            $table->string("alt_title_en")->nullable();
+            $table->string("alt_title_bn")->nullable();
             $table->boolean('featured')->default(false);
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->unsignedInteger('created_by')->nullable();

@@ -16,7 +16,7 @@ class CreatePermissionSubGroupsTable extends Migration
         Schema::create('permission_sub_groups', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->unsignedMediumInteger('permission_group_id');
-            $table->string('title_en');
+            $table->string('title_en',191);
             $table->string('title_bn', 300);
             $table->string('key', 191)->unique();
             $table->unsignedTinyInteger('row_status')->default(1);

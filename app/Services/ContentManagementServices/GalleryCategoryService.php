@@ -27,12 +27,12 @@ class GalleryCategoryService
      */
     public function getAllGalleryCategories(array $request, Carbon $startTime): array
     {
-        $titleEn = array_key_exists('title_en', $request) ? $request['title_en'] : "";
-        $titleBn = array_key_exists('title_bn', $request) ? $request['title_bn'] : "";
-        $paginate = array_key_exists('page', $request) ? $request['page'] : "";
-        $pageSize = array_key_exists('page_size', $request) ? $request['page_size'] : "";
-        $rowStatus = array_key_exists('row_status', $request) ? $request['row_status'] : "";
-        $order = array_key_exists('order', $request) ? $request['order'] : "ASC";
+        $titleEn = $request['title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
 
         /** @var Builder $galleryCategoryBuilder */
         $galleryCategoryBuilder = GalleryCategory::select([
@@ -137,7 +137,7 @@ class GalleryCategoryService
         }
 
         $galleryCategory = new GalleryCategory();
-        $directory="gallery-category/".date('Y-m');
+        $directory = "gallery-category/" . date('Y-m');
 
         $galleryCategory->fill($data);
         $galleryCategory->save();
@@ -180,8 +180,8 @@ class GalleryCategoryService
             ]
         ];
         $rules = [
-            'title_en' => ['required', 'string', 'max:191'],
-            'title_bn' => ['required', 'string', 'max:191'],
+            'title_en' => ['required', 'string', 'max:191', 'min:2'],
+            'title_bn' => ['required', 'string', 'max:500', 'min:2'],
             'institute_id' => [
                 'required',
                 'int',
@@ -234,10 +234,10 @@ class GalleryCategoryService
         }
 
         return Validator::make($request->all(), [
-            'title_en' => 'nullable|min:1',
-            'title_bn' => 'nullable|min:1',
+            'title_en' => 'nullable|max:191|min:2',
+            'title_bn' => 'nullable|min:500|min:2',
             'page' => 'numeric|gt:0',
-            'page_size' => 'numeric',
+            'page_size' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
