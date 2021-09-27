@@ -252,10 +252,10 @@ class RoleService
         return Validator::make($request->all(), [
             'title_en' => 'nullable|max:191|min:2',
             'title_bn' => 'nullable|max:300|min:2',
-            'page' => 'numeric|gt:0',
-            'page_size' => 'numeric|gt:0',
             "organization_id" => 'nullable|numeric|gt:0',
             "institute_id" => 'nullable|numeric|gt:0',
+            'page' => 'numeric|gt:0',
+            'page_size' => 'numeric|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

@@ -57,7 +57,7 @@ class RoleController extends Controller
      * Display the specified resource.
      *
      * @param Request $request
-     * @param $id
+     * @param int $id
      * @return \Exception|JsonResponse|Throwable
      */
     public function read(Request $request, int $id): JsonResponse
