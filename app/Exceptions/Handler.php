@@ -146,6 +146,14 @@ class Handler extends ExceptionHandler
                 "query_time" => 0
             ];
             return response()->json($errors);
+        } else {
+            $errors['_response_status'] = [
+                'success' => false,
+                "code" => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
+                "message" => "Unknown error",
+                "query_time" => 0
+            ];
+            return response()->json($errors);
         }
 
         return parent::render($request, $e);
