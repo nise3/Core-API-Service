@@ -322,10 +322,10 @@ class UserService
 
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @return array
      */
-    public function getAuthPermission(string $id): array
+    public function getAuthPermission(?string $id): array
     {
         $user = User::where('idp_user_id', $id)->first();
 
