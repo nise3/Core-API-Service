@@ -32,6 +32,8 @@ class VideoCategoryService
         /** @var Builder $videoCategoryBuilder */
         $videoCategoryBuilder = VideoCategory::select([
             'video_categories.id',
+            'video_categories.institute_id',
+            'video_categories.organization_id',
             'video_categories.title_en',
             'video_categories.title_bn',
             'video_categories.parent_id',
@@ -94,6 +96,8 @@ class VideoCategoryService
         /** @var Builder $videoCategoryBuilder */
         $videoCategoryBuilder = VideoCategory::select([
             'video_categories.id',
+            'video_categories.institute_id',
+            'video_categories.organization_id',
             'video_categories.title_en',
             'video_categories.title_bn',
             'video_categories.parent_id',
@@ -186,7 +190,11 @@ class VideoCategoryService
                 'min:2'
             ],
             'institute_id' => [
-                'required',
+                'nullable',
+                'int',
+            ],
+            'organization_id' => [
+                'nullable',
                 'int',
             ],
             'parent_id' => [

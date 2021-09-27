@@ -6,7 +6,6 @@ namespace App\Services\ContentManagementServices;
 use App\Models\BaseModel;
 use App\Models\Partner;
 use Carbon\Carbon;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

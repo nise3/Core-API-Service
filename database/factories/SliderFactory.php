@@ -16,8 +16,8 @@ class SliderFactory extends Factory
             'institute_id' => $this->faker->numberBetween(1, 10),
             'is_button_available' => $this->faker->randomElement([0, 1]),
             'button_text' => $this->faker->sentence(),
-            'title' => $title,
-            'sub_title' => $title,
+            'title_en' => $title,
+            'sub_title_en' => $title,
             'link' => $this->faker->sentence(),
             'slider_images' => json_encode(array(
                 "image_1" => $this->faker->imageUrl,

@@ -18,8 +18,10 @@ class SliderService
     public function getAllSliders(array $request, Carbon $startTime): array
     {
 
-        $title = $request['title'] ?? "";
-        $subTitle = $request['sub_title'] ?? "";
+        $titleEn = $request['title_en'] ?? "";
+        $subTitleEn = $request['sub_title_en'] ?? "";
+        $titleBn = $request['title_bn'] ?? "";
+        $subTitleBn = $request['sub_title_bn'] ?? "";
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
@@ -30,12 +32,17 @@ class SliderService
         $sliderBuilder = Slider::select([
             'sliders.id',
             'sliders.institute_id',
-            'sliders.title',
-            'sliders.sub_title',
+            'sliders.organization_id',
+            'sliders.title_en',
+            'sliders.title_bn',
+            'sliders.sub_title_en',
+            'sliders.sub_title_bn',
             'sliders.is_button_available',
             'sliders.link',
             'sliders.button_text',
-            'sliders.slider',
+            'sliders.slider_images',
+            'sliders.alt_title_en',
+            'sliders.alt_title_bn',
             'sliders.row_status',
             'sliders.created_at',
             'sliders.updated_at',
@@ -47,11 +54,19 @@ class SliderService
             $sliderBuilder->where('sliders.row_status', $rowStatus);
         }
 
-        if (!empty($title)) {
-            $sliderBuilder->where('sliders.title', 'like', '%' . $title . '%');
-        } elseif (!empty($subTitle)) {
-            $sliderBuilder->where('sliders.sub_title', 'like', '%' . $subTitle . '%');
+        if (!empty($titleEn)) {
+            $sliderBuilder->where('sliders.title_en', 'like', '%' . $titleEn . '%');
         }
+        if (!empty($titleBn)) {
+            $sliderBuilder->where('sliders.title_bn', 'like', '%' . $titleBn . '%');
+        }
+        if (!empty($subTitleEn)) {
+            $sliderBuilder->where('sliders.sub_title_en', 'like', '%' . $subTitleEn . '%');
+        }
+        if (!empty($subTitleBn)) {
+            $sliderBuilder->where('sliders.sub_title_bn', 'like', '%' . $subTitleBn . '%');
+        }
+
 
         /** @var Collection $sliders */
 
@@ -85,16 +100,20 @@ class SliderService
         $sliderBuilder = Slider::select([
             'sliders.id',
             'sliders.institute_id',
-            'sliders.title',
-            'sliders.sub_title',
+            'sliders.organization_id',
+            'sliders.title_en',
+            'sliders.title_bn',
+            'sliders.sub_title_en',
+            'sliders.sub_title_bn',
             'sliders.is_button_available',
             'sliders.link',
             'sliders.button_text',
-            'sliders.slider',
+            'sliders.slider_images',
+            'sliders.alt_title_en',
+            'sliders.alt_title_bn',
             'sliders.row_status',
             'sliders.created_at',
             'sliders.updated_at',
-
         ]);
         $sliderBuilder->where('sliders.id', $id);
 
@@ -118,10 +137,6 @@ class SliderService
      */
     public function store(array $data): Slider
     {
-        if (!empty($data['slider'])) {
-            $filename = FileHandler::storeFile($data['slider'], 'images/slider');
-            $data['slider'] = 'images/slider/' . $filename;
-        }
         $slider = new Slider();
         $slider->fill($data);
         $slider->save();
@@ -135,14 +150,7 @@ class SliderService
      */
     public function update(Slider $slider, array $data): Slider
     {
-        if (!empty($data['slider'])) {
-            if (!empty($slider->slider)) {
-                FileHandler::deleteFile($slider->slider);
-            }
 
-            $filename = FileHandler::storeFile($data['slider'], 'images/slider');
-            $data['slider'] = 'images/slider/' . $filename;
-        }
         $slider->fill($data);
         $slider->save();
         return $slider;
@@ -164,6 +172,9 @@ class SliderService
      */
     public function validator($request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+        if (!empty($request["slider_images"])) {
+            $request["slider_images"] = is_array($request['slider_images']) ? $request['slider_images'] : explode(',', $request['slider_images']);
+        }
         $customMessage = [
             'row_status.in' => [
                 'code' => 30000,
@@ -171,16 +182,28 @@ class SliderService
             ]
         ];
         $rules = [
-            'title' => [
+            'title_en' => [
+                'required',
+                'string',
+                'max:191',
+                'min:2'
+            ],
+            'title_bn' => [
                 'required',
                 'string',
                 'max:500',
                 'min:2'
             ],
-            'sub_title' => [
+            'sub_title_en' => [
                 'required',
                 'string',
-                'max:500',
+                'max:191',
+                'min:2'
+            ],
+            'sub_title_bn' => [
+                'required',
+                'string',
+                'max:191',
                 'min:2'
             ],
             'is_button_available' => [
@@ -202,15 +225,29 @@ class SliderService
             ],
 
             'institute_id' => [
-                'required',
+                'nullable',
                 'int',
             ],
-            'slider' => [
-                'image',
-                'required',
-                'max:512',
-                'dimensions:max_width=1920,max_height=1080',
+            'organization_id' => [
+                'nullable',
+                'int',
             ],
+            'slider_images' => [
+                'required',
+                'array',
+            ],
+            'slider_images.*' => [
+                'string',
+            ],
+            'alt_title_en' => [
+                'string',
+                'nullable'
+            ],
+            'alt_title_bn' => [
+                'string',
+                'nullable'
+            ],
+
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -239,8 +276,10 @@ class SliderService
         }
 
         return Validator::make($request->all(), [
-            'title' => 'nullable|max:500|min:2',
-            'sub_title' => 'nullable|max:500|min:2',
+            'title_en' => 'nullable|max:191|min:2',
+            'sub_title_en' => 'nullable|max:500|min:2',
+            'title_bn' => 'nullable|max:191|min:2',
+            'sub_title_bn' => 'nullable|max:500|min:2',
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric|gt:0',
             'order' => [

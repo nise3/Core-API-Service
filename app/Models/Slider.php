@@ -20,8 +20,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Slider extends BaseModel
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
+    protected $casts = [
+        'slider_images' => 'array',
+    ];
     protected $guarded = ['id'];
 
 

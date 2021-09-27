@@ -3,7 +3,6 @@
 
 namespace App\Services\ContentManagementServices;
 
-use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Gallery;
 use Carbon\Carbon;
@@ -33,25 +32,30 @@ class GalleryService
         /** @var Builder $galleryBuilder */
         $galleryBuilder = Gallery::select([
             'galleries.id',
-            'galleries.content_title',
-            'galleries.content_type',
-            'galleries.content_path',
-            'galleries.institute_id',
-            'galleries.you_tube_video_id',
             'galleries.gallery_category_id',
             'gallery_categories.title_en as gallery_category_title_en',
             'gallery_categories.title_bn as gallery_category_title_bn',
+            'galleries.content_title',
+            'galleries.institute_id',
+            'galleries.organization_id',
+            'galleries.content_type',
+            'galleries.content_path',
             'galleries.is_youtube_video',
+            'galleries.you_tube_video_id',
+            'galleries.content_properties',
+            'galleries.alt_title_en',
+            'galleries.alt_title_bn',
             'galleries.publish_date',
             'galleries.archive_date',
+            'galleries.row_status',
             'galleries.created_by',
             'galleries.updated_by',
             'galleries.created_at',
             'galleries.updated_at'
-
         ]);
         $galleryBuilder->join('gallery_categories', function ($join) use ($rowStatus) {
-            $join->on('galleries.gallery_category_id', '=', 'gallery_categories.id');
+            $join->on('galleries.gallery_category_id', '=', 'gallery_categories.id')
+                ->whereNull('gallery_categories.deleted_at');
             if (is_numeric($rowStatus)) {
                 $join->where('gallery_categories.row_status', $rowStatus);
             }
@@ -62,7 +66,7 @@ class GalleryService
             $galleryBuilder->where('galleries.row_status', $rowStatus);
         }
         if (!empty($contentTitle)) {
-            $galleryBuilder->where('galleries.title_en', 'like', '%' . $contentTitle . '%');
+            $galleryBuilder->where('galleries.content_title', 'like', '%' . $contentTitle . '%');
         }
 
         /** @var Collection $galleries */
@@ -100,17 +104,22 @@ class GalleryService
         /** @var Builder $galleryBuilder */
         $galleryBuilder = Gallery::select([
             'galleries.id',
-            'galleries.content_title',
-            'galleries.content_type',
-            'galleries.content_path',
-            'galleries.institute_id',
-            'galleries.you_tube_video_id',
             'galleries.gallery_category_id',
             'gallery_categories.title_en as gallery_category_title_en',
             'gallery_categories.title_bn as gallery_category_title_bn',
+            'galleries.content_title',
+            'galleries.institute_id',
+            'galleries.organization_id',
+            'galleries.content_type',
+            'galleries.content_path',
             'galleries.is_youtube_video',
+            'galleries.you_tube_video_id',
+            'galleries.content_properties',
+            'galleries.alt_title_en',
+            'galleries.alt_title_bn',
             'galleries.publish_date',
             'galleries.archive_date',
+            'galleries.row_status',
             'galleries.created_by',
             'galleries.updated_by',
             'galleries.created_at',
@@ -143,28 +152,10 @@ class GalleryService
      */
     public function store(array $data): Gallery
     {
-        $filename = null;
-        if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_YES) {
+        if (!empty($data['you_tube_video_id'])) {
             preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $data['you_tube_video_id'], $matches);
-            $filename = $data['you_tube_video_id'];
+            $data['content_path'] = $data['you_tube_video_id'];
             $data['you_tube_video_id'] = $matches[1];
-        } elseif (!empty($data['content_path'])) {
-            if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
-                $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
-                if ($filename) {
-                    $filename = 'videos/gallery/' . $filename;
-                }
-            } else {
-                $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
-                if ($filename) {
-                    $filename = 'images/gallery/' . $filename;
-                }
-            }
-        }
-        if (!$filename) {
-            $data['content_path'] = '';
-        } else {
-            $data['content_path'] = $filename;
         }
 
         $gallery = new Gallery();
@@ -180,28 +171,10 @@ class GalleryService
      */
     public function update(Gallery $gallery, array $data): Gallery
     {
-        if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_YES) {
-            if (!empty($gallery->content_path) && $gallery->content_path !== '') {
-                FileHandler::deleteFile($gallery->content_path);
-            }
+        if (!empty($data['you_tube_video_id'])) {
             preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $data['you_tube_video_id'], $matches);
             $data['content_path'] = $data['you_tube_video_id'];
             $data['you_tube_video_id'] = $matches[1];
-        } elseif (!empty($data['content_path'])) {
-            if (!empty($gallery->content_path) && $gallery->content_path !== '') {
-                FileHandler::deleteFile($gallery->content_path);
-            }
-            if ($data['content_type'] == Gallery::CONTENT_TYPE_VIDEO && $data['is_youtube_video'] == Gallery::IS_YOUTUBE_VIDEO_NO) {
-                $filename = FileHandler::storeFile($data['content_path'], 'videos/gallery');
-                if ($filename) {
-                    $data['content_path'] = 'videos/gallery/' . $filename;
-                }
-            } else {
-                $filename = FileHandler::storeFile($data['content_path'], 'images/gallery');
-                if ($filename) {
-                    $data['content_path'] = 'images/gallery/' . $filename;
-                }
-            }
         }
         $gallery->fill($data);
         $gallery->save();
@@ -244,7 +217,11 @@ class GalleryService
                 'min:2'
             ],
             'institute_id' => [
-                'required',
+                'nullable',
+                'int'
+            ],
+            'organization_id' => [
+                'nullable',
                 'int'
             ],
             'content_type' => [
@@ -256,6 +233,18 @@ class GalleryService
                 'int',
                 'required_if:content_type,' . Gallery::CONTENT_TYPE_VIDEO,
                 Rule::in([Gallery::IS_YOUTUBE_VIDEO_YES, Gallery::IS_YOUTUBE_VIDEO_NO])
+            ],
+            'content_properties' => [
+                'nullable',
+                'string'
+            ],
+            'alt_title_en' => [
+                'nullable',
+                'string'
+            ],
+            'alt_title_bn' => [
+                'nullable',
+                'string'
             ],
             'publish_date' => [
                 'nullable',
@@ -269,12 +258,15 @@ class GalleryService
         ];
 
         if ($request->content_type == Gallery::CONTENT_TYPE_IMAGE) {
-            $rules['content_path'] = ['required_without:id', 'mimes:jpg,bmp,png'];
+            $rules['content_path'] = [
+                'required_without:id',
+                'string'
+            ];
 
         } elseif ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_NO) {
             $rules['content_path'] = [
                 'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_NO,
-                'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'
+                'string'
             ];
         } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
             $rules['you_tube_video_id'] = [

@@ -31,26 +31,38 @@ class StaticPageService
 
         /** @var Builder $staticPageBuilder */
         $staticPageBuilder = StaticPage::select([
-            'static_pages.id',
-            'static_pages.title_en',
-            'static_pages.title_bn',
-            'static_pages.institute_id',
-            'static_pages.page_id',
-            'static_pages.page_contents',
-            'static_pages.created_by',
-            'static_pages.created_at',
-            'static_pages.updated_at'
+            'static_pages_and_block.id',
+            'static_pages_and_block.title_en',
+            'static_pages_and_block.title_bn',
+            'static_pages_and_block.type',
+            'static_pages_and_block.institute_id',
+            'static_pages_and_block.organization_id',
+            'static_pages_and_block.description_en',
+            'static_pages_and_block.description_bn',
+            'static_pages_and_block.page_id',
+            'static_pages_and_block.page_contents',
+            'static_pages_and_block.content_type',
+            'static_pages_and_block.content_properties',
+            'static_pages_and_block.content_path',
+            'static_pages_and_block.alt_title_en',
+            'static_pages_and_block.alt_title_bn',
+            'static_pages_and_block.row_status',
+            'static_pages_and_block.created_by',
+            'static_pages_and_block.updated_by',
+            'static_pages_and_block.created_at',
+            'static_pages_and_block.updated_at'
         ]);
-        $staticPageBuilder->orderBy('static_pages.id', $order);
+        $staticPageBuilder->orderBy('static_pages_and_block.id', $order);
 
         if (is_numeric($rowStatus)) {
-            $staticPageBuilder->where('static_pages.row_status', $rowStatus);
+            $staticPageBuilder->where('static_pages_and_block.row_status', $rowStatus);
         }
 
         if (!empty($titleEn)) {
-            $staticPageBuilder->where('static_pages.title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
-            $staticPageBuilder->where('static_pages.title_bn', 'like', '%' . $titleBn . '%');
+            $staticPageBuilder->where('static_pages_and_block.title_en', 'like', '%' . $titleEn . '%');
+        }
+        if (!empty($titleBn)) {
+            $staticPageBuilder->where('static_pages_and_block.title_bn', 'like', '%' . $titleBn . '%');
         }
 
         /** @var Collection $staticPages */
@@ -86,17 +98,28 @@ class StaticPageService
     {
         /** @var Builder $staticPageBuilder */
         $staticPageBuilder = StaticPage::select([
-            'static_pages.id',
-            'static_pages.title_en',
-            'static_pages.title_bn',
-            'static_pages.institute_id',
-            'static_pages.page_id',
-            'static_pages.page_contents',
-            'static_pages.created_by',
-            'static_pages.created_at',
-            'static_pages.updated_at'
+            'static_pages_and_block.id',
+            'static_pages_and_block.title_en',
+            'static_pages_and_block.title_bn',
+            'static_pages_and_block.type',
+            'static_pages_and_block.institute_id',
+            'static_pages_and_block.organization_id',
+            'static_pages_and_block.description_en',
+            'static_pages_and_block.description_bn',
+            'static_pages_and_block.page_id',
+            'static_pages_and_block.page_contents',
+            'static_pages_and_block.content_type',
+            'static_pages_and_block.content_properties',
+            'static_pages_and_block.content_path',
+            'static_pages_and_block.alt_title_en',
+            'static_pages_and_block.alt_title_bn',
+            'static_pages_and_block.row_status',
+            'static_pages_and_block.created_by',
+            'static_pages_and_block.updated_by',
+            'static_pages_and_block.created_at',
+            'static_pages_and_block.updated_at'
         ]);
-        $staticPageBuilder->where('static_pages.id', $id);
+        $staticPageBuilder->where('static_pages_and_block.id', $id);
 
 
         /** @var StaticPage $staticPage */
@@ -160,6 +183,11 @@ class StaticPageService
             ]
         ];
         $rules = [
+            'type' => [
+                'required',
+                'int',
+                Rule::in([StaticPage::TYPE_BLOCK,StaticPage::TYPE_STATIC_PAGE])
+            ],
             'title_en' => [
                 'required',
                 'string',
@@ -173,8 +201,20 @@ class StaticPageService
                 'min:2'
             ],
             'institute_id' => [
-                'required',
+                'nullable',
                 'int',
+            ],
+            'organization_id' => [
+                'nullable',
+                'int',
+            ],
+            'description_en' => [
+                'nullable',
+                'string'
+            ],
+            'description_bn' => [
+                'nullable',
+                'string'
             ],
             'page_id' => [
                 'required',
@@ -186,6 +226,27 @@ class StaticPageService
                 'required',
                 'string'
             ],
+            'content_type' => [
+                'required',
+                'int',
+                Rule::in([StaticPage::CONTENT_TYPE_IMAGE,StaticPage::CONTENT_TYPE_VIDEO,StaticPage::CONTENT_TYPE_YOUTUBE])
+            ],
+            'content_path' => [
+                'required',
+                'string'
+            ],
+            'content_properties' => [
+                'nullable',
+                'string'
+            ],
+            'alt_title_en' => [
+                'nullable',
+                'string'
+            ],
+            'alt_title_bn' => [
+                'nullable',
+                'string'
+            ]
         ];
 
         return Validator::make($request->all(), $rules, $customMessage);

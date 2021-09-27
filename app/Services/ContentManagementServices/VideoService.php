@@ -30,17 +30,23 @@ class VideoService
             'videos.id',
             'videos.title_en',
             'videos.title_bn',
-            'videos.description',
-            'videos.institute_id',
+            'videos.description_en',
+            'videos.description_bn',
             'videos.video_category_id',
             'video_categories.title_en as video_category_title_en',
             'video_categories.title_bn as video_category_title_bn',
+            'videos.institute_id',
+            'videos.organization_id',
             'videos.uploaded_video_path',
             'videos.video_type',
             'videos.youtube_video_id',
             'videos.youtube_video_url',
+            'videos.alt_title_en',
+            'videos.alt_title_bn',
             'videos.row_status',
-            'videos.created_at',
+            'videos.created_by',
+            'videos.created_by',
+            'videos.updated_by',
             'videos.updated_at',
         ]);
 
@@ -93,23 +99,29 @@ class VideoService
             'videos.id',
             'videos.title_en',
             'videos.title_bn',
-            'videos.description',
-            'videos.institute_id',
+            'videos.description_en',
+            'videos.description_bn',
             'videos.video_category_id',
             'video_categories.title_en as video_category_title_en',
             'video_categories.title_bn as video_category_title_bn',
+            'videos.institute_id',
+            'videos.organization_id',
             'videos.uploaded_video_path',
             'videos.video_type',
             'videos.youtube_video_id',
             'videos.youtube_video_url',
+            'videos.alt_title_en',
+            'videos.alt_title_bn',
             'videos.row_status',
-            'videos.created_at',
+            'videos.created_by',
+            'videos.created_by',
+            'videos.updated_by',
             'videos.updated_at',
         ]);
 
         $videoBuilder->leftJoin('video_categories', function ($join) {
             $join->on('videos.video_category_id', 'video_categories.id')
-                ->whereNull('videos.deleted_at');
+                ->whereNull('video_categories.deleted_at');
         });
         $videoBuilder->where('videos.id', $id);
 
@@ -145,13 +157,9 @@ class VideoService
      */
     public function store(array $data): Video
     {
-        if (!empty($data['uploaded_video_path'])) {
-            $filename = FileHandler::storeFile($data['uploaded_video_path'], 'videos/video');
-            $data['uploaded_video_path'] = 'videos/video' . $filename;
-        } else {
+        if (!empty($data['youtube_video_url'])) {
             $data['youtube_video_id'] = $this->getYoutubeVideoKey($data['youtube_video_url']);
         }
-
         $video = new Video();
         $video->fill($data);
         $video->save();
@@ -165,16 +173,9 @@ class VideoService
      */
     public function update(Video $video, array $data): Video
     {
-        if (!empty($data['uploaded_video_path'])) {
-            if (!empty($video->uploaded_video_path)) {
-                FileHandler::deleteFile($video->uploaded_video_path);
-            }
-            $filename = FileHandler::storeFile($data['uploaded_video_path'], 'videos/video');
-            $data['uploaded_video_path'] = 'videos/video' . $filename;
-        } else {
+        if (!empty($data['youtube_video_url'])) {
             $data['youtube_video_id'] = $this->getYoutubeVideoKey($data['youtube_video_url']);
         }
-
         $video->fill($data);
         $video->save();
         return $video;
@@ -217,7 +218,24 @@ class VideoService
                 'max:500',
                 'min:2'
             ],
-            'description' => [
+            'video_category_id' => [
+                'nullable',
+                'int',
+                'exists:video_categories,id',
+            ],
+            'institute_id' => [
+                'nullable',
+                'int'
+            ],
+            'organization_id' => [
+                'nullable',
+                'int'
+            ],
+            'description_en' => [
+                'nullable',
+                'string'
+            ],
+            'description_bn' => [
                 'nullable',
                 'string'
             ],
@@ -226,38 +244,35 @@ class VideoService
                 'int',
                 Rule::in([Video::VIDEO_TYPE_YOUTUBE_VIDEO, Video::VIDEO_TYPE_UPLOADED_VIDEO])
             ],
+            'youtube_video_url' => [
+                'nullable',
+                'required_if:video_type,' . Video::VIDEO_TYPE_YOUTUBE_VIDEO,
+                'string'
+            ],
             'youtube_video_id' => [
                 'nullable',
                 'string',
                 'max: 20',
-                'required_if: video_type,' . Video::VIDEO_TYPE_YOUTUBE_VIDEO,
             ],
-            'youtube_video_url' => [
+            'alt_title_en' => [
                 'nullable',
-                'string',
-                'max: 255',
+                'string'
+            ],
+            'alt_title_bn' => [
+                'nullable',
+                'string'
             ],
             'uploaded_video_path' => [
                 'nullable',
                 'required_if:video_type,' . Video::VIDEO_TYPE_UPLOADED_VIDEO,
-                'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4'
-            ],
-
-            'institute_id' => [
-                'required',
-                'int'
-            ],
-            'video_category_id' => [
-                'nullable',
-                'int',
-                'exists:video_categories,id',
+                'string'
             ],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ]
-        ];
 
+        ];
 
         return Validator::make($request->all(), $rules, $customMessage);
     }

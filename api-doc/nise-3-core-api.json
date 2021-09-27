@@ -2235,7 +2235,6 @@
                                                 "route": null,
                                                 "parameters": null
                                             }
-
                                         ]
                                     },
                                     "_response_status": {
@@ -2310,7 +2309,6 @@
                                     }
                                 }
                             }
-
                         }
                     }
                 },
@@ -2320,7 +2318,6 @@
                         "content": {
                             "application/json": {
                                 "example": {
-
                                 }
                             }
                         }
@@ -3083,7 +3080,10 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/organization_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
                     },
                     {
                         "$ref": "#/components/parameters/batch_id"
@@ -3092,32 +3092,21 @@
                         "$ref": "#/components/parameters/programme_id"
                     },
                     {
+                        "$ref": "#/components/parameters/image"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
+                    },
+                    {
                         "$ref": "#/components/parameters/featured"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            },
-                            "encoding": {
-                                "image": {
-                                    "contentType": "image/png,image/jpeg"
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -3216,7 +3205,10 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/organization_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
                     },
                     {
                         "$ref": "#/components/parameters/batch_id"
@@ -3226,6 +3218,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/image"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
                     },
                     {
                         "$ref": "#/components/parameters/featured"
@@ -3291,7 +3289,7 @@
                 "description": "Api endpoint to get the list of galley ",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/content_title"
+                        "$ref": "#/components/parameters/content_title_optional"
                     },
                     {
                         "$ref": "#/components/parameters/page"
@@ -3380,87 +3378,42 @@
                         "$ref": "#/components/parameters/gallery_category_id"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/institute_id_optional"
                     },
                     {
-                        "name": "you_tube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/organization_id_optional"
                     },
                     {
-                        "name": "content_type",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>image,2=>video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
+                        "$ref": "#/components/parameters/content_title"
                     },
                     {
-                        "name": "is_youtube_video",
-                        "in": "query",
-                        "required": false,
-                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
+                        "$ref": "#/components/parameters/content_type"
                     },
                     {
-                        "name": "content_title",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "Content title"
-                        }
+                        "$ref": "#/components/parameters/is_youtube_video"
                     },
                     {
-                        "name": "publish_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
+                        "$ref": "#/components/parameters/content_properties"
                     },
                     {
-                        "name": "archive_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/publish_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/archive_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/content_path"
+                    },
+                    {
+                        "$ref": "#/components/parameters/you_tube_video_id"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "content_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -3517,6 +3470,34 @@
                                     "$ref": "#/components/schemas/Gallery"
                                 },
                                 "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "gallery_category_id": 1,
+                                        "gallery_category_title_en": "Test Title (EN)",
+                                        "gallery_category_title_bn": "Test Title (BN)",
+                                        "content_title": "Title Examiner",
+                                        "institute_id": 9,
+                                        "organization_id": null,
+                                        "content_type": 1,
+                                        "content_path": "In sint natus ducimus nihil culpa mollitia.",
+                                        "is_youtube_video": 0,
+                                        "you_tube_video_id": null,
+                                        "content_properties": null,
+                                        "alt_title_en": null,
+                                        "alt_title_bn": null,
+                                        "publish_date": "2021-09-26 00:00:00",
+                                        "archive_date": "2021-09-27 06:08:38",
+                                        "row_status": 1,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-27T06:08:38.000000Z",
+                                        "updated_at": "2021-09-27T06:08:38.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
                                 }
                             }
                         }
@@ -3537,87 +3518,42 @@
                         "$ref": "#/components/parameters/gallery_category_id"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/institute_id_optional"
                     },
                     {
-                        "name": "you_tube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/organization_id_optional"
                     },
                     {
-                        "name": "content_type",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>image,2=>video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
+                        "$ref": "#/components/parameters/content_title"
                     },
                     {
-                        "name": "is_youtube_video",
-                        "in": "query",
-                        "required": false,
-                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
+                        "$ref": "#/components/parameters/content_type"
                     },
                     {
-                        "name": "content_title",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "Content title"
-                        }
+                        "$ref": "#/components/parameters/is_youtube_video"
                     },
                     {
-                        "name": "publish_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
+                        "$ref": "#/components/parameters/content_properties"
                     },
                     {
-                        "name": "archive_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/publish_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/archive_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/content_path"
+                    },
+                    {
+                        "$ref": "#/components/parameters/you_tube_video_id"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "content_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -3816,15 +3752,26 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a   video category",
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/VideoCategory"
-                            }
-                        }
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/parent_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
                     }
-                },
+                ],
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -3909,17 +3856,26 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/videoCategoryId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/parent_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/VideoCategory"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -4069,67 +4025,42 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/description"
+                        "$ref": "#/components/parameters/description_en"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/description_bn"
                     },
                     {
-                        "name": "video_category_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
+                        "$ref": "#/components/parameters/institute_id_optional"
                     },
                     {
-                        "name": "video_type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
+                        "$ref": "#/components/parameters/organization_id_optional"
                     },
                     {
-                        "name": "youtube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/video_category_id"
                     },
                     {
-                        "name": "youtube_video_url",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
+                        "$ref": "#/components/parameters/video_type"
+                    },
+                    {
+                        "$ref": "#/components/parameters/youtube_video_url"
+                    },
+                    {
+                        "$ref": "#/components/parameters/you_tube_video_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/uploaded_video_path"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uploaded_video_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -4233,67 +4164,42 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/description"
+                        "$ref": "#/components/parameters/description_en"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/description_bn"
                     },
                     {
-                        "name": "video_category_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
+                        "$ref": "#/components/parameters/institute_id_optional"
                     },
                     {
-                        "name": "video_type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
+                        "$ref": "#/components/parameters/organization_id_optional"
                     },
                     {
-                        "name": "youtube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/video_category_id"
                     },
                     {
-                        "name": "youtube_video_url",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
+                        "$ref": "#/components/parameters/video_type"
+                    },
+                    {
+                        "$ref": "#/components/parameters/youtube_video_url"
+                    },
+                    {
+                        "$ref": "#/components/parameters/you_tube_video_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/uploaded_video_path"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uploaded_video_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -4384,10 +4290,16 @@
                         "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/title"
+                        "$ref": "#/components/parameters/title_en_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/sub_title"
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sub_title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sub_title_bn_optional"
                     }
                 ],
                 "responses": {
@@ -4442,72 +4354,45 @@
                 "description": "Api endpoint to store a  slider",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id_optional"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     },
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/title_en"
                     },
                     {
-                        "name": "sub_title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "name": "is_button_available",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>available,0=>not available",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
+                        "$ref": "#/components/parameters/sub_title_en"
                     },
                     {
-                        "name": "link",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/sub_title_bn"
                     },
                     {
-                        "name": "button_text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/slider_images"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/is_button_available"
+                    },
+                    {
+                        "$ref": "#/components/parameters/link"
+                    },
+                    {
+                        "$ref": "#/components/parameters/button_text"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "slider": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -4599,72 +4484,45 @@
                         "$ref": "#/components/parameters/sliderId"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id"
+                        "$ref": "#/components/parameters/institute_id_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/organization_id_optional"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     },
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/title_en"
                     },
                     {
-                        "name": "sub_title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "name": "is_button_available",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>available,0=>not available",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
+                        "$ref": "#/components/parameters/sub_title_en"
                     },
                     {
-                        "name": "link",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/sub_title_bn"
                     },
                     {
-                        "name": "button_text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/slider_images"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_en"
+                    },
+                    {
+                        "$ref": "#/components/parameters/alt_title_bn"
+                    },
+                    {
+                        "$ref": "#/components/parameters/is_button_available"
+                    },
+                    {
+                        "$ref": "#/components/parameters/link"
+                    },
+                    {
+                        "$ref": "#/components/parameters/button_text"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "slider": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -5478,6 +5336,50 @@
             }
         },
         "parameters": {
+            "is_button_available": {
+                "name": "is_button_available",
+                "in": "query",
+                "required": true,
+                "description": "1=>available,0=>not available",
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        0
+                    ]
+                }
+            },
+            "link": {
+                "name": "link",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "button_text": {
+                "name": "button_text",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "slider_images": {
+                "name": "slider_images",
+                "in": "query",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
             "menuItemId": {
                 "name": "menuItemId",
                 "in": "path",
@@ -5588,6 +5490,42 @@
                     "example": "subtitle"
                 }
             },
+            "sub_title_en": {
+                "name": "sub_title_en",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
+            "sub_title_en_optional": {
+                "name": "sub_title_en",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
+            "sub_title_bn": {
+                "name": "sub_title_bn",
+                "required": true,
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
+            "sub_title_bn_optional": {
+                "name": "sub_title_bn",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
             "title": {
                 "name": "title",
                 "in": "query",
@@ -5655,10 +5593,28 @@
                     "example": 1
                 }
             },
+            "content_title_optional": {
+                "name": "content_title",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "content_title"
+                }
+            },
             "content_title": {
                 "name": "content_title",
                 "in": "query",
                 "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "content_title"
+                }
+            },
+            "content_properties": {
+                "name": "content_properties",
+                "in": "query",
+                "required": false,
                 "schema": {
                     "type": "string",
                     "example": "content_title"
@@ -5711,6 +5667,22 @@
                     "type": "string"
                 }
             },
+            "youtube_video_url": {
+                "name": "youtube_video_url",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "uploaded_video_path": {
+                "name": "uploaded_video_path",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
             "galleryCategoryId": {
                 "name": "galleryCategoryId",
                 "in": "path",
@@ -5742,13 +5714,8 @@
                 "name": "image",
                 "in": "query",
                 "required": false,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "string",
-                            "format": "binary"
-                        }
-                    }
+                "schema": {
+                    "type": "string"
                 }
             },
             "featured": {
@@ -5847,6 +5814,26 @@
                 "schema": {
                     "type": "string",
                     "example": "Test Title (EN)"
+                }
+            },
+            "alt_title_en": {
+                "name": "alt_title_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "image_title_en"
+                }
+            },
+            "alt_title_bn": {
+                "name": "alt_title_bn",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "image_title_bn"
                 }
             },
             "title_en_optional": {
@@ -6107,6 +6094,25 @@
                     "example": 1
                 }
             },
+            "video_category_id": {
+                "name": "video_category_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "video_type": {
+                "name": "video_type",
+                "in": "query",
+                "description": "youtube => 1, uploaded => 2",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
             "institute_id": {
                 "name": "institute_id",
                 "in": "query",
@@ -6174,6 +6180,28 @@
             },
             "description": {
                 "name": "description",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                }
+            },
+            "description_en": {
+                "name": "description_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                }
+            },
+            "description_bn": {
+                "name": "description_bn",
                 "in": "query",
                 "required": false,
                 "style": "form",
@@ -7079,6 +7107,11 @@
                         "description": "Institute id",
                         "example": 1
                     },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
+                        "example": 1
+                    },
                     "parent_id": {
                         "type": "integer",
                         "description": "VideoCategory Parent id",
@@ -7102,7 +7135,6 @@
                     }
                 },
                 "required": [
-                    "institute_id",
                     "title_bn",
                     "title_en"
                 ]
@@ -7196,6 +7228,10 @@
                         "description": "Primary Key",
                         "readOnly": true
                     },
+                    "type": {
+                        "type": "integer",
+                        "description": "1=>Block, 2=>Static Page"
+                    },
                     "title_en": {
                         "type": "string",
                         "description": " Title In English",
@@ -7212,13 +7248,45 @@
                         "type": "integer",
                         "description": "Institute id"
                     },
-                    "page_contents": {
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "description_en": {
                         "type": "string",
-                        "description": "page contents"
+                        "description": "description in English"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "description in Bangla"
                     },
                     "page_id": {
                         "type": "integer",
                         "description": "Page id"
+                    },
+                    "page_contents": {
+                        "type": "string",
+                        "description": "page contents"
+                    },
+                    "content_type": {
+                        "type": "integer",
+                        "description": "1=>Image,2=>Video,3=>Youtube"
+                    },
+                    "content_path": {
+                        "type": "string",
+                        "description": "Content path"
+                    },
+                    "content_properties": {
+                        "type": "string",
+                        "description": "content_properties"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alt image title in english"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alt image title in Bangla"
                     },
                     "row_status": {
                         "type": "integer",
@@ -7232,6 +7300,10 @@
                         "type": "integer",
                         "description": "Creator id"
                     },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
                     "created_at": {
                         "type": "string",
                         "format": "date-time"
@@ -7243,10 +7315,12 @@
                 },
                 "required": [
                     "page_id",
+                    "type",
                     "title_bn",
                     "title_en",
-                    "institute_id",
-                    "page_contents"
+                    "page_contents",
+                    "content_type",
+                    "content_path"
                 ]
             },
             "Slider": {
@@ -7258,21 +7332,38 @@
                         "description": "Primary Key",
                         "readOnly": true
                     },
-                    "title": {
+                    "title_en": {
                         "type": "string",
                         "description": " Title In English",
                         "minLength": 1,
                         "maxLength": 500
                     },
-                    "sub_title": {
+                    "title_bn": {
                         "type": "string",
-                        "description": " Subtitle",
+                        "description": " Title In Bangla",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "sub_title_en": {
+                        "type": "string",
+                        "description": " Subtitle in English",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "sub_title_bn": {
+                        "type": "string",
+                        "description": " Subtitle in Bangla",
                         "minLength": 1,
                         "maxLength": 500
                     },
                     "institute_id": {
                         "type": "integer",
                         "description": "Institute id",
+                        "example": 1
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
                         "example": 1
                     },
                     "is_button_available": {
@@ -7291,9 +7382,17 @@
                         "type": "string",
                         "description": "Button text"
                     },
-                    "slider": {
+                    "slider_images": {
                         "type": "string",
-                        "description": "slider"
+                        "description": "slider images"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "image alt title en"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "image alt title bn"
                     },
                     "row_status": {
                         "type": "integer",
@@ -7302,6 +7401,14 @@
                             1,
                             0
                         ]
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "format": "creator id "
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "format": "Modifier id"
                     },
                     "created_at": {
                         "type": "string",
@@ -7313,9 +7420,10 @@
                     }
                 },
                 "required": [
-                    "title",
-                    "sub_title",
-                    "institute_id",
+                    "title_en",
+                    "title_bn",
+                    "sub_title_en",
+                    "sub_title_bn",
                     "is_button_available"
                 ]
             },

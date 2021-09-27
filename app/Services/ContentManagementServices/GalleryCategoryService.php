@@ -3,7 +3,6 @@
 
 namespace App\Services\ContentManagementServices;
 
-use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\GalleryCategory;
 use Carbon\Carbon;
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use phpDocumentor\Reflection\Types\Nullable;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -41,10 +39,13 @@ class GalleryCategoryService
             'gallery_categories.title_en',
             'gallery_categories.title_bn',
             'gallery_categories.institute_id',
+            'gallery_categories.organization_id',
             'gallery_categories.programme_id',
             'gallery_categories.batch_id',
-            'gallery_categories.featured',
             'gallery_categories.image',
+            'gallery_categories.alt_title_en',
+            'gallery_categories.alt_title_bn',
+            'gallery_categories.featured',
             'gallery_categories.row_status',
             'gallery_categories.created_by',
             'gallery_categories.updated_by',
@@ -100,10 +101,13 @@ class GalleryCategoryService
             'gallery_categories.title_en',
             'gallery_categories.title_bn',
             'gallery_categories.institute_id',
+            'gallery_categories.organization_id',
             'gallery_categories.programme_id',
             'gallery_categories.batch_id',
-            'gallery_categories.featured',
             'gallery_categories.image',
+            'gallery_categories.alt_title_en',
+            'gallery_categories.alt_title_bn',
+            'gallery_categories.featured',
             'gallery_categories.row_status',
             'gallery_categories.created_by',
             'gallery_categories.updated_by',
@@ -132,14 +136,7 @@ class GalleryCategoryService
      */
     public function store(array $data): GalleryCategory
     {
-        if (!empty($data['image'])) {
-            $filename = FileHandler::storeFile($data['image'], 'images/gallery-category');
-            $data['image'] = 'images/gallery-category/' . $filename;
-        }
-
         $galleryCategory = new GalleryCategory();
-        $directory = "gallery-category/" . date('Y-m');
-
         $galleryCategory->fill($data);
         $galleryCategory->save();
         return $galleryCategory;
@@ -181,8 +178,18 @@ class GalleryCategoryService
             ]
         ];
         $rules = [
-            'title_en' => ['required', 'string', 'max:191', 'min:2'],
-            'title_bn' => ['required', 'string', 'max:500', 'min:2'],
+            'title_en' => [
+                'required',
+                'string',
+                'max:191',
+                'min:2'
+            ],
+            'title_bn' => [
+                'required',
+                'string',
+                'max:500',
+                'min:2'
+            ],
 
             'institute_id' => [
                 'nullable',
