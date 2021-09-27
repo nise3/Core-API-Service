@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use phpDocumentor\Reflection\Types\Nullable;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -182,11 +183,12 @@ class GalleryCategoryService
         $rules = [
             'title_en' => ['required', 'string', 'max:191', 'min:2'],
             'title_bn' => ['required', 'string', 'max:500', 'min:2'],
+
             'institute_id' => [
-                'required',
+                'nullable',
                 'int',
             ],
-            'programme_id' => [
+            'organization_id' => [
                 'nullable',
                 'int',
             ],
@@ -194,12 +196,23 @@ class GalleryCategoryService
                 'nullable',
                 'int',
             ],
+            'programme_id' => [
+                'nullable',
+                'int',
+            ],
             'image' => [
                 'nullable',
-                'image',
-                'mimes:jpg,bmp,png,jpeg,svg',
+                'string',
+            ],
+            'alt_title_en' => [
+                'nullable',
+                'string',
             ],
 
+            'alt_title_bn' => [
+                'nullable',
+                'string',
+            ],
             'featured' => [
                 'nullable',
                 'boolean'
