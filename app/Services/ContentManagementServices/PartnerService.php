@@ -162,7 +162,7 @@ class PartnerService
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validator(Request $request,int $id): \Illuminate\Contracts\Validation\Validator
+    public function validator(Request $request, int $id): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "title_en" => "required|max:191|min:2",
@@ -181,7 +181,7 @@ class PartnerService
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function filtervalidation(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function filterValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "title_en" => "nullable",
