@@ -7,7 +7,6 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Lumen\Auth\Authorizable;
-use Laravel\Passport\HasApiTokens;
 
 /**
  * Class BaseModel
@@ -19,5 +18,5 @@ abstract class AuthBaseModel extends BaseModel implements
     AuthenticatableContract,
     AuthorizableContract
 {
-    use HasFactory, Authenticatable, Authorizable, HasApiTokens;
+    use HasFactory, Authenticatable, Authorizable;
 }

@@ -7,8 +7,10 @@ use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\LocDivision;
 use App\Services\LocationManagementServices\LocDivisionService;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -33,6 +35,7 @@ class LocDivisionController extends Controller
         $this->startTime = $startTime;
     }
 
+
     /**
      * Display a listing of the resource.
      *
@@ -42,6 +45,8 @@ class LocDivisionController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
+       // dd(Auth::check());
+        $this->authorize('viewAny', new LocDivision());
 
         $filter = $this->locDivisionService->filterValidator($request)->validate();
 
@@ -60,9 +65,11 @@ class LocDivisionController extends Controller
      * @param int $id
      * @return \Exception|JsonResponse|Throwable
      */
-    public function read(Request $request, int $id): JsonResponse
+    public function read(Request $request, int $id)
     {
         try {
+           // dd(Auth::user());
+            $this->authorize('view', new LocDivision());
             $response = $this->locDivisionService->getOneDivision($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;

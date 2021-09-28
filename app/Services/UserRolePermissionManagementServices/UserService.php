@@ -325,7 +325,7 @@ class UserService
      * @param string|null $id
      * @return array
      */
-    public function getAuthPermission(?string $id): array
+    public function getAuthPermission(?string $id): User
     {
         $user = User::where('idp_user_id', $id)->first();
 
@@ -340,11 +340,10 @@ class UserService
             $permissionKeys[] = $permission->name;
         }
 
-        return [
-            'user' => $user,
-            'role' => $role,
-            'permissions' => $permissionKeys
-        ];
+        $user ["role"] = $role;
+        $user ["permissions"] = $permissionKeys;
+
+        return $user;
     }
 
     /**

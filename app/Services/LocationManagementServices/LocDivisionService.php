@@ -73,7 +73,7 @@ class LocDivisionService
     public function getOneDivision(int $id, Carbon $startTime): array
     {
         /** @var LocDivision|Builder $divisionsBuilder */
-        $divisionsBuilder = LocDivision::select([
+        $divisionBuilder = LocDivision::select([
             'id',
             'title_bn',
             'title_en',
@@ -84,13 +84,13 @@ class LocDivisionService
             'created_at',
             'updated_at'
         ]);
-        $divisionsBuilder->where('id', $id);
+        $divisionBuilder->where('id', $id);
 
         /** @var  $divisions */
-        $divisions = $divisionsBuilder->first();
+        $division = $divisionBuilder->first();
 
         return [
-            "data" => $divisions ?: [],
+            "data" => $division ?: [],
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,

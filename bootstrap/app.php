@@ -92,9 +92,9 @@ $app->middleware([
 
 
 
-//$app->routeMiddleware([
-//    'auth' => App\Http\Middleware\Authenticate::class,
-//]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 
 /*
@@ -117,7 +117,7 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 //
 //$app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
@@ -132,7 +132,7 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 */
 
 
-\Dusterio\LumenPassport\LumenPassport::routes($app, ['prefix' => 'v1/oauth']);
+//\Dusterio\LumenPassport\LumenPassport::routes($app, ['prefix' => 'v1/oauth']);
 
 
 $app->router->group([

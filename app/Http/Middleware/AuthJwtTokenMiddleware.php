@@ -8,15 +8,17 @@ use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use function PHPUnit\Framework\isEmpty;
 
 class AuthJwtTokenMiddleware
 {
     public UserService $userService;
 
-    public function __construct()
+    public function __construct(UserService $userService)
     {
-        $this->userService = new UserService();
+        $this->userService = $userService;
     }
 
     /**
@@ -50,22 +52,23 @@ class AuthJwtTokenMiddleware
      */
     private function fetchUserFromDB($request)
     {
-        $token = $request->header('Token');
-        if ($token) {
-            $header = explode(" ", $token);
-            if (sizeof($header) > 1) {
-                $tokenParts = explode(".", $header[1]);
-                if (sizeof($tokenParts) == 3) {
-                    $tokenPayload = base64_decode($tokenParts[1]);
-                    $jwtPayload = json_decode($tokenPayload);
-                }
-            }
-
-            $authUserInfo = $this->userService->getAuthPermission($jwtPayload->sub ?? null);
-            Log::info("userInfoWithIdpId:" . json_encode($authUserInfo));
-            AuthUser::setUser($authUserInfo['user'] ?? null);
-            AuthUser::setRole($authUserInfo['role'] ?? null);
-            AuthUser::setPermissions($authUserInfo['permissions'] ?? []);
-        }
+//        $token = $request->header('Token');
+//        if ($token) {
+//            $header = explode(" ", $token);
+//            if (sizeof($header) > 1) {
+//                $tokenParts = explode(".", $header[1]);
+//                if (sizeof($tokenParts) == 3) {
+//                    $tokenPayload = base64_decode($tokenParts[1]);
+//                    $jwtPayload = json_decode($tokenPayload);
+//                }
+//            }
+//
+//            $authUser = $this->userService->getAuthPermission($jwtPayload->sub ?? null);
+//            Log::info("userInfoWithIdpId:" . json_encode($authUser));
+////            if($authUser){
+////                Auth::setUser($authUser);
+////                Auth::shouldUse('api');
+////            }
+//        }
     }
 }
