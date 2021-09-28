@@ -5356,7 +5356,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Menu"
+                                    "$ref": "#/components/schemas/NoticeOrNews"
                                 },
                                 "example": {
                                     "order": "ASC",
@@ -5416,7 +5416,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Menu"
+                                    "$ref": "#/components/schemas/NoticeOrNews"
                                 },
                                 "example": {
                                     "data": {
@@ -5603,6 +5603,276 @@
                     "NoticeOrNews"
                 ]
             }
+        },
+        "/recent-activities": {
+            "get": {
+                "summary": "get list",
+                "description": "get all Recent activities",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "type": 0,
+                                            "title_en": "abc",
+                                            "title_bn": "def",
+                                            "description_en": "",
+                                            "description_bn": "",
+                                            "image": "",
+                                            "file": "",
+                                            "image_alt_title_en": "",
+                                            "image_alt_title_bn": "",
+                                            "file_alt_title_en": "",
+                                            "file_alt_title_bn": "",
+                                            "row_status": 0,
+                                            "publish_date": null,
+                                            "archive_date": null,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-28T05:41:41.000000Z",
+                                            "updated_at": "2021-09-28T05:41:41.000000Z",
+                                            "deleted_at": null
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Store a recent activity",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RecentActivity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": 0,
+                                        "organization_id": 0,
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "content_type": null,
+                                        "content_path": "",
+                                        "content_properties": "",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "publish_date": "2021-05-13 00:00:00",
+                                        "archive_date": "2021-08-13 00:00:00",
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T09:42:45.000000Z",
+                                        "updated_at": "2021-09-28T09:42:45.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Recent Activity updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            }
+        },
+        "/recent-activities/{recentActivityId}": {
+            "get": {
+                "summary": "get one",
+                "description": "get one recent activity",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/recentActivityId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 4,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": 1,
+                                        "organization_id": null,
+                                        "description_en": null,
+                                        "description_bn": null,
+                                        "content_type": null,
+                                        "content_path": null,
+                                        "content_properties": null,
+                                        "alt_title_en": null,
+                                        "alt_title_bn": null,
+                                        "publish_date": null,
+                                        "archive_date": null,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T11:20:58.000000Z",
+                                        "updated_at": "2021-09-28T11:20:58.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Update recent activity",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RecentActivity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": 0,
+                                        "organization_id": 0,
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "content_type": null,
+                                        "content_path": "",
+                                        "content_properties": "",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "publish_date": "2021-05-13 00:00:00",
+                                        "archive_date": "2021-08-13 00:00:00",
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T09:42:45.000000Z",
+                                        "updated_at": "2021-09-28T09:42:45.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Recent Activity updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "Delete specified recent activity",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/recentActivityId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Recent Activity deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            }
         }
     },
     "components": {
@@ -5614,6 +5884,14 @@
             }
         },
         "parameters": {
+            "recentActivityId": {
+                "name": "recentActivityId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
             "is_button_available": {
                 "name": "is_button_available",
                 "in": "query",
@@ -7896,13 +8174,24 @@
                         "type": "string",
                         "description": "alt file title in Bengali"
                     },
+                    "publish_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "publish date"
+                    },
+                    "archive_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Archive date"
+                    },
                     "row_status": {
                         "type": "integer",
                         "description": "activation status",
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -7925,6 +8214,109 @@
                     "title_en",
                     "title_bn",
                     "type"
+                ]
+            },
+            "RecentActivity": {
+                "type": "object",
+                "description": "Recent activities",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "description_en": {
+                        "type": "string",
+                        "description": "description in English"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "description in Bengali"
+                    },
+                    "content_type": {
+                        "type": "integer",
+                        "description": "=>Image,2=>Video,3=>Youtube Source",
+                        "enum": [
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "content_path": {
+                        "type": "string",
+                        "description": "content path"
+                    },
+                    "content_properties": {
+                        "type": "string",
+                        "description": "content_properties"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternative content title in english"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternative content title in Bengali"
+                    },
+                    "publish_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "publish date"
+                    },
+                    "archive_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Archive date"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "activation status",
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn"
                 ]
             }
         }

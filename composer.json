@@ -21,6 +21,7 @@
         "laravel/tinker": "^2.6",
         "league/flysystem": " ~1.0",
         "nordsoftware/lumen-cors": "^3.4",
+        "phabloraylan/lumen-middleware-trim-or-convert-strings": "^1.0",
         "zircote/swagger-php": "^3.2"
     },
     "require-dev": {
