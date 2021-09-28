@@ -5325,6 +5325,284 @@
                     "MenuItem"
                 ]
             }
+        },
+        "/notice-or-news": {
+            "get": {
+                "summary": "get list",
+                "description": "get all notice-or-news",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "type": 0,
+                                            "title_en": "abc",
+                                            "title_bn": "def",
+                                            "description_en": "",
+                                            "description_bn": "",
+                                            "image": "",
+                                            "file": "",
+                                            "image_alt_title_en": "",
+                                            "image_alt_title_bn": "",
+                                            "file_alt_title_en": "",
+                                            "file_alt_title_bn": "",
+                                            "row_status": 0,
+                                            "publish_date": null,
+                                            "archive_date": null,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-28T05:41:41.000000Z",
+                                            "updated_at": "2021-09-28T05:41:41.000000Z",
+                                            "deleted_at": null
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Store a notice-or-news",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NoticeOrNews"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Menu"
+                                },
+                                "example": {
+                                    "data": {
+                                        "type": "2",
+                                        "title_en": "News_title_en",
+                                        "title_bn": "News_title_bn",
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "image": "",
+                                        "file": "",
+                                        "image_alt_title_en": "",
+                                        "image_alt_title_bn": "",
+                                        "file_alt_title_en": "",
+                                        "file_alt_title_bn": "",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-28T05:43:18.000000Z",
+                                        "created_at": "2021-09-28T05:43:18.000000Z",
+                                        "id": 2
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Notice or News added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            }
+        },
+        "/notice-or-news/{noticeOrNewsId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Get one noticeOrNews",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/noticeOrNewsId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "type": 2,
+                                        "title_en": "News_title_en",
+                                        "title_bn": "News_title_bn",
+                                        "institute_id": 0,
+                                        "organization_id": 0,
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "image": "",
+                                        "file": "",
+                                        "image_alt_title_en": "",
+                                        "image_alt_title_bn": "",
+                                        "file_alt_title_en": "",
+                                        "file_alt_title_bn": "",
+                                        "row_status": 0,
+                                        "publish_date": null,
+                                        "archive_date": null,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T05:47:36.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Update specified noticeOrNews",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/noticeOrNewsId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NoticeOrNews"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "type": "1",
+                                        "title_en": "title_en update",
+                                        "title_bn": "title_bn update",
+                                        "institute_id": "",
+                                        "organization_id": "2",
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "image": "",
+                                        "file": "",
+                                        "image_alt_title_en": "",
+                                        "image_alt_title_bn": "",
+                                        "file_alt_title_en": "",
+                                        "file_alt_title_bn": "",
+                                        "row_status": "",
+                                        "publish_date": null,
+                                        "archive_date": null,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T05:47:36.000000Z",
+                                        "updated_at": "2021-09-28T06:05:38.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Notice or News updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "delete specified noticeOrNews",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/noticeOrNewsId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Notice or News deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            }
         }
     },
     "components": {
@@ -5378,6 +5656,15 @@
                             }
                         }
                     }
+                }
+            },
+            "noticeOrNewsId": {
+                "name": "noticeOrNewsId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
                 }
             },
             "menuItemId": {
@@ -5748,7 +6035,10 @@
                 "required": false,
                 "schema": {
                     "type": "integer",
-                    "example": 1
+                    "enum": [
+                        0,
+                        1
+                    ]
                 }
             },
             "page_size": {
@@ -7230,7 +7520,11 @@
                     },
                     "type": {
                         "type": "integer",
-                        "description": "1=>Block, 2=>Static Page"
+                        "description": "1=>Block, 2=>Static Page",
+                        "enum": [
+                            1,
+                            2
+                        ]
                     },
                     "title_en": {
                         "type": "string",
@@ -7531,6 +7825,106 @@
                 },
                 "required": [
                     "icon_class"
+                ]
+            },
+            "NoticeOrNews": {
+                "type": "object",
+                "description": "Notice or News",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary key",
+                        "readOnly": true
+                    },
+                    "type": {
+                        "type": "integer",
+                        "description": "1=>Notice,2=>News",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "description_en": {
+                        "type": "string",
+                        "description": "description in English"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "description in Bengali"
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "image"
+                    },
+                    "file": {
+                        "type": "string",
+                        "description": "file"
+                    },
+                    "image_alt_title_en": {
+                        "type": "string",
+                        "description": "alt image title in english"
+                    },
+                    "image_alt_title_bn": {
+                        "type": "string",
+                        "description": "alt image title in Bengali"
+                    },
+                    "file_alt_title_en": {
+                        "type": "string",
+                        "description": "alt file title in english"
+                    },
+                    "file_alt_title_bn": {
+                        "type": "string",
+                        "description": "alt file title in Bengali"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "activation status",
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn",
+                    "type"
                 ]
             }
         }

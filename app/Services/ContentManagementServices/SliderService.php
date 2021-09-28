@@ -2,7 +2,6 @@
 
 namespace App\Services\ContentManagementServices;
 
-use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\Slider;
 use Carbon\Carbon;

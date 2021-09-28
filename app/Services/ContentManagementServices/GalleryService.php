@@ -248,7 +248,8 @@ class GalleryService
             ],
             'publish_date' => [
                 'nullable',
-                'date'
+                'date',
+                'before:archive_date'
             ],
             'archive_date' => [
                 'nullable',
