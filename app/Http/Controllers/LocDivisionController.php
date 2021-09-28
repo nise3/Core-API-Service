@@ -45,8 +45,8 @@ class LocDivisionController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-       // dd(Auth::check());
-        $this->authorize('viewAny', new LocDivision());
+        // dd(Auth::check());
+        $this->authorize('viewAny', LocDivision::class);
 
         $filter = $this->locDivisionService->filterValidator($request)->validate();
 
@@ -68,13 +68,17 @@ class LocDivisionController extends Controller
     public function read(Request $request, int $id)
     {
         try {
-           // dd(Auth::user());
-            $this->authorize('view', new LocDivision());
-            $response = $this->locDivisionService->getOneDivision($id, $this->startTime);
+            $division = $this->locDivisionService->getOneDivision($id);
+            if (!$division) {
+                abort(ResponseAlias::HTTP_NOT_FOUND);
+            }
+            $this->authorize('view', $division);
+
+            return Response::json(formatApiResponse($division, $this->startTime, ResponseAlias::HTTP_OK,));
         } catch (Throwable $e) {
             return $e;
         }
-        return Response::json($response);
+
     }
 
     /**

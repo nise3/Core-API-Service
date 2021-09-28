@@ -70,7 +70,7 @@ class LocDivisionService
      * @param Carbon $startTime
      * @return array
      */
-    public function getOneDivision(int $id, Carbon $startTime): array
+    public function getOneDivision(int $id): array
     {
         /** @var LocDivision|Builder $divisionsBuilder */
         $divisionBuilder = LocDivision::select([
@@ -86,17 +86,7 @@ class LocDivisionService
         ]);
         $divisionBuilder->where('id', $id);
 
-        /** @var  $divisions */
-        $division = $divisionBuilder->first();
-
-        return [
-            "data" => $division ?: [],
-            "_response_status" => [
-                "success" => true,
-                "code" => Response::HTTP_OK,
-                "query_time" => $startTime->diffForHumans(Carbon::now())
-            ]
-        ];
+        return $divisionBuilder->first();
     }
 
     /**
