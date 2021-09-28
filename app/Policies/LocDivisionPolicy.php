@@ -28,7 +28,7 @@ class LocDivisionPolicy
      * @param  LocDivision  $locDivision
      * @return mixed
      */
-    public function view(User $user)
+    public function view(User $user, LocDivision $locDivision)
     {
         return false;
     }

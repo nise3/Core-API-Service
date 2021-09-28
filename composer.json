@@ -20,7 +20,8 @@
         "laravel/tinker": "^2.6",
         "league/flysystem": " ~1.0",
         "nordsoftware/lumen-cors": "^3.4",
-        "zircote/swagger-php": "^3.2"
+        "zircote/swagger-php": "^3.2",
+        "ext-json": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

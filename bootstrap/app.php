@@ -24,9 +24,7 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
 $app->withEloquent();
-
 
 /*
 |--------------------------------------------------------------------------
@@ -90,12 +88,9 @@ $app->middleware([
     App\Http\Middleware\AuthJwtTokenMiddleware::class
 ]);
 
-
-
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -110,7 +105,7 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
+//$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 //$app->register(Laravel\Passport\PassportServiceProvider::class);
 //$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
