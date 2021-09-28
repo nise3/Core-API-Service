@@ -13,7 +13,7 @@ class LocDivisionPolicy
     /**
      * Determine whether the user can view any locDivisions.
      *
-     * @param  User  $user
+     * @param User $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,11 +24,11 @@ class LocDivisionPolicy
     /**
      * Determine whether the user can view the locDivision.
      *
-     * @param User  $user
-     * @param  LocDivision  $locDivision
+     * @param User $authUser
+     * @param LocDivision $locDivision
      * @return mixed
      */
-    public function view(User $user, LocDivision $locDivision)
+    public function view(User $authUser, LocDivision $locDivision)
     {
         return false;
     }
@@ -36,7 +36,7 @@ class LocDivisionPolicy
     /**
      * Determine whether the user can create locDivisions.
      *
-     * @param User  $user
+     * @param User $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +47,8 @@ class LocDivisionPolicy
     /**
      * Determine whether the user can update the locDivision.
      *
-     * @param  User  $user
-     * @param  LocDivision  $locDivision
+     * @param User $user
+     * @param LocDivision $locDivision
      * @return mixed
      */
     public function update(User $user, LocDivision $locDivision)
@@ -59,8 +59,8 @@ class LocDivisionPolicy
     /**
      * Determine whether the user can delete the locDivision.
      *
-     * @param  User  $user
-     * @param  LocDivision  $locDivision
+     * @param User $user
+     * @param LocDivision $locDivision
      * @return mixed
      */
     public function delete(User $user, LocDivision $locDivision)
