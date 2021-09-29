@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\Scopes\ScopeRowStatusTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Partner
@@ -20,8 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon |null $updated_at
  * @property-read Permission $permissions
  */
-class Partner extends Model
+class Partner extends BaseModel
 {
+    use ScopeRowStatusTrait, SoftDeletes, HasFactory;
 
     protected $guarded=BaseModel::COMMON_GUARDED_FIELDS_SIMPLE_SOFT_DELETE;
 

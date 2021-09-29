@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\Common\HttpClient;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -25,18 +26,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserService
 {
-    /*const ROUTE_PREFIX = 'api.v1.users.';*/
-
-
     /**
      * @param array $request
      * @param Carbon $startTime
      * @return array
      */
-    public function getAllUsers(array $request, Carbon $startTime)
+    public function getAllUsers(array $request, Carbon $startTime): array
     {
         $authUser = AuthUser::getUser();
-
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -468,11 +465,20 @@ class UserService
      */
     public function registerUserValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        $customMessage = [
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+        $rules = [
+            "user_type" => "required|min:1",
+            "username" => 'required|max:100|string|unique:users,username,' . $id,
+            "organization_id" => 'nullable|numeric',
+            "institute_id" => 'nullable|numeric',
+            "name_en" => 'required|max:255|min:3',
+            "name_bn" => 'required|max:300|min:3',
+            "email" => 'required|max:191|email',
+            "mobile" => [
+                "required",
+                "string",
+                BaseModel::MOBILE_REGEX
+            ],
+            "password" => "required|string|min:6"
         ];
         $rules = [
             'permission_sub_group_id' => 'required|numeric',
@@ -481,17 +487,17 @@ class UserService
             "organization_id" => 'nullable|numeric',
             "institute_id" => 'nullable|numeric',
             "role_id" => 'nullable|exists:roles,id',
-            "name_en" => 'required|min:3',
-            "name_bn" => 'required|min:3',
-            "email" => 'required|email',
-            "mobile" => "nullable|string",
+            "name_en" => 'required|max:255|min:3',
+            "name_bn" => 'required|max:300|min:3',
+            "email" => 'required|max:191|email',
+            "mobile" => "nullable|max:15|string",
             "loc_division_id" => 'nullable|exists:loc_districts,id',
             "loc_district_id" => 'nullable|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
             "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "password" => 'nullable|min:6',
-            "profile_pic" => 'nullable|string',
+            "password" => 'nullable|max:191|min:6',
+            "profile_pic" => 'nullable|max:1000|string',
             "created_by" => "nullable|numeric",
             "updated_by" => "nullable|numeric",
             "remember_token" => "nullable|string",
@@ -501,7 +507,7 @@ class UserService
             ],
 
         ];
-        return Validator::make($request->all(), $rules, $customMessage);
+        return Validator::make($request->all(), $rules);
     }
 
     /**
@@ -523,7 +529,7 @@ class UserService
             "mobile" => [
                 "nullable",
                 "string",
-                'regex: /^(?:\+88|88)?(01[3-9]\d{8})$/',
+                BaseModel::MOBILE_REGEX
             ],
             "loc_division_id" => 'nullable|gt:0|exists:loc_districts,id',
             "loc_district_id" => 'nullable|gt:0|exists:loc_divisions,id',
@@ -559,7 +565,7 @@ class UserService
             "name_bn" => 'required|min:3|max:500',
             "mobile" => [
                 'nullable',
-                'regex: /^(?:\+88|88)?(01[3-9]\d{8})$/'
+                BaseModel::MOBILE_REGEX
             ],
             "current_password" => [
                 'required_with:password',
@@ -584,8 +590,7 @@ class UserService
             "password_confirmation" => 'required_with:password',
             "profile_pic" => [
                 'nullable',
-                'image',
-                'mimes:jpg,bmp,png,jpeg,svg',
+                "string"
             ],
             "created_by" => "nullable|numeric",
             "updated_by" => "nullable|numeric",
@@ -652,17 +657,8 @@ class UserService
      * @param array $postField
      * @return PromiseInterface|\Illuminate\Http\Client\Response
      */
-    public function idpUserCreate(array $postField)
+    public function idpUserCreate(array $data)
     {
-
-        $data = [
-            'name' => $postField['name_en'],
-            'email' => $postField['email'],
-            'username' => $postField['username'],
-            'password' => $postField['password']
-        ];
-
-
         $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([
                 'Content-Type' => 'application/json'

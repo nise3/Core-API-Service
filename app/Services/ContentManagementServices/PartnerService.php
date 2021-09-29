@@ -47,7 +47,6 @@ class PartnerService
             "updated_at",
         ]);
 
-        $partnerBuilder->whereNull("deleted_at");
         $partnerBuilder->orderBy("id", $order);
 
         if (is_numeric($rowStatus)) {

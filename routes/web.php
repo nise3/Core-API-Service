@@ -57,6 +57,11 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
     $router->post('users/{id}/profile-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updateProfile']);
 
+    $router->get('users/{id}/user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
+
+    /** Auth user info */
+    $router->post("auth-user-info",["as"=>"users.auth-user-info","uses"=>"UserController@getAuthUserInfoByIdpId"]);
+
     /* assign permission to organizations*/
     $router->post('permissions/{organization_id}/assign-permissions-to-organization', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
 
@@ -74,9 +79,14 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         $router->post('auth/profile', 'Auth\AuthController@profile');
         $router->post('auth/logout', 'Auth\AuthController@logout');
     });
-
+    /** Organization or institute User Create */
+    $router->post('organization-or-institute-user-create', ['as' => 'users.organization-or-institute-user-create', 'uses' => 'UserController@organizationOrInstituteUserCreate']);
     /** Register User */
-    $router->post('register-users', ['as' => 'users.register-users', 'uses' => 'UserController@registerUser']);
+    $router->post('register-user', ['as' => 'users.register-users', 'uses' => 'UserController@registerUser']);
+
+
+
+
 
 
 

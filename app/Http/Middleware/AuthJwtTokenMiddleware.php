@@ -3,8 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Facade\AuthUser;
-use App\Models\Role;
-use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Closure;
 use Illuminate\Http\Request;

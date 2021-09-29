@@ -12,8 +12,10 @@ abstract class BaseModel extends Model
 {
     protected $hidden = ['pivot'];
 
-    public const ROW_STATUS_ACTIVE = '1';
-    public const ROW_STATUS_INACTIVE = '0';
+    public const ROW_STATUS_INACTIVE = 0;
+    public const ROW_STATUS_ACTIVE = 1;
+    public const ROW_STATUS_PENDING = 2;
+    public const ROW_STATUS_REJECT = 3;
 
     public const ROW_ORDER_ASC = 'ASC';
     public const ROW_ORDER_DESC = 'DESC';
@@ -59,4 +61,6 @@ abstract class BaseModel extends Model
 
     /** User Avatar Base Path */
     public const USER_AVATAR_BASE_URL="api/v1/";
+
+    public const MOBILE_REGEX= 'regex: /^(01[3-9]\d{8})$/';
 }
