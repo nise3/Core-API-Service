@@ -2235,7 +2235,6 @@
                                                 "route": null,
                                                 "parameters": null
                                             }
-
                                         ]
                                     },
                                     "_response_status": {
@@ -2310,7 +2309,6 @@
                                     }
                                 }
                             }
-
                         }
                     }
                 },
@@ -2320,7 +2318,6 @@
                         "content": {
                             "application/json": {
                                 "example": {
-
                                 }
                             }
                         }
@@ -6034,7 +6031,6 @@
                     {
                         "$ref": "#/components/parameters/order"
                     },
-
                     {
                         "$ref": "#/components/parameters/row_status_optional"
                     }
@@ -6261,8 +6257,7 @@
                     "200": {
                         "description": "success",
                         "content": {
-                            "application/json":
-                            {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/partner"
                                 },
@@ -6731,7 +6726,10 @@
                 "required": false,
                 "schema": {
                     "type": "integer",
-                    "enum": [0,1]
+                    "enum": [
+                        0,
+                        1
+                    ]
                 }
             },
             "page_size": {
@@ -7219,7 +7217,11 @@
                 "required": true,
                 "schema": {
                     "type": "integer",
-                    "enum": [1,2,3]
+                    "enum": [
+                        1,
+                        2,
+                        3
+                    ]
                 }
             },
             "user_type_optional": {
@@ -8046,11 +8048,6 @@
                         "description": "youtube video id ",
                         "example": "pQ145X"
                     },
-                    "content_path": {
-                        "type": "string",
-                        "format": "binary",
-                        "description": "content path"
-                    },
                     "publish_date": {
                         "type": "string",
                         "format": "date-time",
@@ -8517,7 +8514,10 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "enum": [0,1]
+                        "enum": [
+                            0,
+                            1
+                        ]
                     }
                 },
                 "required": [
