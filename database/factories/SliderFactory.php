@@ -17,12 +17,17 @@ class SliderFactory extends Factory
             'is_button_available' => $this->faker->randomElement([0, 1]),
             'button_text' => $this->faker->sentence(),
             'title_en' => $title,
+            'title_bn' => $title,
             'sub_title_en' => $title,
+            'sub_title_bn' => $title,
             'link' => $this->faker->sentence(),
             'slider_images' => json_encode(array(
                 "image_1" => $this->faker->imageUrl,
                 "image_2" => $this->faker->imageUrl
-            ))
+            )),
+            'alt_title_en' => $this->faker->word(),
+            'alt_title_bn' => $this->faker->word(),
+
         ];
     }
 }
