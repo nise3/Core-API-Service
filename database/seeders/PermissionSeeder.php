@@ -22,15 +22,15 @@ class PermissionSeeder extends Seeder
 //        DB::table('permissions')->truncate();
 
         $methods = [
-            'get_all' => [
+            'view_any' => [
                 'method' => 1,
                 'uri' => ''
             ],
-            'read' => [
+            'view_single' => [
                 'method' => 1,
                 'uri' => '/{id}'
             ],
-            'add' => [
+            'create' => [
                 'method' => 2,
                 'uri' => ''
             ],
@@ -45,14 +45,14 @@ class PermissionSeeder extends Seeder
         ];
 
         $modules = [
-            'divisions',
-            'districts',
-            'upazilas',
-            'users',
-            'roles',
-            'permissions',
-            'permission-groups',
-            'permission-sub-groups'
+            'division',
+            'district',
+            'upazila',
+            'user',
+            'role',
+            'permission',
+            'permission_group',
+            'permission_sub_group'
         ];
         $menuOrder=1;
         foreach ($modules as $module) {
@@ -63,9 +63,12 @@ class PermissionSeeder extends Seeder
             );
             $order=1;
             foreach ($methods as $key => $method) {
-                $permissionKey=$module . '-' . $key;
+                $permissionKey=$key . '_' . $module;
+                $title=ucfirst(str_replace('_',' ',$permissionKey));
                 Permission::create([
-                    'name' => $permissionKey,
+                    'title_en'=>$title,
+                    'title_bn'=>$title,
+                    'key' => $permissionKey,
                     'uri' => self::ROUTE_PREFIX . $module . $method['uri'],
                     'method' => $method['method'],
                     'module' => $module
@@ -79,29 +82,8 @@ class PermissionSeeder extends Seeder
                     'url'=>self::ROUTE_PREFIX . $module . $method['uri'],
                     'order'=>$order++
                 ]);
-
-                DB::table('menu_items')->insertGetId([
-                    'menu_id'=>$menuId,
-                    'title'=>$permissionKey.'-Child',
-                    'title_lang_key'=>'EN',
-                    'type'=>'item',
-                    'permission_key'=>$permissionKey,
-                    'url'=>self::ROUTE_PREFIX . $module . $method['uri'],
-                    'parent_id'=>$parentId,
-                    'order'=>$order++
-                ]);
-
             }
-            /** Menu Without Permission */
-            DB::table('menu_items')->insert([
-                'menu_id'=>$menuId,
-                'title'=>$module.'-custom-menuItem',
-                'title_lang_key'=>'EN',
-                'type'=>'item',
-                'permission_key'=>null,
-                'url'=>self::ROUTE_PREFIX . $module,
-                'order'=>$menuOrder++
-            ]);
+
         }
 //        Schema::enableForeignKeyConstraints();
     }

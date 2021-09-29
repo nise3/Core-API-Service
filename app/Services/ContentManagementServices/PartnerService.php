@@ -6,7 +6,6 @@ namespace App\Services\ContentManagementServices;
 use App\Models\BaseModel;
 use App\Models\Partner;
 use Carbon\Carbon;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -211,7 +210,7 @@ class PartnerService
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function filtervalidation(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function filterValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         if (!empty($request['order'])) {
             $request['order'] = strtoupper($request['order']);

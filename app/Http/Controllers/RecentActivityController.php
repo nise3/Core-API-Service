@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\NoticeOrNews;
-use App\Services\ContentManagementServices\NoticeOrNewsService;
+
+use App\Models\RecentActivity;
+use App\Services\ContentManagementServices\RecentActivityService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -13,16 +14,17 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
-class NoticeOrNewsController extends Controller
+class RecentActivityController extends Controller
 {
-    public NoticeOrNewsService $noticeOrNewsService;
+
+    public RecentActivityService $recentActivityService;
 
     private Carbon $startTime;
 
-    public function __construct(NoticeOrNewsService $noticeOrNewsService)
+    public function __construct(RecentActivityService $recentActivityService)
     {
         $this->startTime = Carbon::now();
-        $this->noticeOrNewsService = $noticeOrNewsService;
+        $this->recentActivityService = $recentActivityService;
     }
 
     /**
@@ -32,9 +34,9 @@ class NoticeOrNewsController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $filter = $this->noticeOrNewsService->filterValidator($request)->validate();
+        $filter = $this->recentActivityService->filterValidator($request)->validate();
         try {
-            $response = $this->noticeOrNewsService->getNoticeOrNewsServiceList($filter, $this->startTime);
+            $response = $this->recentActivityService->getRecentActivityList($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -48,7 +50,7 @@ class NoticeOrNewsController extends Controller
     public function read(int $id): JsonResponse
     {
         try {
-            $response = $this->noticeOrNewsService->getOneNoticeOrNewsService($id, $this->startTime);
+            $response = $this->recentActivityService->getOneRecentActivity($id, $this->startTime);
         } catch (Throwable $e) {
             return $e;
         }
@@ -63,15 +65,16 @@ class NoticeOrNewsController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $this->noticeOrNewsService->validator($request)->validate();
+
+        $validated = $this->recentActivityService->validator($request)->validate();
         try {
-            $noticeOrNews = $this->noticeOrNewsService->store($validated);
+            $recentActivity = $this->recentActivityService->store($validated);
             $response = [
-                'data' => $noticeOrNews,
+                'data' => $recentActivity,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "Notice or News added successfully",
+                    "message" => "Recent Activity added successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now())
                 ]
             ];
@@ -91,16 +94,16 @@ class NoticeOrNewsController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $noticeOrNews = NoticeOrNews::findOrFail($id);
-        $validated = $this->noticeOrNewsService->validator($request, $id)->validate();
+        $recentActivity = RecentActivity::findOrFail($id);
+        $validated = $this->recentActivityService->validator($request, $id)->validate();
         try {
-            $noticeOrNews = $this->noticeOrNewsService->update($noticeOrNews, $validated);
+            $recentActivity = $this->recentActivityService->update($recentActivity, $validated);
             $response = [
-                'data' => $noticeOrNews,
+                'data' => $recentActivity,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Notice or News updated successfully",
+                    "message" => "Recent Activity updated successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
@@ -117,14 +120,14 @@ class NoticeOrNewsController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $noticeOrNews = NoticeOrNews::findOrFail($id);
+        $recentActivity = RecentActivity::findOrFail($id);
         try {
-            $this->noticeOrNewsService->destroy($noticeOrNews);
+            $this->recentActivityService->destroy($recentActivity);
             $response = [
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Notice or News deleted successfully",
+                    "message" => "Recent Activity deleted successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];

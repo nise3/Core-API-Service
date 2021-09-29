@@ -340,25 +340,6 @@
                                     "$ref": "#/components/schemas/division"
                                 },
                                 "example": {
-                                    "row_status": "1",
-                                    "order": "ASC",
-                                    "data": [
-                                        {
-                                            "id": 1,
-                                            "loc_division_id": 1,
-                                            "title_bn": "ঢাকা ",
-                                            "title_en": "DHAKA",
-                                            "bbs_code": "26",
-                                            "division_bbs_code": "30",
-                                            "division_title_bn": "ঢাকা",
-                                            "division_title_en": "Dhaka",
-                                            "row_status": 1,
-                                            "created_by": 1,
-                                            "updated_by": 1,
-                                            "created_at": "2021-09-22T04:08:35.000000Z",
-                                            "updated_at": "2021-09-22T04:08:35.000000Z"
-                                        }
-                                    ],
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
@@ -2230,6 +2211,7 @@
                                                 "route": null,
                                                 "parameters": null
                                             }
+
                                         ]
                                     },
                                     "_response_status": {
@@ -2304,6 +2286,7 @@
                                     }
                                 }
                             }
+
                         }
                     }
                 },
@@ -2313,6 +2296,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
+
                                 }
                             }
                         }
@@ -3067,35 +3051,15 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a gallery category.A successful request will return 200",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/batch_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/programme_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/featured"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    },
-                    {
-                        "$ref": "#/components/parameters/image"
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GalleryCategory"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -3186,32 +3150,17 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/galleryCategoryId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/batch_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/programme_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/image"
-                    },
-                    {
-                        "$ref": "#/components/parameters/featured"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GalleryCategory"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -3353,88 +3302,11 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a galley",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/gallery_category_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "you_tube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "content_type",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>image,2=>video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "is_youtube_video",
-                        "in": "query",
-                        "required": false,
-                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "content_title",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "Content title"
-                        }
-                    },
-                    {
-                        "name": "publish_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
-                    },
-                    {
-                        "name": "archive_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "content_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Gallery"
                             }
                         }
                     }
@@ -3510,88 +3382,13 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/galleryId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/gallery_category_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "you_tube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "content_type",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>image,2=>video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "is_youtube_video",
-                        "in": "query",
-                        "required": false,
-                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "content_title",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "Content title"
-                        }
-                    },
-                    {
-                        "name": "publish_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
-                    },
-                    {
-                        "name": "archive_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
                     }
                 ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "content_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Gallery"
                             }
                         }
                     }
@@ -4039,71 +3836,11 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a  video",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/description"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "video_category_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "video_type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "youtube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "youtube_video_url",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    }
-                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uploaded_video_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/video"
                             }
                         }
                     }
@@ -4203,71 +3940,13 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/videoId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/description"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "video_category_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "video_type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "youtube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "youtube_video_url",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uploaded_video_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/video"
                             }
                         }
                     }
@@ -4418,70 +4097,11 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a  slider",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "sub_title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "is_button_available",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>available,0=>not available",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "link",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "button_text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "slider": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Slider"
                             }
                         }
                     }
@@ -4575,70 +4195,13 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/sliderId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "sub_title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "is_button_available",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>available,0=>not available",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "link",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "button_text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "slider": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Slider"
                             }
                         }
                     }
@@ -5446,6 +5009,559 @@
                 ]
             }
         },
+        "/notice-or-news": {
+            "get": {
+                "summary": "get list",
+                "description": "get all notice-or-news",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "type": 0,
+                                            "title_en": "abc",
+                                            "title_bn": "def",
+                                            "description_en": "",
+                                            "description_bn": "",
+                                            "image": "",
+                                            "file": "",
+                                            "image_alt_title_en": "",
+                                            "image_alt_title_bn": "",
+                                            "file_alt_title_en": "",
+                                            "file_alt_title_bn": "",
+                                            "row_status": 0,
+                                            "publish_date": null,
+                                            "archive_date": null,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-28T05:41:41.000000Z",
+                                            "updated_at": "2021-09-28T05:41:41.000000Z",
+                                            "deleted_at": null
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Store a notice-or-news",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NoticeOrNews"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "data": {
+                                        "type": "2",
+                                        "title_en": "News_title_en",
+                                        "title_bn": "News_title_bn",
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "image": "",
+                                        "file": "",
+                                        "image_alt_title_en": "",
+                                        "image_alt_title_bn": "",
+                                        "file_alt_title_en": "",
+                                        "file_alt_title_bn": "",
+                                        "row_status": "",
+                                        "updated_at": "2021-09-28T05:43:18.000000Z",
+                                        "created_at": "2021-09-28T05:43:18.000000Z",
+                                        "id": 2
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Notice or News added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            }
+        },
+        "/notice-or-news/{noticeOrNewsId}": {
+            "get": {
+                "summary": "get one",
+                "description": "Get one noticeOrNews",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/noticeOrNewsId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "type": 2,
+                                        "title_en": "News_title_en",
+                                        "title_bn": "News_title_bn",
+                                        "institute_id": 0,
+                                        "organization_id": 0,
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "image": "",
+                                        "file": "",
+                                        "image_alt_title_en": "",
+                                        "image_alt_title_bn": "",
+                                        "file_alt_title_en": "",
+                                        "file_alt_title_bn": "",
+                                        "row_status": 0,
+                                        "publish_date": null,
+                                        "archive_date": null,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T05:47:36.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Update specified noticeOrNews",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/noticeOrNewsId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NoticeOrNews"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "type": "1",
+                                        "title_en": "title_en update",
+                                        "title_bn": "title_bn update",
+                                        "institute_id": "",
+                                        "organization_id": "2",
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "image": "",
+                                        "file": "",
+                                        "image_alt_title_en": "",
+                                        "image_alt_title_bn": "",
+                                        "file_alt_title_en": "",
+                                        "file_alt_title_bn": "",
+                                        "row_status": "",
+                                        "publish_date": null,
+                                        "archive_date": null,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T05:47:36.000000Z",
+                                        "updated_at": "2021-09-28T06:05:38.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Notice or News updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "delete specified noticeOrNews",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/noticeOrNewsId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticeOrNews"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Notice or News deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "NoticeOrNews"
+                ]
+            }
+        },
+        "/recent-activities": {
+            "get": {
+                "summary": "get list",
+                "description": "get all Recent activities",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "order": "ASC",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "type": 0,
+                                            "title_en": "abc",
+                                            "title_bn": "def",
+                                            "description_en": "",
+                                            "description_bn": "",
+                                            "image": "",
+                                            "file": "",
+                                            "image_alt_title_en": "",
+                                            "image_alt_title_bn": "",
+                                            "file_alt_title_en": "",
+                                            "file_alt_title_bn": "",
+                                            "row_status": 0,
+                                            "publish_date": null,
+                                            "archive_date": null,
+                                            "created_by": null,
+                                            "updated_by": null,
+                                            "created_at": "2021-09-28T05:41:41.000000Z",
+                                            "updated_at": "2021-09-28T05:41:41.000000Z",
+                                            "deleted_at": null
+                                        }
+                                    ],
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            },
+            "post": {
+                "summary": "store",
+                "description": "Store a recent activity",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RecentActivity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": 0,
+                                        "organization_id": 0,
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "content_type": null,
+                                        "content_path": "",
+                                        "content_properties": "",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "publish_date": "2021-05-13 00:00:00",
+                                        "archive_date": "2021-08-13 00:00:00",
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T09:42:45.000000Z",
+                                        "updated_at": "2021-09-28T09:42:45.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Recent Activity updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            }
+        },
+        "/recent-activities/{recentActivityId}": {
+            "get": {
+                "summary": "get one",
+                "description": "get one recent activity",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/recentActivityId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 4,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": 1,
+                                        "organization_id": null,
+                                        "description_en": null,
+                                        "description_bn": null,
+                                        "content_type": null,
+                                        "content_path": null,
+                                        "content_properties": null,
+                                        "alt_title_en": null,
+                                        "alt_title_bn": null,
+                                        "publish_date": null,
+                                        "archive_date": null,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T11:20:58.000000Z",
+                                        "updated_at": "2021-09-28T11:20:58.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            },
+            "put": {
+                "summary": "update",
+                "description": "Update recent activity",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/recentActivityId"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RecentActivity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "abc",
+                                        "title_bn": "abc",
+                                        "institute_id": 0,
+                                        "organization_id": 0,
+                                        "description_en": "",
+                                        "description_bn": "",
+                                        "content_type": null,
+                                        "content_path": "",
+                                        "content_properties": "",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "publish_date": "2021-05-13 00:00:00",
+                                        "archive_date": "2021-08-13 00:00:00",
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-09-28T09:42:45.000000Z",
+                                        "updated_at": "2021-09-28T09:42:45.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Recent Activity updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            },
+            "delete": {
+                "summary": "delete",
+                "description": "Delete specified recent activity",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/recentActivityId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecentActivity"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Recent Activity deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RecentActivity"
+                ]
+            }
+        },
         "/partners": {
             "get": {
                 "parameters": [
@@ -5691,8 +5807,7 @@
                     "200": {
                         "description": "success",
                         "content": {
-                            "application/json":
-                            {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/partner"
                                 },
@@ -5726,6 +5841,68 @@
             }
         },
         "parameters": {
+            "recentActivityId": {
+                "name": "recentActivityId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "is_button_available": {
+                "name": "is_button_available",
+                "in": "query",
+                "required": true,
+                "description": "1=>available,0=>not available",
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        0
+                    ]
+                }
+            },
+            "link": {
+                "name": "link",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "button_text": {
+                "name": "button_text",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "slider_images": {
+                "name": "slider_images",
+                "in": "query",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "example": "image"
+                            }
+                        }
+                    }
+                }
+            },
+            "noticeOrNewsId": {
+                "name": "noticeOrNewsId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
             "menuItemId": {
                 "name": "menuItemId",
                 "in": "path",
@@ -5836,6 +6013,42 @@
                     "example": "subtitle"
                 }
             },
+            "sub_title_en": {
+                "name": "sub_title_en",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
+            "sub_title_en_optional": {
+                "name": "sub_title_en",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
+            "sub_title_bn": {
+                "name": "sub_title_bn",
+                "required": true,
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
+            "sub_title_bn_optional": {
+                "name": "sub_title_bn",
+                "required": false,
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "example": "subtitle"
+                }
+            },
             "title": {
                 "name": "title",
                 "in": "query",
@@ -5894,6 +6107,7 @@
                 "name": "content_type",
                 "in": "query",
                 "required": true,
+                "description": "image=>1,video=>2",
                 "schema": {
                     "type": "integer",
                     "enum": [
@@ -5903,10 +6117,28 @@
                     "example": 1
                 }
             },
+            "content_title_optional": {
+                "name": "content_title",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "content_title"
+                }
+            },
             "content_title": {
                 "name": "content_title",
                 "in": "query",
                 "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "content_title"
+                }
+            },
+            "content_properties": {
+                "name": "content_properties",
+                "in": "query",
+                "required": false,
                 "schema": {
                     "type": "string",
                     "example": "content_title"
@@ -5953,6 +6185,22 @@
             },
             "you_tube_video_id": {
                 "name": "you_tube_video_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "youtube_video_url": {
+                "name": "youtube_video_url",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "uploaded_video_path": {
+                "name": "uploaded_video_path",
                 "in": "query",
                 "required": false,
                 "schema": {
@@ -6023,7 +6271,10 @@
                 "required": false,
                 "schema": {
                     "type": "integer",
-                    "enum": [0,1]
+                    "enum": [
+                        0,
+                        1
+                    ]
                 }
             },
             "page_size": {
@@ -6058,7 +6309,8 @@
                     "enum": [
                         1,
                         0
-                    ]
+                    ],
+                    "example": 1
                 }
             },
             "title_bn": {
@@ -6088,6 +6340,26 @@
                 "schema": {
                     "type": "string",
                     "example": "Test Title (EN)"
+                }
+            },
+            "alt_title_en": {
+                "name": "alt_title_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "image_title_en"
+                }
+            },
+            "alt_title_bn": {
+                "name": "alt_title_bn",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "example": "image_title_bn"
                 }
             },
             "title_en_optional": {
@@ -6348,6 +6620,28 @@
                     "example": 1
                 }
             },
+            "video_category_id": {
+                "name": "video_category_id",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "example": 1
+                }
+            },
+            "video_type": {
+                "name": "video_type",
+                "in": "query",
+                "description": "youtube => 1, uploaded => 2",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ]
+                }
+            },
             "institute_id": {
                 "name": "institute_id",
                 "in": "query",
@@ -6424,6 +6718,28 @@
                     "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                 }
             },
+            "description_en": {
+                "name": "description_en",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                }
+            },
+            "description_bn": {
+                "name": "description_bn",
+                "in": "query",
+                "required": false,
+                "style": "form",
+                "schema": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                }
+            },
             "permissions": {
                 "name": "permissions",
                 "in": "query",
@@ -6446,7 +6762,11 @@
                 "required": true,
                 "schema": {
                     "type": "integer",
-                    "enum": [1,2,3]
+                    "enum": [
+                        1,
+                        2,
+                        3
+                    ]
                 }
             },
             "user_type_optional": {
@@ -6578,7 +6898,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "create_by": {
                         "type": "integer",
@@ -6645,7 +6966,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "create_by": {
                         "type": "integer",
@@ -6723,7 +7045,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "create_by": {
                         "type": "integer",
@@ -6770,22 +7093,24 @@
                     },
                     "method": {
                         "type": "integer",
-                        "example": "1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE",
+                        "description": "1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE",
                         "enum": [
                             1,
                             2,
                             3,
                             4,
                             5
-                        ]
+                        ],
+                        "example": 1
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>Inactive,99=>Delete",
+                        "description": "1=>Active,0=>Inactive,99=>Delete",
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -6871,11 +7196,12 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive",
+                        "description": "1=>Active,0=>InActive",
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -6974,7 +7300,12 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive"
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1,
+                        "description": "1=>Active,0=>InActive"
                     },
                     "created_by": {
                         "type": "integer"
@@ -7034,7 +7365,12 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive"
+                        "description": "1=>Active,0=>InActive",
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -7089,7 +7425,11 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive"
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -7149,6 +7489,11 @@
                         "description": "Institute id",
                         "example": 1
                     },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
+                        "example": 1
+                    },
                     "batch_id": {
                         "type": "integer",
                         "description": "Batch id",
@@ -7164,6 +7509,14 @@
                         "description": "gallery category image",
                         "minLength": 191
                     },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternative title_en for image"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternative title_bn for image"
+                    },
                     "featured": {
                         "type": "integer",
                         "enum": [
@@ -7178,7 +7531,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -7199,8 +7553,7 @@
                 },
                 "required": [
                     "title_bn",
-                    "title_en",
-                    "institute_id"
+                    "title_en"
                 ]
             },
             "Gallery": {
@@ -7217,16 +7570,6 @@
                         "description": "gallery category id",
                         "example": 1
                     },
-                    "content_title": {
-                        "type": "string",
-                        "description": "Content title",
-                        "example": "content_title"
-                    },
-                    "institute_id": {
-                        "type": "integer",
-                        "description": "Institute id",
-                        "example": 1
-                    },
                     "content_type": {
                         "type": "integer",
                         "description": "1=>image,2=>video",
@@ -7235,33 +7578,62 @@
                             2
                         ]
                     },
+                    "content_title": {
+                        "type": "string",
+                        "description": "Content title",
+                        "example": "content_title"
+                    },
+                    "content_path": {
+                        "type": "string",
+                        "description": "content path"
+                    },
+                    "content_properties": {
+                        "type": "string",
+                        "description": "content properties"
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
+                        "example": 1
+                    },
                     "is_youtube_video": {
                         "type": "integer",
                         "description": "0=>not youtube vide,1=>youtube vide",
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "you_tube_video_id": {
                         "type": "string",
                         "description": "youtube video id ",
                         "example": "pQ145X"
                     },
-                    "content_path": {
-                        "type": "string",
-                        "format": "binary",
-                        "description": "content path"
-                    },
                     "publish_date": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "publish date"
+                        "description": "publish date",
+                        "example": "2021-04-03"
                     },
                     "archive_date": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "Archive date"
+                        "description": "Archive date",
+                        "example": "2021-06-03"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternate title_en for content"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternate title_bn for content"
                     },
                     "row_status": {
                         "type": "integer",
@@ -7269,7 +7641,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -7291,8 +7664,8 @@
                 "required": [
                     "gallery_category_id",
                     "content_title",
-                    "institute_id",
-                    "content_type"
+                    "content_type",
+                    "content_path"
                 ]
             },
             "VideoCategory": {
@@ -7321,6 +7694,11 @@
                         "description": "Institute id",
                         "example": 1
                     },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
+                        "example": 1
+                    },
                     "parent_id": {
                         "type": "integer",
                         "description": "VideoCategory Parent id",
@@ -7332,7 +7710,16 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
                     },
                     "created_at": {
                         "type": "string",
@@ -7344,7 +7731,6 @@
                     }
                 },
                 "required": [
-                    "institute_id",
                     "title_bn",
                     "title_en"
                 ]
@@ -7374,13 +7760,21 @@
                         "type": "integer",
                         "description": "Institute id"
                     },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id"
+                    },
                     "video_category_id": {
                         "type": "integer",
                         "description": "Video Category id"
                     },
-                    "description": {
+                    "description_en": {
                         "type": "string",
-                        "description": "Description of video"
+                        "description": "Description_en of video"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "Description_bn of video"
                     },
                     "video_type": {
                         "type": "integer",
@@ -7404,13 +7798,22 @@
                         "maxLength": 255,
                         "description": "Uploaded video path"
                     },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternate tittle_en for video"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternate tittle_bn for video"
+                    },
                     "row_status": {
                         "type": "integer",
                         "description": "activation status",
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -7438,6 +7841,14 @@
                         "description": "Primary Key",
                         "readOnly": true
                     },
+                    "type": {
+                        "type": "integer",
+                        "description": "1=>Block, 2=>Static Page",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
                     "title_en": {
                         "type": "string",
                         "description": " Title In English",
@@ -7454,13 +7865,50 @@
                         "type": "integer",
                         "description": "Institute id"
                     },
-                    "page_contents": {
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "description_en": {
                         "type": "string",
-                        "description": "page contents"
+                        "description": "description in English"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "description in Bangla"
                     },
                     "page_id": {
                         "type": "integer",
                         "description": "Page id"
+                    },
+                    "page_contents": {
+                        "type": "string",
+                        "description": "page contents"
+                    },
+                    "content_type": {
+                        "type": "integer",
+                        "description": "1=>Image,2=>Video,3=>Youtube",
+                        "enum": [
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "content_path": {
+                        "type": "string",
+                        "description": "Content path"
+                    },
+                    "content_properties": {
+                        "type": "string",
+                        "description": "content_properties"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alt image title in english"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alt image title in Bangla"
                     },
                     "row_status": {
                         "type": "integer",
@@ -7468,11 +7916,16 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
                         "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
                     },
                     "created_at": {
                         "type": "string",
@@ -7485,10 +7938,12 @@
                 },
                 "required": [
                     "page_id",
+                    "type",
                     "title_bn",
                     "title_en",
-                    "institute_id",
-                    "page_contents"
+                    "page_contents",
+                    "content_type",
+                    "content_path"
                 ]
             },
             "Slider": {
@@ -7500,21 +7955,38 @@
                         "description": "Primary Key",
                         "readOnly": true
                     },
-                    "title": {
+                    "title_en": {
                         "type": "string",
                         "description": " Title In English",
                         "minLength": 1,
                         "maxLength": 500
                     },
-                    "sub_title": {
+                    "title_bn": {
                         "type": "string",
-                        "description": " Subtitle",
+                        "description": " Title In Bangla",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "sub_title_en": {
+                        "type": "string",
+                        "description": " Subtitle in English",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "sub_title_bn": {
+                        "type": "string",
+                        "description": " Subtitle in Bangla",
                         "minLength": 1,
                         "maxLength": 500
                     },
                     "institute_id": {
                         "type": "integer",
                         "description": "Institute id",
+                        "example": 1
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
                         "example": 1
                     },
                     "is_button_available": {
@@ -7533,9 +8005,17 @@
                         "type": "string",
                         "description": "Button text"
                     },
-                    "slider": {
+                    "slider_images": {
                         "type": "string",
-                        "description": "slider"
+                        "description": "slider images"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "image alt title en"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "image alt title bn"
                     },
                     "row_status": {
                         "type": "integer",
@@ -7543,7 +8023,16 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "format": "creator id "
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "format": "Modifier id"
                     },
                     "created_at": {
                         "type": "string",
@@ -7555,9 +8044,10 @@
                     }
                 },
                 "required": [
-                    "title",
-                    "sub_title",
-                    "institute_id",
+                    "title_en",
+                    "title_bn",
+                    "sub_title_en",
+                    "sub_title_bn",
                     "is_button_available"
                 ]
             },
@@ -7596,7 +8086,11 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "enum": [0,1]
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
                     }
                 },
                 "required": [
@@ -7709,6 +8203,222 @@
                 },
                 "required": [
                     "icon_class"
+                ]
+            },
+            "NoticeOrNews": {
+                "type": "object",
+                "description": "Notice or News",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary key",
+                        "readOnly": true
+                    },
+                    "type": {
+                        "type": "integer",
+                        "description": "1=>Notice,2=>News",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "description_en": {
+                        "type": "string",
+                        "description": "description in English"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "description in Bengali"
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "image"
+                    },
+                    "file": {
+                        "type": "string",
+                        "description": "file"
+                    },
+                    "image_alt_title_en": {
+                        "type": "string",
+                        "description": "alt image title in english"
+                    },
+                    "image_alt_title_bn": {
+                        "type": "string",
+                        "description": "alt image title in Bengali"
+                    },
+                    "file_alt_title_en": {
+                        "type": "string",
+                        "description": "alt file title in english"
+                    },
+                    "file_alt_title_bn": {
+                        "type": "string",
+                        "description": "alt file title in Bengali"
+                    },
+                    "publish_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "publish date"
+                    },
+                    "archive_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Archive date"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "activation status",
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn",
+                    "type"
+                ]
+            },
+            "RecentActivity": {
+                "type": "object",
+                "description": "Recent activities",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Primary key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "description": " Title In English",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "title_bn": {
+                        "type": "string",
+                        "description": " Title In Bengali",
+                        "minLength": 1,
+                        "maxLength": 500
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "Institute id"
+                    },
+                    "description_en": {
+                        "type": "string",
+                        "description": "description in English"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "description in Bengali"
+                    },
+                    "content_type": {
+                        "type": "integer",
+                        "description": "=>Image,2=>Video,3=>Youtube Source",
+                        "enum": [
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "content_path": {
+                        "type": "string",
+                        "description": "content path"
+                    },
+                    "content_properties": {
+                        "type": "string",
+                        "description": "content_properties"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternative content title in english"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternative content title in Bengali"
+                    },
+                    "publish_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "publish date",
+                        "example": "2021-05-01"
+                    },
+                    "archive_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Archive date",
+                        "example": "2021-10-01"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "description": "activation status",
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "title_en",
+                    "title_bn"
                 ]
             }
         }

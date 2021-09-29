@@ -18,6 +18,8 @@ class CreateNoticeOrNewsTable extends Migration
             $table->tinyInteger('type')->comment('1=>Notice,2=>News');
             $table->string('title_en', 191);
             $table->string('title_bn', 500);
+            $table->unsignedInteger('institute_id')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
             $table->text('description_en')->nullable();
             $table->text('description_bn')->nullable();
             $table->string('image')->nullable();

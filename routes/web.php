@@ -23,7 +23,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->post('auth/login', 'Auth\AuthController@login');
     $router->post('auth/register', 'Auth\AuthController@register');
 
-    $router->get('url',function (){
+    $router->get('url', function () {
         echo url();
     });
 
@@ -44,6 +44,8 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $customRouter()->resourceRoute('menus', 'MenuController')->render();
     $customRouter()->resourceRoute('menu-items', 'MenuItemController')->render();
     $customRouter()->resourceRoute('partners', 'PartnerController')->render();
+    $customRouter()->resourceRoute('notice-or-news', 'NoticeOrNewsController')->render();
+    $customRouter()->resourceRoute('recent-activities', 'RecentActivityController')->render();
 
 
     /* assign permission to Roles*/
@@ -83,7 +85,6 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->post('organization-or-institute-user-create', ['as' => 'users.organization-or-institute-user-create', 'uses' => 'UserController@organizationOrInstituteUserCreate']);
     /** Register User */
     $router->post('register-user', ['as' => 'users.register-users', 'uses' => 'UserController@registerUser']);
-
 
 
 

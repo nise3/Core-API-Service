@@ -3,7 +3,6 @@
 
 namespace App\Services\ContentManagementServices;
 
-use App\Helpers\Classes\FileHandler;
 use App\Models\BaseModel;
 use App\Models\GalleryCategory;
 use Carbon\Carbon;
@@ -46,6 +45,9 @@ class GalleryCategoryService
             'gallery_categories.batch_id',
             'gallery_categories.featured',
             'gallery_categories.image',
+            'gallery_categories.alt_title_en',
+            'gallery_categories.alt_title_bn',
+            'gallery_categories.featured',
             'gallery_categories.row_status',
             'gallery_categories.created_by',
             'gallery_categories.updated_by',
@@ -106,8 +108,10 @@ class GalleryCategoryService
             'gallery_categories.organization_id',
             'gallery_categories.programme_id',
             'gallery_categories.batch_id',
-            'gallery_categories.featured',
             'gallery_categories.image',
+            'gallery_categories.alt_title_en',
+            'gallery_categories.alt_title_bn',
+            'gallery_categories.featured',
             'gallery_categories.row_status',
             'gallery_categories.created_by',
             'gallery_categories.updated_by',
@@ -136,11 +140,6 @@ class GalleryCategoryService
      */
     public function store(array $data): GalleryCategory
     {
-        if (!empty($data['image'])) {
-            $filename = Storage::url(FileHandler::storeFile($data['image'], 'images/gallery-category'));
-            $data['image'] = $filename;
-        }
-
         $galleryCategory = new GalleryCategory();
         $galleryCategory->fill($data);
         $galleryCategory->save();
@@ -155,10 +154,6 @@ class GalleryCategoryService
      */
     public function update(GalleryCategory $galleryCategory, array $data): GalleryCategory
     {
-        if (!empty($data['image'])) {
-            $filename = Storage::url(FileHandler::storeFile($data['image'], 'images/gallery-category'));
-            $data['image'] = $filename;
-        }
         $galleryCategory->fill($data);
         $galleryCategory->save();
         return $galleryCategory;
@@ -187,9 +182,25 @@ class GalleryCategoryService
             ]
         ];
         $rules = [
-            'title_en' => ['required', 'string', 'max:191', 'min:2'],
-            'title_bn' => ['required', 'string', 'max:500', 'min:2'],
+            'title_en' => [
+                'required',
+                'string',
+                'max:191',
+                'min:2'
+            ],
+            'title_bn' => [
+                'required',
+                'string',
+                'max:500',
+                'min:2'
+            ],
+
             'institute_id' => [
+                'nullable',
+                'int',
+            ],
+            'organization_id' => [
+                'nullable',
                 'nullable',
                 'int',
             ],
@@ -197,19 +208,28 @@ class GalleryCategoryService
                 'nullable',
                 'int',
             ],
-            'programme_id' => [
+            'batch_id' => [
                 'nullable',
                 'int',
             ],
-            'batch_id' => [
+            'programme_id' => [
                 'nullable',
                 'int',
             ],
             'image' => [
                 'nullable',
                 'string',
+                'string',
+            ],
+            'alt_title_en' => [
+                'nullable',
+                'string',
             ],
 
+            'alt_title_bn' => [
+                'nullable',
+                'string',
+            ],
             'featured' => [
                 'nullable',
                 'boolean'

@@ -81,7 +81,9 @@ $app->configure('filesystems');
 |
 */
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\CorsMiddleware::class,
+    LumenMiddlewareTrimOrConvertString\TrimStrings::class,
+    LumenMiddlewareTrimOrConvertString\ConvertEmptyStringsToNull::class,
 ]);
 
 $app->middleware([

@@ -33,7 +33,7 @@ class PartnerController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $filter = $this->partnerService->filtervalidation($request)->validate();
+        $filter = $this->partnerService->filterValidation($request)->validate();
         try {
             $response = $this->partnerService->getPartnerList($filter, $this->startTime);
         } catch (Throwable $e) {

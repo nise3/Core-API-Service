@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\RecentActivity;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             PermissionGroupSeeder::class,
             UserTableSeeder::class,
+            NoticeOrNewsSeeder::class,
+            RecentActivitySeeder::class
         ]);
     }
 }

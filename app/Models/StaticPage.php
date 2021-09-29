@@ -19,6 +19,14 @@ class StaticPage extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
+    const TYPE_BLOCK = 1;
+    const TYPE_STATIC_PAGE = 2;
+
+    const CONTENT_TYPE_IMAGE = 1;
+    const CONTENT_TYPE_VIDEO = 2;
+    const CONTENT_TYPE_YOUTUBE = 3;
+
+
     protected $table = 'static_pages_and_block';
     protected $guarded = ['id'];
 
