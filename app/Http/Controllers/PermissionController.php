@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-//use App\Helpers\Classes\CustomExceptionHandler;
 use App\Models\Permission;
 use App\Services\UserRolePermissionManagementServices\PermissionService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -32,7 +32,7 @@ class PermissionController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function getList(Request $request): JsonResponse
     {
@@ -49,7 +49,7 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function read(Request $request, int $id): JsonResponse
     {
@@ -63,7 +63,7 @@ class PermissionController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -90,7 +90,7 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -115,7 +115,7 @@ class PermissionController extends Controller
 
     /**
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function destroy(int $id): JsonResponse
     {
@@ -140,7 +140,7 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $organization_id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function assignPermissionToOrganization(Request $request, int $organization_id): JsonResponse
@@ -167,7 +167,7 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $institute_id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function assignPermissionToInstitute(Request $request, int $institute_id): JsonResponse

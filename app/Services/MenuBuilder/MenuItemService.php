@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Models\MenuItem;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -51,6 +52,7 @@ class MenuItemService
         if (!empty($title)) {
             $menuItemBuilder->where('menu_items.title', 'like', '%' . $title . '%');
         }
+        /** @var Collection $menuItems */
         $menuItems = $menuItemBuilder->get();
 
         $response['data'] = $menuItems->toArray()['data'] ?? $menuItems->toArray();

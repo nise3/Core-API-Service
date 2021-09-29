@@ -28,16 +28,12 @@ class VideoFactory extends Factory
             'institute_id'=> $this->faker->numberBetween(1,10),
             'title_en'=>$title,
             'title_bn'=>$title,
-            'description_en'=>$this->faker->sentence(50),
-            'description_bn'=>$this->faker->sentence(50),
             'video_type'=>$videoType,
             'youtube_video_id'=>$youtubeVideoId,
             'uploaded_video_path'=>$uploadedVideoPath,
-            'youtube_video_url'=>$youtubeVideoUrl
-
-
-
-
+            'youtube_video_url'=>$youtubeVideoUrl,
+            'description_en'=>$this->faker->sentence(20),
+            'description_bn'=>$this->faker->sentence(20)
 
     	];
     }

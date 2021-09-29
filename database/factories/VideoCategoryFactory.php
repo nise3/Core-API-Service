@@ -15,8 +15,9 @@ class VideoCategoryFactory extends Factory
         return [
             'title_en' => ucfirst($title),
             'title_bn' => ucfirst($title),
-            'institute_id'=> $this->faker->numberBetween(1,10),
-            'parent_id'=>$this->faker->randomElement([null,1,2,3,4,5,6,7,8,9,10])
+            'organization_id' => $this->faker->numberBetween(1, 10),
+            'institute_id' => $this->faker->numberBetween(1, 10),
+            'parent_id' => $this->faker->randomElement([null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
         ];
     }
 }

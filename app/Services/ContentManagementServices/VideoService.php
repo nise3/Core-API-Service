@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -146,8 +147,8 @@ class VideoService
     public function store(array $data): Video
     {
         if (!empty($data['uploaded_video_path'])) {
-            $filename = FileHandler::storeFile($data['uploaded_video_path'], 'videos/video');
-            $data['uploaded_video_path'] = 'videos/video' . $filename;
+            $filename = Storage::url(FileHandler::storeFile($data['uploaded_video_path'], 'videos/video'));
+            $data['uploaded_video_path'] = $filename;
         } else {
             $data['youtube_video_id'] = $this->getYoutubeVideoKey($data['youtube_video_url']);
         }
@@ -169,8 +170,8 @@ class VideoService
             if (!empty($video->uploaded_video_path)) {
                 FileHandler::deleteFile($video->uploaded_video_path);
             }
-            $filename = FileHandler::storeFile($data['uploaded_video_path'], 'videos/video');
-            $data['uploaded_video_path'] = 'videos/video' . $filename;
+            $filename = Storage::url(FileHandler::storeFile($data['uploaded_video_path'], 'videos/video'));
+            $data['uploaded_video_path'] = $filename;
         } else {
             $data['youtube_video_id'] = $this->getYoutubeVideoKey($data['youtube_video_url']);
         }

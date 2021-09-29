@@ -136,7 +136,9 @@ class PermissionSubGroupService
      */
     public function store(array $data, PermissionSubGroup $permissionSubGroup): PermissionSubGroup
     {
-        return $permissionSubGroup->create($data);
+        $permissionSubGroup->fill($data);
+        $permissionSubGroup->save();
+        return $permissionSubGroup;
     }
 
     /**

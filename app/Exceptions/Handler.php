@@ -121,7 +121,8 @@ class Handler extends ExceptionHandler
                 "query_time" => 0
             ];
             return response()->json($errors);
-        } elseif ($e instanceof ParseError) {
+        }
+        elseif ($e instanceof ParseError) {
             $errors['_response_status'] = [
                 'success' => false,
                 "code" => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,

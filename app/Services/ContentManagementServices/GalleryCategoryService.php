@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,6 +41,7 @@ class GalleryCategoryService
             'gallery_categories.title_en',
             'gallery_categories.title_bn',
             'gallery_categories.institute_id',
+            'gallery_categories.organization_id',
             'gallery_categories.programme_id',
             'gallery_categories.batch_id',
             'gallery_categories.featured',
@@ -50,6 +52,7 @@ class GalleryCategoryService
             'gallery_categories.created_at',
             'gallery_categories.updated_at'
         ]);
+
         $galleryCategoryBuilder->orderBy('gallery_categories.id', $order);
 
         if (is_numeric($rowStatus)) {
@@ -58,7 +61,8 @@ class GalleryCategoryService
 
         if (!empty($titleEn)) {
             $galleryCategoryBuilder->where('gallery_categories.title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
+        }
+        if (!empty($titleBn)) {
             $galleryCategoryBuilder->where('gallery_categories.title_bn', 'like', '%' . $titleBn . '%');
         }
 
@@ -99,6 +103,7 @@ class GalleryCategoryService
             'gallery_categories.title_en',
             'gallery_categories.title_bn',
             'gallery_categories.institute_id',
+            'gallery_categories.organization_id',
             'gallery_categories.programme_id',
             'gallery_categories.batch_id',
             'gallery_categories.featured',
@@ -132,13 +137,11 @@ class GalleryCategoryService
     public function store(array $data): GalleryCategory
     {
         if (!empty($data['image'])) {
-            $filename = FileHandler::storeFile($data['image'], 'images/gallery-category');
-            $data['image'] = 'images/gallery-category/' . $filename;
+            $filename = Storage::url(FileHandler::storeFile($data['image'], 'images/gallery-category'));
+            $data['image'] = $filename;
         }
 
         $galleryCategory = new GalleryCategory();
-        $directory = "gallery-category/" . date('Y-m');
-
         $galleryCategory->fill($data);
         $galleryCategory->save();
         return $galleryCategory;
@@ -152,6 +155,10 @@ class GalleryCategoryService
      */
     public function update(GalleryCategory $galleryCategory, array $data): GalleryCategory
     {
+        if (!empty($data['image'])) {
+            $filename = Storage::url(FileHandler::storeFile($data['image'], 'images/gallery-category'));
+            $data['image'] = $filename;
+        }
         $galleryCategory->fill($data);
         $galleryCategory->save();
         return $galleryCategory;
@@ -183,7 +190,11 @@ class GalleryCategoryService
             'title_en' => ['required', 'string', 'max:191', 'min:2'],
             'title_bn' => ['required', 'string', 'max:500', 'min:2'],
             'institute_id' => [
-                'required',
+                'nullable',
+                'int',
+            ],
+            'organization_id' => [
+                'nullable',
                 'int',
             ],
             'programme_id' => [
@@ -196,8 +207,7 @@ class GalleryCategoryService
             ],
             'image' => [
                 'nullable',
-                'image',
-                'mimes:jpg,bmp,png,jpeg,svg',
+                'string',
             ],
 
             'featured' => [

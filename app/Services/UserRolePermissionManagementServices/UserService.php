@@ -25,6 +25,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserService
 {
+    /*const ROUTE_PREFIX = 'api.v1.users.';*/
+
+
     /**
      * @param array $request
      * @param Carbon $startTime
@@ -474,21 +477,21 @@ class UserService
         $rules = [
             'permission_sub_group_id' => 'required|numeric',
             "user_type" => "required|min:1",
-            "username" => 'required|max:100|string|unique:users,username,' . $id,
+            "username" => 'required|string|unique:users,username,' . $id,
             "organization_id" => 'nullable|numeric',
             "institute_id" => 'nullable|numeric',
             "role_id" => 'nullable|exists:roles,id',
-            "name_en" => 'required|max:255|min:3',
-            "name_bn" => 'required|max:300|min:3',
-            "email" => 'required|max:191|email',
-            "mobile" => "nullable|max:15|string",
+            "name_en" => 'required|min:3',
+            "name_bn" => 'required|min:3',
+            "email" => 'required|email',
+            "mobile" => "nullable|string",
             "loc_division_id" => 'nullable|exists:loc_districts,id',
             "loc_district_id" => 'nullable|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
             "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "password" => 'nullable|max:191|min:6',
-            "profile_pic" => 'nullable|max:1000|string',
+            "password" => 'nullable|min:6',
+            "profile_pic" => 'nullable|string',
             "created_by" => "nullable|numeric",
             "updated_by" => "nullable|numeric",
             "remember_token" => "nullable|string",

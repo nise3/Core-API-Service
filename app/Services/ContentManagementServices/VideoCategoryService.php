@@ -56,7 +56,8 @@ class VideoCategoryService
         }
         if (!empty($titleEn)) {
             $videoCategoryBuilder->where('video_categories.title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
+        }
+        if (!empty($titleBn)) {
             $videoCategoryBuilder->where('video_categories.title_bn', 'like', '%' . $titleBn . '%');
         }
 

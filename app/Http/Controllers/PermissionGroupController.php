@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\PermissionGroup;
 use App\Services\UserRolePermissionManagementServices\PermissionGroupService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -32,7 +33,7 @@ class PermissionGroupController extends Controller
     /**
      * Display a listing of the resource.
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
@@ -49,8 +50,9 @@ class PermissionGroupController extends Controller
 
     /**
      * Display the specified resource.
+     * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function read(Request $request,int $id): JsonResponse
     {
@@ -65,7 +67,7 @@ class PermissionGroupController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -94,7 +96,7 @@ class PermissionGroupController extends Controller
      * Update the specified resource in storage.
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
@@ -123,7 +125,7 @@ class PermissionGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function destroy(int $id): JsonResponse
     {
@@ -148,7 +150,7 @@ class PermissionGroupController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
     public function assignPermissionToPermissionGroup(Request $request, int $id): JsonResponse

@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Validator;
@@ -75,10 +76,11 @@ class RoleService
 
         if (!empty($titleEn)) {
             $rolesBuilder->where('roles.title_en', 'like', '%' . $titleEn . '%');
-        } elseif (!empty($titleBn)) {
+        }
+        if (!empty($titleBn)) {
             $rolesBuilder->where('roles.title_bn', 'like', '%' . $titleBn . '%');
         }
-
+        /** @var Collection $roles */
         if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $roles = $rolesBuilder->paginate($pageSize);
@@ -134,6 +136,8 @@ class RoleService
         });
         $roleBuilder->with('permissions');
         $roleBuilder->where('roles.id', $id);
+
+        /** @var Role $role */
         $role = $roleBuilder->first();
 
         return [
