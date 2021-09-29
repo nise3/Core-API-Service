@@ -3072,45 +3072,11 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a gallery category.A successful request will return 200",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/batch_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/programme_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/featured"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    }
-                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            },
-                            "encoding": {
-                                "image": {
-                                    "contentType": "image/png,image/jpeg"
-                                }
+                                "$ref": "#/components/schemas/GalleryCategory"
                             }
                         }
                     }
@@ -3205,32 +3171,17 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/galleryCategoryId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/batch_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/programme_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/image"
-                    },
-                    {
-                        "$ref": "#/components/parameters/featured"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GalleryCategory"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -3372,88 +3323,11 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a galley",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/gallery_category_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "you_tube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "content_type",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>image,2=>video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "is_youtube_video",
-                        "in": "query",
-                        "required": false,
-                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "content_title",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "Content title"
-                        }
-                    },
-                    {
-                        "name": "publish_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
-                    },
-                    {
-                        "name": "archive_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "content_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Gallery"
                             }
                         }
                     }
@@ -3529,88 +3403,13 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/galleryId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/gallery_category_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "you_tube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "content_type",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>image,2=>video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "is_youtube_video",
-                        "in": "query",
-                        "required": false,
-                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "content_title",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "Content title"
-                        }
-                    },
-                    {
-                        "name": "publish_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
-                    },
-                    {
-                        "name": "archive_date",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2021-09-05"
-                        }
                     }
                 ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "content_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Gallery"
                             }
                         }
                     }
@@ -4058,71 +3857,11 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a  video",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/description"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "video_category_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "video_type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "youtube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "youtube_video_url",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    }
-                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uploaded_video_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/video"
                             }
                         }
                     }
@@ -4222,71 +3961,13 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/videoId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/description"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "name": "video_category_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "video_type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "youtube_video_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "youtube_video_url",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uploaded_video_path": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/video"
                             }
                         }
                     }
@@ -4437,70 +4118,11 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a  slider",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "sub_title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "is_button_available",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>available,0=>not available",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "link",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "button_text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "slider": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Slider"
                             }
                         }
                     }
@@ -4594,70 +4216,13 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/sliderId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "sub_title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "is_button_available",
-                        "in": "query",
-                        "required": true,
-                        "description": "1=>available,0=>not available",
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                1,
-                                0
-                            ]
-                        }
-                    },
-                    {
-                        "name": "link",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "button_text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "slider": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/Slider"
                             }
                         }
                     }
@@ -5927,6 +5492,11 @@
             "put": {
                 "summary": "update",
                 "description": "Update recent activity",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/recentActivityId"
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
@@ -7353,7 +6923,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "create_by": {
                         "type": "integer",
@@ -7420,7 +6991,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "create_by": {
                         "type": "integer",
@@ -7498,7 +7070,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "create_by": {
                         "type": "integer",
@@ -7545,22 +7118,24 @@
                     },
                     "method": {
                         "type": "integer",
-                        "example": "1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE",
+                        "description": "1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE",
                         "enum": [
                             1,
                             2,
                             3,
                             4,
                             5
-                        ]
+                        ],
+                        "example": 1
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>Inactive,99=>Delete",
+                        "description": "1=>Active,0=>Inactive,99=>Delete",
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -7646,11 +7221,12 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive",
+                        "description": "1=>Active,0=>InActive",
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -7749,7 +7325,12 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive"
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1,
+                        "description": "1=>Active,0=>InActive"
                     },
                     "created_by": {
                         "type": "integer"
@@ -7809,7 +7390,12 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive"
+                        "description": "1=>Active,0=>InActive",
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -7864,7 +7450,11 @@
                     },
                     "row_status": {
                         "type": "integer",
-                        "example": "1=>Active,0=>InActive"
+                        "enum": [
+                            1,
+                            0
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -7966,7 +7556,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -8074,7 +7665,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -8142,7 +7734,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -8243,7 +7836,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_at": {
                         "type": "string",
@@ -8346,7 +7940,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -8452,7 +8047,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "created_by": {
                         "type": "integer",
@@ -8517,7 +8113,8 @@
                         "enum": [
                             0,
                             1
-                        ]
+                        ],
+                        "example": 1
                     }
                 },
                 "required": [
