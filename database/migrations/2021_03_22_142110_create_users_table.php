@@ -27,7 +27,9 @@ class CreateUsersTable extends Migration
             $table->string('name_bn', 300)->nullable();
 
             $table->string('email', 191);
-            $table->string('mobile', 15)->nullable();
+            $table->string("country")->default("BD");
+            $table->string("phone_code")->default("880");
+            $table->string('mobile', 11)->nullable();
 
             $table->unsignedMediumInteger('loc_division_id')->nullable()->index('users_loc_division_id_inx');
             $table->unsignedMediumInteger('loc_district_id')->nullable()->index('users_loc_district_id_inx');
