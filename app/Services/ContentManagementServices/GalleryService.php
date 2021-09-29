@@ -256,24 +256,22 @@ class GalleryService
                 'date',
                 'after:publish_date'
             ],
+            'row_status' => [
+                'required_if:' . $id . ',!=,null',
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ]
         ];
-
-        if ($request->content_type == Gallery::CONTENT_TYPE_IMAGE) {
+        if ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
+            $rules['you_tube_video_id'] = [
+                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_YES,
+                'regex:/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/'
+            ];
+        } else {
             $rules['content_path'] = [
                 'required_without:id',
                 'string'
             ];
 
-        } elseif ($request->content_type == Gallery::CONTENT_TYPE_VIDEO && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_NO) {
-            $rules['content_path'] = [
-                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_NO,
-                'string'
-            ];
-        } elseif (Gallery::CONTENT_TYPE_VIDEO == $request->content_type && $request->is_youtube_video == Gallery::IS_YOUTUBE_VIDEO_YES) {
-            $rules['you_tube_video_id'] = [
-                'required_if:is_youtube_video,' . Gallery::IS_YOUTUBE_VIDEO_YES,
-                'regex:/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/'
-            ];
         }
         return Validator::make($request->all(), $rules, $customMessage);
     }

@@ -28,6 +28,7 @@ class CreateRecentActivitiesTable extends Migration
             $table->string("alt_title_bn")->nullable();
             $table->dateTime('publish_date')->nullable();
             $table->dateTime('archive_date')->nullable();
+            $table->tinyInteger('row_status')->default(1);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();

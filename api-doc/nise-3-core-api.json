@@ -3412,6 +3412,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/you_tube_video_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
                 "responses": {
@@ -3552,6 +3555,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/you_tube_video_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
                 "responses": {
@@ -5930,7 +5936,8 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "image"
                             }
                         }
                     }
@@ -6149,6 +6156,7 @@
                 "name": "content_type",
                 "in": "query",
                 "required": true,
+                "description": "image=>1,video=>2",
                 "schema": {
                     "type": "integer",
                     "enum": [
@@ -6316,7 +6324,8 @@
                     "enum": [
                         0,
                         1
-                    ]
+                    ],
+                    "example": 1
                 }
             },
             "page_size": {
@@ -6352,7 +6361,8 @@
                     "enum": [
                         1,
                         0
-                    ]
+                    ],
+                    "example": 1
                 }
             },
             "title_bn": {
@@ -6678,7 +6688,10 @@
                 "required": true,
                 "schema": {
                     "type": "integer",
-                    "example": 1
+                    "enum": [
+                        1,
+                        2
+                    ]
                 }
             },
             "institute_id": {
@@ -7503,6 +7516,11 @@
                         "description": "Institute id",
                         "example": 1
                     },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
+                        "example": 1
+                    },
                     "batch_id": {
                         "type": "integer",
                         "description": "Batch id",
@@ -7517,6 +7535,14 @@
                         "type": "string",
                         "description": "gallery category image",
                         "minLength": 191
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternative title_en for image"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternative title_bn for image"
                     },
                     "featured": {
                         "type": "integer",
@@ -7553,8 +7579,7 @@
                 },
                 "required": [
                     "title_bn",
-                    "title_en",
-                    "institute_id"
+                    "title_en"
                 ]
             },
             "Gallery": {
@@ -7571,16 +7596,6 @@
                         "description": "gallery category id",
                         "example": 1
                     },
-                    "content_title": {
-                        "type": "string",
-                        "description": "Content title",
-                        "example": "content_title"
-                    },
-                    "institute_id": {
-                        "type": "integer",
-                        "description": "Institute id",
-                        "example": 1
-                    },
                     "content_type": {
                         "type": "integer",
                         "description": "1=>image,2=>video",
@@ -7588,6 +7603,29 @@
                             1,
                             2
                         ]
+                    },
+                    "content_title": {
+                        "type": "string",
+                        "description": "Content title",
+                        "example": "content_title"
+                    },
+                    "content_path": {
+                        "type": "string",
+                        "description": "content path"
+                    },
+                    "content_properties": {
+                        "type": "string",
+                        "description": "content properties"
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Institute id",
+                        "example": 1
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id",
+                        "example": 1
                     },
                     "is_youtube_video": {
                         "type": "integer",
@@ -7602,20 +7640,25 @@
                         "description": "youtube video id ",
                         "example": "pQ145X"
                     },
-                    "content_path": {
-                        "type": "string",
-                        "format": "binary",
-                        "description": "content path"
-                    },
                     "publish_date": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "publish date"
+                        "description": "publish date",
+                        "example": "2021-04-03"
                     },
                     "archive_date": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "Archive date"
+                        "description": "Archive date",
+                        "example": "2021-06-03"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternate title_en for content"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternate title_bn for content"
                     },
                     "row_status": {
                         "type": "integer",
@@ -7645,8 +7688,8 @@
                 "required": [
                     "gallery_category_id",
                     "content_title",
-                    "institute_id",
-                    "content_type"
+                    "content_type",
+                    "content_path"
                 ]
             },
             "VideoCategory": {
@@ -7693,6 +7736,14 @@
                             0
                         ]
                     },
+                    "created_by": {
+                        "type": "integer",
+                        "description": "Creator id"
+                    },
+                    "updated_by": {
+                        "type": "integer",
+                        "description": "Modifier id"
+                    },
                     "created_at": {
                         "type": "string",
                         "format": "date-time"
@@ -7732,13 +7783,21 @@
                         "type": "integer",
                         "description": "Institute id"
                     },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "organization id"
+                    },
                     "video_category_id": {
                         "type": "integer",
                         "description": "Video Category id"
                     },
-                    "description": {
+                    "description_en": {
                         "type": "string",
-                        "description": "Description of video"
+                        "description": "Description_en of video"
+                    },
+                    "description_bn": {
+                        "type": "string",
+                        "description": "Description_bn of video"
                     },
                     "video_type": {
                         "type": "integer",
@@ -7761,6 +7820,14 @@
                         "type": "string",
                         "maxLength": 255,
                         "description": "Uploaded video path"
+                    },
+                    "alt_title_en": {
+                        "type": "string",
+                        "description": "alternate tittle_en for video"
+                    },
+                    "alt_title_bn": {
+                        "type": "string",
+                        "description": "alternate tittle_bn for video"
                     },
                     "row_status": {
                         "type": "integer",
@@ -7842,7 +7909,12 @@
                     },
                     "content_type": {
                         "type": "integer",
-                        "description": "1=>Image,2=>Video,3=>Youtube"
+                        "description": "1=>Image,2=>Video,3=>Youtube",
+                        "enum": [
+                            1,
+                            2,
+                            3
+                        ]
                     },
                     "content_path": {
                         "type": "string",
@@ -8281,12 +8353,14 @@
                     "publish_date": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "publish date"
+                        "description": "publish date",
+                        "example": "2021-05-01"
                     },
                     "archive_date": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "Archive date"
+                        "description": "Archive date",
+                        "example": "2021-10-01"
                     },
                     "row_status": {
                         "type": "integer",
