@@ -6,65 +6,65 @@ use App\Models\LocDivision;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class LocDivisionPolicy
+class LocDivisionPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can view any locDivisions.
      *
-     * @param User $user
+     * @param  User $authUser
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $authUser)
     {
-        return true;
+        return $authUser->hasPermission('view_any_division');
     }
 
     /**
      * Determine whether the user can view the locDivision.
      *
      * @param User $authUser
-     * @param LocDivision $locDivision
+     * @param  LocDivision  $locDivision
      * @return mixed
      */
     public function view(User $authUser, LocDivision $locDivision)
     {
-        return false;
+        return $authUser->hasPermission('view_single_division');
     }
 
     /**
      * Determine whether the user can create locDivisions.
      *
-     * @param User $user
+     * @param User $authUser
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $authUser)
     {
-        //
+        return $authUser->hasPermission('create_division');
     }
 
     /**
      * Determine whether the user can update the locDivision.
      *
-     * @param User $user
-     * @param LocDivision $locDivision
+     * @param  User $authUser
+     * @param  LocDivision  $locDivision
      * @return mixed
      */
-    public function update(User $user, LocDivision $locDivision)
+    public function update(User $authUser, LocDivision $locDivision)
     {
-        //
+        return $authUser->hasPermission('update_division');
     }
 
     /**
      * Determine whether the user can delete the locDivision.
      *
-     * @param User $user
-     * @param LocDivision $locDivision
+     * @param  User  $authUser
+     * @param  LocDivision  $locDivision
      * @return mixed
      */
-    public function delete(User $user, LocDivision $locDivision)
+    public function delete(User $authUser, LocDivision $locDivision)
     {
-        //
+        return $authUser->hasPermission('delete_division');
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\LocDivision;
 use App\Services\LocationManagementServices\LocDivisionService;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +42,6 @@ class LocDivisionController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        // dd(Auth::check());
         $this->authorize('viewAny', LocDivision::class);
 
         $filter = $this->locDivisionService->filterValidator($request)->validate();
@@ -72,7 +70,15 @@ class LocDivisionController extends Controller
             }
             $this->authorize('view', $division);
 
-            return Response::json(formatApiResponse($division, $this->startTime, ResponseAlias::HTTP_OK,));
+            $response = [
+                "data" => $division ?: null,
+                "_response_status" => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "query_time" => $this->startTime->diffForHumans(Carbon::now())
+                ]
+            ];
+            return Response::json($response);
         } catch (Throwable $e) {
             return $e;
         }
@@ -87,6 +93,8 @@ class LocDivisionController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        $this->authorize('create', LocDivision::class);
+
         $validated = $this->locDivisionService->validator($request)->validate();
         try {
             $loc_division = $this->locDivisionService->store($validated);
@@ -115,6 +123,9 @@ class LocDivisionController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $locDivision = LocDivision::findOrFail($id);
+
+        $this->authorize('update', $locDivision);
+
         $validated = $this->locDivisionService->validator($request, $id)->validate();
         try {
             $loc_division = $this->locDivisionService->update($validated, $locDivision);
@@ -141,6 +152,9 @@ class LocDivisionController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $locDivision = LocDivision::findOrFail($id);
+
+        $this->authorize('delete', $locDivision);
+
         try {
             $this->locDivisionService->destroy($locDivision);
             $response = [

@@ -29,10 +29,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Gate::policy(LocDivision::class, LocDivisionPolicy::class);
-
         $this->app['auth']->viaRequest('token', function ($request) {
-        //    Log::info('requuuuuuuuuuuuuuuuuuuuuuuuuuu');
             $token = $request->header('Token');
             $authUser = null;
             if ($token) {

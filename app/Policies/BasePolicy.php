@@ -3,17 +3,19 @@
 
 namespace App\Policies;
 
+use App\Models\User;
+
 abstract class BasePolicy
 {
 
-    public function hasPermissions($permission)
+    public function before($user, $ability)
     {
-        return true;
-//        if ($user->row_status != User::ROW_STATUS_ACTIVE) {
-//            return false;
-//        }
-//
-//        if ($user->isSuperUser()) {
+        /** @var User $user */
+        if ($user->row_status != User::ROW_STATUS_ACTIVE) {
+            return false;
+        }
+
+//        if ($user->isSystemUser()) {
 //            return true;
 //        }
     }

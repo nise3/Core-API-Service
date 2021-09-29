@@ -330,7 +330,7 @@ class UserService
         $user = User::where('idp_user_id', $id)->first();
 
         if ($user == null)
-            return [];
+            return new \stdClass();
 
         $role = Role::find($user->role_id);
         $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
@@ -341,7 +341,7 @@ class UserService
         }
 
         $user ["role"] = $role;
-        $user ["permissions"] = $permissionKeys;
+        $user ["permissions"] = collect($permissionKeys);
 
         return $user;
     }

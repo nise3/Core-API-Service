@@ -64,4 +64,26 @@ class User extends AuthBaseModel
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function hasPermission($key)
+    {
+        return $this->permissions->contains($key);
+    }
+
+    public function isSystemUser(): bool
+    {
+        return $this->user_type === BaseModel::SYSTEM_USER;
+    }
+
+
+    public function isInstituteUser(): bool
+    {
+        return $this->user_type === BaseModel::INSTITUTE_USER;
+    }
+
+
+    public function isOrganizationUser(): bool
+    {
+        return $this->user_type === BaseModel::ORGANIZATION_USER;
+    }
 }
