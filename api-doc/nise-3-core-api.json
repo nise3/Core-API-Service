@@ -7632,7 +7632,8 @@
                         "enum": [
                             1,
                             0
-                        ]
+                        ],
+                        "example": 1
                     },
                     "you_tube_video_id": {
                         "type": "string",

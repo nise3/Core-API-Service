@@ -45,14 +45,14 @@ class PermissionSeeder extends Seeder
         ];
 
         $modules = [
-            'divisions',
-            'districts',
-            'upazilas',
-            'users',
-            'roles',
-            'permissions',
-            'permission-groups',
-            'permission-sub-groups'
+            'division',
+            'district',
+            'upazila',
+            'user',
+            'role',
+            'permission',
+            'permission_group',
+            'permission_sub_group'
         ];
         $menuOrder=1;
         foreach ($modules as $module) {
