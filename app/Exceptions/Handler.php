@@ -76,7 +76,7 @@ class Handler extends ExceptionHandler
             $errors['_response_status'] = [
                 'success' => false,
                 "code" => ResponseAlias::HTTP_NOT_FOUND,
-                "message" => "Method not found",
+                "message" => $e->getMessage(),
                 "query_time" => 0
             ];
             return response()->json($errors);
@@ -92,7 +92,7 @@ class Handler extends ExceptionHandler
             $errors['errors'] = $e->errors();
             $errors['_response_status'] = [
                 'success' => false,
-                "code" => ResponseAlias::HTTP_BAD_REQUEST,
+                "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
                 "message" => "validation Error",
                 "query_time" => 0
             ];
@@ -142,7 +142,7 @@ class Handler extends ExceptionHandler
             $errors['_response_status'] = [
                 'success' => false,
                 "code" => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
-                "message" => "Internal Server Error",
+                "message" => $e->getMessage(),
                 "query_time" => 0
             ];
             return response()->json($errors);

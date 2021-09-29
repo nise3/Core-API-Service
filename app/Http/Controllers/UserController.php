@@ -6,6 +6,8 @@ use App\Models\BaseModel;
 use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
+use Faker\Provider\Uuid;
+use FastRoute\RouteParser\Std;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Psy\Util\Str;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -74,7 +77,6 @@ class UserController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-
         $user = new User();
         $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $validated = $this->userService->validator($request)->validate();
@@ -195,7 +197,7 @@ class UserController extends Controller
     public function getUserPermissionList(Request $request, string $id)
     {
         try {
-            $user = $this->userService->getUserPermission($id);
+            $user = $this->userService->getUserPermissionWithMenuItems($id);
             $response = [
                 'data' => $user ?? [],
                 '_response_status' => [
@@ -213,21 +215,52 @@ class UserController extends Controller
     }
 
     /**
+     * Internal service Api call for Auth User Information
+     * @param Request $request
+     * @return array|\Exception|JsonResponse|Throwable
+     */
+    public function getAuthUserInfoByIdpId(Request $request):JsonResponse
+    {
+        try {
+            $authUserInfo=$this->userService->getAuthPermission($request->idp_user_id ?? null);
+            $response = [
+                'data' => $authUserInfo,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "Auth User information",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+        } catch (Throwable $e) {
+            return $e;
+        }
+
+        return Response::json($response, ResponseAlias::HTTP_OK);
+
+    }
+
+    /**
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
      */
-    public function registerUser(Request $request)
+    public function organizationOrInstituteUserCreate(Request $request)
     {
         $user = new User();
-
-        $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $request['password'] = $request['password'] ?? '123456';
-
-        $validated = $this->userService->registerUserValidator($request)->validate();
-
+        $validated = $this->userService->organizationOrInstituteUserValidator($request)->validate();
         DB::beginTransaction();
         try {
-            $httpClient = $this->userService->idpUserCreate($validated);
+
+            $idpUserPayLoad = [
+                'name' => $validated['name_en'],
+                'email' => $validated['email'],
+                'username' => $validated['username'],
+                'password' => $validated['password']
+            ];
+
+            $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
+
             if ($httpClient->json('id')) {
                 $validated['idp_user_id'] = $httpClient->json('id');
                 $user = $this->userService->createRegisterUser($user, $validated);
@@ -244,7 +277,6 @@ class UserController extends Controller
             } else {
                 DB::rollBack();
                 $response = [
-                    'data' => $user ?: [],
                     '_response_status' => [
                         "success" => false,
                         "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
@@ -253,6 +285,122 @@ class UserController extends Controller
                     ]
                 ];
             }
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return $e;
+        }
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Exception|JsonResponse|Throwable
+     * @throws ValidationException
+     */
+    public function registerUser(Request $request): JsonResponse
+    {
+        $user = new User();
+        $validatedData = $this->userService->registerUserValidator($request)->validate();
+        DB::beginTransaction();
+        try {
+            /** @var  $idpUserPayLoad */
+            $idpUserPayLoad = [
+                'name' => $validatedData['name_en'],
+                'email' => $validatedData['email'],
+                'username' => $validatedData['username'],
+                'password' => $validatedData['password']
+            ];
+
+            $httpClient = Uuid::uuid();  //$this->userService->idpUserCreate($idpUserPayLoad);
+            if ($httpClient) {
+                $validatedData['idp_user_id'] = $httpClient;
+                $validatedData['row_status'] = BaseModel::ROW_STATUS_PENDING;
+
+                $user = $this->userService->store($user, $validatedData);
+
+                $response = [
+                    'data' => $user ?: [],
+                    '_response_status' => [
+                        "success" => true,
+                        "code" => ResponseAlias::HTTP_CREATED,
+                        "message" => "User added successfully",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+                DB::commit();
+            } else {
+                DB::rollBack();
+                $response = [
+                    '_response_status' => [
+                        "success" => false,
+                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                        "message" => "User is not created",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+            }
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return $e;
+        }
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * @param int $id
+     * @return \Exception|JsonResponse|Throwable
+     */
+    public function userApproval(int $id): JsonResponse
+    {
+        /** @var User $user */
+        $user = User::findOrFail($id);
+        DB::beginTransaction();
+        try {
+            if ($user->row_status != 1) {
+                /**Idp User Payload*/
+                $idpUserPayLoad = [
+                    'name' => $user->name_en,
+                    'email' => $user->email,
+                    'username' => $user->username,
+                    'password' => "123456",
+                ];
+                $httpClient = Uuid::uuid();
+                if ($httpClient) {
+                    $data['row_status'] = BaseModel::ROW_STATUS_ACTIVE;
+                    $user = $this->userService->update($data, $user);
+                    $response = [
+                        'data' => $user ?: [],
+                        '_response_status' => [
+                            "success" => true,
+                            "code" => ResponseAlias::HTTP_OK,
+                            "message" => "User is approved successfully",
+                            "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                        ]
+                    ];
+                    DB::commit();
+                } else {
+                    DB::rollBack();
+                    $response = [
+                        'data' => $user ?: [],
+                        '_response_status' => [
+                            "success" => false,
+                            "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                            "message" => "User is not created",
+                            "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                        ]
+                    ];
+                }
+            } else {
+                $response = [
+                    '_response_status' => [
+                        "success" => false,
+                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                        "message" => "User has already approved!",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+            }
+
         } catch (Throwable $e) {
             DB::rollBack();
             return $e;

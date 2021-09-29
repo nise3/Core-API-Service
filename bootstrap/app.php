@@ -88,6 +88,12 @@ $app->middleware([
     LumenMiddlewareTrimOrConvertString\ConvertEmptyStringsToNull::class,
 ]);
 
+$app->middleware([
+    App\Http\Middleware\AuthJwtTokenMiddleware::class
+]);
+
+
+
 //$app->routeMiddleware([
 //    'auth' => App\Http\Middleware\Authenticate::class,
 //]);

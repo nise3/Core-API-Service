@@ -2235,6 +2235,7 @@
                                                 "route": null,
                                                 "parameters": null
                                             }
+
                                         ]
                                     },
                                     "_response_status": {
@@ -2309,6 +2310,7 @@
                                     }
                                 }
                             }
+
                         }
                     }
                 },
@@ -2318,6 +2320,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
+
                                 }
                             }
                         }
@@ -3080,10 +3083,7 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/organization_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
                         "$ref": "#/components/parameters/batch_id"
@@ -3092,21 +3092,32 @@
                         "$ref": "#/components/parameters/programme_id"
                     },
                     {
-                        "$ref": "#/components/parameters/image"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
-                    },
-                    {
                         "$ref": "#/components/parameters/featured"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "image": {
+                                    "contentType": "image/png,image/jpeg"
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -3205,10 +3216,7 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/organization_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
                         "$ref": "#/components/parameters/batch_id"
@@ -3218,12 +3226,6 @@
                     },
                     {
                         "$ref": "#/components/parameters/image"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
                     },
                     {
                         "$ref": "#/components/parameters/featured"
@@ -3289,7 +3291,7 @@
                 "description": "Api endpoint to get the list of galley ",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/content_title_optional"
+                        "$ref": "#/components/parameters/content_title"
                     },
                     {
                         "$ref": "#/components/parameters/page"
@@ -3378,45 +3380,87 @@
                         "$ref": "#/components/parameters/gallery_category_id"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id_optional"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
-                        "$ref": "#/components/parameters/organization_id_optional"
+                        "name": "you_tube_video_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/content_title"
+                        "name": "content_type",
+                        "in": "query",
+                        "required": true,
+                        "description": "1=>image,2=>video",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/content_type"
+                        "name": "is_youtube_video",
+                        "in": "query",
+                        "required": false,
+                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                0
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/is_youtube_video"
+                        "name": "content_title",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Content title"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/content_properties"
+                        "name": "publish_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2021-09-05"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/publish_date"
-                    },
-                    {
-                        "$ref": "#/components/parameters/archive_date"
-                    },
-                    {
-                        "$ref": "#/components/parameters/content_path"
-                    },
-                    {
-                        "$ref": "#/components/parameters/you_tube_video_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
+                        "name": "archive_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2021-09-05"
+                        }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "content_path": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -3473,34 +3517,6 @@
                                     "$ref": "#/components/schemas/Gallery"
                                 },
                                 "example": {
-                                    "data": {
-                                        "id": 1,
-                                        "gallery_category_id": 1,
-                                        "gallery_category_title_en": "Test Title (EN)",
-                                        "gallery_category_title_bn": "Test Title (BN)",
-                                        "content_title": "Title Examiner",
-                                        "institute_id": 9,
-                                        "organization_id": null,
-                                        "content_type": 1,
-                                        "content_path": "In sint natus ducimus nihil culpa mollitia.",
-                                        "is_youtube_video": 0,
-                                        "you_tube_video_id": null,
-                                        "content_properties": null,
-                                        "alt_title_en": null,
-                                        "alt_title_bn": null,
-                                        "publish_date": "2021-09-26 00:00:00",
-                                        "archive_date": "2021-09-27 06:08:38",
-                                        "row_status": 1,
-                                        "created_by": null,
-                                        "updated_by": null,
-                                        "created_at": "2021-09-27T06:08:38.000000Z",
-                                        "updated_at": "2021-09-27T06:08:38.000000Z"
-                                    },
-                                    "_response_status": {
-                                        "success": true,
-                                        "code": 200,
-                                        "query_time": 0
-                                    }
                                 }
                             }
                         }
@@ -3521,45 +3537,87 @@
                         "$ref": "#/components/parameters/gallery_category_id"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id_optional"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
-                        "$ref": "#/components/parameters/organization_id_optional"
+                        "name": "you_tube_video_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/content_title"
+                        "name": "content_type",
+                        "in": "query",
+                        "required": true,
+                        "description": "1=>image,2=>video",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/content_type"
+                        "name": "is_youtube_video",
+                        "in": "query",
+                        "required": false,
+                        "description": "Required if video_type= 2 .1=>youtube video,0=>Not youtube video",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                0
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/is_youtube_video"
+                        "name": "content_title",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Content title"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/content_properties"
+                        "name": "publish_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2021-09-05"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/publish_date"
-                    },
-                    {
-                        "$ref": "#/components/parameters/archive_date"
-                    },
-                    {
-                        "$ref": "#/components/parameters/content_path"
-                    },
-                    {
-                        "$ref": "#/components/parameters/you_tube_video_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
+                        "name": "archive_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2021-09-05"
+                        }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "content_path": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -3758,26 +3816,15 @@
             "post": {
                 "summary": "store",
                 "description": "Api endpoint to store a   video category",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/parent_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VideoCategory"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -3862,26 +3909,17 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/videoCategoryId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/parent_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VideoCategory"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -4031,42 +4069,67 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/description_en"
+                        "$ref": "#/components/parameters/description"
                     },
                     {
-                        "$ref": "#/components/parameters/description_bn"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id_optional"
+                        "name": "video_category_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/organization_id_optional"
+                        "name": "video_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/video_category_id"
+                        "name": "youtube_video_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/video_type"
-                    },
-                    {
-                        "$ref": "#/components/parameters/youtube_video_url"
-                    },
-                    {
-                        "$ref": "#/components/parameters/you_tube_video_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/uploaded_video_path"
+                        "name": "youtube_video_url",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uploaded_video_path": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -4170,42 +4233,67 @@
                         "$ref": "#/components/parameters/title_bn"
                     },
                     {
-                        "$ref": "#/components/parameters/description_en"
+                        "$ref": "#/components/parameters/description"
                     },
                     {
-                        "$ref": "#/components/parameters/description_bn"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id_optional"
+                        "name": "video_category_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/organization_id_optional"
+                        "name": "video_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/video_category_id"
+                        "name": "youtube_video_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/video_type"
-                    },
-                    {
-                        "$ref": "#/components/parameters/youtube_video_url"
-                    },
-                    {
-                        "$ref": "#/components/parameters/you_tube_video_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/uploaded_video_path"
+                        "name": "youtube_video_url",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uploaded_video_path": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -4296,16 +4384,10 @@
                         "$ref": "#/components/parameters/row_status_optional"
                     },
                     {
-                        "$ref": "#/components/parameters/title_en_optional"
+                        "$ref": "#/components/parameters/title"
                     },
                     {
-                        "$ref": "#/components/parameters/title_bn_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/sub_title_en_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/sub_title_bn_optional"
+                        "$ref": "#/components/parameters/sub_title"
                     }
                 ],
                 "responses": {
@@ -4360,45 +4442,72 @@
                 "description": "Api endpoint to store a  slider",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id_optional"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     },
                     {
-                        "$ref": "#/components/parameters/title_en"
+                        "name": "title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/title_bn"
+                        "name": "sub_title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/sub_title_en"
+                        "name": "is_button_available",
+                        "in": "query",
+                        "required": true,
+                        "description": "1=>available,0=>not available",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                0
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/sub_title_bn"
+                        "name": "link",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/slider_images"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/is_button_available"
-                    },
-                    {
-                        "$ref": "#/components/parameters/link"
-                    },
-                    {
-                        "$ref": "#/components/parameters/button_text"
+                        "name": "button_text",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "slider": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "successful",
@@ -4490,45 +4599,72 @@
                         "$ref": "#/components/parameters/sliderId"
                     },
                     {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id_optional"
+                        "$ref": "#/components/parameters/institute_id"
                     },
                     {
                         "$ref": "#/components/parameters/row_status"
                     },
                     {
-                        "$ref": "#/components/parameters/title_en"
+                        "name": "title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/title_bn"
+                        "name": "sub_title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/sub_title_en"
+                        "name": "is_button_available",
+                        "in": "query",
+                        "required": true,
+                        "description": "1=>available,0=>not available",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                0
+                            ]
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/sub_title_bn"
+                        "name": "link",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "$ref": "#/components/parameters/slider_images"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/alt_title_bn"
-                    },
-                    {
-                        "$ref": "#/components/parameters/is_button_available"
-                    },
-                    {
-                        "$ref": "#/components/parameters/link"
-                    },
-                    {
-                        "$ref": "#/components/parameters/button_text"
+                        "name": "button_text",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "slider": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "successful",
@@ -5879,6 +6015,276 @@
                     "RecentActivity"
                 ]
             }
+        },
+        "/partners": {
+            "get": {
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_bn_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/order"
+                    },
+
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "order": "ASC",
+                                    "current_page": 1,
+                                    "total_page": 3,
+                                    "page_size": 10,
+                                    "total": 30,
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "SoftBdLtd",
+                                            "title_bn": "SoftBdLtd",
+                                            "image": "https://www.google.com",
+                                            "domain": "https://www.google.com",
+                                            "alt_title_en": "",
+                                            "alt_title_bn": "",
+                                            "created_by": 0,
+                                            "updated_by": 0,
+                                            "created_at": "2021-09-27T05:06:55.000000Z",
+                                            "updated_at": "2021-09-27T05:06:55.000000Z"
+                                        }
+                                    ],
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            },
+            "post": {
+                "summary": "Create a partner",
+                "description": "Create Partner Service",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/partner"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "data": {
+                                        "title_en": "SoftBdLtd",
+                                        "title_bn": "SoftBdLtd",
+                                        "image": "https://www.google.com",
+                                        "domain": "https://www.google.com",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "updated_at": "2021-09-27T05:07:28.000000Z",
+                                        "created_at": "2021-09-27T05:07:28.000000Z",
+                                        "id": 1
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 201,
+                                        "message": "Partner is added successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            }
+        },
+        "/partners/{partnerId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "partnerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "title_en": "ABC",
+                                        "title_bn": "ABC",
+                                        "image": "https://www.google.com",
+                                        "domain": "",
+                                        "alt_title_en": "",
+                                        "alt_title_bn": "",
+                                        "created_by": 0,
+                                        "updated_by": 0,
+                                        "created_at": "2021-09-27T05:06:55.000000Z",
+                                        "updated_at": "2021-09-27T05:16:34.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": "1 second before"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            },
+            "put": {
+                "summary": "Create a partner",
+                "description": "Create Partner Service",
+                "parameters": [
+                    {
+                        "name": "partnerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/partner"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 3,
+                                        "title_en": "ABC",
+                                        "title_bn": "ABC",
+                                        "image": "https://www.google.com",
+                                        "domain": "https://www.google.com",
+                                        "alt_title_en": "sssssssssss",
+                                        "alt_title_bn": "sssssssssssss",
+                                        "created_by": "1",
+                                        "updated_by": "1",
+                                        "row_status": "0",
+                                        "created_at": "2021-09-27T05:07:03.000000Z",
+                                        "updated_at": "2021-09-27T05:20:44.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Partner Item is updated successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "partnerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json":
+                            {
+                                "schema": {
+                                    "$ref": "#/components/schemas/partner"
+                                },
+                                "example": {
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Partner deleted successfully",
+                                        "query_time": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                },
+                "tags": [
+                    "partners"
+                ]
+            }
         }
     },
     "components": {
@@ -6287,8 +6693,13 @@
                 "name": "image",
                 "in": "query",
                 "required": false,
-                "schema": {
-                    "type": "string"
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "string",
+                            "format": "binary"
+                        }
+                    }
                 }
             },
             "featured": {
@@ -6311,8 +6722,7 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "row_status_optional": {
@@ -6321,11 +6731,7 @@
                 "required": false,
                 "schema": {
                     "type": "integer",
-                    "enum": [
-                        0,
-                        1
-                    ],
-                    "example": 1
+                    "enum": [0,1]
                 }
             },
             "page_size": {
@@ -6334,8 +6740,7 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 10
+                    "type": "integer"
                 }
             },
             "order": {
@@ -6813,7 +7218,8 @@
                 "name": "user_type",
                 "required": true,
                 "schema": {
-                    "type": "integer"
+                    "type": "integer",
+                    "enum": [1,2,3]
                 }
             },
             "user_type_optional": {
@@ -6827,7 +7233,7 @@
             "mobile": {
                 "in": "query",
                 "name": "mobile",
-                "required": true,
+                "required": false,
                 "schema": {
                     "type": "string"
                 }
@@ -7640,6 +8046,11 @@
                         "description": "youtube video id ",
                         "example": "pQ145X"
                     },
+                    "content_path": {
+                        "type": "string",
+                        "format": "binary",
+                        "description": "content path"
+                    },
                     "publish_date": {
                         "type": "string",
                         "format": "date-time",
@@ -8069,6 +8480,50 @@
                     "sub_title_en",
                     "sub_title_bn",
                     "is_button_available"
+                ]
+            },
+            "partner": {
+                "type": "object",
+                "description": "Provide the partner information",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "primary key",
+                        "readOnly": true
+                    },
+                    "title_en": {
+                        "type": "string"
+                    },
+                    "title_bn": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "domain": {
+                        "type": "string"
+                    },
+                    "alt_title_en": {
+                        "type": "string"
+                    },
+                    "alt_title_bn": {
+                        "type": "string"
+                    },
+                    "created_by": {
+                        "type": "integer"
+                    },
+                    "updated_by": {
+                        "type": "integer"
+                    },
+                    "row_status": {
+                        "type": "integer",
+                        "enum": [0,1]
+                    }
+                },
+                "required": [
+                    "title_bn",
+                    "title_en",
+                    "image"
                 ]
             },
             "Menu": {

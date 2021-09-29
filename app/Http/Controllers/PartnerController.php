@@ -31,7 +31,7 @@ class PartnerController extends Controller
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function getList(Request $request):JsonResponse
+    public function getList(Request $request): JsonResponse
     {
         $filter = $this->partnerService->filterValidation($request)->validate();
         try {
@@ -43,10 +43,11 @@ class PartnerController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param int $id
      * @return Exception|JsonResponse|Throwable
      */
-    public function read(int $id): JsonResponse
+    public function read(Request $request,int $id):JsonResponse
     {
         try {
             $response = $this->partnerService->getOnePartner($id, $this->startTime);
@@ -64,10 +65,10 @@ class PartnerController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $partner=new Partner();
+        $partner = new Partner();
         $validated = $this->partnerService->validator($request)->validate();
         try {
-            $partner = $this->partnerService->store($partner,$validated);
+            $partner = $this->partnerService->store($partner, $validated);
             $response = [
                 'data' => $partner,
                 '_response_status' => [
@@ -126,7 +127,7 @@ class PartnerController extends Controller
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
-                    "message" => "MenuItem deleted successfully",
+                    "message" => "Partner deleted successfully",
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
