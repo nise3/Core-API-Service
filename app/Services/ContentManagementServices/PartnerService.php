@@ -211,7 +211,7 @@ class PartnerService
      * @param Request $request
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function filtervalidation(Request $request): \Illuminate\Contracts\Validation\Validator
+    public function filterValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         if (!empty($request['order'])) {
             $request['order'] = strtoupper($request['order']);
