@@ -84,10 +84,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     /** Register User */
     $router->post('register-user', ['as' => 'users.register-users', 'uses' => 'UserController@registerUser']);
 
-
-
-
-
-
-
+    $router->get("dd",function (){
+       dd(clientUrl("CORE"));
+    });
 });
