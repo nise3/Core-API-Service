@@ -7,6 +7,7 @@ use App\Models\LocDivision;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -70,10 +71,9 @@ class LocDivisionService
 
     /**
      * @param int $id
-     * @param Carbon $startTime
-     * @return array
+     * @return LocDivision
      */
-    public function getOneDivision(int $id, Carbon $startTime): array
+    public function getOneDivision(int $id): LocDivision
     {
         /** @var LocDivision|Builder $divisionsBuilder */
         $divisionBuilder = LocDivision::select([

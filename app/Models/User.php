@@ -65,7 +65,7 @@ class User extends AuthBaseModel
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function hasPermission($key)
+    public function hasPermission($key): bool
     {
         return $this->permissions->contains($key);
     }

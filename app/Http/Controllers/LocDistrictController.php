@@ -6,8 +6,10 @@ use App\Models\LocDistrict;
 use App\Services\LocationManagementServices\LocDistrictService;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -38,12 +40,14 @@ class LocDistrictController extends Controller
      * @param Request $request
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function getList(Request $request): JsonResponse
     {
+        $this->authorize('viewAny', LocDistrict::class);
         $filter = $this->locDistrictService->filterValidator($request)->validate();
-
         try {
+
             $response = $this->locDistrictService->getAllDistricts($filter, $this->startTime);
         } catch (Throwable $e) {
             return $e;
@@ -61,6 +65,10 @@ class LocDistrictController extends Controller
     {
         try {
             $response = $this->locDistrictService->getOneDistrict($id, $this->startTime);
+            if (!$response) {
+                abort(ResponseAlias::HTTP_NOT_FOUND);
+            }
+            $this->authorize('view', $response);
         } catch (Throwable $e) {
             return $e;
         }
@@ -73,9 +81,11 @@ class LocDistrictController extends Controller
      * @param Request $request
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function store(Request $request): JsonResponse
     {
+        $this->authorize('create', LocDistrict::class);
         $validated = $this->locDistrictService->validator($request)->validate();
         try {
             $loc_district = $this->locDistrictService->store($validated);
@@ -101,10 +111,12 @@ class LocDistrictController extends Controller
      * @param int $id
      * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
         $locDistrict = LocDistrict::findOrFail($id);
+        $this->authorize('update', $locDistrict);
         $validated = $this->locDistrictService->validator($request, $id)->validate();
         try {
             $loc_district = $this->locDistrictService->update($locDistrict, $validated);
@@ -131,7 +143,9 @@ class LocDistrictController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $locDistrict = LocDistrict::findOrFail($id);
+        $this->authorize('delete', $locDistrict);
         try {
+
             $this->locDistrictService->destroy($locDistrict);
             $response = [
                 '_response_status' => [

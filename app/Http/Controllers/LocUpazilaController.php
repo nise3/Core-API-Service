@@ -7,6 +7,8 @@ use App\Models\LocUpazila;
 
 use App\Services\LocationManagementServices\LocUpazilaService;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -37,11 +39,13 @@ class LocUpazilaController extends Controller
     /**
      * Display a listing of the resource.
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
+     * @throws AuthorizationException|ValidationException
      */
-    public function getList(Request $request):JsonResponse
+    public function getList(Request $request): JsonResponse
     {
-        $filter=$this->locUpazilaService->filterValidator($request)->validate();
+        $this->authorize('viewAny', LocUpazila::class);
+        $filter = $this->locUpazilaService->filterValidator($request)->validate();
 
         try {
             $response = $this->locUpazilaService->getAllUpazilas($filter, $this->startTime);
@@ -54,12 +58,16 @@ class LocUpazilaController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function read(Request $request, int $id): JsonResponse
     {
         try {
             $response = $this->locUpazilaService->getOneUpazila($id, $this->startTime);
+            if (!$response) {
+                abort(ResponseAlias::HTTP_NOT_FOUND);
+            }
+            $this->authorize('view', $response);
         } catch (Throwable $e) {
             return $e;
         }
@@ -70,11 +78,13 @@ class LocUpazilaController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function store(Request $request): JsonResponse
     {
+        $this->authorize('create', LocUpazila::class);
         $validated = $this->locUpazilaService->validator($request)->validate();
         try {
             $locUpazila = $this->locUpazilaService->store($validated);
@@ -98,12 +108,15 @@ class LocUpazilaController extends Controller
      * Update the specified resource in storage.
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
         $locUpazila = LocUpazila::findOrFail($id);
+
+        $this->authorize('update', $locUpazila);
         $validated = $this->locUpazilaService->validator($request, $id)->validate();
         try {
             $loc_upazila = $this->locUpazilaService->update($validated, $locUpazila);
@@ -126,11 +139,14 @@ class LocUpazilaController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
+     * @throws AuthorizationException
      */
     public function destroy(int $id): JsonResponse
     {
         $locUpazila = LocUpazila::findOrFail($id);
+
+        $this->authorize('delete', $locUpazila);
         try {
             $this->locUpazilaService->destroy($locUpazila);
             $response = [

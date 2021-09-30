@@ -52,7 +52,19 @@ class PermissionSeeder extends Seeder
             'role',
             'permission',
             'permission_group',
-            'permission_sub_group'
+            'permission_sub_group',
+            'OrganizationType',
+            'Organization',
+            'RankType',
+            'Rank',
+            'Service',
+            'Skill',
+            'JobSector',
+            'Occupation',
+            'OrganizationUnitType',
+            'OrganizationUnit',
+            'HumanResource',
+            'HumanResourceTemplate',
         ];
         $menuOrder=1;
         foreach ($modules as $module) {

@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\LocDivision;
 use App\Services\LocationManagementServices\LocDivisionService;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -36,11 +39,12 @@ class LocDivisionController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
-     * @throws ValidationException
+     * @return Exception|JsonResponse|Throwable
+     * @throws ValidationException|AuthorizationException
      */
     public function getList(Request $request): JsonResponse
     {
+
         $this->authorize('viewAny', LocDivision::class);
 
         $filter = $this->locDivisionService->filterValidator($request)->validate();
@@ -58,7 +62,7 @@ class LocDivisionController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      */
     public function read(Request $request, int $id)
     {
@@ -87,8 +91,9 @@ class LocDivisionController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function store(Request $request): JsonResponse
     {
@@ -116,8 +121,9 @@ class LocDivisionController extends Controller
      * Update the specified resource in storage.
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -146,15 +152,16 @@ class LocDivisionController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return Exception|JsonResponse|Throwable
+     * @throws AuthorizationException
      */
     public function destroy(int $id): JsonResponse
     {
         $locDivision = LocDivision::findOrFail($id);
 
         $this->authorize('delete', $locDivision);
-
         try {
+
             $this->locDivisionService->destroy($locDivision);
             $response = [
                 '_response_status' => [
