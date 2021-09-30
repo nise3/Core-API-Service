@@ -272,14 +272,14 @@ class UserService
 
         $role = Role::find($user->role_id);
 
-        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
+        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:key')->first();
 
         $permissions = $rolePermissions->permissions ?? [];
 
         $conditionalPermissions = [];
 
         foreach ($permissions as $permission) {
-            $conditionalPermissions[] = $permission->name;
+            $conditionalPermissions[] = $permission->key;
         }
         /** @var  $menuItemBuilder */
         $menuItemBuilder = DB::table('menu_items')->select([
@@ -333,11 +333,11 @@ class UserService
             return new \stdClass();
 
         $role = Role::find($user->role_id);
-        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:name')->first();
+        $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:key')->first();
         $permissions = $rolePermissions->permissions ?? [];
         $permissionKeys = [];
         foreach ($permissions as $permission) {
-            $permissionKeys[] = $permission->name;
+            $permissionKeys[] = $permission->key;
         }
 
         $user ["role"] = $role;
