@@ -19,7 +19,7 @@ class CreatePermissionsTable extends Migration
             $table->string('title_bn', 500);
             $table->string('module', 191);
             $table->string('key', 191)->unique();
-            $table->string('uri', 300);
+            $table->string('uri', 190);
             $table->unsignedTinyInteger('method')->comment('1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE');
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();
