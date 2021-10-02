@@ -24,7 +24,9 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
+
 $app->withEloquent();
+
 
 /*
 |--------------------------------------------------------------------------
@@ -81,14 +83,13 @@ $app->configure('filesystems');
 |
 */
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class,
-    LumenMiddlewareTrimOrConvertString\TrimStrings::class,
-    LumenMiddlewareTrimOrConvertString\ConvertEmptyStringsToNull::class,
+    App\Http\Middleware\CorsMiddleware::class
 ]);
 
-$app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
-]);
+//$app->routeMiddleware([
+//    'auth' => App\Http\Middleware\Authenticate::class,
+//]);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -105,12 +106,11 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 //$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+
 //$app->register(Laravel\Passport\PassportServiceProvider::class);
 //$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
-//
 //$app->register(Fruitcake\Cors\CorsServiceProvider::class);
-
-$app->register(App\Providers\AuthServiceProvider::class);
+// $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
@@ -125,7 +125,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 */
 
 
-//\Dusterio\LumenPassport\LumenPassport::routes($app, ['prefix' => 'v1/oauth']);
+\Dusterio\LumenPassport\LumenPassport::routes($app, ['prefix' => 'v1/oauth']);
 
 
 $app->router->group([

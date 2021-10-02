@@ -3,9 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Classes\AuthUserHandler;
-use App\Models\LocDivision;
-use App\Policies\LocDivisionPolicy;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,13 +23,8 @@ class AppServiceProvider extends ServiceProvider
 
     }
 
-    /**
-     * Boot the authentication services for the application.
-     *
-     * @return void
-     */
     public function boot()
     {
-
+        Schema::defaultStringLength(191);
     }
 }
