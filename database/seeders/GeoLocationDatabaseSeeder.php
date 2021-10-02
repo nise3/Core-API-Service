@@ -13,7 +13,6 @@ class GeoLocationDatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         $this->call(LocDivisionsTableSeeder::class);
         $this->call(LocDistrictsTableSeeder::class);
         $this->call(LocUpazilasTableSeeder::class);

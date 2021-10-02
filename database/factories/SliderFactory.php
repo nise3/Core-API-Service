@@ -17,9 +17,7 @@ class SliderFactory extends Factory
             'is_button_available' => $this->faker->randomElement([0,1]),
             'button_text'=>$this->faker->sentence(),
             'title' => $title,
-            'sub_title' => $title,
-            'link'=>$this->faker->sentence(),
-            'slider'=>$this->faker->sentence(),
+            'sub_title' => $title
     	];
     }
 }

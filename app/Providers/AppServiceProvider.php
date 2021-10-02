@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Classes\AuthUserHandler;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,5 +21,10 @@ class AppServiceProvider extends ServiceProvider
 
         app()->singleton('authUser', AuthUserHandler::class);
 
+    }
+
+    public function boot()
+    {
+        Schema::defaultStringLength(191);
     }
 }
