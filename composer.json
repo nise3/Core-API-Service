@@ -10,19 +10,15 @@
     "type": "project",
     "require": {
         "php": "^7.4|^8.0",
-        "darkaonline/swagger-lume": "8.*",
-        "felixkiss/uniquewith-validator": "^3.4",
-        "flipbox/lumen-generator": "^8.2",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "7.3",
-        "irazasyed/larasupport": "^1.7",
+        "ext-json": "*",
+        "ext-pdo": "*",
         "laravel/lumen-framework": "^8.0",
         "laravel/tinker": "^2.6",
-        "league/flysystem": " ~1.0",
-        "nordsoftware/lumen-cors": "^3.4",
-        "phabloraylan/lumen-middleware-trim-or-convert-strings": "^1.0",
-        "zircote/swagger-php": "^3.2",
-        "ext-json": "*"
+        "guzzlehttp/guzzle": "7.3",
+        "felixkiss/uniquewith-validator": "^3.4",
+        "flipbox/lumen-generator": "^8.2",
+        "irazasyed/larasupport": "^1.7",
+        "phabloraylan/lumen-middleware-trim-or-convert-strings": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

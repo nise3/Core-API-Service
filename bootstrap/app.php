@@ -71,7 +71,7 @@ $app->singleton('filesystem', function ($app) {
 $app->configure('app');
 $app->configure('auth');
 $app->configure('services');
-$app->configure('filesystems');
+$app->configure('httpclientendpoint');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -86,9 +86,9 @@ $app->middleware([
     App\Http\Middleware\CorsMiddleware::class
 ]);
 
-//$app->routeMiddleware([
-//    'auth' => App\Http\Middleware\Authenticate::class,
-//]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 
 /*
@@ -103,15 +103,9 @@ $app->middleware([
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-//$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
-$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
-
-//$app->register(Laravel\Passport\PassportServiceProvider::class);
-//$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
-//$app->register(Fruitcake\Cors\CorsServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -125,7 +119,7 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 */
 
 
-\Dusterio\LumenPassport\LumenPassport::routes($app, ['prefix' => 'v1/oauth']);
+//\Dusterio\LumenPassport\LumenPassport::routes($app, ['prefix' => 'v1/oauth']);
 
 
 $app->router->group([

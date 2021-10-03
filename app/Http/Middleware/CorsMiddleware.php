@@ -2,21 +2,19 @@
 
 namespace App\Http\Middleware;
 
-use App\Facade\AuthUser;
-use App\Models\User;
 use Closure;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class CorsMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param \Closure $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $headers = [
             'Access-Control-Allow-Origin' => '*',
