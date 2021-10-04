@@ -68,13 +68,14 @@ class Handler extends ExceptionHandler
             '_response_status' => [
                 'success' => false,
                 'code' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
-                "message" => "Invalid Request Format",
+                "message" => "Unknown Error",
                 "query_time" => 0
             ]
         ];
 
         if ($e instanceof HttpResponseException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_BAD_REQUEST;
+            $errors['_response_status']['message'] = "Invalid Request Format";
         } elseif ($e instanceof AuthorizationException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_UNAUTHORIZED;
             $errors['_response_status']['message'] = "Unable to Access";
@@ -108,8 +109,6 @@ class Handler extends ExceptionHandler
             $errors['_response_status']['message'] = "Parsing Error";
         } elseif ($e instanceof Exception) {
             $errors['_response_status']['message'] = $e->getMessage();
-        } else {
-            $errors['_response_status']['message'] = 'Unknown Error';
         }
 
         return response()->json($errors);
