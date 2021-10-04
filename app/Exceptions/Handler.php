@@ -63,7 +63,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e): JsonResponse
     {
-
         $errors = [
             '_response_status' => [
                 'success' => false,
