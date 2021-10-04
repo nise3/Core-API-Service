@@ -251,22 +251,23 @@ class UserService
         $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
 
         if ($user->user_type == BaseModel::ORGANIZATION_USER && !is_null($user->organization_id)) {
-            $url = BaseModel::ORGANIZATION_FETCH_ENDPOINT_LOCAL . 'organizations/' . $user->organization_id;
-            if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
-                $url = BaseModel::ORGANIZATION_FETCH_ENDPOINT_REMOTE . 'organizations/' . $user->organization_id;
-            }
+
+            $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'organizations/' . $user->organization_id;
+
             $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
                 return $exception;
             })->json();
+
             $organization = $responseData['data'] ?? [];
+
         } else if ($user->user_type == BaseModel::INSTITUTE_USER && !is_null($user->institute_id)) {
-            $url = BaseModel::INSTITUTE_FETCH_ENDPOINT_LOCAL . 'institutes/' . $user->institute_id;
-            if (!in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
-                $url = BaseModel::INSTITUTE_FETCH_ENDPOINT_REMOTE . 'institutes/' . $user->institute_id;
-            }
+
+            $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'institutes/' . $user->institute_id;
+
             $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
                 return $exception;
             })->json();
+
             $institute = $responseData['data'] ?? [];
         }
 
@@ -353,8 +354,9 @@ class UserService
      */
     public function store(User $user, array $data): User
     {
-        $data['password'] = Hash::make($data['password']);
-        return $user->create($data);
+        $user->fill($data);
+        $user->save();
+        return $user;
     }
 
 
@@ -365,8 +367,6 @@ class UserService
      */
     public function createRegisterUser(User $user, array $data): User
     {
-        $data['password'] = Hash::make($data['password']);
-
         $role = $this->createDefaultRole($data);
 
         if ($role) {
@@ -415,16 +415,6 @@ class UserService
      */
     public function update(array $data, User $user): User
     {
-        if (!empty($data['profile_pic'])) {
-            if (file_exists($user->profile_pic)) {
-                unlink($user->profile_pic);
-            }
-            $directory = "user-avatar";
-            $data['profile_pic'] = url() . Storage::url(FileHandler::storeFile($data['profile_pic'], $directory));
-        }
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
         $user->fill($data);
         $user->save($data);
         return $user;
@@ -654,17 +644,19 @@ class UserService
     }
 
     /**
-     * @param array $postField
+     * @para m array $data
      * @return PromiseInterface|\Illuminate\Http\Client\Response
      */
     public function idpUserCreate(array $data)
     {
+        $url = clientUrl(BaseModel::IDP_SERVER_CLIENT_URL_TYPE);
+
         $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([
                 'Content-Type' => 'application/json'
             ])->withOptions([
                 'verify' => false
-            ])->post(BaseModel::IDP_USER_CREATE_ENDPOINT, [
+            ])->post($url, [
                 'schemas' => [
                 ],
                 'name' => [

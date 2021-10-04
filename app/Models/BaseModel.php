@@ -28,24 +28,23 @@ abstract class BaseModel extends Model
     public const COMMON_GUARDED_FIELDS_SIMPLE = ['id', 'created_at', 'updated_at'];
     public const COMMON_GUARDED_FIELDS_SIMPLE_SOFT_DELETE = ['id', 'created_at', 'updated_at', 'deleted_at'];
     public const COMMON_GUARDED_FIELDS_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at'];
-    public const COMMON_GUARDED_FIELDS_NON_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
 
     /** Idp User */
     public const IDP_USERNAME = 'admin';
     public const IDP_USER_PASSWORD = 'admin';
-    public const IDP_USER_CREATE_ENDPOINT = 'https://identity.bus.softbd.xyz/scim2/Users';
 
+    /** Client Url End Point Type*/
+    public const ORGANIZATION_CLIENT_URL_TYPE = "ORGANIZATION";
+    public const INSTITUTE_URL_CLIENT_TYPE = "INSTITUTE";
+    public const CORE_CLIENT_URL_TYPE = "CORE";
+    public const IDP_SERVER_CLIENT_URL_TYPE = "IDP_SERVER";
 
     /**User Type*/
     public const SYSTEM_USER = 1;
     public const ORGANIZATION_USER = 2;
     public const INSTITUTE_USER = 3;
-
     /**User Types*/
     public const USER_TYPES = [self::SYSTEM_USER, self::ORGANIZATION_USER, self::INSTITUTE_USER];
-
-    /** System Admin Role Key */
-    public const SYSTEM_USER_ROLE_KEY = 'system_user';
 
     public const USER_TYPE = [
         self::SYSTEM_USER => 'system',
@@ -53,14 +52,7 @@ abstract class BaseModel extends Model
         self::INSTITUTE_USER => 'institute',
     ];
 
-    /**get institute and organization api url*/
-    public const INSTITUTE_FETCH_ENDPOINT_LOCAL = 'http://localhost:8001/api/v1/';
-    public const INSTITUTE_FETCH_ENDPOINT_REMOTE = 'http://nise3-institute.default/api/v1/';
-    public const ORGANIZATION_FETCH_ENDPOINT_LOCAL = 'http://localhost:8002/api/v1/';
-    public const ORGANIZATION_FETCH_ENDPOINT_REMOTE = 'http://nise3-org-management.default/api/v1/';
+    public const MOBILE_REGEX = 'regex: /^(01[3-9]\d{8})$/';
 
-    /** User Avatar Base Path */
-    public const USER_AVATAR_BASE_URL="api/v1/";
 
-    public const MOBILE_REGEX= 'regex: /^(01[3-9]\d{8})$/';
 }

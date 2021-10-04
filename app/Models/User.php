@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class User
@@ -65,25 +66,10 @@ class User extends AuthBaseModel
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function hasPermission($key): bool
+    public function setPasswordAttribute($pass)
     {
-        return $this->permissions->contains($key);
-    }
 
-    public function isSystemUser(): bool
-    {
-        return $this->user_type === BaseModel::SYSTEM_USER;
-    }
+        $this->attributes['password'] = Hash::make($pass);
 
-
-    public function isInstituteUser(): bool
-    {
-        return $this->user_type === BaseModel::INSTITUTE_USER;
-    }
-
-
-    public function isOrganizationUser(): bool
-    {
-        return $this->user_type === BaseModel::ORGANIZATION_USER;
     }
 }
