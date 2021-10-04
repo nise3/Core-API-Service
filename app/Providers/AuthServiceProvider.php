@@ -2,10 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\LocDivision;
-use App\Policies\LocDivisionPolicy;
 use App\Services\UserRolePermissionManagementServices\UserService;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 

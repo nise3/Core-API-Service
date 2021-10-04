@@ -81,7 +81,7 @@ class LocDivisionController extends Controller
                     "query_time" => $this->startTime->diffForHumans(Carbon::now())
                 ]
             ];
-            return Response::json($response);
+            return Response::json( $response);
         } catch (Throwable $e) {
             return $e;
         }
