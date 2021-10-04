@@ -328,7 +328,9 @@ class UserService
      */
     public function getAuthPermission(?string $id): User
     {
-        $user = User::where('idp_user_id', $id)->first();
+        $user = User::where('idp_user_id', $id)
+            ->where('row_status',BaseModel::ROW_STATUS_ACTIVE)
+            ->first();
 
         if ($user == null)
             return new \stdClass();
