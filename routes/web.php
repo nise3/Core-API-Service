@@ -3,9 +3,6 @@
 /** @var Router $router */
 
 use App\Helpers\Classes\CustomRouter;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Laravel\Lumen\Routing\Router;
 
 $customRouter = function (string $as = '') use ($router) {
