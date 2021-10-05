@@ -7,15 +7,11 @@ use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Faker\Provider\Uuid;
-use FastRoute\RouteParser\Std;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
-use Psy\Util\Str;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -311,7 +307,7 @@ class UserController extends Controller
                 'password' => $validatedData['password']
             ];
 
-            $httpClient = Uuid::uuid();  //$this->userService->idpUserCreate($idpUserPayLoad);
+            $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
             if ($httpClient) {
                 $validatedData['idp_user_id'] = $httpClient;
                 $validatedData['row_status'] = BaseModel::ROW_STATUS_PENDING;
