@@ -297,7 +297,7 @@ class UserController extends Controller
     public function userRegistration(Request $request): JsonResponse
     {
         $user = new User();
-        Log::info("aaaaaaaa");
+        Log::info(request()->all());
         $validatedData = $this->userService->registerUserValidator($request)->validate();
         DB::beginTransaction();
         try {
@@ -310,8 +310,8 @@ class UserController extends Controller
             ];
 
             $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
-            if ($httpClient) {
-                $validatedData['idp_user_id'] = $httpClient;
+            if ($httpClient->json('id')) {
+                $validatedData['idp_user_id'] = $httpClient->json('id');;
                 $validatedData['row_status'] = BaseModel::ROW_STATUS_PENDING;
 
                 $user = $this->userService->store($user, $validatedData);
