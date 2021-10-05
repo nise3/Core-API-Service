@@ -17,6 +17,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use phpseclib3\Crypt\Random;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -325,7 +326,7 @@ class UserService
     public function getAuthPermission(?string $id): User
     {
         $user = User::where('idp_user_id', $id)
-            ->where('row_status',BaseModel::ROW_STATUS_ACTIVE)
+            ->where('row_status', BaseModel::ROW_STATUS_ACTIVE)
             ->first();
 
         if ($user == null)
@@ -468,33 +469,33 @@ class UserService
             ],
             "password" => "required|string|min:6"
         ];
-        $rules = [
-            'permission_sub_group_id' => 'required|numeric',
-            "user_type" => "required|min:1",
-            "username" => 'required|string|unique:users,username,' . $id,
-            "organization_id" => 'nullable|numeric',
-            "institute_id" => 'nullable|numeric',
-            "role_id" => 'nullable|exists:roles,id',
-            "name_en" => 'required|max:255|min:3',
-            "name_bn" => 'required|max:300|min:3',
-            "email" => 'required|max:191|email',
-            "mobile" => "nullable|max:15|string",
-            "loc_division_id" => 'nullable|exists:loc_districts,id',
-            "loc_district_id" => 'nullable|exists:loc_divisions,id',
-            "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
-            "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "password" => 'nullable|max:191|min:6',
-            "profile_pic" => 'nullable|max:1000|string',
-            "created_by" => "nullable|numeric",
-            "updated_by" => "nullable|numeric",
-            "remember_token" => "nullable|string",
-            'row_status' => [
-                'required_if:' . $id . ',!=,null',
-                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
-            ],
-
-        ];
+//        $rules = [
+//            'permission_sub_group_id' => 'required|numeric',
+//            "user_type" => "required|min:1",
+//            "username" => 'required|string|unique:users,username,' . $id,
+//            "organization_id" => 'nullable|numeric',
+//            "institute_id" => 'nullable|numeric',
+//            "role_id" => 'nullable|exists:roles,id',
+//            "name_en" => 'required|max:255|min:3',
+//            "name_bn" => 'required|max:300|min:3',
+//            "email" => 'required|max:191|email',
+//            "mobile" => "nullable|max:15|string",
+//            "loc_division_id" => 'nullable|exists:loc_districts,id',
+//            "loc_district_id" => 'nullable|exists:loc_divisions,id',
+//            "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
+//            "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+//            "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+//            "password" => 'nullable|max:191|min:6',
+//            "profile_pic" => 'nullable|max:1000|string',
+//            "created_by" => "nullable|numeric",
+//            "updated_by" => "nullable|numeric",
+//            "remember_token" => "nullable|string",
+//            'row_status' => [
+//                'required_if:' . $id . ',!=,null',
+//                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+//            ],
+//
+//        ];
         return Validator::make($request->all(), $rules);
     }
 
@@ -647,8 +648,9 @@ class UserService
      */
     public function idpUserCreate(array $data)
     {
+        Log::info('idpUserCreate from institute registration');
         $url = clientUrl(BaseModel::IDP_SERVER_CLIENT_URL_TYPE);
-
+        Log::debug($data);
         $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([
                 'Content-Type' => 'application/json'
@@ -656,6 +658,8 @@ class UserService
                 'verify' => false
             ])->post($url, [
                 'schemas' => [
+                    "urn:ietf:params:scim:schemas:core:2.0:User",
+                    "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
                 ],
                 'name' => [
                     'familyName' => $data['name'],
@@ -663,12 +667,10 @@ class UserService
                 ],
                 'userName' => $data['username'],
                 'password' => $data['password'],
+                'organization' => $data['password'],
+                'country' => $data['password'],
                 'emails' => [
-                    0 => [
-                        'primary' => true,
-                        'value' => $data['email'],
-                        'type' => 'work',
-                    ]
+                    0 => $data['email']
                 ],
             ]);
 

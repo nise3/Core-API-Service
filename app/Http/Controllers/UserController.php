@@ -10,6 +10,7 @@ use Faker\Provider\Uuid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -215,10 +216,10 @@ class UserController extends Controller
      * @param Request $request
      * @return array|\Exception|JsonResponse|Throwable
      */
-    public function getAuthUserInfoByIdpId(Request $request):JsonResponse
+    public function getAuthUserInfoByIdpId(Request $request): JsonResponse
     {
         try {
-            $authUserInfo=$this->userService->getAuthPermission($request->idp_user_id ?? null);
+            $authUserInfo = $this->userService->getAuthPermission($request->idp_user_id ?? null);
             $response = [
                 'data' => $authUserInfo,
                 '_response_status' => [
@@ -293,9 +294,10 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function registerUser(Request $request): JsonResponse
+    public function userRegistration(Request $request): JsonResponse
     {
         $user = new User();
+        Log::info("aaaaaaaa");
         $validatedData = $this->userService->registerUserValidator($request)->validate();
         DB::beginTransaction();
         try {
