@@ -41,6 +41,7 @@ class UserTableSeeder extends Seeder
             'email' => 'super@gmail.com',
             'username' => 'super_admin',
             'role_id' => 1,
+            'idp_user_id' => '2a6d0e33-85c6-4507-b40a-a4bcb4c88cc0',
             'user_type' => 1,
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('123456'),
