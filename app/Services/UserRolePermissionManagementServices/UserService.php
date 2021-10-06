@@ -38,9 +38,9 @@ class UserService
         $email = $request['email'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
-        $organizationId = $authUser->organization_id ?? "";
-        $instituteId = $authUser->institute_id ?? "";
-        $userType = $authUser->user_type ?? "";
+        $organizationId = $request['organization_id'] ?? "";
+        $instituteId = $request['institute_id'] ?? "";
+        $userType = $request['user_type'] ?? "";
 
         /** @var User|Builder $usersBuilder */
         $usersBuilder = User::select([
@@ -135,22 +135,19 @@ class UserService
             $usersBuilder->where('users.user_type', $userType);
         }
         $response['order'] = $order;
-        if ($authUser) {
-            if (is_numeric($paginate) || is_numeric($pageSize)) {
-                $pageSize = $pageSize ?: 10;
-                $users = $usersBuilder->paginate($pageSize);
-                $paginateData = (object)$users->toArray();
-                $response['data'] = $users->toArray()['data'] ?? [];
-                $response['current_page'] = $paginateData->current_page;
-                $response['total_page'] = $paginateData->last_page;
-                $response['page_size'] = $paginateData->per_page;
-                $response['total'] = $paginateData->total;
-            } else {
-                $users = $usersBuilder->get();
-                $response['data'] = $users->toArray() ?? [];
-            }
+
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $users = $usersBuilder->paginate($pageSize);
+            $paginateData = (object)$users->toArray();
+            $response['data'] = $users->toArray()['data'] ?? [];
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
         } else {
-            $response['data'] = [];
+            $users = $usersBuilder->get();
+            $response['data'] = $users->toArray() ?? [];
         }
 
         $response['_response_status'] = [
