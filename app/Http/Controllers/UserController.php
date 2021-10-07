@@ -240,15 +240,17 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
+     * @throws ValidationException
      */
     public function organizationOrInstituteUserCreate(Request $request)
     {
+        Log::info("institute admin user create");
+        Log::info($request);
         $user = new User();
         $request['password'] = $request['password'] ?? '123456';
-        $validated = $this->userService->organizationOrInstituteUserValidator($request)->validate();
+        $validated = $this->userService->organizationOrInstituteUserCreateValidator($request)->validate();
         DB::beginTransaction();
         try {
-
             $idpUserPayLoad = [
                 'name' => $validated['name_en'],
                 'email' => $validated['email'],
