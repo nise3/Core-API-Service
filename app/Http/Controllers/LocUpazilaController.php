@@ -44,7 +44,7 @@ class LocUpazilaController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $this->authorize('viewAny', LocUpazila::class);
+        //$this->authorize('viewAny', LocUpazila::class);
         $filter = $this->locUpazilaService->filterValidator($request)->validate();
 
         try {
@@ -67,7 +67,7 @@ class LocUpazilaController extends Controller
             if (!$response) {
                 abort(ResponseAlias::HTTP_NOT_FOUND);
             }
-            $this->authorize('view', $response);
+            //$this->authorize('view', $response);
         } catch (Throwable $e) {
             return $e;
         }

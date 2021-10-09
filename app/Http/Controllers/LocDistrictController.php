@@ -44,7 +44,7 @@ class LocDistrictController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        $this->authorize('viewAny', LocDistrict::class);
+        //$this->authorize('viewAny', LocDistrict::class);
         $filter = $this->locDistrictService->filterValidator($request)->validate();
         try {
 
@@ -68,7 +68,7 @@ class LocDistrictController extends Controller
             if (!$response) {
                 abort(ResponseAlias::HTTP_NOT_FOUND);
             }
-            $this->authorize('view', $response);
+            //$this->authorize('view', $response);
         } catch (Throwable $e) {
             return $e;
         }

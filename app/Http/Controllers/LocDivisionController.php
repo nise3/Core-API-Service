@@ -44,7 +44,7 @@ class LocDivisionController extends Controller
     public function getList(Request $request): JsonResponse
     {
 
-        $this->authorize('viewAny', LocDivision::class);
+        //$this->authorize('viewAny', LocDivision::class);
 
         $filter = $this->locDivisionService->filterValidator($request)->validate();
 
@@ -70,7 +70,7 @@ class LocDivisionController extends Controller
             if (!$division) {
                 abort(ResponseAlias::HTTP_NOT_FOUND);
             }
-            $this->authorize('view', $division);
+            //$this->authorize('view', $division);
 
             $response = [
                 "data" => $division ?: null,
