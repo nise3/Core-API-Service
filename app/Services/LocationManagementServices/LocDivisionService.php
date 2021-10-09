@@ -38,8 +38,6 @@ class LocDivisionService
             'title_en',
             'bbs_code',
             'row_status',
-            'created_by',
-            'updated_by',
             'created_at',
             'updated_at'
         ]);
@@ -82,8 +80,6 @@ class LocDivisionService
             'title_en',
             'bbs_code',
             'row_status',
-            'created_by',
-            'updated_by',
             'created_at',
             'updated_at'
         ]);

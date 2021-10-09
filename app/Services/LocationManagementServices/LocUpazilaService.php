@@ -46,8 +46,6 @@ class LocUpazilaService
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
             'loc_upazilas.row_status',
-            'loc_upazilas.created_by',
-            'loc_upazilas.updated_by',
             'loc_upazilas.created_at',
             'loc_upazilas.updated_at'
         ]);
@@ -123,8 +121,6 @@ class LocUpazilaService
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
             'loc_upazilas.row_status',
-            'loc_upazilas.created_by',
-            'loc_upazilas.updated_by',
             'loc_upazilas.created_at',
             'loc_upazilas.updated_at'
         ]);
