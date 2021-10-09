@@ -34,12 +34,10 @@ class LocDistrictService
             'loc_districts.title_bn',
             'loc_districts.title_en',
             'loc_districts.bbs_code',
-            'loc_districts.division_bbs_code',
+            'loc_districts.is_sadar_district',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
             'loc_districts.row_status',
-            'loc_districts.created_by',
-            'loc_districts.updated_by',
             'loc_districts.created_at',
             'loc_districts.updated_at'
 
@@ -99,12 +97,10 @@ class LocDistrictService
             'loc_districts.title_bn',
             'loc_districts.title_en',
             'loc_districts.bbs_code',
-            'loc_districts.division_bbs_code',
+            'loc_districts.is_sadar_district',
             'loc_divisions.title_bn as division_title_bn',
             'loc_divisions.title_en as division_title_en',
             'loc_districts.row_status',
-            'loc_districts.created_by',
-            'loc_districts.updated_by',
             'loc_districts.created_at',
             'loc_districts.updated_at'
         ]);
