@@ -670,6 +670,7 @@ class UserService
                 'userName' => $data['username'],
                 'password' => $data['password'],
                 'organization' => $data['password'],
+                'userType' => $data['user_type'],
                 'country' => $data['password'],
                 'emails' => [
                     0 => $data['email']

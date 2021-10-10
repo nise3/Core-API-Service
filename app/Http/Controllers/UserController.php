@@ -255,7 +255,8 @@ class UserController extends Controller
                 'name' => $validated['name_en'],
                 'email' => $validated['email'],
                 'username' => $validated['username'],
-                'password' => $validated['password']
+                'password' => $validated['password'],
+                'user_type' => $validated['user_type']
             ];
 
             $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
@@ -308,7 +309,8 @@ class UserController extends Controller
                 'name' => $validatedData['name_en'],
                 'email' => $validatedData['email'],
                 'username' => $validatedData['username'],
-                'password' => $validatedData['password']
+                'password' => $validatedData['password'],
+                'user_type' => $validatedData['user_type']
             ];
 
             $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
