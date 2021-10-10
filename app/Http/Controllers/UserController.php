@@ -296,7 +296,7 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function userRegistration(Request $request): JsonResponse
+    public function userOpenRegistration(Request $request): JsonResponse
     {
         $user = new User();
         Log::info(request()->all());

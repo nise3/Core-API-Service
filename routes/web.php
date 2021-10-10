@@ -81,7 +81,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     /** Organization or institute User Create */
     $router->post('organization-or-institute-user-create', ['as' => 'users.organization-or-institute-user-create', 'uses' => 'UserController@organizationOrInstituteUserCreate']);
     /** Register User */
-    $router->post('user-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userRegistration']);
+    $router->post('user-open-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userOpenRegistration']);
 
 
 
