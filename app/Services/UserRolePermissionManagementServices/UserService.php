@@ -231,6 +231,9 @@ class UserService
         ];
     }
 
+    /**
+     * @throws \Illuminate\Http\Client\RequestException
+     */
     public function getUserPermissionWithMenuItems(string $id): array
     {
         $user = User::where('idp_user_id', $id)->first();
@@ -248,9 +251,13 @@ class UserService
 
             $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'organizations/' . $user->organization_id;
 
-            $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
-                return $exception;
-            })->json();
+            $responseData = Http::retry(3)
+                ->withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+                ->get($url)
+                ->throw(function ($response, $exception) {
+                    return $exception;
+                })
+                ->json();
 
             $organization = $responseData['data'] ?? [];
 
@@ -258,9 +265,13 @@ class UserService
 
             $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'institutes/' . $user->institute_id;
 
-            $responseData = Http::retry(3)->get($url)->throw(function ($response, $exception) {
-                return $exception;
-            })->json();
+            $responseData = Http::retry(3)
+                ->withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+                ->get($url)
+                ->throw(function ($response, $exception) {
+                    return $exception;
+                })
+                ->json();
 
             $institute = $responseData['data'] ?? [];
         }
