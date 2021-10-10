@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,6 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use phpseclib3\Crypt\Random;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -664,11 +664,12 @@ class UserService
 
         $url = clientUrl(BaseModel::IDP_SERVER_CLIENT_URL_TYPE);
         Log::info($data);
+
         $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([
                 'Content-Type' => 'application/json'
             ])->withOptions([
-                'verify' => false
+                'verify' => config('nise3.should_ssl_verify')
             ])->post($url, [
                 'schemas' => [
                     "urn:ietf:params:scim:schemas:core:2.0:User",
@@ -691,10 +692,8 @@ class UserService
 
         Log::channel('idp_user')->info('idp_user_payload', $data);
         Log::channel('idp_user')->info('idp_user_info', $client->json());
-
         return $client;
 
     }
-
 
 }
