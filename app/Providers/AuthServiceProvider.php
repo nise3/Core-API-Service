@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['auth']->viaRequest('token', function ($request) {
-            $token = $request->header('Token');
+            $token = $request->header('Authorization');
             $authUser = null;
             if ($token) {
                 $header = explode(" ", $token);
