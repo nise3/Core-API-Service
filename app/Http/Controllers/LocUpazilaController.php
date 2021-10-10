@@ -50,7 +50,7 @@ class LocUpazilaController extends Controller
         try {
             $response = $this->locUpazilaService->getAllUpazilas($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -69,7 +69,7 @@ class LocUpazilaController extends Controller
             }
             //$this->authorize('view', $response);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -98,7 +98,7 @@ class LocUpazilaController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -131,7 +131,7 @@ class LocUpazilaController extends Controller
             ];
 
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -158,7 +158,7 @@ class LocUpazilaController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

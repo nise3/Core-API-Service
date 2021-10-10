@@ -38,7 +38,7 @@ class RecentActivityController extends Controller
         try {
             $response = $this->recentActivityService->getRecentActivityList($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -52,7 +52,7 @@ class RecentActivityController extends Controller
         try {
             $response = $this->recentActivityService->getOneRecentActivity($id, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -79,7 +79,7 @@ class RecentActivityController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -108,7 +108,7 @@ class RecentActivityController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -132,7 +132,7 @@ class RecentActivityController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

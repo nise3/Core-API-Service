@@ -44,7 +44,7 @@ class UserController extends Controller
         try {
             $response = $this->userService->getAllUsers($filter, $this->startTime);
         } catch (\Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -61,7 +61,7 @@ class UserController extends Controller
         try {
             $response = $this->userService->getOneUser($id, $this->startTime);
         } catch (\Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -105,7 +105,7 @@ class UserController extends Controller
             }
 
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -134,7 +134,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (\Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -155,7 +155,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (\Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
 
@@ -180,7 +180,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (\Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -205,7 +205,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
 
@@ -230,7 +230,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
 
         return Response::json($response, ResponseAlias::HTTP_OK);
@@ -288,7 +288,7 @@ class UserController extends Controller
             }
         } catch (Throwable $e) {
             DB::rollBack();
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -345,7 +345,7 @@ class UserController extends Controller
             }
         } catch (Throwable $e) {
             DB::rollBack();
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -407,7 +407,7 @@ class UserController extends Controller
 
         } catch (Throwable $e) {
             DB::rollBack();
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -434,7 +434,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -461,7 +461,7 @@ class UserController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

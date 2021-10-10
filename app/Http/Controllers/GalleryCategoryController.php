@@ -40,7 +40,7 @@ class GalleryCategoryController extends Controller
         try {
             $response = $this->galleryCategoryService->getAllGalleryCategories($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -56,7 +56,7 @@ class GalleryCategoryController extends Controller
         try {
             $response = $this->galleryCategoryService->getOneGalleryCategory($id, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -83,7 +83,7 @@ class GalleryCategoryController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -112,7 +112,7 @@ class GalleryCategoryController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -136,7 +136,7 @@ class GalleryCategoryController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

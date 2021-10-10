@@ -37,7 +37,7 @@ class PermissionSubGroupController extends Controller
         try {
             $response = $this->permissionSubGroupService->getAllPermissionSubGroups($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -52,7 +52,7 @@ class PermissionSubGroupController extends Controller
         try {
             $response = $this->permissionSubGroupService->getOnePermissionSubGroup($id, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -78,7 +78,7 @@ class PermissionSubGroupController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -105,7 +105,7 @@ class PermissionSubGroupController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -128,7 +128,7 @@ class PermissionSubGroupController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -155,7 +155,7 @@ class PermissionSubGroupController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

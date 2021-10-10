@@ -51,7 +51,7 @@ class LocDivisionController extends Controller
         try {
             $response = $this->locDivisionService->getAllDivisions($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -82,7 +82,7 @@ class LocDivisionController extends Controller
             ];
             return Response::json( $response);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
 
     }
@@ -111,7 +111,7 @@ class LocDivisionController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -143,7 +143,7 @@ class LocDivisionController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -171,7 +171,7 @@ class LocDivisionController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

@@ -41,7 +41,7 @@ class MenuItemController extends Controller
         try {
             $response = $this->menuItemService->getAllMenuItems($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -55,7 +55,7 @@ class MenuItemController extends Controller
         try {
             $response = $this->menuItemService->getOneMenuItem($id, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -81,7 +81,7 @@ class MenuItemController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -110,7 +110,7 @@ class MenuItemController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -134,7 +134,7 @@ class MenuItemController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

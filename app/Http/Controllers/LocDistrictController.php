@@ -50,7 +50,7 @@ class LocDistrictController extends Controller
 
             $response = $this->locDistrictService->getAllDistricts($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -70,7 +70,7 @@ class LocDistrictController extends Controller
             }
             //$this->authorize('view', $response);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -99,7 +99,7 @@ class LocDistrictController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -130,7 +130,7 @@ class LocDistrictController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -156,7 +156,7 @@ class LocDistrictController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
