@@ -68,8 +68,6 @@ class User extends AuthBaseModel
 
     public function setPasswordAttribute($pass)
     {
-
         $this->attributes['password'] = Hash::make($pass);
-
     }
 }
