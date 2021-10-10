@@ -297,6 +297,7 @@ class UserController extends Controller
      * @param Request $request
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
+     * @throws Throwable
      */
     public function userOpenRegistration(Request $request): JsonResponse // When user open registration
     {
@@ -345,7 +346,7 @@ class UserController extends Controller
             }
         } catch (Throwable $e) {
             DB::rollBack();
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
