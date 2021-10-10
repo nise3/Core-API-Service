@@ -242,7 +242,7 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function organizationOrInstituteUserCreate(Request $request)
+    public function organizationOrInstituteUserCreate(Request $request) //When admin user create an institute or organization
     {
         Log::info("institute admin user create");
         Log::info($request);
@@ -256,7 +256,8 @@ class UserController extends Controller
                 'email' => $validated['email'],
                 'username' => $validated['username'],
                 'password' => $validated['password'],
-                'user_type' => $validated['user_type']
+                'user_type' => $validated['user_type'],
+                'status' => BaseModel::ROW_STATUS_ACTIVE
             ];
 
             $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
@@ -297,7 +298,7 @@ class UserController extends Controller
      * @return \Exception|JsonResponse|Throwable
      * @throws ValidationException
      */
-    public function userOpenRegistration(Request $request): JsonResponse
+    public function userOpenRegistration(Request $request): JsonResponse // When user open registration
     {
         $user = new User();
         Log::info(request()->all());
@@ -310,7 +311,8 @@ class UserController extends Controller
                 'email' => $validatedData['email'],
                 'username' => $validatedData['username'],
                 'password' => $validatedData['password'],
-                'user_type' => $validatedData['user_type']
+                'user_type' => $validatedData['user_type'],
+                'status' => BaseModel::ROW_STATUS_PENDING
             ];
 
             $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
