@@ -36,7 +36,7 @@ class NoticeOrNewsController extends Controller
         try {
             $response = $this->noticeOrNewsService->getNoticeOrNewsServiceList($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -50,7 +50,7 @@ class NoticeOrNewsController extends Controller
         try {
             $response = $this->noticeOrNewsService->getOneNoticeOrNewsService($id, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -76,7 +76,7 @@ class NoticeOrNewsController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -105,7 +105,7 @@ class NoticeOrNewsController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -129,7 +129,7 @@ class NoticeOrNewsController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }

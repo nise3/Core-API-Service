@@ -39,7 +39,7 @@ class SliderController extends Controller
         try {
             $response = $this->sliderService->getAllSliders($filter, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -55,7 +55,7 @@ class SliderController extends Controller
         try {
             $response = $this->sliderService->getOneSlider($id, $this->startTime);
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response);
     }
@@ -82,7 +82,7 @@ class SliderController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -111,7 +111,7 @@ class SliderController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -135,7 +135,7 @@ class SliderController extends Controller
                 ]
             ];
         } catch (Throwable $e) {
-            return $e;
+            throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
