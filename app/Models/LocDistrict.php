@@ -14,22 +14,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  *
  * @property int $id
- * @property string $title_bn
+ * @property string $title
  * @property string|null $title_en
  * @property string|null $bbs_code
- * @property string|null $division_bbs_code
  * @property int $loc_division_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property bool|null $is_sadar_district
  * @property-read Collection|LocUpazila[] $locUpazilas
  * @property-read LocDivision $locDivision
- * @property  int |null $created_by
- * @property int |null $updated_by
  */
 class LocDistrict extends BaseModel
 {
-    use ScopeRowStatusTrait, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'loc_districts';
     protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SOFT_DELETE;

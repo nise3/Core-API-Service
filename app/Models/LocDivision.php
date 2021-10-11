@@ -14,12 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  *
  * @property int $id
- * @property string $title_bn
+ * @property string $title
  * @property string|null $title_en
  * @property string|null $bbs_code
- * @property int |null $created_by
- * @property int |null $updated_by
- * @property int $row_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|LocUpazila[] $locUpazilas
@@ -27,7 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LocDivision extends BaseModel
 {
-    use ScopeRowStatusTrait, SoftDeletes,HasFactory;
+    use SoftDeletes, HasFactory;
 
     protected $table = 'loc_divisions';
     protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SOFT_DELETE;

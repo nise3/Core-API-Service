@@ -12,16 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  *
  * @property int $id
- * @property int|null $created_by
- * @property int|null $updated_by
- * @property string $title_bn
+ * @property string $title
  * @property string|null $title_en
  * @property string|null $bbs_code
- * @property string|null $district_bbs_code
- * @property string|null $division_bbs_code
  * @property int $loc_division_id
  * @property int $loc_district_id
- * @property int row_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read LocDistrict $locDistrict
@@ -29,7 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LocUpazila extends BaseModel
 {
-    use ScopeRowStatusTrait, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'loc_upazilas';
     protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SOFT_DELETE;
