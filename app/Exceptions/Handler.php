@@ -84,14 +84,9 @@ class Handler extends ExceptionHandler
             $errors['errors'] = $e->errors();
         } elseif ($e instanceof BindingResolutionException) {
             $errors['_response_status']['message'] = "Binding Resolution Error";
-        } else if ($e instanceof InstituteApiCallException) {
-            $errors['_response_status']['message'] = "Institute Service API Call Failed.";
-        } else if ($e instanceof YouthApiCallException) {
-            $errors['_response_status']['message'] = "Youth Service API Call Failed.";
-        } else if ($e instanceof OrganizationApiCallException) {
-            $errors['_response_status']['message'] = "Industry/Organization Service API Call Failed.";
-        } else if ($e instanceof IlluminateRequestException || $e instanceof RequestException) {
-            $errors['_response_status']['message'] = "External API Call Failed.";
+        } else if ($e instanceof RequestException || $e instanceof IlluminateRequestException) {
+            $errors['_response_status']['message'] = $e->getMessage();
+            $errors['_response_status']['code'] = $e->getCode();
         } elseif ($e instanceof ModelNotFoundException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_NOT_FOUND;
             $errors['_response_status']['message'] = 'Entry or Row for ' . str_replace('App\\', '', $e->getModel()) . ' was not Found'; //$e->getMessage();
@@ -110,7 +105,7 @@ class Handler extends ExceptionHandler
             $errors['_response_status']['message'] = $e->getMessage();
         }
 
-        return response()->json($errors);
+        return response()->json($errors, $errors['_response_status']['code']);
 
     }
 }
