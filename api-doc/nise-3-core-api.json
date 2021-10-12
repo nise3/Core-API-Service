@@ -1,25 +1,22 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Nise 3 core api service",
-        "description": "API description in Markdown.",
+        "title": "Nise 3 Core Api Service",
+        "description": "API Description in Markdown.",
         "version": "1.0.0"
     },
     "servers": [
         {
+            "url": "https://core.bus-staging.softbdltd.com/api/v1"
+        },
+        {
             "url": "http://localhost:8000/api/v1"
-        },
-        {
-            "url": "https://api.bus.softbd.xyz/core/api/v1"
-        },
-        {
-            "url": "http://nise3-core.asm/api/v1"
         }
     ],
     "paths": {
         "/": {
             "get": {
-                "summary": "API description",
+                "summary": "API Description",
                 "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally",
                 "responses": {
                     "200": {
@@ -2211,7 +2208,6 @@
                                                 "route": null,
                                                 "parameters": null
                                             }
-
                                         ]
                                     },
                                     "_response_status": {
@@ -2286,7 +2282,6 @@
                                     }
                                 }
                             }
-
                         }
                     }
                 },
@@ -2296,7 +2291,6 @@
                         "content": {
                             "application/json": {
                                 "example": {
-
                                 }
                             }
                         }
@@ -5580,7 +5574,6 @@
                     {
                         "$ref": "#/components/parameters/order"
                     },
-
                     {
                         "$ref": "#/components/parameters/row_status_optional"
                     }

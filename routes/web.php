@@ -10,8 +10,9 @@ $customRouter = function (string $as = '') use ($router) {
     return $custom->as($as);
 };
 
-$router->get('/hello', 'ExampleController@hateoasResponse');
-
+$router->get('/', function () use ($router) {
+    return $router->app->version();
+});
 
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
 
