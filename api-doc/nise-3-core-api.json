@@ -13,6 +13,11 @@
             "url": "http://localhost:8000/api/v1"
         }
     ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
     "paths": {
         "/": {
             "get": {
@@ -57,8 +62,8 @@
         },
         "/divisions": {
             "get": {
-                "summary": "get list",
-                "description": "Optional extended description in Markdown.",
+                "summary": "Get Division List",
+                "description": "Get Division List",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/order"
@@ -86,12 +91,10 @@
                                     "data": [
                                         {
                                             "id": 3,
-                                            "title_bn": "ঢাকা",
+                                            "title": "ঢাকা",
                                             "title_en": "Dhaka",
                                             "bbs_code": "30",
                                             "row_status": "1",
-                                            "created_by": 0,
-                                            "updated_by": 0,
                                             "created_at": "2021-09-22T04:08:35.000000Z",
                                             "updated_at": "2021-09-22T04:08:35.000000Z"
                                         }
@@ -101,6 +104,16 @@
                                         "code": 200,
                                         "query_time": "1 second before"
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
                                 }
                             }
                         }
@@ -8413,6 +8426,33 @@
                     "title_en",
                     "title_bn"
                 ]
+            },
+            "ErrorResponse": {
+                "type": "object",
+                "description": "Recent activities",
+                "properties": {
+                    "_response_status": {
+                        "type": "object",
+                        "description": "Recent activities",
+                        "properties": {
+                            "success": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "code": {
+                                "type": "integer",
+                                "example": 400
+                            },
+                            "message": {
+                                "type": "string",
+                                "example": "Invalid Request Format"
+                            },
+                            "query_time": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
             }
         }
     }
