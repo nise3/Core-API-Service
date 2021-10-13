@@ -98,8 +98,8 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
 $app->register(Felixkiss\UniqueWithValidator\ServiceProvider::class);
 
 

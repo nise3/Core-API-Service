@@ -25,6 +25,12 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         echo url();
     });
 
+    /* assign permission to organizations*/
+    $router->post('permissions/{organization_id}/assign-permissions-to-organization', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
+
+    /* assign permission to Institutes*/
+    $router->post('permissions/{institute_id}/assign-permissions-to-institute', ['as' => 'permissions.assign-permissions-to-institute', 'uses' => 'PermissionController@assignPermissionToInstitute']);
+
 
     $customRouter()->resourceRoute('permissions', 'PermissionController')->render();
     $customRouter()->resourceRoute('roles', 'RoleController')->render();
@@ -51,11 +57,6 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     /** Auth user info */
     $router->post("auth-user-info",["as"=>"users.auth-user-info","uses"=>"UserController@getAuthUserInfoByIdpId"]);
 
-    /* assign permission to organizations*/
-    $router->post('permissions/{organization_id}/assign-permissions-to-organization', ['as' => 'permissions.assign-permissions-to-organization', 'uses' => 'PermissionController@assignPermissionToOrganization']);
-
-    /* assign permission to Institutes*/
-    $router->post('permissions/{institute_id}/assign-permissions-to-institute', ['as' => 'permissions.assign-permissions-to-institute', 'uses' => 'PermissionController@assignPermissionToInstitute']);
 
     /* assign permission to permission group*/
     $router->post('permission-groups/{id}/assign-permissions', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
