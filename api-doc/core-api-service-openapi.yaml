@@ -3,9 +3,15 @@ info:
   title: Nise 3 Core Api Service
   description: API Description in Markdown.
   version: 1.0.0
+  termsOfService: ''
+  contact: {}
+  license:
+    name: MIT
 servers:
   - url: https://core.bus-staging.softbdltd.com/api/v1
   - url: http://localhost:8000/api/v1
+security:
+  - bearerAuth: []
 paths:
   /:
     get:
@@ -36,521 +42,6 @@ paths:
           description: success
       tags:
         - Api info
-  /divisions:
-    get:
-      summary: get list
-      description: Optional extended description in Markdown.
-      parameters:
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-      responses:
-        '200':
-          description: Successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                order: asc
-                data:
-                  - id: 3
-                    title_bn: ঢাকা
-                    title_en: Dhaka
-                    bbs_code: '30'
-                    row_status: '1'
-                    created_by: 0
-                    updated_by: 0
-                    created_at: '2021-09-22T04:08:35.000000Z'
-                    updated_at: '2021-09-22T04:08:35.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-      tags:
-        - Division
-    post:
-      summary: store
-      operationId: store2
-      parameters:
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
-        - $ref: '#/components/parameters/bbs_code'
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                data:
-                  title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
-                  bbs_code: '1005'
-                  updated_at: '2021-08-22T07:58:27.000000Z'
-                  created_at: '2021-08-22T07:58:27.000000Z'
-                  id: 11
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Division added successfully
-                  query_time: 0
-      tags:
-        - Division
-  /divisions/{divisionId}:
-    get:
-      summary: get one
-      parameters:
-        - name: divisionId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: Get one Division
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                data:
-                  id: 4
-                  title_bn: খুলনা
-                  title_en: Khulna
-                  bbs_code: '40'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-        default:
-          description: Unexpected error
-      tags:
-        - Division
-    put:
-      summary: update
-      operationId: update
-      parameters:
-        - name: divisionId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
-        - $ref: '#/components/parameters/bbs_code'
-        - $ref: '#/components/parameters/row_status'
-      responses:
-        '200':
-          description: Get one Division
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                data:
-                  id: 1
-                  title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
-                  bbs_code: '1000'
-                  row_status: '0'
-                  created_by: 0
-                  updated_by: 0
-                  created_at: '2021-08-11T12:23:12.000000Z'
-                  updated_at: '2021-08-22T07:55:13.000000Z'
-                  deleted_at: null
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Division updated successfully
-                  query_time: 0
-        default:
-          description: Unexpected error
-      tags:
-        - Division
-    delete:
-      summary: delete
-      operationId: destroy
-      parameters:
-        - name: divisionId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 2
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Division deleted successfully
-                  query_time: 0
-      tags:
-        - Division
-  /districts:
-    get:
-      summary: get list
-      description: Optional extended description in Markdown.
-      parameters:
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-        - $ref: '#/components/parameters/loc_division_id_optional'
-      responses:
-        '200':
-          description: Successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-        default:
-          description: Unexpected error
-      tags:
-        - District
-    post:
-      summary: store
-      parameters:
-        - $ref: '#/components/parameters/loc_division_id'
-        - $ref: '#/components/parameters/division_bbs_code'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
-        - $ref: '#/components/parameters/bbs_code'
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                data:
-                  loc_division_id: '1'
-                  title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
-                  bbs_code: '1000'
-                  division_bbs_code: '10'
-                  updated_at: '2021-08-22T07:07:33.000000Z'
-                  created_at: '2021-08-22T07:07:33.000000Z'
-                  id: 66
-                _response_status:
-                  success: true
-                  code: 201
-                  message: District added successfully
-                  query_time: 0
-      tags:
-        - District
-  /districts/{districtId}:
-    get:
-      summary: get one
-      parameters:
-        - name: districtId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: Get one Division
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                data:
-                  id: 1
-                  loc_division_id: 1
-                  title_bn: Test Title (BN)
-                  title_en: Test Title (EN)
-                  bbs_code: '1000'
-                  division_bbs_code: '10'
-                  division_title_bn: বরিশাল
-                  division_title_en: Barisal
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-        default:
-          description: Unexpected error
-      tags:
-        - District
-    put:
-      summary: update
-      parameters:
-        - name: districtId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-        - $ref: '#/components/parameters/loc_division_id'
-        - $ref: '#/components/parameters/division_bbs_code'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
-        - $ref: '#/components/parameters/bbs_code'
-        - $ref: '#/components/parameters/row_status'
-      responses:
-        '200':
-          description: Get one Division
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                data:
-                  id: 1
-                  loc_division_id: '1'
-                  division_bbs_code: '10'
-                  title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
-                  bbs_code: '1000'
-                  row_status: '1'
-                  created_by: 1
-                  updated_by: 1
-                  created_at: '2021-08-11T12:23:12.000000Z'
-                  updated_at: '2021-08-22T07:12:02.000000Z'
-                  deleted_at: null
-                _response_status:
-                  success: true
-                  code: 200
-                  message: District updated successfully
-                  query_time: 0
-        default:
-          description: Unexpected error
-      tags:
-        - District
-    delete:
-      summary: delete
-      parameters:
-        - name: districtId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 2
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/division'
-              example:
-                data: true
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Division deleted successfully
-                  started: 05 41 21
-                  finished: 05 41 21
-      tags:
-        - District
-  /upazilas:
-    get:
-      summary: get list
-      description: Optional extended description in Markdown.
-      parameters:
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-        - $ref: '#/components/parameters/loc_division_id_optional'
-        - $ref: '#/components/parameters/loc_district_id_optional'
-      responses:
-        '200':
-          description: Successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/upazila'
-              example:
-                total: 494
-                order: asc
-                row_status: 1
-                data:
-                  - id: 1
-                    loc_district_id: 1
-                    loc_division_id: 1
-                    title_bn: 'আমতলী '
-                    title_en: AMTALI
-                    bbs_code: '09'
-                    row_status: '1'
-                    district_title_bn: Test Title (BN)
-                    district_title_en: Test Title (EN)
-                    division_bbs_code: '10'
-                    division_title_bn: Test Title (BN)
-                    division_title_en: Test Title (EN)
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-        default:
-          description: Unexpected error
-      tags:
-        - Upazila
-    post:
-      summary: store
-      parameters:
-        - $ref: '#/components/parameters/loc_division_id'
-        - $ref: '#/components/parameters/loc_district_id'
-        - $ref: '#/components/parameters/division_bbs_code'
-        - $ref: '#/components/parameters/district_bbs_code'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
-        - $ref: '#/components/parameters/bbs_code'
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/upazila'
-              example:
-                data:
-                  loc_district_id: '1'
-                  loc_division_id: '1'
-                  division_bbs_code: '70'
-                  district_bbs_code: '10'
-                  title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
-                  bbs_code: '1001'
-                  updated_at: '2021-08-22T08:55:09.000000Z'
-                  created_at: '2021-08-22T08:55:09.000000Z'
-                  id: 496
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Upazila added successfully
-                  query_time: 0
-      tags:
-        - Upazila
-  /upazilas/{upazilaId}:
-    get:
-      summary: get one
-      parameters:
-        - name: upazilaId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: Get one Upazila
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/upazila'
-              example:
-                data:
-                  id: 1
-                  loc_district_id: 1
-                  loc_division_id: 1
-                  title_bn: 'আমতলী '
-                  title_en: AMTALI
-                  bbs_code: '09'
-                  district_title_bn: Test Title (BN)
-                  district_title_en: Test Title (EN)
-                  division_bbs_code: '10'
-                  division_title_bn: Test Title (BN)
-                  division_title_en: Test Title (EN)
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-        default:
-          description: Unexpected error
-      tags:
-        - Upazila
-    put:
-      summary: update
-      parameters:
-        - name: upazilaId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-        - $ref: '#/components/parameters/loc_division_id'
-        - $ref: '#/components/parameters/loc_district_id'
-        - $ref: '#/components/parameters/division_bbs_code'
-        - $ref: '#/components/parameters/district_bbs_code'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
-        - $ref: '#/components/parameters/bbs_code'
-        - $ref: '#/components/parameters/row_status'
-      responses:
-        '200':
-          description: Get one Division
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/upazila'
-              example:
-                data:
-                  id: 1
-                  loc_division_id: '1'
-                  loc_district_id: '1'
-                  division_bbs_code: '70'
-                  district_bbs_code: '10'
-                  title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
-                  bbs_code: '1000'
-                  row_status: '0'
-                  created_by: 1
-                  updated_by: 1
-                  created_at: '2021-08-11T12:23:12.000000Z'
-                  updated_at: '2021-08-22T08:57:43.000000Z'
-                  deleted_at: null
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Upazila updated successfully
-                  query_time: 0
-        default:
-          description: Unexpected error
-      tags:
-        - Upazila
-    delete:
-      summary: delete
-      parameters:
-        - name: upazilaId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 2
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/upazila'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Upazila deleted successfully
-                  query_time: 0
-      tags:
-        - Upazila
   /permissions:
     get:
       summary: get list
@@ -781,7 +272,7 @@ paths:
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
+        - $ref: '#/components/parameters/title_optional'
         - $ref: '#/components/parameters/organization_id_optional'
         - $ref: '#/components/parameters/institute_id_optional'
       responses:
@@ -800,7 +291,7 @@ paths:
                 row_status: '1'
                 data:
                   - id: 1
-                    title_bn: সুপার এডমিন
+                    title: সুপার এডমিন
                     title_en: Super Admin
                     key: super_admin
                     description: null
@@ -808,7 +299,7 @@ paths:
                     organization_id: null
                     institute_id: null
                     permission_group_title_en: null
-                    permission_group_title_bn: null
+                    permission_group_title: null
                     row_status: 1
                     created_at: null
                     updated_at: null
@@ -825,7 +316,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/key'
         - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
+        - $ref: '#/components/parameters/title'
         - $ref: '#/components/parameters/description'
         - $ref: '#/components/parameters/permission_group_id_optional'
         - $ref: '#/components/parameters/permission_sub_group_id_optional'
@@ -841,7 +332,7 @@ paths:
               example:
                 data:
                   title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
+                  title: Test Title (Native)
                   description: Lorem Ipsum is simply dummy text of the printing and typesetting industry
                   key: demo_key
                   updated_at: '2021-08-23T04:17:31.000000Z'
@@ -874,7 +365,7 @@ paths:
               example:
                 data:
                   id: 1
-                  title_bn: সুপার এডমিন
+                  title: সুপার এডমিন
                   title_en: Super Admin
                   key: super_admin
                   description: null
@@ -882,10 +373,10 @@ paths:
                   institute_id: null
                   permission_group_id: null
                   permission_group_title_en: null
-                  permission_group_title_bn: null
+                  permission_group_title: null
                   permission_sub_group_id: null
                   permission_sub_group_title_en: null
-                  permission_sub_group_title_bn: null
+                  permission_sub_group_title: null
                   row_status: 1
                   created_at: null
                   updated_at: null
@@ -925,7 +416,7 @@ paths:
             example: 1
         - $ref: '#/components/parameters/key'
         - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
+        - $ref: '#/components/parameters/title'
         - $ref: '#/components/parameters/description'
         - $ref: '#/components/parameters/permission_group_id_optional'
         - $ref: '#/components/parameters/permission_sub_group_id_optional'
@@ -944,7 +435,7 @@ paths:
                   id: 1
                   key: super_admin
                   title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
+                  title: Test Title (Native)
                   permission_group_id: null
                   organization_id: null
                   institute_id: null
@@ -1009,7 +500,7 @@ paths:
                   id: 2
                   key: system_admin
                   title_en: System Admin
-                  title_bn: সিস্টেম এডমিন
+                  title: সিস্টেম এডমিন
                   permission_group_id: null
                   organization_id: null
                   institute_id: null
@@ -1078,13 +569,13 @@ paths:
                     updated_at: '2021-08-11T12:23:13.000000Z'
                     deleted_at: null
                     role_title_en: Test Title (EN)
-                    role_title_bn: Test Title (BN)
+                    role_title: Test Title (Native)
                     loc_divisions_title_en: null
-                    loc_divisions_title_bn: null
+                    loc_divisions_title: null
                     loc_district_title_en: null
-                    loc_district_title_bn: null
+                    loc_district_title: null
                     loc_upazila_title_en: null
-                    loc_upazila_title_bn: null
+                    loc_upazila_title: null
                 _response_status:
                   success: true
                   code: 200
@@ -1182,13 +673,13 @@ paths:
                   updated_at: '2021-08-11T12:23:13.000000Z'
                   deleted_at: null
                   role_title_en: Test Title (EN)
-                  role_title_bn: Test Title (BN)
+                  role_title: Test Title (Native)
                   loc_divisions_title_en: null
-                  loc_divisions_title_bn: null
+                  loc_divisions_title: null
                   loc_district_title_en: null
-                  loc_district_title_bn: null
+                  loc_district_title: null
                   loc_upazila_title_en: null
-                  loc_upazila_title_bn: null
+                  loc_upazila_title: null
                 _response_status:
                   success: true
                   code: 200
@@ -1289,7 +780,7 @@ paths:
         - User
   /users/{userId}/assign-role:
     post:
-      summary: Assign role to user
+      summary: Assign ACL Role to an User
       parameters:
         - name: userId
           in: path
@@ -1341,7 +832,7 @@ paths:
         - User
   /users/{userId}/assign-permissions:
     post:
-      summary: Assign permission to user
+      summary: Assign ACL Permission to an User
       parameters:
         - name: userId
           in: path
@@ -1390,7 +881,7 @@ paths:
         - User
   /users/{userId}/permissions:
     get:
-      summary: get the list of permission and menuItems
+      summary: Get The list of ACL Permissions and Menu Items for a Particular User
       parameters:
         - name: userId
           in: path
@@ -1431,7 +922,7 @@ paths:
         - User
   /users/{userId}/profile-update:
     post:
-      summary: Update User Profile
+      summary: Update An User Profile
       parameters:
         - name: userId
           in: path
@@ -1481,7 +972,7 @@ paths:
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
+        - $ref: '#/components/parameters/title_optional'
         - $ref: '#/components/parameters/key_optional'
       responses:
         '200':
@@ -1500,7 +991,7 @@ paths:
                 data:
                   - id: 1
                     title_en: Professor En
-                    title_bn: Professor Bn
+                    title: Professor Bn
                     key: professor
                     row_status: 1
                     created_at: '2021-08-11T12:23:12.000000Z'
@@ -1517,7 +1008,7 @@ paths:
       summary: store
       parameters:
         - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
+        - $ref: '#/components/parameters/title'
         - $ref: '#/components/parameters/key'
       responses:
         '200':
@@ -1529,7 +1020,7 @@ paths:
               example:
                 data:
                   title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
+                  title: Test Title (Native)
                   key: demo_key
                   updated_at: '2021-08-23T08:12:53.000000Z'
                   created_at: '2021-08-23T08:12:53.000000Z'
@@ -1578,7 +1069,7 @@ paths:
                 data:
                   id: 1
                   title_en: Professor En
-                  title_bn: Professor Bn
+                  title: Professor Bn
                   key: professor
                   row_status: 1
                   created_at: '2021-08-11T12:23:12.000000Z'
@@ -1601,7 +1092,7 @@ paths:
             type: integer
             example: 1
         - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
+        - $ref: '#/components/parameters/title'
         - $ref: '#/components/parameters/key'
         - $ref: '#/components/parameters/row_status'
       responses:
@@ -1615,7 +1106,7 @@ paths:
                 data:
                   id: 8
                   title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
+                  title: Test Title (Native)
                   key: demo_key
                   row_status: '1'
                   created_at: '2021-08-23T08:12:53.000000Z'
@@ -1655,7 +1146,7 @@ paths:
         - PermissionGroup
   /permission-groups/{permissionGroupId}/assign-permissions:
     post:
-      summary: Assign permission to permissionGroup
+      summary: Assign ACL Permission to ACL a Permission Group
       parameters:
         - name: permissionGroupId
           in: path
@@ -1689,7 +1180,7 @@ paths:
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
+        - $ref: '#/components/parameters/title_optional'
       responses:
         '200':
           description: Successful
@@ -1708,13 +1199,13 @@ paths:
                   - id: 7
                     permission_group_id: 3
                     title_en: Community Service Manager En
-                    title_bn: Community Service Manager Bn
+                    title: Community Service Manager Bn
                     key: community_service_manager
                     row_status: 1
                     created_at: '2021-08-11T12:23:12.000000Z'
                     updated_at: '2021-08-11T12:23:12.000000Z'
                     permission_group_title_en: Maintenance Equipment Operator En
-                    permission_group_title_bn: Maintenance Equipment Operator Bn
+                    permission_group_title: Maintenance Equipment Operator Bn
                 _response_status:
                   success: true
                   code: 200
@@ -1728,7 +1219,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/permission_group_id'
         - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
+        - $ref: '#/components/parameters/title'
         - $ref: '#/components/parameters/key'
       responses:
         '200':
@@ -1741,7 +1232,7 @@ paths:
                 data:
                   permission_group_id: '3'
                   title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
+                  title: Test Title (Native)
                   key: demo_key
                   updated_at: '2021-08-23T08:56:41.000000Z'
                   created_at: '2021-08-23T08:56:41.000000Z'
@@ -1775,13 +1266,13 @@ paths:
                   id: 7
                   permission_group_id: 3
                   title_en: Community Service Manager En
-                  title_bn: Community Service Manager Bn
+                  title: Community Service Manager Bn
                   key: community_service_manager
                   row_status: 1
                   created_at: '2021-08-11T12:23:12.000000Z'
                   updated_at: '2021-08-11T12:23:12.000000Z'
                   permission_group_title_en: Maintenance Equipment Operator En
-                  permission_group_title_bn: Maintenance Equipment Operator Bn
+                  permission_group_title: Maintenance Equipment Operator Bn
                 _response_status:
                   success: true
                   code: 200
@@ -1802,7 +1293,7 @@ paths:
             example: 1
         - $ref: '#/components/parameters/permission_group_id'
         - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title_bn'
+        - $ref: '#/components/parameters/title'
         - $ref: '#/components/parameters/key'
         - $ref: '#/components/parameters/row_status'
       responses:
@@ -1817,7 +1308,7 @@ paths:
                   id: 22
                   permission_group_id: '3'
                   title_en: Test Title (EN)
-                  title_bn: Test Title (BN)
+                  title: Test Title (Native)
                   key: demo_key
                   row_status: '0'
                   created_at: '2021-08-23T08:56:41.000000Z'
@@ -1857,7 +1348,7 @@ paths:
         - PermissionSubGroup
   /permission-sub-groups/{permissionSubGroupId}/assign-permissions:
     post:
-      summary: Assign permission to permissionSubGroup
+      summary: Assign ACL Permissions to ACL a Permission Sub Group
       parameters:
         - name: permissionSubGroupId
           in: path
@@ -1878,7 +1369,7 @@ paths:
                   id: 20
                   permission_group_id: 7
                   title_en: Teacher Assistant En
-                  title_bn: Teacher Assistant Bn
+                  title: Teacher Assistant Bn
                   key: teacher_assistant
                   row_status: 1
                   created_at: '2021-08-11T12:23:12.000000Z'
@@ -1890,1046 +1381,6 @@ paths:
                   query_time: 0
       tags:
         - PermissionSubGroup
-  /gallery-categories:
-    get:
-      summary: get list
-      description: Api endpoint to get the list of galley Category.A successful request will return code 200
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GalleryCategory'
-              example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 2
-                order: ASC
-                data:
-                  - id: 1
-                    title_en: galleryCategory-1
-                    title_bn: galleryCategory-1
-                    institute_id: 1
-                    programme_id: 1
-                    batch_id: 2
-                    featured: 0
-                    image: image.jpg
-                    row_status: 1
-                    created_by: null
-                    updated_by: null
-                    created_at: '2021-09-02T03:39:47.000000Z'
-                    updated_at: '2021-09-02T05:39:41.000000Z'
-                  - id: 3
-                    title_en: galleryCategory-3
-                    title_bn: galleryCategory-3
-                    institute_id: 1
-                    programme_id: 1
-                    batch_id: 1
-                    featured: 1
-                    image: image.jpg
-                    row_status: 1
-                    created_by: null
-                    updated_by: null
-                    created_at: '2021-09-05T04:36:54.000000Z'
-                    updated_at: '2021-09-05T04:36:54.000000Z'
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - GalleryCategory
-    post:
-      summary: store
-      description: Api endpoint to store a gallery category.A successful request will return 200
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/GalleryCategory'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GalleryCategory'
-              example:
-                data:
-                  title_en: abc
-                  title_bn: abc
-                  institute_id: '1'
-                  programme_id: '1'
-                  batch_id: '1'
-                  image: image.jpg
-                  featured: '1'
-                  updated_at: '2021-09-05T04:36:54.000000Z'
-                  created_at: '2021-09-05T04:36:54.000000Z'
-                  id: 3
-                _response_status:
-                  success: true
-                  code: 201
-                  message: GalleryCategory added successfully
-                  query_time: 0
-      tags:
-        - GalleryCategory
-  /gallery-categories/{galleryCategoryId}:
-    get:
-      summary: get one
-      description: Api endpoint to get the specified galley Category.A successful request will return code 200
-      parameters:
-        - $ref: '#/components/parameters/galleryCategoryId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GalleryCategory'
-              example:
-                data:
-                  id: 1
-                  title_en: abc
-                  title_bn: abc
-                  institute_id: 1
-                  programme_id: 1
-                  batch_id: 2
-                  featured: 0
-                  image: image.jpg
-                  row_status: 1
-                  created_by: null
-                  updated_by: null
-                  created_at: '2021-09-02T03:39:47.000000Z'
-                  updated_at: '2021-09-02T05:39:41.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - GalleryCategory
-    put:
-      summary: update
-      description: Api endpoint to update the specified galley Category.A successful request will return code 200
-      parameters:
-        - $ref: '#/components/parameters/galleryCategoryId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/GalleryCategory'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GalleryCategory'
-              example: {}
-      tags:
-        - GalleryCategory
-    delete:
-      summary: delete
-      description: Api endpoint to delete the specified galley Category
-      parameters:
-        - $ref: '#/components/parameters/galleryCategoryId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GalleryCategory'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: GalleryCategory deleted successfully
-                  query_time: 0
-      tags:
-        - GalleryCategory
-  /galleries:
-    get:
-      summary: get list
-      description: 'Api endpoint to get the list of galley '
-      parameters:
-        - $ref: '#/components/parameters/content_title'
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Gallery'
-              example:
-                current_page: 1
-                total_page: 2
-                page_size: 10
-                total: 12
-                order: ASC
-                data:
-                  - id: 1
-                    content_title: content-title_2
-                    content_type: 2
-                    content_path: aaaaaaaaa
-                    institute_id: 1
-                    you_tube_video_id: aaaaaaaaaaa
-                    gallery_category_id: 1
-                    gallery_category_title_en: Test Title (EN)
-                    gallery_category_title_bn: Test Title (BN)
-                    is_youtube_video: 0
-                    publish_date: null
-                    archive_date: null
-                    created_by: null
-                    updated_by: null
-                    created_at: '2021-09-02T11:05:20.000000Z'
-                    updated_at: '2021-09-02T11:32:44.000000Z'
-                  - id: 2
-                    content_title: content-title_2
-                    content_type: 1
-                    content_path: ''
-                    institute_id: 1
-                    you_tube_video_id: null
-                    gallery_category_id: 1
-                    gallery_category_title_en: Test Title (EN)
-                    gallery_category_title_bn: Test Title (BN)
-                    is_youtube_video: 1
-                    publish_date: null
-                    archive_date: null
-                    created_by: null
-                    updated_by: null
-                    created_at: '2021-09-02T11:14:49.000000Z'
-                    updated_at: '2021-09-02T11:14:49.000000Z'
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - Gallery
-    post:
-      summary: store
-      description: Api endpoint to store a galley
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Gallery'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Gallery'
-              example:
-                data:
-                  gallery_category_id: '1'
-                  content_title: content_title
-                  institute_id: '1'
-                  content_type: '2'
-                  is_youtube_video: '1'
-                  publish_date: ''
-                  archive_date: ''
-                  you_tube_video_id: pQ145X
-                  updated_at: '2021-09-05T06:16:36.000000Z'
-                  created_at: '2021-09-05T06:16:36.000000Z'
-                  id: 13
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Gallery added successfully
-                  query_time: 0
-      tags:
-        - Gallery
-  /galleries/{galleryId}:
-    get:
-      summary: get one
-      description: Api endpoint to ge the specified gallery
-      parameters:
-        - $ref: '#/components/parameters/galleryId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Gallery'
-              example: {}
-      tags:
-        - Gallery
-    put:
-      summary: update
-      description: APi endpoint to update the specified gallery
-      parameters:
-        - $ref: '#/components/parameters/galleryId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Gallery'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Gallery'
-              example:
-                data:
-                  id: 1
-                  gallery_category_id: '1'
-                  content_type: '2'
-                  content_title: content_title
-                  content_path: aaaaaaaaa
-                  institute_id: '1'
-                  is_youtube_video: '1'
-                  publish_date: ''
-                  archive_date: ''
-                  you_tube_video_id: pQ145X
-                  row_status: 1
-                  created_by: null
-                  updated_by: null
-                  created_at: '2021-09-02T11:05:20.000000Z'
-                  updated_at: '2021-09-05T06:39:42.000000Z'
-                  deleted_at: null
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Gallery updated successfully
-                  query_time: 1
-      tags:
-        - Gallery
-    delete:
-      summary: delete
-      description: APi endpoint to delete the specified gallery
-      parameters:
-        - $ref: '#/components/parameters/galleryId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/parameters/galleryId'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Gallery deleted successfully
-                  query_time: 0
-      tags:
-        - Gallery
-  /video-categories:
-    get:
-      summary: get list
-      description: Api endpoint to get the list of video categories
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VideoCategory'
-              example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 6
-                order: ASC
-                data:
-                  - id: 1
-                    title_en: abc
-                    title_bn: abc
-                    parent_id: 1
-                    parent_category_title_en: abc
-                    parent_category_title_bn: abc
-                    row_status: 1
-                    created_at: '2021-09-02T05:18:21.000000Z'
-                    updated_at: '2021-09-02T05:50:54.000000Z'
-                  - id: 3
-                    title_en: abc
-                    title_bn: abc
-                    parent_id: 0
-                    parent_category_title_en: null
-                    parent_category_title_bn: null
-                    row_status: 1
-                    created_at: '2021-09-02T05:29:46.000000Z'
-                    updated_at: '2021-09-02T05:29:46.000000Z'
-                  - id: 4
-                    title_en: abc
-                    title_bn: abc
-                    parent_id: 0
-                    parent_category_title_en: null
-                    parent_category_title_bn: null
-                    row_status: 1
-                    created_at: '2021-09-02T05:51:27.000000Z'
-                    updated_at: '2021-09-02T05:51:27.000000Z'
-                  - id: 5
-                    title_en: abc
-                    title_bn: abc
-                    parent_id: 0
-                    parent_category_title_en: null
-                    parent_category_title_bn: null
-                    row_status: 1
-                    created_at: '2021-09-02T05:52:26.000000Z'
-                    updated_at: '2021-09-02T05:52:26.000000Z'
-                  - id: 6
-                    title_en: abc
-                    title_bn: abc
-                    parent_id: 0
-                    parent_category_title_en: null
-                    parent_category_title_bn: null
-                    row_status: 1
-                    created_at: '2021-09-02T05:53:10.000000Z'
-                    updated_at: '2021-09-02T05:53:10.000000Z'
-                  - id: 7
-                    title_en: abc
-                    title_bn: abc
-                    parent_id: null
-                    parent_category_title_en: null
-                    parent_category_title_bn: null
-                    row_status: 1
-                    created_at: '2021-09-02T05:53:17.000000Z'
-                    updated_at: '2021-09-02T05:53:17.000000Z'
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - videoCategory
-    post:
-      summary: store
-      description: Api endpoint to store a   video category
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/VideoCategory'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VideoCategory'
-              example:
-                data:
-                  title_en: title_en
-                  title_bn: title_bn
-                  institute_id: '1'
-                  parent_id: '1'
-                  row_status: ''
-                  updated_at: '2021-09-05T06:53:29.000000Z'
-                  created_at: '2021-09-05T06:53:29.000000Z'
-                  id: 8
-                _response_status:
-                  success: true
-                  code: 201
-                  message: VideoCategory added successfully
-                  query_time: 0
-      tags:
-        - videoCategory
-  /video-categories/{videoCategoryId}:
-    get:
-      summary: get one
-      description: Api endpoint to get the specified of videoCategory
-      parameters:
-        - $ref: '#/components/parameters/videoCategoryId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VideoCategory'
-              example:
-                data:
-                  id: 1
-                  title_en: abc
-                  title_bn: abc
-                  parent_id: 1
-                  parent_category_title_en: abc
-                  parent_category_title_bn: abc
-                  row_status: 0
-                  created_at: '2021-09-02T05:18:21.000000Z'
-                  updated_at: '2021-09-05T07:04:29.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - videoCategory
-    put:
-      summary: update
-      description: Api endpoint to update the specified  video category
-      parameters:
-        - $ref: '#/components/parameters/videoCategoryId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/VideoCategory'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VideoCategory'
-              example:
-                data:
-                  title_en: title_en
-                  title_bn: title_bn
-                  institute_id: '1'
-                  parent_id: '1'
-                  row_status: ''
-                  updated_at: '2021-09-05T06:53:29.000000Z'
-                  created_at: '2021-09-05T06:53:29.000000Z'
-                  id: 8
-                _response_status:
-                  success: true
-                  code: 200
-                  message: VideoCategory updated successfully
-                  query_time: 0
-      tags:
-        - videoCategory
-    delete:
-      summary: delete
-      description: Api endpoint to delete the specified of videoCategory
-      parameters:
-        - $ref: '#/components/parameters/videoCategoryId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VideoCategory'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: VideoCategory deleted successfully
-                  query_time: 0
-      tags:
-        - videoCategory
-  /videos:
-    get:
-      summary: get list
-      description: Api endpoint to get the list of videos
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/video'
-              example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 1
-                order: ASC
-                data:
-                  - id: 1
-                    title_en: abc
-                    title_bn: abc
-                    description: null
-                    institute_id: 1
-                    video_category_id: 2
-                    video_category_title_en: abc
-                    video_category_title_bn: abc
-                    uploaded_video_path: https://www.youtube.com/watch?v=pP23CtOI-1U
-                    video_type: 1
-                    youtube_video_id: pP23CtOI-1U
-                    youtube_video_url: https://www.youtube.com/watch?v=pP23CtOI-1U
-                    row_status: 1
-                    created_at: '2021-09-02T07:29:14.000000Z'
-                    updated_at: '2021-09-02T07:31:54.000000Z'
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - video
-    post:
-      summary: store
-      description: Api endpoint to store a  video
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/video'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/video'
-              example:
-                data:
-                  title_en: title_en
-                  title_bn: title_bn
-                  description: shhajdhkjadjasdgyagapaojagaf
-                  video_type: '2'
-                  youtube_video_id: ''
-                  youtube_video_url: ''
-                  uploaded_video_path: aaaaaaaasdsdlak;ldkos
-                  institute_id: '1'
-                  video_category_id: '1'
-                  row_status: ''
-                  updated_at: '2021-09-05T07:22:14.000000Z'
-                  created_at: '2021-09-05T07:22:14.000000Z'
-                  id: 3
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Video added successfully
-                  query_time: 0
-      tags:
-        - video
-  /videos/{videoId}:
-    get:
-      summary: get one
-      description: Api endpoint to get the specified of video categories
-      parameters:
-        - $ref: '#/components/parameters/videoId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/video'
-              example:
-                data:
-                  id: 1
-                  title_en: abc
-                  title_bn: abc
-                  description: null
-                  institute_id: 1
-                  video_category_id: 2
-                  video_category_title_en: abc
-                  video_category_title_bn: abc
-                  uploaded_video_path: https://www.youtube.com/watch?v=pP23CtOI-1U
-                  video_type: 1
-                  youtube_video_id: pP23CtOI-1U
-                  youtube_video_url: https://www.youtube.com/watch?v=pP23CtOI-1U
-                  row_status: 1
-                  created_at: '2021-09-02T07:29:14.000000Z'
-                  updated_at: '2021-09-02T07:31:54.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - video
-    put:
-      summary: update
-      description: Api endpoint to update the specified  video
-      parameters:
-        - $ref: '#/components/parameters/videoId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/video'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/video'
-              example:
-                data:
-                  id: 3
-                  title_en: title_en
-                  title_bn: title_bn
-                  description: shhajdhkjadjasdgyagapaojagaf
-                  video_type: '2'
-                  youtube_video_id: ''
-                  youtube_video_url: ''
-                  uploaded_video_path: aaaaaaaasdsdlak;ldkos
-                  institute_id: '1'
-                  video_category_id: '1'
-                  row_status: ''
-                  updated_at: '2021-09-05T07:22:14.000000Z'
-                  created_at: '2021-09-05T07:22:14.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Video updated successfully
-                  query_time: 0
-      tags:
-        - video
-    delete:
-      summary: delete
-      description: Api endpoint to delete the specified of video categories
-      parameters:
-        - $ref: '#/components/parameters/videoId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/video'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Video deleted successfully
-                  query_time: 0
-      tags:
-        - video
-  /sliders:
-    get:
-      summary: get list
-      description: Api endpoint to get the list of slider
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/sub_title'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/video'
-              example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 1
-                order: ASC
-                data:
-                  - id: 1
-                    title_en: abc
-                    title_bn: abc
-                    description: null
-                    institute_id: 1
-                    video_category_id: 2
-                    video_category_title_en: abc
-                    video_category_title_bn: abc
-                    uploaded_video_path: https://www.youtube.com/watch?v=pP23CtOI-1U
-                    video_type: 1
-                    youtube_video_id: pP23CtOI-1U
-                    youtube_video_url: https://www.youtube.com/watch?v=pP23CtOI-1U
-                    row_status: 1
-                    created_at: '2021-09-02T07:29:14.000000Z'
-                    updated_at: '2021-09-02T07:31:54.000000Z'
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - Slider
-    post:
-      summary: store
-      description: Api endpoint to store a  slider
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Slider'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Slider'
-              example:
-                data:
-                  title: title
-                  sub_title: sub_title
-                  is_button_available: ''
-                  link: ''
-                  button_text: ''
-                  institute_id: '1'
-                  slider: ''
-                  row_status: ''
-                  updated_at: '2021-09-05T07:52:46.000000Z'
-                  created_at: '2021-09-05T07:52:46.000000Z'
-                  id: 3
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Slider added successfully
-                  query_time: 0
-      tags:
-        - Slider
-  /sliders/{sliderId}:
-    get:
-      summary: get one
-      description: Api endpoint to get the specified slider
-      parameters:
-        - $ref: '#/components/parameters/sliderId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Slider'
-              example:
-                data:
-                  id: 1
-                  institute_id: 1
-                  title: abc
-                  sub_title: abc
-                  is_button_available: 1
-                  link: akjskjasjlksj
-                  button_text: bbbbbb
-                  slider: aaaaaaaaaaaa
-                  row_status: 1
-                  created_at: '2021-09-02T09:12:54.000000Z'
-                  updated_at: '2021-09-02T09:13:55.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - Slider
-    put:
-      summary: update
-      description: Api endpoint to update the specified  slider
-      parameters:
-        - $ref: '#/components/parameters/sliderId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Slider'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Slider'
-              example:
-                data:
-                  title: title
-                  sub_title: sub_title
-                  is_button_available: ''
-                  link: ''
-                  button_text: ''
-                  institute_id: '1'
-                  slider: ''
-                  row_status: ''
-                  updated_at: '2021-09-05T07:52:46.000000Z'
-                  created_at: '2021-09-05T07:52:46.000000Z'
-                  id: 3
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Slider updated successfully
-                  query_time: 0
-      tags:
-        - Slider
-    delete:
-      summary: delete
-      description: Api endpoint to delete the specified slider
-      parameters:
-        - $ref: '#/components/parameters/sliderId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Slider'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Slider deleted successfully
-                  query_time: 0
-      tags:
-        - Slider
-  /static-pages:
-    get:
-      summary: get list
-      description: Api endpoint to get the list of static pages
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StaticPage'
-              example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 2
-                order: ASC
-                data:
-                  - id: 1
-                    title_en: abc
-                    title_bn: abc
-                    institute_id: 2
-                    page_id: '2'
-                    page_contents: asdbdbnsjdhkjahesldkhewiw
-                    created_by: null
-                    created_at: '2021-09-02T10:03:58.000000Z'
-                    updated_at: '2021-09-02T12:59:04.000000Z'
-                  - id: 2
-                    title_en: abc
-                    title_bn: abc
-                    institute_id: 1
-                    page_id: '1'
-                    page_contents: abclsdks;oe;ooee
-                    created_by: null
-                    created_at: '2021-09-02T10:04:56.000000Z'
-                    updated_at: '2021-09-02T10:04:56.000000Z'
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - StaticPage
-    post:
-      summary: store
-      description: Api endpoint to get the list of StaticPages
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/StaticPage'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StaticPage'
-              example:
-                data:
-                  title_en: title_en
-                  title_bn: title_bn
-                  institute_id: '1'
-                  page_id: '1'
-                  page_contents: asjkdksjksj;lada';kd,'laad
-                  updated_at: '2021-09-05T09:03:16.000000Z'
-                  created_at: '2021-09-05T09:03:16.000000Z'
-                  id: 3
-                _response_status:
-                  success: true
-                  code: 201
-                  message: StaticPage added successfully
-                  query_time: 0
-      tags:
-        - StaticPage
-  /static-pages/{staticPageId}:
-    get:
-      summary: get one
-      description: Api endpoint to get the  specified StaticPage
-      parameters:
-        - $ref: '#/components/parameters/staticPageId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StaticPage'
-              example: {}
-      tags:
-        - StaticPage
-    put:
-      summary: update
-      description: Api endpoint to update the  specified StaticPage
-      parameters:
-        - $ref: '#/components/parameters/staticPageId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/StaticPage'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StaticPage'
-              example:
-                data:
-                  id: 3
-                  title_en: title_en
-                  title_bn: title_bn
-                  institute_id: '1'
-                  page_id: '1'
-                  page_contents: asjkdksjksj;lada';kd,'laad
-                  updated_at: '2021-09-05T09:03:16.000000Z'
-                  created_at: '2021-09-05T09:03:16.000000Z'
-                _response_status:
-                  success: true
-                  code: 201
-                  message: StaticPage updated successfully
-                  query_time: 0
-      tags:
-        - StaticPage
-    delete:
-      summary: delete
-      description: Api endpoint to delete the  specified StaticPage
-      parameters:
-        - $ref: '#/components/parameters/staticPageId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StaticPage'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: StaticPage deleted successfully
-                  query_time: 0
-      tags:
-        - StaticPage
   /menus:
     get:
       summary: get list
@@ -3238,572 +1689,6 @@ paths:
                   query_time: 0
       tags:
         - MenuItem
-  /notice-or-news:
-    get:
-      summary: get list
-      description: get all notice-or-news
-      parameters:
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-      responses:
-        '200':
-          description: Successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NoticeOrNews'
-              example:
-                order: ASC
-                data:
-                  - id: 1
-                    type: 0
-                    title_en: abc
-                    title_bn: def
-                    description_en: ''
-                    description_bn: ''
-                    image: ''
-                    file: ''
-                    image_alt_title_en: ''
-                    image_alt_title_bn: ''
-                    file_alt_title_en: ''
-                    file_alt_title_bn: ''
-                    row_status: 0
-                    publish_date: null
-                    archive_date: null
-                    created_by: null
-                    updated_by: null
-                    created_at: '2021-09-28T05:41:41.000000Z'
-                    updated_at: '2021-09-28T05:41:41.000000Z'
-                    deleted_at: null
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - NoticeOrNews
-    post:
-      summary: store
-      description: Store a notice-or-news
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/NoticeOrNews'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NoticeOrNews'
-              example:
-                data:
-                  type: '2'
-                  title_en: News_title_en
-                  title_bn: News_title_bn
-                  description_en: ''
-                  description_bn: ''
-                  image: ''
-                  file: ''
-                  image_alt_title_en: ''
-                  image_alt_title_bn: ''
-                  file_alt_title_en: ''
-                  file_alt_title_bn: ''
-                  row_status: ''
-                  updated_at: '2021-09-28T05:43:18.000000Z'
-                  created_at: '2021-09-28T05:43:18.000000Z'
-                  id: 2
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Notice or News added successfully
-                  query_time: 0
-      tags:
-        - NoticeOrNews
-  /notice-or-news/{noticeOrNewsId}:
-    get:
-      summary: get one
-      description: Get one noticeOrNews
-      parameters:
-        - $ref: '#/components/parameters/noticeOrNewsId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NoticeOrNews'
-              example:
-                data:
-                  id: 1
-                  type: 2
-                  title_en: News_title_en
-                  title_bn: News_title_bn
-                  institute_id: 0
-                  organization_id: 0
-                  description_en: ''
-                  description_bn: ''
-                  image: ''
-                  file: ''
-                  image_alt_title_en: ''
-                  image_alt_title_bn: ''
-                  file_alt_title_en: ''
-                  file_alt_title_bn: ''
-                  row_status: 0
-                  publish_date: null
-                  archive_date: null
-                  created_by: null
-                  updated_by: null
-                  created_at: '2021-09-28T05:47:36.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - NoticeOrNews
-    put:
-      summary: update
-      description: Update specified noticeOrNews
-      parameters:
-        - $ref: '#/components/parameters/noticeOrNewsId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/NoticeOrNews'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NoticeOrNews'
-              example:
-                data:
-                  id: 1
-                  type: '1'
-                  title_en: title_en update
-                  title_bn: title_bn update
-                  institute_id: ''
-                  organization_id: '2'
-                  description_en: ''
-                  description_bn: ''
-                  image: ''
-                  file: ''
-                  image_alt_title_en: ''
-                  image_alt_title_bn: ''
-                  file_alt_title_en: ''
-                  file_alt_title_bn: ''
-                  row_status: ''
-                  publish_date: null
-                  archive_date: null
-                  created_by: null
-                  updated_by: null
-                  created_at: '2021-09-28T05:47:36.000000Z'
-                  updated_at: '2021-09-28T06:05:38.000000Z'
-                  deleted_at: null
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Notice or News updated successfully
-                  query_time: 0
-      tags:
-        - NoticeOrNews
-    delete:
-      summary: delete
-      description: delete specified noticeOrNews
-      parameters:
-        - $ref: '#/components/parameters/noticeOrNewsId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NoticeOrNews'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Notice or News deleted successfully
-                  query_time: 0
-      tags:
-        - NoticeOrNews
-  /recent-activities:
-    get:
-      summary: get list
-      description: get all Recent activities
-      parameters:
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-        - $ref: '#/components/parameters/row_status_optional'
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-      responses:
-        '200':
-          description: Successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecentActivity'
-              example:
-                order: ASC
-                data:
-                  - id: 1
-                    type: 0
-                    title_en: abc
-                    title_bn: def
-                    description_en: ''
-                    description_bn: ''
-                    image: ''
-                    file: ''
-                    image_alt_title_en: ''
-                    image_alt_title_bn: ''
-                    file_alt_title_en: ''
-                    file_alt_title_bn: ''
-                    row_status: 0
-                    publish_date: null
-                    archive_date: null
-                    created_by: null
-                    updated_by: null
-                    created_at: '2021-09-28T05:41:41.000000Z'
-                    updated_at: '2021-09-28T05:41:41.000000Z'
-                    deleted_at: null
-                response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - RecentActivity
-    post:
-      summary: store
-      description: Store a recent activity
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/RecentActivity'
-      responses:
-        '201':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecentActivity'
-              example:
-                data:
-                  id: 1
-                  title_en: abc
-                  title_bn: abc
-                  institute_id: 0
-                  organization_id: 0
-                  description_en: ''
-                  description_bn: ''
-                  content_type: null
-                  content_path: ''
-                  content_properties: ''
-                  alt_title_en: ''
-                  alt_title_bn: ''
-                  publish_date: '2021-05-13 00:00:00'
-                  archive_date: '2021-08-13 00:00:00'
-                  created_by: null
-                  updated_by: null
-                  created_at: '2021-09-28T09:42:45.000000Z'
-                  updated_at: '2021-09-28T09:42:45.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Recent Activity updated successfully
-                  query_time: 0
-      tags:
-        - RecentActivity
-  /recent-activities/{recentActivityId}:
-    get:
-      summary: get one
-      description: get one recent activity
-      parameters:
-        - $ref: '#/components/parameters/recentActivityId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecentActivity'
-              example:
-                data:
-                  id: 4
-                  title_en: abc
-                  title_bn: abc
-                  institute_id: 1
-                  organization_id: null
-                  description_en: null
-                  description_bn: null
-                  content_type: null
-                  content_path: null
-                  content_properties: null
-                  alt_title_en: null
-                  alt_title_bn: null
-                  publish_date: null
-                  archive_date: null
-                  created_by: null
-                  updated_by: null
-                  created_at: '2021-09-28T11:20:58.000000Z'
-                  updated_at: '2021-09-28T11:20:58.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 0
-      tags:
-        - RecentActivity
-    put:
-      summary: update
-      description: Update recent activity
-      parameters:
-        - $ref: '#/components/parameters/recentActivityId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/RecentActivity'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecentActivity'
-              example:
-                data:
-                  id: 1
-                  title_en: abc
-                  title_bn: abc
-                  institute_id: 0
-                  organization_id: 0
-                  description_en: ''
-                  description_bn: ''
-                  content_type: null
-                  content_path: ''
-                  content_properties: ''
-                  alt_title_en: ''
-                  alt_title_bn: ''
-                  publish_date: '2021-05-13 00:00:00'
-                  archive_date: '2021-08-13 00:00:00'
-                  created_by: null
-                  updated_by: null
-                  created_at: '2021-09-28T09:42:45.000000Z'
-                  updated_at: '2021-09-28T09:42:45.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Recent Activity updated successfully
-                  query_time: 0
-      tags:
-        - RecentActivity
-    delete:
-      summary: delete
-      description: Delete specified recent activity
-      parameters:
-        - $ref: '#/components/parameters/recentActivityId'
-      responses:
-        '200':
-          description: successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecentActivity'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Recent Activity deleted successfully
-                  query_time: 0
-      tags:
-        - RecentActivity
-  /partners:
-    get:
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/title_en_optional'
-        - $ref: '#/components/parameters/title_bn_optional'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/row_status_optional'
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/partner'
-              example:
-                order: ASC
-                current_page: 1
-                total_page: 3
-                page_size: 10
-                total: 30
-                data:
-                  - id: 1
-                    title_en: SoftBdLtd
-                    title_bn: SoftBdLtd
-                    image: https://www.google.com
-                    domain: https://www.google.com
-                    alt_title_en: ''
-                    alt_title_bn: ''
-                    created_by: 0
-                    updated_by: 0
-                    created_at: '2021-09-27T05:06:55.000000Z'
-                    updated_at: '2021-09-27T05:06:55.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-        default:
-          description: Unexpected Error
-      tags:
-        - partners
-    post:
-      summary: Create a partner
-      description: Create Partner Service
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/partner'
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/partner'
-              example:
-                data:
-                  title_en: SoftBdLtd
-                  title_bn: SoftBdLtd
-                  image: https://www.google.com
-                  domain: https://www.google.com
-                  alt_title_en: ''
-                  alt_title_bn: ''
-                  updated_at: '2021-09-27T05:07:28.000000Z'
-                  created_at: '2021-09-27T05:07:28.000000Z'
-                  id: 1
-                _response_status:
-                  success: true
-                  code: 201
-                  message: Partner is added successfully
-                  query_time: 0
-      tags:
-        - partners
-  /partners/{partnerId}:
-    get:
-      parameters:
-        - name: partnerId
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/partner'
-              example:
-                data:
-                  id: 1
-                  title_en: ABC
-                  title_bn: ABC
-                  image: https://www.google.com
-                  domain: ''
-                  alt_title_en: ''
-                  alt_title_bn: ''
-                  created_by: 0
-                  updated_by: 0
-                  created_at: '2021-09-27T05:06:55.000000Z'
-                  updated_at: '2021-09-27T05:16:34.000000Z'
-                _response_status:
-                  success: true
-                  code: 200
-                  query_time: 1 second before
-        default:
-          description: Unexpected Error
-      tags:
-        - partners
-    put:
-      summary: Create a partner
-      description: Create Partner Service
-      parameters:
-        - name: partnerId
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/partner'
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/partner'
-              example:
-                data:
-                  id: 3
-                  title_en: ABC
-                  title_bn: ABC
-                  image: https://www.google.com
-                  domain: https://www.google.com
-                  alt_title_en: sssssssssss
-                  alt_title_bn: sssssssssssss
-                  created_by: '1'
-                  updated_by: '1'
-                  row_status: '0'
-                  created_at: '2021-09-27T05:07:03.000000Z'
-                  updated_at: '2021-09-27T05:20:44.000000Z'
-                  deleted_at: null
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Partner Item is updated successfully
-                  query_time: 0
-      tags:
-        - partners
-    delete:
-      parameters:
-        - name: partnerId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/partner'
-              example:
-                _response_status:
-                  success: true
-                  code: 200
-                  message: Partner deleted successfully
-                  query_time: 0
-        default:
-          description: Unexpected Error
-      tags:
-        - partners
 components:
   securitySchemes:
     bearerAuth:
@@ -3811,12 +1696,6 @@ components:
       name: Token
       in: header
   parameters:
-    recentActivityId:
-      name: recentActivityId
-      in: path
-      required: true
-      schema:
-        type: integer
     is_button_available:
       name: is_button_available
       in: query
@@ -3839,24 +1718,6 @@ components:
       required: false
       schema:
         type: string
-    slider_images:
-      name: slider_images
-      in: query
-      required: true
-      content:
-        multipart/form-data:
-          schema:
-            type: array
-            items:
-              type: string
-              example: image
-    noticeOrNewsId:
-      name: noticeOrNewsId
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
     menuItemId:
       name: menuItemId
       in: path
@@ -3928,19 +1789,6 @@ components:
       schema:
         type: integer
         example: 1
-    staticPageId:
-      name: staticPageId
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
-    sub_title:
-      name: sub_title
-      in: query
-      schema:
-        type: string
-        example: subtitle
     sub_title_en:
       name: sub_title_en
       in: query
@@ -3955,15 +1803,15 @@ components:
       schema:
         type: string
         example: subtitle
-    sub_title_bn:
-      name: sub_title_bn
+    sub_title:
+      name: sub_title
       required: true
       in: query
       schema:
         type: string
         example: subtitle
-    sub_title_bn_optional:
-      name: sub_title_bn
+    sub_title_optional:
+      name: sub_title
       required: false
       in: query
       schema:
@@ -3976,128 +1824,6 @@ components:
       schema:
         type: string
         example: title
-    sliderId:
-      name: sliderId
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
-    videoId:
-      name: videoId
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
-    videoCategoryId:
-      name: videoCategoryId
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
-    galleryId:
-      name: galleryId
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
-    gallery_category_id:
-      name: gallery_category_id
-      in: query
-      required: true
-      schema:
-        type: integer
-        example: 1
-    content_type:
-      name: content_type
-      in: query
-      required: true
-      description: image=>1,video=>2
-      schema:
-        type: integer
-        enum:
-          - 1
-          - 2
-        example: 1
-    content_title_optional:
-      name: content_title
-      in: query
-      required: false
-      schema:
-        type: string
-        example: content_title
-    content_title:
-      name: content_title
-      in: query
-      required: true
-      schema:
-        type: string
-        example: content_title
-    content_properties:
-      name: content_properties
-      in: query
-      required: false
-      schema:
-        type: string
-        example: content_title
-    content_path:
-      name: content_path
-      in: query
-      required: false
-      schema:
-        type: string
-        example: storage/image.jpg
-    is_youtube_video:
-      name: is_youtube_video
-      in: query
-      schema:
-        type: integer
-        enum:
-          - 0
-          - 1
-        default: 0
-    publish_date:
-      name: publish_date
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date-time
-    archive_date:
-      name: archive_date
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date-time
-    you_tube_video_id:
-      name: you_tube_video_id
-      in: query
-      required: false
-      schema:
-        type: string
-    youtube_video_url:
-      name: youtube_video_url
-      in: query
-      required: false
-      schema:
-        type: string
-    uploaded_video_path:
-      name: uploaded_video_path
-      in: query
-      required: false
-      schema:
-        type: string
-    galleryCategoryId:
-      name: galleryCategoryId
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
     batch_id:
       name: batch_id
       in: query
@@ -4173,16 +1899,8 @@ components:
           - 1
           - 0
         example: 1
-    title_bn:
-      name: title_bn
-      in: query
-      required: true
-      style: form
-      schema:
-        type: string
-        example: Test Title (BN)
-    title_bn_optional:
-      name: title_bn
+    title_optional:
+      name: title
       in: query
       required: false
       style: form
@@ -4196,22 +1914,6 @@ components:
       schema:
         type: string
         example: Test Title (EN)
-    alt_title_en:
-      name: alt_title_en
-      in: query
-      required: false
-      style: form
-      schema:
-        type: string
-        example: image_title_en
-    alt_title_bn:
-      name: alt_title_bn
-      in: query
-      required: false
-      style: form
-      schema:
-        type: string
-        example: image_title_bn
     title_en_optional:
       name: title_en
       in: query
@@ -4260,40 +1962,6 @@ components:
       schema:
         type: integer
         example: 1
-    division_bbs_code:
-      name: division_bbs_code
-      in: query
-      required: false
-      style: form
-      schema:
-        type: string
-        maxLength: 4
-        minLength: 1
-        example: 10
-    district_bbs_code:
-      name: district_bbs_code
-      in: query
-      required: false
-      style: form
-      schema:
-        type: string
-        maxLength: 4
-        minLength: 1
-        example: 1
-    name:
-      name: name
-      in: query
-      required: true
-      style: form
-      schema:
-        type: string
-    name_optional:
-      name: name
-      in: query
-      required: false
-      style: form
-      schema:
-        type: string
     uri:
       name: uri
       in: query
@@ -4418,23 +2086,6 @@ components:
       schema:
         type: integer
         example: 1
-    video_category_id:
-      name: video_category_id
-      in: query
-      required: false
-      schema:
-        type: integer
-        example: 1
-    video_type:
-      name: video_type
-      in: query
-      description: youtube => 1, uploaded => 2
-      required: true
-      schema:
-        type: integer
-        enum:
-          - 1
-          - 2
     institute_id:
       name: institute_id
       in: query
@@ -4488,24 +2139,6 @@ components:
         type: integer
     description:
       name: description
-      in: query
-      required: false
-      style: form
-      schema:
-        type: string
-        format: email
-        example: Lorem Ipsum is simply dummy text of the printing and typesetting industry
-    description_en:
-      name: description_en
-      in: query
-      required: false
-      style: form
-      schema:
-        type: string
-        format: email
-        example: Lorem Ipsum is simply dummy text of the printing and typesetting industry
-    description_bn:
-      name: description_bn
       in: query
       required: false
       style: form
@@ -4620,7 +2253,7 @@ components:
           description: Division Title In English
           minLength: 1
           maxLength: 255
-        title_bn:
+        title:
           type: string
           description: Division Title In Bengali
           minLength: 1
@@ -4651,7 +2284,7 @@ components:
           format: date-time
       required:
         - title_en
-        - title_bn
+        - title
     district:
       type: object
       description: Provide the Loc District
@@ -4668,7 +2301,7 @@ components:
           description: District Title In English
           minLength: 1
           maxLength: 255
-        title_bn:
+        title:
           type: string
           description: District Title In Bengali
           minLength: 1
@@ -4705,7 +2338,7 @@ components:
       required:
         - loc_division_id
         - title_en
-        - title_bn
+        - title
     upazila:
       type: object
       description: Provide the Loc Upazila Data
@@ -4725,7 +2358,7 @@ components:
           description: District Title In English
           minLength: 1
           maxLength: 255
-        title_bn:
+        title:
           type: string
           description: District Title In Bengali
           minLength: 1
@@ -4767,7 +2400,7 @@ components:
       required:
         - loc_division_id
         - title_en
-        - title_bn
+        - title
     permission:
       type: object
       description: Provide Permission Data
@@ -4847,7 +2480,7 @@ components:
           minLength: 1
         title_en:
           type: string
-        title_bn:
+        title:
           type: string
         permission_group_id:
           type: integer
@@ -4977,7 +2610,7 @@ components:
           readOnly: true
         title_en:
           type: string
-        title_bn:
+        title:
           type: string
         key:
           type: string
@@ -4996,7 +2629,7 @@ components:
           format: date-time
       required:
         - title_en
-        - title_bn
+        - title
         - key
     permissionGroupPermissions:
       type: object
@@ -5020,7 +2653,7 @@ components:
           type: integer
         title_en:
           type: string
-        title_bn:
+        title:
           type: string
         key:
           type: string
@@ -5039,7 +2672,7 @@ components:
       required:
         - permission_group_id
         - title_en
-        - title_bn
+        - title
         - key
     permissionSubGroupPermissions:
       type: object
@@ -5052,496 +2685,6 @@ components:
       required:
         - permission_sub_group_id
         - permission_id
-    GalleryCategory:
-      type: object
-      description: Provide Gallery Categories
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        title_en:
-          type: string
-          description: ' Title In English'
-          minLength: 1
-          maxLength: 255
-        title_bn:
-          type: string
-          description: ' Title In Bengali'
-          minLength: 1
-          maxLength: 500
-        institute_id:
-          type: integer
-          description: Institute id
-          example: 1
-        organization_id:
-          type: integer
-          description: organization id
-          example: 1
-        batch_id:
-          type: integer
-          description: Batch id
-          example: 1
-        programme_id:
-          type: integer
-          description: Programme id
-          example: 1
-        image:
-          type: string
-          description: gallery category image
-          minLength: 191
-        alt_title_en:
-          type: string
-          description: alternative title_en for image
-        alt_title_bn:
-          type: string
-          description: alternative title_bn for image
-        featured:
-          type: integer
-          enum:
-            - 0
-            - 1
-          example: 1
-        row_status:
-          type: integer
-          description: District activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_by:
-          type: integer
-          description: Creator id
-        updated_by:
-          type: integer
-          description: Modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - title_bn
-        - title_en
-    Gallery:
-      type: object
-      description: Provide Galleries
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        gallery_category_id:
-          type: integer
-          description: gallery category id
-          example: 1
-        content_type:
-          type: integer
-          description: 1=>image,2=>video
-          enum:
-            - 1
-            - 2
-        content_title:
-          type: string
-          description: Content title
-          example: content_title
-        content_path:
-          type: string
-          description: content path
-        content_properties:
-          type: string
-          description: content properties
-        institute_id:
-          type: integer
-          description: Institute id
-          example: 1
-        organization_id:
-          type: integer
-          description: organization id
-          example: 1
-        is_youtube_video:
-          type: integer
-          description: 0=>not youtube vide,1=>youtube vide
-          enum:
-            - 1
-            - 0
-          example: 1
-        you_tube_video_id:
-          type: string
-          description: 'youtube video id '
-          example: pQ145X
-        publish_date:
-          type: string
-          format: date-time
-          description: publish date
-          example: '2021-04-03'
-        archive_date:
-          type: string
-          format: date-time
-          description: Archive date
-          example: '2021-06-03'
-        alt_title_en:
-          type: string
-          description: alternate title_en for content
-        alt_title_bn:
-          type: string
-          description: alternate title_bn for content
-        row_status:
-          type: integer
-          description: ' activation status'
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_by:
-          type: integer
-          description: creator id
-        updated_by:
-          type: integer
-          description: modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - gallery_category_id
-        - content_title
-        - content_type
-        - content_path
-    VideoCategory:
-      type: object
-      description: Provide video Categories
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        title_en:
-          type: string
-          description: ' Title In English'
-          minLength: 1
-          maxLength: 255
-        title_bn:
-          type: string
-          description: ' Title In Bengali'
-          minLength: 1
-          maxLength: 500
-        institute_id:
-          type: integer
-          description: Institute id
-          example: 1
-        organization_id:
-          type: integer
-          description: organization id
-          example: 1
-        parent_id:
-          type: integer
-          description: VideoCategory Parent id
-          example: 1
-        row_status:
-          type: integer
-          description: ' activation status'
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_by:
-          type: integer
-          description: Creator id
-        updated_by:
-          type: integer
-          description: Modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - title_bn
-        - title_en
-    video:
-      type: object
-      description: Provide videos
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        title_en:
-          type: string
-          description: ' Title In English'
-          minLength: 1
-          maxLength: 255
-        title_bn:
-          type: string
-          description: ' Title In Bengali'
-          minLength: 1
-          maxLength: 500
-        institute_id:
-          type: integer
-          description: Institute id
-        organization_id:
-          type: integer
-          description: organization id
-        video_category_id:
-          type: integer
-          description: Video Category id
-        description_en:
-          type: string
-          description: Description_en of video
-        description_bn:
-          type: string
-          description: Description_bn of video
-        video_type:
-          type: integer
-          enum:
-            - 1
-            - 2
-        youtube_video_url:
-          type: string
-          maxLength: 255
-          description: Youtube video url
-        youtube_video_id:
-          type: string
-          maxLength: 20
-          description: Youtube video id
-        uploaded_video_path:
-          type: string
-          maxLength: 255
-          description: Uploaded video path
-        alt_title_en:
-          type: string
-          description: alternate tittle_en for video
-        alt_title_bn:
-          type: string
-          description: alternate tittle_bn for video
-        row_status:
-          type: integer
-          description: activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - title_en
-        - title_bn
-        - video_type
-        - institute_id
-        - video_category_id
-    StaticPage:
-      type: object
-      description: Provide static pages
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        type:
-          type: integer
-          description: 1=>Block, 2=>Static Page
-          enum:
-            - 1
-            - 2
-        title_en:
-          type: string
-          description: ' Title In English'
-          minLength: 1
-          maxLength: 255
-        title_bn:
-          type: string
-          description: ' Title In Bengali'
-          minLength: 1
-          maxLength: 500
-        institute_id:
-          type: integer
-          description: Institute id
-        organization_id:
-          type: integer
-          description: Institute id
-        description_en:
-          type: string
-          description: description in English
-        description_bn:
-          type: string
-          description: description in Bangla
-        page_id:
-          type: integer
-          description: Page id
-        page_contents:
-          type: string
-          description: page contents
-        content_type:
-          type: integer
-          description: 1=>Image,2=>Video,3=>Youtube
-          enum:
-            - 1
-            - 2
-            - 3
-        content_path:
-          type: string
-          description: Content path
-        content_properties:
-          type: string
-          description: content_properties
-        alt_title_en:
-          type: string
-          description: alt image title in english
-        alt_title_bn:
-          type: string
-          description: alt image title in Bangla
-        row_status:
-          type: integer
-          description: activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_by:
-          type: integer
-          description: Creator id
-        updated_by:
-          type: integer
-          description: Modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - page_id
-        - type
-        - title_bn
-        - title_en
-        - page_contents
-        - content_type
-        - content_path
-    Slider:
-      type: object
-      description: Provide sliders
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        title_en:
-          type: string
-          description: ' Title In English'
-          minLength: 1
-          maxLength: 500
-        title_bn:
-          type: string
-          description: ' Title In Bangla'
-          minLength: 1
-          maxLength: 500
-        sub_title_en:
-          type: string
-          description: ' Subtitle in English'
-          minLength: 1
-          maxLength: 500
-        sub_title_bn:
-          type: string
-          description: ' Subtitle in Bangla'
-          minLength: 1
-          maxLength: 500
-        institute_id:
-          type: integer
-          description: Institute id
-          example: 1
-        organization_id:
-          type: integer
-          description: organization id
-          example: 1
-        is_button_available:
-          type: integer
-          description: If button available
-          enum:
-            - 0
-            - 1
-        link:
-          type: string
-          description: Slider link
-        button_text:
-          type: string
-          description: Button text
-        slider_images:
-          type: string
-          description: slider images
-        alt_title_en:
-          type: string
-          description: image alt title en
-        alt_title_bn:
-          type: string
-          description: image alt title bn
-        row_status:
-          type: integer
-          description: activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_by:
-          type: integer
-          format: 'creator id '
-        updated_by:
-          type: integer
-          format: Modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - title_en
-        - title_bn
-        - sub_title_en
-        - sub_title_bn
-        - is_button_available
-    partner:
-      type: object
-      description: Provide the partner information
-      properties:
-        id:
-          type: integer
-          description: primary key
-          readOnly: true
-        title_en:
-          type: string
-        title_bn:
-          type: string
-        image:
-          type: string
-        domain:
-          type: string
-        alt_title_en:
-          type: string
-        alt_title_bn:
-          type: string
-        created_by:
-          type: integer
-        updated_by:
-          type: integer
-        row_status:
-          type: integer
-          enum:
-            - 0
-            - 1
-          example: 1
-      required:
-        - title_bn
-        - title_en
-        - image
     Menu:
       type: object
       description: Provide menus
@@ -5626,169 +2769,22 @@ components:
           description: parameters
       required:
         - icon_class
-    NoticeOrNews:
-      type: object
-      description: Notice or News
-      properties:
-        id:
-          type: integer
-          description: Primary key
-          readOnly: true
-        type:
-          type: integer
-          description: 1=>Notice,2=>News
-          enum:
-            - 1
-            - 2
-        title_en:
-          type: string
-          description: ' Title In English'
-          minLength: 1
-          maxLength: 255
-        title_bn:
-          type: string
-          description: ' Title In Bengali'
-          minLength: 1
-          maxLength: 500
-        institute_id:
-          type: integer
-          description: Institute id
-        organization_id:
-          type: integer
-          description: Institute id
-        description_en:
-          type: string
-          description: description in English
-        description_bn:
-          type: string
-          description: description in Bengali
-        image:
-          type: string
-          description: image
-        file:
-          type: string
-          description: file
-        image_alt_title_en:
-          type: string
-          description: alt image title in english
-        image_alt_title_bn:
-          type: string
-          description: alt image title in Bengali
-        file_alt_title_en:
-          type: string
-          description: alt file title in english
-        file_alt_title_bn:
-          type: string
-          description: alt file title in Bengali
-        publish_date:
-          type: string
-          format: date-time
-          description: publish date
-        archive_date:
-          type: string
-          format: date-time
-          description: Archive date
-        row_status:
-          type: integer
-          description: activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_by:
-          type: integer
-          description: Creator id
-        updated_by:
-          type: integer
-          description: Modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - title_en
-        - title_bn
-        - type
-    RecentActivity:
+    ErrorResponse:
       type: object
       description: Recent activities
       properties:
-        id:
-          type: integer
-          description: Primary key
-          readOnly: true
-        title_en:
-          type: string
-          description: ' Title In English'
-          minLength: 1
-          maxLength: 255
-        title_bn:
-          type: string
-          description: ' Title In Bengali'
-          minLength: 1
-          maxLength: 500
-        institute_id:
-          type: integer
-          description: Institute id
-        organization_id:
-          type: integer
-          description: Institute id
-        description_en:
-          type: string
-          description: description in English
-        description_bn:
-          type: string
-          description: description in Bengali
-        content_type:
-          type: integer
-          description: '=>Image,2=>Video,3=>Youtube Source'
-          enum:
-            - 1
-            - 2
-            - 3
-        content_path:
-          type: string
-          description: content path
-        content_properties:
-          type: string
-          description: content_properties
-        alt_title_en:
-          type: string
-          description: alternative content title in english
-        alt_title_bn:
-          type: string
-          description: alternative content title in Bengali
-        publish_date:
-          type: string
-          format: date-time
-          description: publish date
-          example: '2021-05-01'
-        archive_date:
-          type: string
-          format: date-time
-          description: Archive date
-          example: '2021-10-01'
-        row_status:
-          type: integer
-          description: activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        created_by:
-          type: integer
-          description: Creator id
-        updated_by:
-          type: integer
-          description: Modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - title_en
-        - title_bn
+        _response_status:
+          type: object
+          description: Recent activities
+          properties:
+            success:
+              type: boolean
+              example: false
+            code:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Invalid Request Format
+            query_time:
+              type: integer

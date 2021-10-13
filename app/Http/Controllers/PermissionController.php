@@ -63,15 +63,16 @@ class PermissionController extends Controller
 
     /**
      * @param Request $request
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $validated = $this->permissionService->validator($request)->validate();
         try {
-            $permission = new Permission();
-            $permission = $this->permissionService->store($validated, $permission);
+            $permission = app(Permission::class);
+            $permission = $this->permissionService->store($permission, $validated);
             $response = [
                 "data" => $permission ?: [],
                 '_response_status' => [
@@ -90,7 +91,9 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {

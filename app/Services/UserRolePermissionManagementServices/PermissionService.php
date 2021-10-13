@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PermissionService
 {
-
 
     /**
      * @param array $request
@@ -39,8 +39,10 @@ class PermissionService
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
             'permissions.id',
+            'permissions.title_en',
+            'permissions.title',
             'permissions.module',
-            'permissions.name',
+            'permissions.key',
             'permissions.uri',
             'permissions.method',
             'permissions.row_status',
@@ -101,8 +103,10 @@ class PermissionService
         /** @var Permission|Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
             'permissions.id',
-            'permissions.name',
+            'permissions.title_en',
+            'permissions.title',
             'permissions.module',
+            'permissions.key',
             'permissions.uri',
             'permissions.method',
             'permissions.row_status',
@@ -128,13 +132,12 @@ class PermissionService
 
     /**
      * @param array $data
-     * @param Permission $permission
      * @return Permission
      */
-    public function store(array $data, Permission $permission): Permission
+    public function store(Permission $permission, array $data): Permission
     {
         $permission->fill($data);
-        $permission->save($data);
+        $permission->save();
         return $permission;
     }
 
@@ -243,6 +246,7 @@ class PermissionService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
+        Log::info("counter");
         $customMessage = [
             'row_status.in' => [
                 'code' => 30000,
@@ -250,15 +254,26 @@ class PermissionService
             ]
         ];
         $rules = [
-            'name' => 'required|string|max:191|min:2',
+            'title' => 'required|string|max:500|min:2',
+            'title_en' => 'required|string|max:191|min:2',
             'method' => 'required|int',
             'module' => 'required|max:191|string',
-            'uri' => ['unique:permissions,uri,' . $id, 'required', 'max:300', 'min:2'],
+            'key' => [
+                'required',
+                'unique:permissions,key,' . $id
+            ],
+            'uri' => [
+//                'unique_with:permissions,method,' . $id,
+                'required',
+                'max:300',
+                'min:2'
+            ],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
+
         return Validator::make($request->all(), $rules, $customMessage);
     }
 
