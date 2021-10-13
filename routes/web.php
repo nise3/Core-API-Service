@@ -25,20 +25,13 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         echo url();
     });
 
-    $customRouter()->resourceRoute('divisions', 'LocDivisionController')->render();
-    $customRouter()->resourceRoute('districts', 'LocDistrictController')->render();
-    $customRouter()->resourceRoute('upazilas', 'LocUpazilaController')->render();
+
     $customRouter()->resourceRoute('permissions', 'PermissionController')->render();
     $customRouter()->resourceRoute('roles', 'RoleController')->render();
     $customRouter()->resourceRoute('permission-groups', 'PermissionGroupController')->render();
     $customRouter()->resourceRoute('permission-sub-groups', 'PermissionSubGroupController')->render();
     $customRouter()->resourceRoute('users', 'UserController')->render();
-    $customRouter()->resourceRoute('gallery-categories', 'GalleryCategoryController')->render();
-    $customRouter()->resourceRoute('galleries', 'GalleryController')->render();
-    $customRouter()->resourceRoute('video-categories', 'VideoCategoryController')->render();
-    $customRouter()->resourceRoute('videos', 'VideoController')->render();
-    $customRouter()->resourceRoute('sliders', 'SliderController')->render();
-    $customRouter()->resourceRoute('static-pages', 'StaticPageController')->render();
+
     $customRouter()->resourceRoute('menus', 'MenuController')->render();
     $customRouter()->resourceRoute('menu-items', 'MenuItemController')->render();
     $customRouter()->resourceRoute('partners', 'PartnerController')->render();
@@ -83,10 +76,6 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->post('organization-or-institute-user-create', ['as' => 'users.organization-or-institute-user-create', 'uses' => 'UserController@organizationOrInstituteUserCreate']);
     /** Register User */
     $router->post('user-open-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userOpenRegistration']);
-
-
-
-
 
 
 });

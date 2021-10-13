@@ -28,7 +28,7 @@ class PermissionSubGroupService
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $titleEn = $request['title_en'] ?? "";
-        $titleBn = $request['title_bn'] ?? "";
+        $titleBn = $request['title'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
         $permissionGroupId = $request['permission_group_id'] ?? "";
@@ -38,11 +38,11 @@ class PermissionSubGroupService
         $permissionSubGroupBuilder = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.title_en',
-            'permission_sub_groups.title_bn',
+            'permission_sub_groups.title',
             'permission_sub_groups.key',
             'permission_sub_groups.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
-            'permission_groups.title_bn as permission_group_title_bn',
+            'permission_groups.title as permission_group_title',
             'permission_sub_groups.row_status',
             "permission_sub_groups.created_at",
             "permission_sub_groups.updated_at"
@@ -54,7 +54,7 @@ class PermissionSubGroupService
         }
 
         if (!empty($titleBn)) {
-            $permissionSubGroupBuilder->where('permission_sub_groups.title_bn', 'like', '%' . $titleBn . '%');
+            $permissionSubGroupBuilder->where('permission_sub_groups.title', 'like', '%' . $titleBn . '%');
         }
 
         if (is_numeric($rowStatus)) {
@@ -101,11 +101,11 @@ class PermissionSubGroupService
         $permissionSubGroupBuilder = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.title_en',
-            'permission_sub_groups.title_bn',
+            'permission_sub_groups.title',
             'permission_sub_groups.key',
             'permission_sub_groups.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
-            'permission_groups.title_bn as permission_group_title_bn',
+            'permission_groups.title as permission_group_title',
             'permission_sub_groups.row_status',
             "permission_sub_groups.created_at",
             "permission_sub_groups.updated_at"
@@ -191,7 +191,7 @@ class PermissionSubGroupService
         $rules = [
             'permission_group_id' => 'required|numeric|exists:permission_groups,id',
             'title_en' => 'required|string|max:191||min:2',
-            'title_bn' => 'required|string|max:300|min:2',
+            'title' => 'required|string|max:300|min:2',
             "key" => 'required|string|max:191|min:2|unique:permission_sub_groups,key,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
@@ -234,7 +234,7 @@ class PermissionSubGroupService
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric|gt:0',
             'title_en' => 'nullable|max:191|min:2',
-            'title_bn' => 'nullable|max:300|min:2',
+            'title' => 'nullable|max:300|min:2',
             'permission_group_id' => 'nullable|numeric|exists:permission_groups,id',
             'order' => [
                 'string',

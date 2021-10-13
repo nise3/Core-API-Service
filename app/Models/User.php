@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
  * @package App\Models
  * @property string name_en
  * @property string username
- * @property string name_bn
+ * @property string name
  * @property string email
  * @property string mobile
  * @property string profile_pic
@@ -52,8 +52,8 @@ class User extends AuthBaseModel
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'mobile_verified_at' => 'datetime',
+        'verification_code_sent_at' => 'datetime',
+        'verification_code_verified_at' => 'datetime',
     ];
 
     public function permissions(): BelongsToMany

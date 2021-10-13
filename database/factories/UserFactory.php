@@ -22,7 +22,7 @@ class UserFactory extends Factory
         $userName=str_replace(" ","_",$name);
     	return [
             'name_en' => $name,
-            'name_bn' => $name,
+            'name' => $name,
             'email' => $this->faker->safeEmail(),
             'username' => $userName,
             'email_verified_at' => Carbon::now(),

@@ -14,17 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-//            GalleryCategorySeeder::class,
-//            VideoCategorySeeder::class,
-//            SliderSeeder::class,
-//            StaticPageSeeder::class,
-            GeoLocationDatabaseSeeder::class,
             RoleTableSeeder::class,
             PermissionSeeder::class,
             PermissionGroupSeeder::class,
             UserTableSeeder::class,
-            NoticeOrNewsSeeder::class,
-            RecentActivitySeeder::class
         ]);
     }
 }

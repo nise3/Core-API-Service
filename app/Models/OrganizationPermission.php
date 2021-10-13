@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * App\Models\OrganizationPermissions
+ * App\Models\OrganizationPermission
  * @property int $organization_id
  * @property int $permission_id
  * @property-read Permission $permissions
  */
-class OrganizationPermissions extends BaseModel
+class OrganizationPermission extends BaseModel
 {
     public $timestamps = false;
 

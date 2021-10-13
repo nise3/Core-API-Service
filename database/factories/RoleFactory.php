@@ -22,7 +22,7 @@ class RoleFactory extends Factory
     	return [
             'key' => $key,
             'title_en' => ucwords($title . ' en'),
-            'title_bn' => ucwords($title . ' bn'),
+            'title' => ucwords($title . ' bn'),
             'permission_group_id' => null,
             'organization_id' => null,
             'institute_id' => null,

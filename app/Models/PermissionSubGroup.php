@@ -16,7 +16,7 @@ use Illuminate\Validation\Rules\Unique;
  * @property int $id
  * @property int $permission_group_id
  * @property string $title_en
- * @property string $title_bn
+ * @property string $title
  * @property string|unique $key
  * @property Carbon $created_at
  * @property Carbon $updated_at

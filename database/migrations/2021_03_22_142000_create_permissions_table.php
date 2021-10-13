@@ -16,7 +16,7 @@ class CreatePermissionsTable extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->string('title_en', 191);
-            $table->string('title_bn', 500);
+            $table->string('title', 500);
             $table->string('module', 191);
             $table->string('key', 191)->unique();
             $table->string('uri', 190);

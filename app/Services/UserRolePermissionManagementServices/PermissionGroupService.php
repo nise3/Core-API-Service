@@ -28,7 +28,7 @@ class PermissionGroupService
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $titleEn = $request['title_en'] ?? "";
-        $titleBn = $request['title_bn'] ?? "";
+        $titleBn = $request['title'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
         $key = $request['key'] ?? null;
@@ -37,7 +37,7 @@ class PermissionGroupService
         $permissionGroupBuilder = PermissionGroup::select([
             'permission_groups.id',
             'permission_groups.title_en',
-            'permission_groups.title_bn',
+            'permission_groups.title',
             'permission_groups.key',
             "permission_groups.row_status",
             "permission_groups.created_at",
@@ -50,7 +50,7 @@ class PermissionGroupService
             $permissionGroupBuilder->where('title_en', 'like', '%' . $titleEn . '%');
         }
         if (!empty($titleBn)) {
-            $permissionGroupBuilder->where('title_bn', 'like', '%' . $titleBn . '%');
+            $permissionGroupBuilder->where('title', 'like', '%' . $titleBn . '%');
         }
 
         if (is_numeric($rowStatus)) {
@@ -99,7 +99,7 @@ class PermissionGroupService
         $permissionGroupBuilder = PermissionGroup::select([
             'permission_groups.id',
             'permission_groups.title_en',
-            'permission_groups.title_bn',
+            'permission_groups.title',
             'permission_groups.key',
             "permission_groups.row_status",
             "permission_groups.created_at",
@@ -187,7 +187,7 @@ class PermissionGroupService
         ];
         $rules = [
             'title_en' => 'required|max:191|min:2',
-            'title_bn' => 'required|max:300|min:2',
+            'title' => 'required|max:300|min:2',
             "key" => 'required|max:191|min:2|unique:permission_groups,key,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
@@ -225,7 +225,7 @@ class PermissionGroupService
 
         return Validator::make($request->all(), [
             'title_en' => 'nullable|max:191|min:2',
-            'title_bn' => 'nullable|max:300|min:2',
+            'title' => 'nullable|max:300|min:2',
             'page' => 'numeric|gt:0',
             'page_size' => 'numeric|gt:0',
             'key' => 'nullable|max:191|string',

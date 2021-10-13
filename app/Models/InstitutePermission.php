@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 /**
- * App\Models\InstitutePermissions
+ * App\Models\InstitutePermission
  * @property int $institute_id
  * @property int $permission_id
  * @property-read Permission[] $permissions
  */
-class InstitutePermissions extends BaseModel
+class InstitutePermission extends BaseModel
 {
     public $timestamps = false;
 

@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->unsignedSmallInteger('role_id')->nullable();
 
             $table->string('name_en', 255);
-            $table->string('name_bn', 300)->nullable();
+            $table->string('name', 300)->nullable();
 
             $table->string('email', 191);
             $table->string("country")->default("BD");
@@ -35,10 +35,20 @@ class CreateUsersTable extends Migration
             $table->unsignedMediumInteger('loc_district_id')->nullable()->index('users_loc_district_id_inx');
             $table->unsignedMediumInteger('loc_upazila_id')->nullable()->index('users_loc_upazila_id_inx');
 
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('mobile_verified_at')->nullable();
+            /**
+             * $table->timestamp('email_verified_at')->nullable();
+             * $table->timestamp('mobile_verified_at')->nullable();
+             */
+            $table->string("verification_code", 50)->nullable()
+                ->comment('Email Or SMS verification code');
+            $table->dateTime("verification_code_sent_at")->nullable()
+                ->comment('Email Or SMS verification code sent at');
+            $table->dateTime("verification_code_verified_at")->nullable()
+                ->comment('Email Or SMS verification code verified at');
+
             $table->string('password', 191);
             $table->string('profile_pic', 1000)->nullable();
+
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

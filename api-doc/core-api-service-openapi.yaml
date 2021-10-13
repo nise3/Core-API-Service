@@ -1035,7 +1035,7 @@ paths:
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/row_status_optional'
         - $ref: '#/components/parameters/name_en_optional'
-        - $ref: '#/components/parameters/name_bn_optional'
+        - $ref: '#/components/parameters/name_optional'
         - $ref: '#/components/parameters/email_optional'
         - $ref: '#/components/parameters/organization_id_optional'
         - $ref: '#/components/parameters/institute_id_optional'
@@ -1062,14 +1062,14 @@ paths:
                     institute_id: null
                     role_id: 1
                     name_en: Dr. Quincy Schinner IV
-                    name_bn: Selina Blanda
+                    name: Selina Blanda
                     email: freeman.bartell@example.org
                     mobile: null
                     loc_division_id: null
                     loc_district_id: null
                     loc_upazila_id: null
-                    email_verified_at: '2021-08-11T12:23:12.000000Z'
-                    mobile_verified_at: null
+                    verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
+                    verification_code_verified_at: null
                     profile_pic: null
                     row_status: 1
                     created_by: null
@@ -1099,7 +1099,7 @@ paths:
         - $ref: '#/components/parameters/user_type'
         - $ref: '#/components/parameters/username'
         - $ref: '#/components/parameters/name_en'
-        - $ref: '#/components/parameters/name_bn'
+        - $ref: '#/components/parameters/name'
         - $ref: '#/components/parameters/email'
         - $ref: '#/components/parameters/mobile'
         - $ref: '#/components/parameters/role_id'
@@ -1124,7 +1124,7 @@ paths:
                   institute_id: '1'
                   role_id: '1'
                   name_en: Demo Name En
-                  name_bn: ডেমো নাম
+                  name: ডেমো নাম
                   email: user1@gmail.com
                   mobile: '0176667711'
                   loc_division_id: '1'
@@ -1166,14 +1166,14 @@ paths:
                   institute_id: null
                   role_id: 1
                   name_en: Dr. Quincy Schinner IV
-                  name_bn: Selina Blanda
+                  name: Selina Blanda
                   email: freeman.bartell@example.org
                   mobile: null
                   loc_division_id: null
                   loc_district_id: null
                   loc_upazila_id: null
-                  email_verified_at: '2021-08-11T12:23:12.000000Z'
-                  mobile_verified_at: null
+                  verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
+                  verification_code_verified_at: null
                   profile_pic: null
                   row_status: 1
                   created_by: null
@@ -1209,7 +1209,7 @@ paths:
         - $ref: '#/components/parameters/user_type'
         - $ref: '#/components/parameters/username'
         - $ref: '#/components/parameters/name_en'
-        - $ref: '#/components/parameters/name_bn'
+        - $ref: '#/components/parameters/name'
         - $ref: '#/components/parameters/email'
         - $ref: '#/components/parameters/mobile'
         - $ref: '#/components/parameters/role_id'
@@ -1219,8 +1219,8 @@ paths:
         - $ref: '#/components/parameters/loc_district_id'
         - $ref: '#/components/parameters/loc_upazila_id'
         - $ref: '#/components/parameters/password'
-        - $ref: '#/components/parameters/email_verified_at'
-        - $ref: '#/components/parameters/mobile_verified_at'
+        - $ref: '#/components/parameters/verification_code_sent_at'
+        - $ref: '#/components/parameters/verification_code_verified_at'
         - $ref: '#/components/parameters/remember_token'
         - $ref: '#/components/parameters/row_status'
       responses:
@@ -1239,14 +1239,14 @@ paths:
                   institute_id: '1'
                   role_id: '1'
                   name_en: Demo Name En
-                  name_bn: ডেমো নাম
+                  name: ডেমো নাম
                   email: user1@gmail.com
                   mobile: '11111'
                   loc_division_id: '1'
                   loc_district_id: '1'
                   loc_upazila_id: '1'
-                  email_verified_at: null
-                  mobile_verified_at: null
+                  verification_code_sent_at: null
+                  verification_code_verified_at: null
                   profile_pic: null
                   row_status: '1'
                   created_by: null
@@ -1317,14 +1317,14 @@ paths:
                   institute_id: null
                   role_id: 1
                   name_en: Dr. Quincy Schinner IV
-                  name_bn: Selina Blanda
+                  name: Selina Blanda
                   email: freeman.bartell@example.org
                   mobile: null
                   loc_division_id: null
                   loc_district_id: null
                   loc_upazila_id: null
-                  email_verified_at: '2021-08-11T12:23:12.000000Z'
-                  mobile_verified_at: null
+                  verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
+                  verification_code_verified_at: null
                   profile_pic: null
                   row_status: 1
                   created_by: null
@@ -1366,14 +1366,14 @@ paths:
                   institute_id: null
                   role_id: 1
                   name_en: Dr. Quincy Schinner IV
-                  name_bn: Selina Blanda
+                  name: Selina Blanda
                   email: freeman.bartell@example.org
                   mobile: null
                   loc_division_id: null
                   loc_district_id: null
                   loc_upazila_id: null
-                  email_verified_at: '2021-08-11T12:23:12.000000Z'
-                  mobile_verified_at: null
+                  verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
+                  verification_code_verified_at: null
                   profile_pic: null
                   row_status: 1
                   created_by: null
@@ -1440,7 +1440,7 @@ paths:
             type: integer
             example: '1'
         - $ref: '#/components/parameters/name_en'
-        - $ref: '#/components/parameters/name_bn'
+        - $ref: '#/components/parameters/name'
         - $ref: '#/components/parameters/mobile'
         - name: current_password
           in: query
@@ -4340,16 +4340,16 @@ components:
       schema:
         type: string
         example: Demo Name En
-    name_bn:
-      name: name_bn
+    name:
+      name: name
       in: query
       required: true
       style: form
       schema:
         type: string
         example: ডেমো নাম
-    name_bn_optional:
-      name: name_bn
+    name_optional:
+      name: name
       in: query
       required: false
       style: form
@@ -4572,16 +4572,16 @@ components:
       required: false
       schema:
         type: integer
-    email_verified_at:
+    verification_code_sent_at:
       in: query
-      name: email_verified_at
+      name: verification_code_sent_at
       required: false
       schema:
         type: string
         format: date-time
-    mobile_verified_at:
+    verification_code_verified_at:
       in: query
-      name: mobile_verified_at
+      name: verification_code_verified_at
       required: false
       schema:
         type: string
@@ -4908,7 +4908,7 @@ components:
           type: string
         name_en:
           type: string
-        name_bn:
+        name:
           type: string
         email:
           type: string
@@ -4924,10 +4924,10 @@ components:
         loc_upazila_id:
           type: integer
           description: Upazila Id
-        email_verified_at:
+        verification_code_sent_at:
           type: string
           format: date-time
-        mobile_verified_at:
+        verification_code_verified_at:
           type: string
           format: date-time
         password:
@@ -4955,7 +4955,7 @@ components:
         - user_type
         - username
         - name_en
-        - name_bn
+        - name
         - email
     userPermissions:
       type: object

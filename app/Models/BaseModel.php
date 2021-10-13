@@ -12,6 +12,11 @@ abstract class BaseModel extends Model
 {
     protected $hidden = ['pivot'];
 
+    public const COMMON_GUARDED_FIELDS_SIMPLE = ['id', 'created_at', 'updated_at'];
+    public const COMMON_GUARDED_FIELDS_SIMPLE_SOFT_DELETE = ['id', 'created_at', 'updated_at', 'deleted_at'];
+    public const COMMON_GUARDED_FIELDS_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at'];
+    public const COMMON_GUARDED_FIELDS_NON_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
+
     public const ROW_STATUS_INACTIVE = 0;
     public const ROW_STATUS_ACTIVE = 1;
     public const ROW_STATUS_PENDING = 2;
@@ -25,9 +30,6 @@ abstract class BaseModel extends Model
 
     public const IN = "IN";
 
-    public const COMMON_GUARDED_FIELDS_SIMPLE = ['id', 'created_at', 'updated_at'];
-    public const COMMON_GUARDED_FIELDS_SIMPLE_SOFT_DELETE = ['id', 'created_at', 'updated_at', 'deleted_at'];
-    public const COMMON_GUARDED_FIELDS_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at'];
 
     /** Idp User */
     public const IDP_USERNAME = 'admin';

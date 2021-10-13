@@ -79,7 +79,7 @@ class PermissionSeeder extends Seeder
                 $title=ucfirst(str_replace('_',' ',$permissionKey));
                 Permission::create([
                     'title_en'=>$title,
-                    'title_bn'=>$title,
+                    'title'=>$title,
                     'key' => $permissionKey,
                     'uri' => self::ROUTE_PREFIX . $module . $method['uri'],
                     'method' => $method['method'],

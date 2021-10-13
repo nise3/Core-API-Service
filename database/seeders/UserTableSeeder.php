@@ -22,7 +22,6 @@ class UserTableSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         DB::table('users')->truncate();
-        Schema::enableForeignKeyConstraints();
 
         $role = Role::find(1);
         $permissions = Permission::orderBy('id', 'ASC')->pluck('id')->toArray();
@@ -30,13 +29,15 @@ class UserTableSeeder extends Seeder
 
         $data = [
             'name_en' => 'Super Admin',
-            'name_bn' => 'Super Admin',
+            'name' => 'Super Admin',
             'email' => 'super@gmail.com',
             'username' => 'super_admin',
             'role_id' => 1,
             'idp_user_id' => 'ce5c437f-d80d-4455-9037-6c84d8aab784',
             'user_type' => 1,
-            'email_verified_at' => Carbon::now(),
+            'verification_code' => '1234',
+            'verification_code_sent_at' => Carbon::yesterday(),
+            'verification_code_verified_at' => Carbon::now(),
             'password' => Hash::make('123456'),
         ];
 
@@ -44,5 +45,6 @@ class UserTableSeeder extends Seeder
         $user->fill($data);
         $user->save();
 
+        Schema::enableForeignKeyConstraints();
     }
 }

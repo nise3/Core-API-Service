@@ -133,7 +133,7 @@ class AuthService
         try {
             $user = User::create([
                 'name_en' => $request->name_en,
-                'name_bn' => $request->name_bn,
+                'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'user_type_id' => 1,

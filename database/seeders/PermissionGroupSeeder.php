@@ -28,17 +28,17 @@ class PermissionGroupSeeder extends Seeder
             ->state(new Sequence(
                 [
                     'title_en' =>  'System',
-                    'title_bn' =>  'System',
+                    'title' =>  'System',
                     'key' => 'system',
                 ],
                 [
                     'title_en' =>  'Organization',
-                    'title_bn' =>  'Organization',
+                    'title' =>  'Organization',
                     'key' => 'organization',
                 ],
                 [
                     'title_en' =>  'Institute',
-                    'title_bn' =>  'Institute',
+                    'title' =>  'Institute',
                     'key' => 'institute',
                 ]
             ))

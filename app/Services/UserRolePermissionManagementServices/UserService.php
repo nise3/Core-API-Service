@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class UserService
 {
     /**
@@ -34,7 +33,7 @@ class UserService
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
-        $nameBn = $request['name_bn'] ?? "";
+        $nameBn = $request['name'] ?? "";
         $email = $request['email'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
@@ -47,27 +46,27 @@ class UserService
             "users.id",
             'users.idp_user_id',
             "users.name_en",
-            "users.name_bn",
+            "users.name",
             "users.user_type",
             "users.username",
             "users.institute_id",
             "users.organization_id",
             "users.role_id",
             'roles.title_en as role_title_en',
-            'roles.title_bn as role_title_bn',
+            'roles.title as role_title',
             "users.email",
             "users.mobile",
             "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
-            'loc_divisions.title_bn as loc_divisions_title_bn',
+            'loc_divisions.title as loc_divisions_title',
             "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
-            'loc_districts.title_bn as loc_district_title_bn',
+            'loc_districts.title as loc_district_title',
             "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
-            'loc_upazilas.title_bn as loc_upazila_title_bn',
-            "users.email_verified_at",
-            "users.mobile_verified_at",
+            'loc_upazilas.title as loc_upazila_title',
+            "users.verification_code_verified_at",
+            "users.verification_code_sent_at",
             "users.password",
             "users.row_status",
             "users.created_by",
@@ -115,7 +114,7 @@ class UserService
             $usersBuilder = $usersBuilder->where('users.name_en', 'like', '%' . $nameEn . '%');
         }
         if (!empty($nameBn)) {
-            $usersBuilder = $usersBuilder->where('users.name_bn', 'like', '%' . $nameBn . '%');
+            $usersBuilder = $usersBuilder->where('users.name', 'like', '%' . $nameBn . '%');
         }
         if (!empty($email)) {
             $usersBuilder = $usersBuilder->where('users.email', 'like', '%' . $email . '%');
@@ -170,27 +169,27 @@ class UserService
             "users.id",
             'users.idp_user_id',
             "users.name_en",
-            "users.name_bn",
+            "users.name",
             "users.user_type",
             "users.username",
             "users.organization_id",
             "users.institute_id",
             "users.role_id",
             'roles.title_en as role_title_en',
-            'roles.title_bn as role_title_bn',
+            'roles.title as role_title',
             "users.email",
             "users.mobile",
             "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
-            'loc_divisions.title_bn as loc_divisions_title_bn',
+            'loc_divisions.title as loc_divisions_title',
             "users.loc_district_id",
             'loc_districts.title_en as loc_district_title_en',
-            'loc_districts.title_bn as loc_district_title_bn',
+            'loc_districts.title as loc_district_title',
             "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
-            'loc_upazilas.title_bn as loc_upazila_title_bn',
-            "users.email_verified_at",
-            "users.mobile_verified_at",
+            'loc_upazilas.title as loc_upazila_title',
+            "users.verification_code_verified_at",
+            "users.verification_code_sent_at",
             "users.password",
             "users.row_status",
             "users.created_by",
@@ -396,7 +395,7 @@ class UserService
         $roleField = [
             'key' => str_replace('', '_', $data['name_en']),
             'title_en' => $data['name_en'],
-            'title_bn' => $data['name_bn'],
+            'title' => $data['name'],
             'permission_sub_group_id' => $data['permission_sub_group_id'] ?? null,
             'organization_id' => $data['organization_id'] ?? null,
             'institute_id' => $data['institute_id'] ?? null,
@@ -468,7 +467,7 @@ class UserService
             "organization_id" => 'nullable|numeric',
             "institute_id" => 'nullable|numeric',
             "name_en" => 'required|max:255|min:3',
-            "name_bn" => 'required|max:300|min:3',
+            "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
             "mobile" => [
                 "required",
@@ -490,14 +489,14 @@ class UserService
             "institute_id" => 'nullable|numeric',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|max:255|min:3',
-            "name_bn" => 'required|max:300|min:3',
+            "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
             "mobile" => "nullable|max:15|string",
             "loc_division_id" => 'nullable|exists:loc_districts,id',
             "loc_district_id" => 'nullable|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
-            "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "verification_code_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => 'nullable|max:191|min:6',
             "profile_pic" => 'nullable|max:1000|string',
             "created_by" => "nullable|numeric",
@@ -526,7 +525,7 @@ class UserService
             "institute_id" => 'nullable|numeric|gt:0',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|string|min:3',
-            "name_bn" => 'required|string|min:3',
+            "name" => 'required|string|min:3',
             "email" => 'required|email',
             "mobile" => [
                 "nullable",
@@ -536,8 +535,8 @@ class UserService
             "loc_division_id" => 'nullable|gt:0|exists:loc_districts,id',
             "loc_district_id" => 'nullable|gt:0|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|gt:0|exists:loc_upazilas,id',
-            "email_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "mobile_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "verification_code_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
+            "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => [
                 'required_if:' . $id . ',==,null',
                 'string'
@@ -564,7 +563,7 @@ class UserService
     {
         $rules = [
             "name_en" => 'required|min:3|max:255',
-            "name_bn" => 'required|min:3|max:500',
+            "name" => 'required|min:3|max:500',
             "mobile" => [
                 'nullable',
                 BaseModel::MOBILE_REGEX
@@ -639,7 +638,7 @@ class UserService
             'page' => 'numeric',
             'page_size' => 'numeric',
             'name_en' => 'string',
-            'name_bn' => 'string',
+            'name' => 'string',
             'email' => 'string',
             "organization_id" => 'nullable|numeric',
             "institute_id" => 'nullable|numeric',

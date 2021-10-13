@@ -23,7 +23,7 @@ class RoleService
     public function getAllRoles(array $request, Carbon $startTime): array
     {
         $titleEn = $request['title_en'] ?? "";
-        $titleBn = $request['title_bn'] ?? "";
+        $titleBn = $request['title'] ?? "";
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
@@ -34,7 +34,7 @@ class RoleService
         /** @var Role|Builder $rolesBuilder */
         $rolesBuilder = Role::select([
             'roles.id',
-            'roles.title_bn',
+            'roles.title',
             'roles.title_en',
             'roles.key',
             'roles.description',
@@ -42,10 +42,10 @@ class RoleService
             'roles.institute_id',
             'roles.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
-            'permission_groups.title_bn as permission_group_title_bn',
+            'permission_groups.title as permission_group_title',
             'roles.permission_sub_group_id',
             'permission_sub_groups.title_en as permission_sub_group_title_en',
-            'permission_sub_groups.title_bn as permission_sub_group_title_bn',
+            'permission_sub_groups.title as permission_sub_group_title',
             'roles.row_status',
             'roles.created_at',
         ]);
@@ -78,7 +78,7 @@ class RoleService
             $rolesBuilder->where('roles.title_en', 'like', '%' . $titleEn . '%');
         }
         if (!empty($titleBn)) {
-            $rolesBuilder->where('roles.title_bn', 'like', '%' . $titleBn . '%');
+            $rolesBuilder->where('roles.title', 'like', '%' . $titleBn . '%');
         }
         /** @var Collection $roles */
         if (is_numeric($paginate) || is_numeric($pageSize)) {
@@ -112,7 +112,7 @@ class RoleService
         /** @var Role|Builder $roleBuilder */
         $roleBuilder = Role::select([
             'roles.id',
-            'roles.title_bn',
+            'roles.title',
             'roles.title_en',
             'roles.key',
             'roles.description',
@@ -120,10 +120,10 @@ class RoleService
             'roles.institute_id',
             'roles.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
-            'permission_groups.title_bn as permission_group_title_bn',
+            'permission_groups.title as permission_group_title',
             'roles.permission_sub_group_id',
             'permission_sub_groups.title_en as permission_sub_group_title_en',
-            'permission_sub_groups.title_bn as permission_sub_group_title_bn',
+            'permission_sub_groups.title as permission_sub_group_title',
             'roles.row_status',
             'roles.created_at',
             'roles.updated_at'
@@ -212,7 +212,7 @@ class RoleService
         ];
         $rules = [
             'title_en' => 'required|max:191|min:2',
-            'title_bn' => 'required|max:300|min:2',
+            'title' => 'required|max:300|min:2',
             'description' => 'nullable|string',
             'permission_group_id' => 'nullable|exists:permission_groups,id',
             'permission_sub_group_id' => 'nullable|exists:permission_sub_groups,id',
@@ -255,7 +255,7 @@ class RoleService
 
         return Validator::make($request->all(), [
             'title_en' => 'nullable|max:191|min:2',
-            'title_bn' => 'nullable|max:300|min:2',
+            'title' => 'nullable|max:300|min:2',
             "organization_id" => 'nullable|numeric|gt:0',
             "institute_id" => 'nullable|numeric|gt:0',
             'page' => 'numeric|gt:0',

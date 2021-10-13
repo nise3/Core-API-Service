@@ -17,7 +17,7 @@ class CreatePermissionSubGroupsTable extends Migration
             $table->mediumIncrements('id');
             $table->unsignedMediumInteger('permission_group_id');
             $table->string('title_en',191);
-            $table->string('title_bn', 300);
+            $table->string('title', 300);
             $table->string('key', 191)->unique();
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();

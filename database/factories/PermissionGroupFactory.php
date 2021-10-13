@@ -15,7 +15,7 @@ class PermissionGroupFactory extends Factory
         $key = strtolower(str_replace(' ', '_', $title));
     	return [
             'title_en' =>  ucwords($title.' en'),
-            'title_bn' =>  ucwords($title.' bn'),
+            'title' =>  ucwords($title.' bn'),
             'key' => $key
     	];
     }

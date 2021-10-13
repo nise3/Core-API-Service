@@ -4,8 +4,8 @@
 namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Models\BaseModel;
-use App\Models\InstitutePermissions;
-use App\Models\OrganizationPermissions;
+use App\Models\InstitutePermission;
+use App\Models\OrganizationPermission;
 use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -198,7 +198,7 @@ class PermissionService
         $validPermissions = Permission::whereIn('id', $permissionIds)->get();
         foreach ($validPermissions as $validPermission) {
             /** @var Permission $validPermission */
-            OrganizationPermissions::updateOrCreate(
+            OrganizationPermission::updateOrCreate(
                 [
                     'organization_id' => $organizationId,
                     'permission_id' => $validPermission->id
@@ -223,7 +223,7 @@ class PermissionService
         $validPermissions = Permission::whereIn('id', $permissionIds)->get();
         foreach ($validPermissions as $validPermission) {
             /** @var Permission $validPermission */
-            InstitutePermissions::updateOrCreate(
+            InstitutePermission::updateOrCreate(
                 [
                     'institute_id' => $instituteId,
                     'permission_id' => $validPermission->id

@@ -25,35 +25,35 @@ class RoleTableSeeder extends Seeder
                 array(
                     'id' => 1,
                     'title_en' => 'Super Admin',
-                    'title_bn' => 'সুপার এডমিন',
+                    'title' => 'সুপার এডমিন',
                     'key' => 'super_admin',
                 ),
             1 =>
                 array(
                     'id' => 2,
                     'title_en' => 'System Admin',
-                    'title_bn' => 'সিস্টেম এডমিন',
+                    'title' => 'সিস্টেম এডমিন',
                     'key' => 'system_admin',
                 ),
             2 =>
                 array(
                     'id' => 3,
                     'title_en' => 'Institute Admin',
-                    'title_bn' => 'ইনস্টিটিউট এডমিন',
+                    'title' => 'ইনস্টিটিউট এডমিন',
                     'key' => 'institute_admin',
                 ),
             3 =>
                 array(
                     'id' => 4,
                     'title_en' => 'Organization Admin',
-                    'title_bn' => 'অর্গানাইজেশন এডমিন',
+                    'title' => 'অর্গানাইজেশন এডমিন',
                     'key' => 'organization_admin',
                 ),
             4 =>
                 array(
                     'id' => 5,
                     'title_en' => 'DC',
-                    'title_bn' => 'ডিসি',
+                    'title' => 'ডিসি',
                     'key' => 'dc',
                 ),
         ));
