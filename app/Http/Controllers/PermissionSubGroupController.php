@@ -27,7 +27,8 @@ class PermissionSubGroupController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
@@ -45,7 +46,8 @@ class PermissionSubGroupController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function read(Request $request, int $id): JsonResponse
     {
@@ -59,7 +61,8 @@ class PermissionSubGroupController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -86,7 +89,8 @@ class PermissionSubGroupController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
@@ -112,7 +116,8 @@ class PermissionSubGroupController extends Controller
 
     /**
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function destroy(int $id): JsonResponse
     {
@@ -136,7 +141,8 @@ class PermissionSubGroupController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function assignPermissionToPermissionSubGroup(Request $request, int $id):JsonResponse

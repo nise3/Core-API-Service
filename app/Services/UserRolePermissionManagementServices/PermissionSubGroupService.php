@@ -210,7 +210,7 @@ class PermissionSubGroupService
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|numeric|distinct|min:1'
+            'permissions.*' => 'required|integer|distinct|min:1'
         ];
         return Validator::make($data, $rules);
     }

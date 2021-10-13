@@ -1220,7 +1220,7 @@
         },
         "/users/{userId}/assign-role": {
             "post": {
-                "summary": "Assign role to user",
+                "summary": "Assign ACL Role to an User",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1289,7 +1289,7 @@
         },
         "/users/{userId}/assign-permissions": {
             "post": {
-                "summary": "Assign permission to user",
+                "summary": "Assign ACL Permission to an User",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1355,7 +1355,7 @@
         },
         "/users/{userId}/permissions": {
             "get": {
-                "summary": "get the list of permission and menuItems",
+                "summary": "Get The list of ACL Permissions and Menu Items for a Particular User",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1416,7 +1416,7 @@
         },
         "/users/{userId}/profile-update": {
             "post": {
-                "summary": "Update User Profile",
+                "summary": "Update An User Profile",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1778,7 +1778,7 @@
         },
         "/permission-groups/{permissionGroupId}/assign-permissions": {
             "post": {
-                "summary": "Assign permission to permissionGroup",
+                "summary": "Assign ACL Permission to ACL a Permission Group",
                 "parameters": [
                     {
                         "name": "permissionGroupId",
@@ -2096,7 +2096,7 @@
         },
         "/permission-sub-groups/{permissionSubGroupId}/assign-permissions": {
             "post": {
-                "summary": "Assign permission to permissionSubGroup",
+                "summary": "Assign ACL Permissions to ACL a Permission Sub Group",
                 "parameters": [
                     {
                         "name": "permissionSubGroupId",

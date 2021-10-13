@@ -593,8 +593,8 @@ class UserService
                 'nullable',
                 "string"
             ],
-            "created_by" => "nullable|numeric",
-            "updated_by" => "nullable|numeric",
+            "created_by" => "nullable|integer",
+            "updated_by" => "nullable|integer",
         ];
 
         return Validator::make($request->all(), $rules);
