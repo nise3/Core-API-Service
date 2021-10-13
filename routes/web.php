@@ -34,10 +34,6 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
     $customRouter()->resourceRoute('menus', 'MenuController')->render();
     $customRouter()->resourceRoute('menu-items', 'MenuItemController')->render();
-    $customRouter()->resourceRoute('partners', 'PartnerController')->render();
-    $customRouter()->resourceRoute('notice-or-news', 'NoticeOrNewsController')->render();
-    $customRouter()->resourceRoute('recent-activities', 'RecentActivityController')->render();
-
 
     /* assign permission to Roles*/
     $router->post('roles/{id}/assign-permissions', ['as' => 'roles.assign-permissions', 'uses' => 'RoleController@assignPermissionToRole']);
