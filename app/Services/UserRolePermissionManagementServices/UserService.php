@@ -499,8 +499,8 @@ class UserService
             "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => 'nullable|max:191|min:6',
             "profile_pic" => 'nullable|max:1000|string',
-            "created_by" => "nullable|inte",
-            "updated_by" => "nullable|inte",
+            "created_by" => "nullable|int",
+            "updated_by" => "nullable|int",
             "remember_token" => "nullable|string",
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
@@ -521,8 +521,8 @@ class UserService
         $rules = [
             "user_type" => "required|min:1",
             "username" => 'required|string|unique:users,username,' . $id,
-            "organization_id" => 'nullable|inte|gt:0',
-            "institute_id" => 'nullable|inte|gt:0',
+            "organization_id" => 'nullable|int|gt:0',
+            "institute_id" => 'nullable|int|gt:0',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|string|min:3',
             "name" => 'required|string|min:3',
@@ -542,8 +542,8 @@ class UserService
                 'string'
             ],
             "profile_pic" => 'nullable|string',
-            "created_by" => "nullable|inte|gt:0",
-            "updated_by" => "nullable|inte|gt:0",
+            "created_by" => "nullable|int|gt:0",
+            "updated_by" => "nullable|int|gt:0",
             "remember_token" => "nullable|string",
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
@@ -603,7 +603,7 @@ class UserService
     public function roleIdValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            'role_id' => 'required|inte|min:1|exists:roles,id',
+            'role_id' => 'exists:roles,id', 'required,int,min:1'
         ];
         return Validator::make($request->all(), $rules);
     }
@@ -613,7 +613,7 @@ class UserService
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|inte|distinct|min:1'
+            'permissions.*' => 'required|int|distinct|min:1'
         ];
         return Validator::make($data, $rules);
     }
@@ -635,20 +635,20 @@ class UserService
         ];
 
         return Validator::make($request->all(), [
-            'page' => 'inte',
-            'page_size' => 'inte',
+            'page' => 'int',
+            'page_size' => 'int',
             'name_en' => 'string',
             'name' => 'string',
             'email' => 'string',
-            "organization_id" => 'nullable|inte',
-            "institute_id" => 'nullable|inte',
-            'user_type' => 'nullable|inte',
+            "organization_id" => 'nullable|int',
+            "institute_id" => 'nullable|int',
+            'user_type' => 'nullable|int',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
-                "inte",
+                "int",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ], $customMessage);

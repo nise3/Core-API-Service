@@ -253,7 +253,7 @@ class PermissionService
             'name' => 'required|string|max:191|min:2',
             'method' => 'required|int',
             'module' => 'required|max:191|string',
-            'uri' => 'required|max:300|min:2|unique:permissions,uri,' . $id,
+            'uri' => ['unique:permissions,uri,' . $id, 'required', 'max:300', 'min:2'],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -273,7 +273,7 @@ class PermissionService
 
         $rules = [
             'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|inte|distinct|min:1'
+            'permissions.*' => 'required|int|distinct|min:1'
         ];
         return Validator::make($data, $rules);
     }
@@ -299,8 +299,8 @@ class PermissionService
         ];
 
         return Validator::make($request->all(), [
-            'page' => 'inte|gt:0',
-            'page_size' => 'inte|gt:0',
+            'page' => 'int|gt:0',
+            'page_size' => 'int|gt:0',
             'name' => 'max:191|min:2',
             'uri' => 'max:300|min:2',
             'order' => [
@@ -308,7 +308,7 @@ class PermissionService
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
-                "inte",
+                "int",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ], $customMessage);

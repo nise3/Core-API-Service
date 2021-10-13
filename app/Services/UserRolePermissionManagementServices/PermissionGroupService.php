@@ -188,7 +188,7 @@ class PermissionGroupService
         $rules = [
             'title_en' => 'required|max:191|min:2',
             'title' => 'required|max:300|min:2',
-            "key" => 'required|max:191|min:2|unique:permission_groups,key,' . $id,
+            "key" => ['unique:permission_groups,key,' . $id, 'required', 'max:191', 'min:2'],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -226,15 +226,15 @@ class PermissionGroupService
         return Validator::make($request->all(), [
             'title_en' => 'nullable|max:191|min:2',
             'title' => 'nullable|max:300|min:2',
-            'page' => 'inte|gt:0',
-            'page_size' => 'inte|gt:0',
+            'page' => 'int|gt:0',
+            'page_size' => 'int|gt:0',
             'key' => 'nullable|max:191|string',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
-                "inte",
+                "int",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ], $customMessage);
