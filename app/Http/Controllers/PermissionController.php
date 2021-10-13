@@ -32,7 +32,9 @@ class PermissionController extends Controller
 
     /**
      * @param Request $request
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
     {
@@ -49,7 +51,8 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function read(Request $request, int $id): JsonResponse
     {
@@ -118,7 +121,8 @@ class PermissionController extends Controller
 
     /**
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function destroy(int $id): JsonResponse
     {
@@ -143,7 +147,8 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $organization_id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function assignPermissionToOrganization(Request $request, int $organization_id): JsonResponse
@@ -170,7 +175,8 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @param int $institute_id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function assignPermissionToInstitute(Request $request, int $institute_id): JsonResponse
