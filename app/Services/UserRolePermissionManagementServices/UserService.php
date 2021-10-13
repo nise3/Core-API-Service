@@ -464,8 +464,8 @@ class UserService
         $rules = [
             "user_type" => "required|min:1",
             "username" => 'required|max:100|string|unique:users,username,' . $id,
-            "organization_id" => 'nullable|numeric',
-            "institute_id" => 'nullable|numeric',
+            "organization_id" => 'nullable|int',
+            "institute_id" => 'nullable|int',
             "name_en" => 'required|max:255|min:3',
             "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
@@ -482,11 +482,11 @@ class UserService
     public function organizationOrInstituteUserCreateValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            'permission_sub_group_id' => 'required|numeric',
+            'permission_sub_group_id' => 'required|int',
             "user_type" => "required|min:1",
             "username" => 'required|string|unique:users,username,' . $id,
-            "organization_id" => 'nullable|numeric',
-            "institute_id" => 'nullable|numeric',
+            "organization_id" => 'nullable|int',
+            "institute_id" => 'nullable|int',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|max:255|min:3',
             "name" => 'required|max:300|min:3',
@@ -499,8 +499,8 @@ class UserService
             "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => 'nullable|max:191|min:6',
             "profile_pic" => 'nullable|max:1000|string',
-            "created_by" => "nullable|numeric",
-            "updated_by" => "nullable|numeric",
+            "created_by" => "nullable|inte",
+            "updated_by" => "nullable|inte",
             "remember_token" => "nullable|string",
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
@@ -521,8 +521,8 @@ class UserService
         $rules = [
             "user_type" => "required|min:1",
             "username" => 'required|string|unique:users,username,' . $id,
-            "organization_id" => 'nullable|numeric|gt:0',
-            "institute_id" => 'nullable|numeric|gt:0',
+            "organization_id" => 'nullable|inte|gt:0',
+            "institute_id" => 'nullable|inte|gt:0',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|string|min:3',
             "name" => 'required|string|min:3',
@@ -542,8 +542,8 @@ class UserService
                 'string'
             ],
             "profile_pic" => 'nullable|string',
-            "created_by" => "nullable|numeric|gt:0",
-            "updated_by" => "nullable|numeric|gt:0",
+            "created_by" => "nullable|inte|gt:0",
+            "updated_by" => "nullable|inte|gt:0",
             "remember_token" => "nullable|string",
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
@@ -603,7 +603,7 @@ class UserService
     public function roleIdValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            'role_id' => 'required|numeric|min:1|exists:roles,id',
+            'role_id' => 'required|inte|min:1|exists:roles,id',
         ];
         return Validator::make($request->all(), $rules);
     }
@@ -613,7 +613,7 @@ class UserService
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|numeric|distinct|min:1'
+            'permissions.*' => 'required|inte|distinct|min:1'
         ];
         return Validator::make($data, $rules);
     }
@@ -635,20 +635,20 @@ class UserService
         ];
 
         return Validator::make($request->all(), [
-            'page' => 'numeric',
-            'page_size' => 'numeric',
+            'page' => 'inte',
+            'page_size' => 'inte',
             'name_en' => 'string',
             'name' => 'string',
             'email' => 'string',
-            "organization_id" => 'nullable|numeric',
-            "institute_id" => 'nullable|numeric',
-            'user_type' => 'nullable|numeric',
+            "organization_id" => 'nullable|inte',
+            "institute_id" => 'nullable|inte',
+            'user_type' => 'nullable|inte',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
-                "numeric",
+                "inte",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ], $customMessage);

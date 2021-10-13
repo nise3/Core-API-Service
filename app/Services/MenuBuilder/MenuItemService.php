@@ -179,7 +179,7 @@ class MenuItemService
     public function Validator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            'menu_id' => 'nullable|int|exists:menus,id',
+            'menu_id' => 'nullable|exists:menus,id|int',
             'title' => 'required_without:title_lang_key|max:191|min:2',
             'title_lang_key' => 'required_without:title|max:255|min:2',
             'permission_key' => 'nullable|string|max:191',
@@ -187,7 +187,7 @@ class MenuItemService
             'target' => 'nullable|string|max:191',
             'icon_class' => 'required|string|max:191',
             'color' => 'nullable|string|max:191',
-            'parent_id' => 'nullable|int|exists:menu_items,id',
+            'parent_id' => 'nullable|exists:menu_items,id|int',
             'order' => 'int' | 'required',
             'route' => 'required_without:url|string|max:191',
             'parameters' => 'nullable|string'

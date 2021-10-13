@@ -216,8 +216,8 @@ class RoleService
             'description' => 'nullable|string',
             'permission_group_id' => 'nullable|exists:permission_groups,id',
             'permission_sub_group_id' => 'nullable|exists:permission_sub_groups,id',
-            'organization_id' => 'nullable|numeric|gt:0',
-            'institute_id' => 'nullable|numeric|gt:0',
+            'organization_id' => 'nullable|int|gt:0',
+            'institute_id' => 'nullable|int|gt:0',
             'key' => 'required|min:2|unique:roles,key,' . $id,
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
@@ -232,7 +232,7 @@ class RoleService
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|numeric|distinct|min:1'
+            'permissions.*' => 'required|inte|distinct|min:1'
         ];
         return Validator::make($data, $rules);
     }
@@ -256,16 +256,16 @@ class RoleService
         return Validator::make($request->all(), [
             'title_en' => 'nullable|max:191|min:2',
             'title' => 'nullable|max:300|min:2',
-            "organization_id" => 'nullable|numeric|gt:0',
-            "institute_id" => 'nullable|numeric|gt:0',
-            'page' => 'numeric|gt:0',
-            'page_size' => 'numeric|gt:0',
+            "organization_id" => 'nullable|inte|gt:0',
+            "institute_id" => 'nullable|inte|gt:0',
+            'page' => 'inte|gt:0',
+            'page_size' => 'inte|gt:0',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
-                "numeric",
+                "inte",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ], $customMessage);

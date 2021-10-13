@@ -189,7 +189,7 @@ class PermissionSubGroupService
             ]
         ];
         $rules = [
-            'permission_group_id' => 'required|numeric|exists:permission_groups,id',
+            'permission_group_id' => 'required|int|exists:permission_groups,id',
             'title_en' => 'required|string|max:191||min:2',
             'title' => 'required|string|max:300|min:2',
             "key" => 'required|string|max:191|min:2|unique:permission_sub_groups,key,' . $id,
@@ -231,17 +231,17 @@ class PermissionSubGroupService
             ]
         ];
         return Validator::make($request->all(), [
-            'page' => 'numeric|gt:0',
-            'page_size' => 'numeric|gt:0',
+            'page' => 'inte|gt:0',
+            'page_size' => 'inte|gt:0',
             'title_en' => 'nullable|max:191|min:2',
             'title' => 'nullable|max:300|min:2',
-            'permission_group_id' => 'nullable|numeric|exists:permission_groups,id',
+            'permission_group_id' => 'nullable|inte|exists:permission_groups,id',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
-                "numeric",
+                "inte",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ], $customMessage);

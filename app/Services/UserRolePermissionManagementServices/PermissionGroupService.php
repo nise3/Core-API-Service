@@ -202,7 +202,7 @@ class PermissionGroupService
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
         $rules = [
             'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|numeric|distinct|min:1'
+            'permissions.*' => 'required|int|distinct|min:1'
         ];
         return Validator::make($data, $rules);
     }
@@ -226,15 +226,15 @@ class PermissionGroupService
         return Validator::make($request->all(), [
             'title_en' => 'nullable|max:191|min:2',
             'title' => 'nullable|max:300|min:2',
-            'page' => 'numeric|gt:0',
-            'page_size' => 'numeric|gt:0',
+            'page' => 'inte|gt:0',
+            'page_size' => 'inte|gt:0',
             'key' => 'nullable|max:191|string',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
-                "numeric",
+                "inte",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ], $customMessage);
