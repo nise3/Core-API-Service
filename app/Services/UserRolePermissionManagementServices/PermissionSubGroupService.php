@@ -28,7 +28,7 @@ class PermissionSubGroupService
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $titleEn = $request['title_en'] ?? "";
-        $titleBn = $request['title'] ?? "";
+        $title = $request['title'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
         $permissionGroupId = $request['permission_group_id'] ?? "";
@@ -53,8 +53,8 @@ class PermissionSubGroupService
             $permissionSubGroupBuilder->where('permission_sub_groups.title_en', 'like', '%' . $titleEn . '%');
         }
 
-        if (!empty($titleBn)) {
-            $permissionSubGroupBuilder->where('permission_sub_groups.title', 'like', '%' . $titleBn . '%');
+        if (!empty($title)) {
+            $permissionSubGroupBuilder->where('permission_sub_groups.title', 'like', '%' . $title . '%');
         }
 
         if (is_numeric($rowStatus)) {

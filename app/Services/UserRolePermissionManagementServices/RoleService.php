@@ -23,7 +23,7 @@ class RoleService
     public function getAllRoles(array $request, Carbon $startTime): array
     {
         $titleEn = $request['title_en'] ?? "";
-        $titleBn = $request['title'] ?? "";
+        $title = $request['title'] ?? "";
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
@@ -77,8 +77,8 @@ class RoleService
         if (!empty($titleEn)) {
             $rolesBuilder->where('roles.title_en', 'like', '%' . $titleEn . '%');
         }
-        if (!empty($titleBn)) {
-            $rolesBuilder->where('roles.title', 'like', '%' . $titleBn . '%');
+        if (!empty($title)) {
+            $rolesBuilder->where('roles.title', 'like', '%' . $title . '%');
         }
         /** @var Collection $roles */
         if (is_numeric($paginate) || is_numeric($pageSize)) {

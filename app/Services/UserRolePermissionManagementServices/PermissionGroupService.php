@@ -28,7 +28,7 @@ class PermissionGroupService
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $titleEn = $request['title_en'] ?? "";
-        $titleBn = $request['title'] ?? "";
+        $title = $request['title'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
         $key = $request['key'] ?? null;
@@ -49,8 +49,8 @@ class PermissionGroupService
         if (!empty($titleEn)) {
             $permissionGroupBuilder->where('title_en', 'like', '%' . $titleEn . '%');
         }
-        if (!empty($titleBn)) {
-            $permissionGroupBuilder->where('title', 'like', '%' . $titleBn . '%');
+        if (!empty($title)) {
+            $permissionGroupBuilder->where('title', 'like', '%' . $title . '%');
         }
 
         if (is_numeric($rowStatus)) {
