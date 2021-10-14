@@ -77,7 +77,9 @@ $app->configure('httpclientendpoint');
 |
 */
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\CorsMiddleware::class,
+    LumenMiddlewareTrimOrConvertString\TrimStrings::class,
+    LumenMiddlewareTrimOrConvertString\ConvertEmptyStringsToNull::class,
 ]);
 
 $app->routeMiddleware([
@@ -97,9 +99,8 @@ $app->routeMiddleware([
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
-$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Felixkiss\UniqueWithValidator\ServiceProvider::class);
 
 
