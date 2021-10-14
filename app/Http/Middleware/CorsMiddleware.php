@@ -33,6 +33,6 @@ class CorsMiddleware
             $response->header($key, $value);
         }
 
-        return $next($request);
+        return $response;
     }
 }
