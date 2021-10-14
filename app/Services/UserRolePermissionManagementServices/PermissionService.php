@@ -11,11 +11,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use PhpParser\Node\Expr\Array_;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,7 +31,7 @@ class PermissionService
     {
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
-        $name = $request['name'] ?? "";
+        $key = $request['key'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
         $uri = $request['uri'] ?? "";
         $order = $request['order'] ?? "ASC";
@@ -52,14 +50,14 @@ class PermissionService
             'permissions.updated_at'
         ]);
 
-        $permissionBuilder->orderBy('id', $order);
+        $permissionBuilder->orderBy('permissions.id', $order);
 
-        if (!empty($name)) {
-            $permissionBuilder->where('name', 'like', '%' . $name . '%');
+        if (!empty($key)) {
+            $permissionBuilder->where('permissions.key', 'like', '%' . $key . '%');
         }
 
         if (!empty($uri)) {
-            $permissionBuilder->where('uri', 'like', '%' . $uri . '%');
+            $permissionBuilder->where('permissions.uri', 'like', '%' . $uri . '%');
         }
 
         if (is_numeric($rowStatus)) {
@@ -307,7 +305,7 @@ class PermissionService
         return Validator::make($request->all(), [
             'page' => 'int|gt:0',
             'page_size' => 'int|gt:0',
-            'name' => 'max:191|min:2',
+            'key' => 'max:191|min:2',
             'uri' => 'max:300|min:2',
             'order' => [
                 'string',
