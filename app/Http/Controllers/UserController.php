@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
+use Exception;
 use Faker\Provider\Uuid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -71,7 +72,8 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return array|\Exception|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -117,8 +119,8 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
-     * @throws ValidationException
+     * @return Exception|JsonResponse|Throwable
+     * @throws ValidationException|Throwable
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -166,7 +168,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function destroy(int $id): JsonResponse
     {
@@ -191,9 +194,9 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @param string $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
      */
-    public function getUserPermissionList(Request $request, string $id)
+    public function getUserPermissionList(Request $request, string $id): JsonResponse
     {
         try {
             $user = $this->userService->getUserPermissionWithMenuItems($id);
@@ -216,7 +219,8 @@ class UserController extends Controller
     /**
      * Internal service Api call for Auth User Information
      * @param Request $request
-     * @return array|\Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function getAuthUserInfoByIdpId(Request $request): JsonResponse
     {
@@ -241,10 +245,10 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
-     * @throws ValidationException
+     * @return JsonResponse
+     * @throws ValidationException|Throwable
      */
-    public function organizationOrInstituteUserCreate(Request $request) //When admin user create an institute or organization
+    public function organizationOrInstituteUserCreate(Request $request): JsonResponse //When admin user create an institute or organization
     {
         Log::info("institute admin user create");
         Log::info($request);
@@ -297,9 +301,9 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
-     * @throws ValidationException
+     * @return JsonResponse
      * @throws Throwable
+     * @throws ValidationException
      */
     public function userOpenRegistration(Request $request): JsonResponse // When user open registration
     {
@@ -354,7 +358,8 @@ class UserController extends Controller
 
     /**
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function userApproval(int $id): JsonResponse
     {
@@ -417,7 +422,8 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function assignPermissionToUser(Request $request, int $id): JsonResponse
@@ -444,7 +450,8 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function assignRoleToUser(Request $request, int $id): JsonResponse

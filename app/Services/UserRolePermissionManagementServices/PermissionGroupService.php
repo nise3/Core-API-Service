@@ -53,7 +53,7 @@ class PermissionGroupService
             $permissionGroupBuilder->where('title', 'like', '%' . $title . '%');
         }
 
-        if (is_numeric($rowStatus)) {
+        if (is_int($rowStatus)) {
             $permissionGroupBuilder->where('row_status', $rowStatus);
         }
 
@@ -62,7 +62,7 @@ class PermissionGroupService
         }
 
         /** @var Collection|PermissionGroup $permissionGroups */
-        if (is_numeric($paginate) || is_numeric($pageSize)) {
+        if (is_int($paginate) || is_int($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $permissionGroups = $permissionGroupBuilder->paginate($pageSize);
             $paginateData = (object)$permissionGroups->toArray();

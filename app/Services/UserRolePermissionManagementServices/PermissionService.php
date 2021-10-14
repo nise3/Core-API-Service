@@ -36,7 +36,7 @@ class PermissionService
         $uri = $request['uri'] ?? "";
         $order = $request['order'] ?? "ASC";
 
-        /** @var Permission|Builder $permissionBuilder */
+        /** @var Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
             'permissions.id',
             'permissions.title_en',
@@ -60,13 +60,13 @@ class PermissionService
             $permissionBuilder->where('permissions.uri', 'like', '%' . $uri . '%');
         }
 
-        if (is_numeric($rowStatus)) {
+        if (is_int($rowStatus)) {
             $permissionBuilder->where('permissions.row_status', $rowStatus);
         }
 
         /** @var Collection|Permission $permissions */
 
-        if (is_numeric($paginate) || is_numeric($pageSize)) {
+        if (is_int($paginate) || is_int($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $permissions = $permissionBuilder->paginate($pageSize);
             $paginateData = (object)$permissions->toArray();
@@ -235,7 +235,6 @@ class PermissionService
      */
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
-        Log::info("counter");
         $customMessage = [
             'row_status.in' => [
                 'code' => 30000,

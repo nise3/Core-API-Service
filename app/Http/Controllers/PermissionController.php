@@ -38,7 +38,6 @@ class PermissionController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
-        Log::info("Aaaaaa");
         try {
             $filter = $this->permissionService->filterValidator($request)->validate();
 

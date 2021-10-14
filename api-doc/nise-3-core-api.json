@@ -229,26 +229,20 @@
                             "type": "integer",
                             "example": 1
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/name"
-                    },
-                    {
-                        "$ref": "#/components/parameters/uri"
-                    },
-                    {
-                        "$ref": "#/components/parameters/method"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
-                    },
-                    {
-                        "$ref": "#/components/parameters/module"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permission"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Update Permission",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3641,7 +3635,8 @@
                         "type": "string"
                     },
                     "key": {
-                        "type": "string"
+                        "type": "string",
+                        "uniqueItems": true
                     },
                     "row_status": {
                         "type": "integer",
@@ -3651,14 +3646,6 @@
                             0
                         ],
                         "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
                     }
                 },
                 "required": [

@@ -79,7 +79,7 @@ class UserService
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')
                 ->whereNull('roles.deleted_at');
-            if (is_numeric($rowStatus)) {
+            if (is_int($rowStatus)) {
                 $join->where('roles.row_status', $rowStatus);
             }
         });
@@ -87,7 +87,7 @@ class UserService
         $usersBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
             $join->on('loc_divisions.id', '=', 'users.loc_division_id')
                 ->whereNull('loc_divisions.deleted_at');
-            if (is_numeric($rowStatus)) {
+            if (is_int($rowStatus)) {
                 $join->where('roles.row_status', $rowStatus);
             }
         });
@@ -95,7 +95,7 @@ class UserService
         $usersBuilder->leftJoin('loc_districts', function ($join) use ($rowStatus) {
             $join->on('loc_districts.id', '=', 'users.loc_district_id')
                 ->whereNull('loc_districts.deleted_at');
-            if (is_numeric($rowStatus)) {
+            if (is_int($rowStatus)) {
                 $join->where('roles.row_status', $rowStatus);
             }
         });
@@ -103,7 +103,7 @@ class UserService
         $usersBuilder->leftJoin('loc_upazilas', function ($join) use ($rowStatus) {
             $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
                 ->whereNull('loc_upazilas.deleted_at');
-            if (is_numeric($rowStatus)) {
+            if (is_int($rowStatus)) {
                 $join->where('roles.row_status', $rowStatus);
             }
         });
@@ -120,22 +120,22 @@ class UserService
             $usersBuilder = $usersBuilder->where('users.email', 'like', '%' . $email . '%');
         }
 
-        if (is_numeric($rowStatus)) {
+        if (is_int($rowStatus)) {
             $usersBuilder->where('users.row_status', $rowStatus);
         }
-        if (is_numeric($organizationId)) {
+        if (is_int($organizationId)) {
             $usersBuilder->where('users.organization_id', $organizationId);
         }
-        if (is_numeric($instituteId)) {
+        if (is_int($instituteId)) {
             $usersBuilder->where('users.institute_id', $instituteId);
         }
 
-        if (is_numeric($userType) && in_array($userType, BaseModel::USER_TYPES)) {
+        if (is_int($userType) && in_array($userType, BaseModel::USER_TYPES)) {
             $usersBuilder->where('users.user_type', $userType);
         }
         $response['order'] = $order;
 
-        if (is_numeric($paginate) || is_numeric($pageSize)) {
+        if (is_int($paginate) || is_int($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $users = $usersBuilder->paginate($pageSize);
             $paginateData = (object)$users->toArray();

@@ -57,18 +57,18 @@ class PermissionSubGroupService
             $permissionSubGroupBuilder->where('permission_sub_groups.title', 'like', '%' . $title . '%');
         }
 
-        if (is_numeric($rowStatus)) {
+        if (is_int($rowStatus)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.row_status', $rowStatus);
         }
 
-        if (is_numeric($permissionGroupId)) {
+        if (is_int($permissionGroupId)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.permission_group_id', $permissionGroupId);
         }
 
         $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);
 
         /** @var Collection|PermissionSubGroup $permissionSubGroups */
-        if (is_numeric($paginate) || is_numeric($pageSize)) {
+        if (is_int($paginate) || is_int($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $permissionSubGroups = $permissionSubGroupBuilder->paginate($pageSize);
             $paginateData = (object)$permissionSubGroups->toArray();

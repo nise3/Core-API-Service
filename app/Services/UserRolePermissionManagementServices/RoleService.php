@@ -51,24 +51,24 @@ class RoleService
         ]);
         $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'roles.permission_group_id');
-            if (is_numeric($rowStatus)) {
+            if (is_int($rowStatus)) {
                 $join->where('permission_groups.row_status', $rowStatus);
             }
         });
         $rolesBuilder->leftJoin('permission_sub_groups', function ($join) use ($rowStatus) {
             $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
-            if (is_numeric($rowStatus)) {
+            if (is_int($rowStatus)) {
                 $join->where('permission_sub_groups.row_status', $rowStatus);
             }
         });
 
-        if (is_numeric($rowStatus)) {
+        if (is_int($rowStatus)) {
             $rolesBuilder->where('roles.row_status', $rowStatus);
         }
-        if (is_numeric($organizationId)) {
+        if (is_int($organizationId)) {
             $rolesBuilder->where('roles.organization_id', $organizationId);
         }
-        if (is_numeric($instituteId)) {
+        if (is_int($instituteId)) {
             $rolesBuilder->where('roles.institute_id', $instituteId);
         }
 
@@ -81,7 +81,7 @@ class RoleService
             $rolesBuilder->where('roles.title', 'like', '%' . $title . '%');
         }
         /** @var Collection $roles */
-        if (is_numeric($paginate) || is_numeric($pageSize)) {
+        if (is_int($paginate) || is_int($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $roles = $rolesBuilder->paginate($pageSize);
             $paginateData = (object)$roles->toArray();
