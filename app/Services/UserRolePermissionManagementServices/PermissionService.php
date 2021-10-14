@@ -11,9 +11,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use PhpParser\Node\Expr\Array_;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -100,7 +102,7 @@ class PermissionService
      */
     public function getOnePermission(int $id, Carbon $startTime): array
     {
-        /** @var Permission|Builder $permissionBuilder */
+        /** @var Builder $permissionBuilder */
         $permissionBuilder = Permission::select([
             'permissions.id',
             'permissions.title_en',
@@ -114,11 +116,11 @@ class PermissionService
             'permissions.updated_at'
         ]);
 
-
-        $permissionBuilder->where('id', $id);
+        $permissionBuilder->where('permissions.id', $id);
 
 
         $permission = $permissionBuilder->first();
+
         return [
             "data" => $permission ?: [],
             "_response_status" => [
@@ -131,6 +133,7 @@ class PermissionService
     }
 
     /**
+     * @param Permission $permission
      * @param array $data
      * @return Permission
      */
@@ -168,26 +171,14 @@ class PermissionService
      */
     private function getMethodName($item): string
     {
-        $methodName = "";
-        switch ($item) {
-            case 1:
-                $methodName = "GET";
-                break;
-            case 2:
-                $methodName = "POST";
-                break;
-            case 3:
-                $methodName = "PUT";
-                break;
-            case 4:
-                $methodName = "PATCH";
-                break;
-            case 5:
-                $methodName = "DELETE";
-                break;
-
-        }
-        return $methodName;
+        return match ($item) {
+            1 => "GET",
+            2 => "POST",
+            3 => "PUT",
+            4 => "PATCH",
+            5 => "DELETE",
+            default => "",
+        };
     }
 
     /**
@@ -263,7 +254,7 @@ class PermissionService
                 'unique:permissions,key,' . $id
             ],
             'uri' => [
-//                'unique_with:permissions,method,' . $id,
+                'unique_with:permissions,method,' . $id,
                 'required',
                 'max:300',
                 'min:2'

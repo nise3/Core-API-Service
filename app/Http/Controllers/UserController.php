@@ -34,7 +34,8 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
@@ -54,7 +55,8 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function read(Request $request, int $id): JsonResponse
     {
@@ -302,7 +304,6 @@ class UserController extends Controller
     public function userOpenRegistration(Request $request): JsonResponse // When user open registration
     {
         $user = new User();
-        Log::info(request()->all());
         $validatedData = $this->userService->registerUserValidator($request)->validate();
         DB::beginTransaction();
         try {

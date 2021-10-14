@@ -9,7 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -231,7 +231,7 @@ class UserService
     }
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function getUserPermissionWithMenuItems(string $id): array
     {
@@ -328,7 +328,7 @@ class UserService
 
     /**
      * @param string|null $id
-     * @return array
+     * @return User
      */
     public function getAuthPermission(?string $id): User
     {
@@ -556,7 +556,7 @@ class UserService
 
     /**
      * @param Request $request
-     * @param int|null $id
+     * @param User $user
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public function profileUpdatedvalidator(Request $request, User $user): \Illuminate\Contracts\Validation\Validator
@@ -656,13 +656,13 @@ class UserService
 
     /**
      * @para m array $data
+     * @param array $data
      * @return PromiseInterface|\Illuminate\Http\Client\Response
      */
-    public function idpUserCreate(array $data)
+    public function idpUserCreate(array $data): PromiseInterface|\Illuminate\Http\Client\Response
     {
 
         $url = clientUrl(BaseModel::IDP_SERVER_CLIENT_URL_TYPE);
-        Log::info($data);
 
         $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
             ->withHeaders([

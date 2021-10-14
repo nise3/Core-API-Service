@@ -49,6 +49,7 @@ class MenuItemController extends Controller
     /**
      * @param int $id
      * @return Exception|JsonResponse|Throwable
+     * @throws Throwable
      */
     public function read(int $id): JsonResponse
     {
@@ -63,7 +64,8 @@ class MenuItemController extends Controller
 
     /**
      * @param Request $request
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -91,7 +93,8 @@ class MenuItemController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
@@ -118,7 +121,8 @@ class MenuItemController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function destroy(int $id): JsonResponse
     {

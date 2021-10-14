@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use App\Services\UserRolePermissionManagementServices\PermissionService;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -38,6 +38,7 @@ class PermissionController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
+        Log::info("Aaaaaa");
         try {
             $filter = $this->permissionService->filterValidator($request)->validate();
 
@@ -49,12 +50,11 @@ class PermissionController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param int $id
      * @return JsonResponse
      * @throws Throwable
      */
-    public function read(Request $request, int $id): JsonResponse
+    public function read(int $id): JsonResponse
     {
         try {
             $response = $this->permissionService->getOnePermission($id, $this->startTime);
@@ -70,8 +70,10 @@ class PermissionController extends Controller
      * @throws Throwable
      * @throws ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
+        Log::info("storeLog");
+
         $validated = $this->permissionService->validator($request)->validate();
         try {
             $permission = app(Permission::class);

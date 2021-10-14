@@ -4064,11 +4064,11 @@
             },
             "ErrorResponse": {
                 "type": "object",
-                "description": "Recent activities",
+                "description": "Error Response",
                 "properties": {
                     "_response_status": {
                         "type": "object",
-                        "description": "Recent activities",
+                        "description": "Error Response",
                         "properties": {
                             "success": {
                                 "type": "boolean",

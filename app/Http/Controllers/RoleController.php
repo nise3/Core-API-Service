@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\UserRolePermissionManagementServices\RoleService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
@@ -38,7 +39,8 @@ class RoleController extends Controller
 
     /**
      * @param Request $request
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function getList(Request $request): JsonResponse
@@ -58,7 +60,8 @@ class RoleController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function read(Request $request, int $id): JsonResponse
     {
@@ -74,8 +77,9 @@ class RoleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @param $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
      */
     public function store(Request $request): JsonResponse
     {
@@ -103,7 +107,8 @@ class RoleController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
@@ -130,7 +135,8 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function destroy($id): JsonResponse
     {
@@ -154,7 +160,8 @@ class RoleController extends Controller
     /**
      * @param Request $request
      * @param $id
-     * @return \Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
     public function assignPermissionToRole(Request $request, $id): JsonResponse

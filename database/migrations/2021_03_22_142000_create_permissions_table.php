@@ -24,7 +24,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedTinyInteger('row_status')->default(1);
             $table->timestamps();
 
-//            $table->unique(['uri', 'method'], 'perm_uri_method_unique');
+            $table->unique(['uri', 'method'], 'perm_uri_method_unique');
         });
     }
 
