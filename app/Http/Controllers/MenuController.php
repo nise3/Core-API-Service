@@ -120,7 +120,8 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function destroy(int $id): JsonResponse
     {

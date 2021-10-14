@@ -32,10 +32,11 @@ class MenuItemController extends Controller
 
     /**
      * @param Request $request
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
+     * @throws Throwable
      * @throws ValidationException
      */
-    public function getList(Request $request)
+    public function getList(Request $request): JsonResponse
     {
         $filter = $this->menuItemService->filterValidator($request)->validate();
         try {
@@ -48,7 +49,7 @@ class MenuItemController extends Controller
 
     /**
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
+     * @return JsonResponse
      * @throws Throwable
      */
     public function read(int $id): JsonResponse

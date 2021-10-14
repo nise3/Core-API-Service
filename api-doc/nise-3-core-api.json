@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Nise 3 Core Api Service",
-        "description": "API Description in Markdown.",
+        "title": "Core Api Service",
+        "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally",
         "version": "1.0.0",
         "license": {
             "name": "MIT"
@@ -35,11 +35,6 @@
                                     "service_version": "V1",
                                     "lumen_version": "Lumen (8.2.4) (Laravel Components ^8.0)",
                                     "modules": {
-                                        "LocationManagement": [
-                                            "LocDivision",
-                                            "LocDistrict",
-                                            "LocUpazila"
-                                        ],
                                         "UserRoleManagement": [
                                             "Permission",
                                             "Role",
@@ -2652,9 +2647,9 @@
     "components": {
         "securitySchemes": {
             "bearerAuth": {
-                "type": "apiKey",
-                "name": "Token",
-                "in": "header"
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         },
         "parameters": {
@@ -3358,212 +3353,6 @@
             }
         },
         "schemas": {
-            "division": {
-                "type": "object",
-                "description": "Provide the Loc Division",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Primary Key",
-                        "readOnly": true
-                    },
-                    "title_en": {
-                        "type": "string",
-                        "description": "Division Title In English",
-                        "minLength": 1,
-                        "maxLength": 255
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "Division Title In Bengali",
-                        "minLength": 1,
-                        "maxLength": 500
-                    },
-                    "bbs_code": {
-                        "type": "string",
-                        "description": "Division BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "row_status": {
-                        "type": "integer",
-                        "description": "Division activation status",
-                        "enum": [
-                            1,
-                            0
-                        ],
-                        "example": 1
-                    },
-                    "create_by": {
-                        "type": "integer",
-                        "description": "Division creater id"
-                    },
-                    "updated_by": {
-                        "type": "integer",
-                        "description": "Division modifier id"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "title_en",
-                    "title"
-                ]
-            },
-            "district": {
-                "type": "object",
-                "description": "Provide the Loc District",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Primary Key",
-                        "readOnly": true
-                    },
-                    "loc_division_id": {
-                        "type": "integer",
-                        "description": "Division Id"
-                    },
-                    "title_en": {
-                        "type": "string",
-                        "description": "District Title In English",
-                        "minLength": 1,
-                        "maxLength": 255
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "District Title In Bengali",
-                        "minLength": 1,
-                        "maxLength": 500
-                    },
-                    "bbs_code": {
-                        "type": "string",
-                        "description": "District BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "division_bbs_code": {
-                        "type": "string",
-                        "description": "Division BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "row_status": {
-                        "type": "integer",
-                        "description": "District activation status",
-                        "enum": [
-                            1,
-                            0
-                        ],
-                        "example": 1
-                    },
-                    "create_by": {
-                        "type": "integer",
-                        "description": "District creater id"
-                    },
-                    "updated_by": {
-                        "type": "integer",
-                        "description": "District modifier id"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "loc_division_id",
-                    "title_en",
-                    "title"
-                ]
-            },
-            "upazila": {
-                "type": "object",
-                "description": "Provide the Loc Upazila Data",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Primary Key",
-                        "readOnly": true
-                    },
-                    "loc_division_id": {
-                        "type": "integer",
-                        "description": "Division Id"
-                    },
-                    "loc_district_id": {
-                        "type": "integer",
-                        "description": "Division Id"
-                    },
-                    "title_en": {
-                        "type": "string",
-                        "description": "District Title In English",
-                        "minLength": 1,
-                        "maxLength": 255
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "District Title In Bengali",
-                        "minLength": 1,
-                        "maxLength": 500
-                    },
-                    "bbs_code": {
-                        "type": "string",
-                        "description": "District BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "division_bbs_code": {
-                        "type": "string",
-                        "description": "Division BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "district_bbs_code": {
-                        "type": "string",
-                        "description": "Division BBS code",
-                        "minLength": 1,
-                        "maxLength": 4
-                    },
-                    "row_status": {
-                        "type": "integer",
-                        "description": "District activation status",
-                        "enum": [
-                            1,
-                            0
-                        ],
-                        "example": 1
-                    },
-                    "create_by": {
-                        "type": "integer",
-                        "description": "District creater id"
-                    },
-                    "updated_by": {
-                        "type": "integer",
-                        "description": "District modifier id"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "loc_division_id",
-                    "title_en",
-                    "title"
-                ]
-            },
             "permission": {
                 "type": "object",
                 "description": "Provide Permission Data",
@@ -3572,9 +3361,13 @@
                         "type": "integer",
                         "readOnly": true
                     },
-                    "name": {
+                    "title_en": {
                         "type": "integer",
-                        "description": "Permission Title"
+                        "description": "Permission Title in required"
+                    },
+                    "title": {
+                        "type": "integer",
+                        "description": "Permission Title in Native"
                     },
                     "uri": {
                         "type": "string",
@@ -3607,11 +3400,13 @@
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "readOnly": true
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "readOnly": true
                     }
                 },
                 "required": [

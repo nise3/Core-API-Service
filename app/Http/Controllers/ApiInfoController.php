@@ -19,11 +19,6 @@ class ApiInfoController extends Controller
             'service_version' => self::SERVICE_VERSION,
             'lumen_version' => App::version(),
             'modules' => [
-                'LocationManagement' => [
-                    'LocDivision',
-                    'LocDistrict',
-                    'LocUpazila'
-                ],
                 'UserRoleManagement' => [
                     'Permission',
                     'Role',
