@@ -55,6 +55,8 @@ class UserService
             'roles.title_en as role_title_en',
             'roles.title as role_title',
             "users.email",
+            "users.country",
+            "users.phone_code",
             "users.mobile",
             "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
@@ -65,9 +67,11 @@ class UserService
             "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title as loc_upazila_title',
+            "users.verification_code",
             "users.verification_code_verified_at",
             "users.verification_code_sent_at",
             "users.password",
+            "users.profile_pic",
             "users.row_status",
             "users.created_by",
             "users.updated_by",
@@ -172,12 +176,14 @@ class UserService
             "users.name",
             "users.user_type",
             "users.username",
-            "users.organization_id",
             "users.institute_id",
+            "users.organization_id",
             "users.role_id",
             'roles.title_en as role_title_en',
             'roles.title as role_title',
             "users.email",
+            "users.country",
+            "users.phone_code",
             "users.mobile",
             "users.loc_division_id",
             'loc_divisions.title_en as loc_divisions_title_en',
@@ -188,9 +194,11 @@ class UserService
             "users.loc_upazila_id",
             'loc_upazilas.title_en as loc_upazila_title_en',
             'loc_upazilas.title as loc_upazila_title',
+            "users.verification_code",
             "users.verification_code_verified_at",
             "users.verification_code_sent_at",
             "users.password",
+            "users.profile_pic",
             "users.row_status",
             "users.created_by",
             "users.updated_by",
@@ -422,7 +430,7 @@ class UserService
     public function update(array $data, User $user): User
     {
         $user->fill($data);
-        $user->save($data);
+        $user->save();
         return $user;
     }
 
@@ -526,6 +534,8 @@ class UserService
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'required|string|min:3',
             "name" => 'required|string|min:3',
+            "country" => 'nullable|string|min:3',
+            "phone_code"=>"nullable|string",
             "email" => 'required|email',
             "mobile" => [
                 "nullable",
@@ -535,6 +545,7 @@ class UserService
             "loc_division_id" => 'nullable|gt:0|exists:loc_districts,id',
             "loc_district_id" => 'nullable|gt:0|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|gt:0|exists:loc_upazilas,id',
+            "verification_code"=>'nullable|string',
             "verification_code_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => [

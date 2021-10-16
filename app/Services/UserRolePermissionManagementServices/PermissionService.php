@@ -11,7 +11,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
@@ -150,7 +149,7 @@ class PermissionService
     public function update(array $data, Permission $permission): Permission
     {
         $permission->fill($data);
-        $permission->save($data);
+        $permission->save();
         return $permission;
     }
 
@@ -169,14 +168,25 @@ class PermissionService
      */
     private function getMethodName($item): string
     {
-        return match ($item) {
-            1 => "GET",
-            2 => "POST",
-            3 => "PUT",
-            4 => "PATCH",
-            5 => "DELETE",
-            default => "",
-        };
+        $methodName = "";
+        switch ($item) {
+            case 1:
+                $methodName = "GET";
+                break;
+            case 2:
+                $methodName = "POST";
+                break;
+            case 3:
+                $methodName = "PUT";
+                break;
+            case 4:
+                $methodName = "PATCH";
+                break;
+            case 5:
+                $methodName = "DELETE";
+                break;
+        }
+        return $methodName;
     }
 
     /**
@@ -304,8 +314,8 @@ class PermissionService
         return Validator::make($request->all(), [
             'page' => 'int|gt:0',
             'page_size' => 'int|gt:0',
-            'key' => 'max:191|min:2',
-            'uri' => 'max:300|min:2',
+            'key' => 'nullable|max:191|min:2',
+            'uri' => 'nullable|max:300|min:2',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

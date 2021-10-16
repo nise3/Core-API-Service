@@ -48,6 +48,7 @@ class RoleService
             'permission_sub_groups.title as permission_sub_group_title',
             'roles.row_status',
             'roles.created_at',
+            'roles.updated_at',
         ]);
         $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'roles.permission_group_id');
@@ -217,6 +218,7 @@ class RoleService
             'permission_group_id' => ['exists:permission_groups,id', 'nullable'],
             'permission_sub_group_id' => ['exists:permission_sub_groups,id', 'nullable'],
             'organization_id' => 'nullable|int|gt:0',
+            'organization_association_id' => 'nullable|int|gt:0',
             'institute_id' => 'nullable|int|gt:0',
             'key' => ['unique:roles,key,' . $id, 'required', 'min:2'],
             'row_status' => [

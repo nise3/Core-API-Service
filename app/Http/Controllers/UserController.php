@@ -45,7 +45,7 @@ class UserController extends Controller
 
         try {
             $response = $this->userService->getAllUsers($filter, $this->startTime);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw $e;
         }
         return Response::json($response);
@@ -63,7 +63,7 @@ class UserController extends Controller
     {
         try {
             $response = $this->userService->getOneUser($id, $this->startTime);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw $e;
         }
         return Response::json($response);
@@ -137,7 +137,7 @@ class UserController extends Controller
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
@@ -158,7 +158,7 @@ class UserController extends Controller
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
@@ -184,7 +184,7 @@ class UserController extends Controller
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);

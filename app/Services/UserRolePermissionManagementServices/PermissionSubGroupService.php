@@ -7,7 +7,7 @@ use App\Models\BaseModel;
 use App\Models\PermissionSubGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +34,7 @@ class PermissionSubGroupService
         $permissionGroupId = $request['permission_group_id'] ?? "";
 
 
-        /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
+        /** @var Builder $permissionSubGroupBuilder */
         $permissionSubGroupBuilder = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.title_en',
@@ -67,7 +67,7 @@ class PermissionSubGroupService
 
         $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);
 
-        /** @var Collection|PermissionSubGroup $permissionSubGroups */
+        /** @var Collection $permissionSubGroups */
         if (is_int($paginate) || is_int($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $permissionSubGroups = $permissionSubGroupBuilder->paginate($pageSize);
@@ -97,7 +97,7 @@ class PermissionSubGroupService
      */
     public function getOnePermissionSubGroup(int $id, Carbon $startTime): array
     {
-        /** @var PermissionSubGroup|Builder $permissionSubGroupBuilder */
+        /** @var Builder $permissionSubGroupBuilder */
         $permissionSubGroupBuilder = PermissionSubGroup::select([
             'permission_sub_groups.id',
             'permission_sub_groups.title_en',
@@ -189,10 +189,20 @@ class PermissionSubGroupService
             ]
         ];
         $rules = [
-            'permission_group_id' => ['required', 'exists:permission_groups,id', 'int'],
+            'permission_group_id' => [
+                'required',
+                'exists:permission_groups,id',
+                'int'
+            ],
             'title_en' => 'required|string|max:191||min:2',
             'title' => 'required|string|max:300|min:2',
-            "key" => ['unique:permission_sub_groups,key,' . $id, 'required' . 'string', 'max:191', 'min:2'],
+            "key" => [
+                'unique:permission_sub_groups,key,' . $id,
+                'required',
+                'string',
+                'max:191',
+                'min:2'
+            ],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
@@ -235,7 +245,7 @@ class PermissionSubGroupService
             'page_size' => 'int|gt:0',
             'title_en' => 'nullable|max:191|min:2',
             'title' => 'nullable|max:300|min:2',
-            'permission_group_id' => 'nullable|int|exists:permission_groups,id',
+            'permission_group_id' => 'nullable|exists:permission_groups,id|int',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])

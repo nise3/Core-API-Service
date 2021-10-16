@@ -88,20 +88,33 @@
                                     "$ref": "#/components/schemas/permission"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 4,
-                                    "page_size": "10",
-                                    "total": 40,
                                     "order": "ASC",
-                                    "uri": "api/v1/divisions/1",
                                     "data": [
                                         {
-                                            "id": 2,
-                                            "name": "divisions-read",
-                                            "uri": "api/v1/divisions/{id}",
+                                            "id": 1,
+                                            "title_en": "View any division",
+                                            "title": "View any division",
+                                            "module": "division",
+                                            "key": "view_any_division",
+                                            "uri": "api/v1/division",
+                                            "method": 1,
                                             "row_status": 1,
-                                            "created_at": "2021-08-11T12:23:12.000000Z",
-                                            "updated_at": "2021-08-11T12:23:12.000000Z"
+                                            "created_at": "2021-10-16T13:14:06.000000Z",
+                                            "updated_at": "2021-10-16T13:14:06.000000Z",
+                                            "method_name": "GET"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "title_en": "View single division",
+                                            "title": "View single division",
+                                            "module": "division",
+                                            "key": "view_single_division",
+                                            "uri": "api/v1/division/{id}",
+                                            "method": 1,
+                                            "row_status": 1,
+                                            "created_at": "2021-10-16T13:14:07.000000Z",
+                                            "updated_at": "2021-10-16T13:14:07.000000Z",
+                                            "method_name": "GET"
                                         }
                                     ],
                                     "_response_status": {
@@ -133,7 +146,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "success",
                         "content": {
                             "application/json": {
@@ -142,13 +155,16 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "name": "Demo Name",
-                                        "method": "1",
-                                        "module": "roles",
-                                        "uri": "api/v1/roles",
-                                        "updated_at": "2021-08-22T10:01:18.000000Z",
-                                        "created_at": "2021-08-22T10:01:18.000000Z",
-                                        "id": 42
+                                        "id": 1,
+                                        "title_en": "View any division",
+                                        "title": "View any division",
+                                        "module": "division",
+                                        "key": "view_any_division",
+                                        "uri": "api/v1/division",
+                                        "method": 1,
+                                        "row_status": 1,
+                                        "created_at": "2021-10-14T06:36:23.000000Z",
+                                        "updated_at": "2021-10-14T06:36:23.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -251,13 +267,15 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
-                                        "module": "divisions",
-                                        "name": "Demo Named",
-                                        "uri": "api/v1/demod",
-                                        "method": "1",
+                                        "title_en": "View any division",
+                                        "title": "View any division",
+                                        "module": "division",
+                                        "key": "view_any_division",
+                                        "uri": "api/v1/division",
+                                        "method": 1,
                                         "row_status": 1,
-                                        "created_at": "2021-08-11T12:23:12.000000Z",
-                                        "updated_at": "2021-08-22T10:03:38.000000Z"
+                                        "created_at": "2021-10-14T06:36:23.000000Z",
+                                        "updated_at": "2021-10-14T06:36:23.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -438,12 +456,7 @@
                                     "$ref": "#/components/schemas/role"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 1,
-                                    "page_size": "10",
-                                    "total": 5,
-                                    "order": "asc",
-                                    "row_status": "1",
+                                    "order": "ASC",
                                     "data": [
                                         {
                                             "id": 1,
@@ -451,14 +464,33 @@
                                             "title_en": "Super Admin",
                                             "key": "super_admin",
                                             "description": null,
-                                            "permission_group_id": null,
                                             "organization_id": null,
                                             "institute_id": null,
+                                            "permission_group_id": null,
                                             "permission_group_title_en": null,
                                             "permission_group_title": null,
+                                            "permission_sub_group_id": null,
+                                            "permission_sub_group_title_en": null,
+                                            "permission_sub_group_title": null,
                                             "row_status": 1,
-                                            "created_at": null,
-                                            "updated_at": null
+                                            "created_at": null
+                                        },
+                                        {
+                                            "id": 2,
+                                            "title": "সিস্টেম এডমিন",
+                                            "title_en": "System Admin",
+                                            "key": "system_admin",
+                                            "description": null,
+                                            "organization_id": null,
+                                            "institute_id": null,
+                                            "permission_group_id": null,
+                                            "permission_group_title_en": null,
+                                            "permission_group_title": null,
+                                            "permission_sub_group_id": null,
+                                            "permission_sub_group_title_en": null,
+                                            "permission_sub_group_title": null,
+                                            "row_status": 1,
+                                            "created_at": null
                                         }
                                     ],
                                     "_response_status": {
@@ -480,32 +512,15 @@
             },
             "post": {
                 "summary": "store",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/key"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/description"
-                    },
-                    {
-                        "$ref": "#/components/parameters/permission_group_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/permission_sub_group_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/role"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -516,13 +531,21 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "title_en": "Test Title (EN)",
-                                        "title": "Test Title (Native)",
-                                        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                                        "key": "demo_key",
-                                        "updated_at": "2021-08-23T04:17:31.000000Z",
-                                        "created_at": "2021-08-23T04:17:31.000000Z",
-                                        "id": 6
+                                        "id": 1,
+                                        "title": "সুপার এডমিন",
+                                        "title_en": "Super Admin",
+                                        "key": "super_admin",
+                                        "description": null,
+                                        "organization_id": null,
+                                        "institute_id": null,
+                                        "permission_group_id": null,
+                                        "permission_group_title_en": null,
+                                        "permission_group_title": null,
+                                        "permission_sub_group_id": null,
+                                        "permission_sub_group_title_en": null,
+                                        "permission_sub_group_title": null,
+                                        "row_status": 1,
+                                        "created_at": null
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -631,38 +654,20 @@
                             "type": "integer",
                             "example": 1
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/key"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/description"
-                    },
-                    {
-                        "$ref": "#/components/parameters/permission_group_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/permission_sub_group_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/role"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Get one Division",
+                        "description": "successful",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -671,17 +676,20 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
+                                        "title": "সুপার এডমিন",
+                                        "title_en": "Super Admin",
                                         "key": "super_admin",
-                                        "title_en": "Test Title (EN)",
-                                        "title": "Test Title (Native)",
-                                        "permission_group_id": null,
+                                        "description": null,
                                         "organization_id": null,
                                         "institute_id": null,
-                                        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                                        "permission_group_id": null,
+                                        "permission_group_title_en": null,
+                                        "permission_group_title": null,
+                                        "permission_sub_group_id": null,
+                                        "permission_sub_group_title_en": null,
+                                        "permission_sub_group_title": null,
                                         "row_status": 1,
-                                        "created_at": null,
-                                        "updated_at": "2021-08-23T04:26:16.000000Z",
-                                        "deleted_at": null
+                                        "created_at": null
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -840,44 +848,40 @@
                                     "$ref": "#/components/schemas/user"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 2,
-                                    "page_size": "10",
-                                    "total": 15,
-                                    "row_status": 1,
                                     "order": "ASC",
                                     "data": [
                                         {
                                             "id": 1,
-                                            "user_type": 0,
-                                            "username": "gkerluke",
-                                            "organization_id": null,
+                                            "idp_user_id": "ce5c437f-d80d-4455-9037-6c84d8aab784",
+                                            "name_en": "Super Admin",
+                                            "name": "Super Admin",
+                                            "user_type": 1,
+                                            "username": "super_admin",
                                             "institute_id": null,
+                                            "organization_id": null,
                                             "role_id": 1,
-                                            "name_en": "Dr. Quincy Schinner IV",
-                                            "name": "Selina Blanda",
-                                            "email": "freeman.bartell@example.org",
+                                            "role_title_en": "Super Admin",
+                                            "role_title": "সুপার এডমিন",
+                                            "email": "super@gmail.com",
+                                            "country": "BD",
+                                            "phone_code": "880",
                                             "mobile": null,
                                             "loc_division_id": null,
+                                            "loc_divisions_title_en": null,
+                                            "loc_divisions_title": null,
                                             "loc_district_id": null,
+                                            "loc_district_title_en": null,
+                                            "loc_district_title": null,
                                             "loc_upazila_id": null,
-                                            "verification_code_sent_at": "2021-08-11T12:23:12.000000Z",
-                                            "verification_code_verified_at": null,
-                                            "profile_pic": null,
+                                            "loc_upazila_title_en": null,
+                                            "loc_upazila_title": null,
+                                            "verification_code_verified_at": "2021-10-16T13:15:06.000000Z",
+                                            "verification_code_sent_at": "2021-10-15T00:00:00.000000Z",
                                             "row_status": 1,
                                             "created_by": null,
                                             "updated_by": null,
-                                            "created_at": "2021-08-11T12:23:13.000000Z",
-                                            "updated_at": "2021-08-11T12:23:13.000000Z",
-                                            "deleted_at": null,
-                                            "role_title_en": "Test Title (EN)",
-                                            "role_title": "Test Title (Native)",
-                                            "loc_divisions_title_en": null,
-                                            "loc_divisions_title": null,
-                                            "loc_district_title_en": null,
-                                            "loc_district_title": null,
-                                            "loc_upazila_title_en": null,
-                                            "loc_upazila_title": null
+                                            "created_at": "2021-10-16T13:15:07.000000Z",
+                                            "updated_at": "2021-10-16T13:15:07.000000Z"
                                         }
                                     ],
                                     "_response_status": {
@@ -899,47 +903,15 @@
             },
             "post": {
                 "summary": "store",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/user_type"
-                    },
-                    {
-                        "$ref": "#/components/parameters/username"
-                    },
-                    {
-                        "$ref": "#/components/parameters/name_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/name"
-                    },
-                    {
-                        "$ref": "#/components/parameters/email"
-                    },
-                    {
-                        "$ref": "#/components/parameters/mobile"
-                    },
-                    {
-                        "$ref": "#/components/parameters/role_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/loc_division_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/loc_district_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/loc_upazila_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/password"
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/user"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -949,28 +921,46 @@
                                     "$ref": "#/components/schemas/user"
                                 },
                                 "example": {
+                                    "order": "ASC",
                                     "data": {
-                                        "user_type": "1",
-                                        "username": "ডেমো নাম",
-                                        "organization_id": "1",
-                                        "institute_id": "1",
-                                        "role_id": "1",
-                                        "name_en": "Demo Name En",
-                                        "name": "ডেমো নাম",
-                                        "email": "user1@gmail.com",
-                                        "mobile": "0176667711",
-                                        "loc_division_id": "1",
-                                        "loc_district_id": "1",
-                                        "loc_upazila_id": "1",
-                                        "updated_at": "2021-08-23T07:16:51.000000Z",
-                                        "created_at": "2021-08-23T07:16:51.000000Z",
-                                        "id": 16
+                                        "id": 1,
+                                        "idp_user_id": "ce5c437f-d80d-4455-9037-6c84d8aab784",
+                                        "name_en": "Super Admin",
+                                        "name": "Super Admin",
+                                        "user_type": 1,
+                                        "username": "super_admin",
+                                        "institute_id": null,
+                                        "organization_id": null,
+                                        "role_id": 1,
+                                        "role_title_en": "Super Admin",
+                                        "role_title": "সুপার এডমিন",
+                                        "email": "super@gmail.com",
+                                        "country": "BD",
+                                        "phone_code": "880",
+                                        "mobile": null,
+                                        "loc_division_id": null,
+                                        "loc_divisions_title_en": null,
+                                        "loc_divisions_title": null,
+                                        "loc_district_id": null,
+                                        "loc_district_title_en": null,
+                                        "loc_district_title": null,
+                                        "loc_upazila_id": null,
+                                        "loc_upazila_title_en": null,
+                                        "loc_upazila_title": null,
+                                        "verification_code": "1234",
+                                        "verification_code_verified_at": "2021-10-16T13:15:06.000000Z",
+                                        "verification_code_sent_at": "2021-10-15T00:00:00.000000Z",
+                                        "row_status": 1,
+                                        "created_by": null,
+                                        "updated_by": null,
+                                        "created_at": "2021-10-16T13:15:07.000000Z",
+                                        "updated_at": "2021-10-16T13:15:07.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
-                                        "code": 201,
-                                        "message": "User added successfully",
-                                        "query_time": 0
+                                        "code": 200,
+                                        "message": "user added successfully",
+                                        "query_time": "1 second before"
                                     }
                                 }
                             }
@@ -1007,35 +997,37 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
-                                        "user_type": 0,
-                                        "username": "gkerluke",
-                                        "organization_id": null,
+                                        "idp_user_id": "ce5c437f-d80d-4455-9037-6c84d8aab784",
+                                        "name_en": "Super Admin",
+                                        "name": "Super Admin",
+                                        "user_type": 1,
+                                        "username": "super_admin",
                                         "institute_id": null,
+                                        "organization_id": null,
                                         "role_id": 1,
-                                        "name_en": "Dr. Quincy Schinner IV",
-                                        "name": "Selina Blanda",
-                                        "email": "freeman.bartell@example.org",
+                                        "role_title_en": "Super Admin",
+                                        "role_title": "সুপার এডমিন",
+                                        "email": "super@gmail.com",
+                                        "country": "BD",
+                                        "phone_code": "880",
                                         "mobile": null,
                                         "loc_division_id": null,
+                                        "loc_divisions_title_en": null,
+                                        "loc_divisions_title": null,
                                         "loc_district_id": null,
+                                        "loc_district_title_en": null,
+                                        "loc_district_title": null,
                                         "loc_upazila_id": null,
-                                        "verification_code_sent_at": "2021-08-11T12:23:12.000000Z",
-                                        "verification_code_verified_at": null,
-                                        "profile_pic": null,
+                                        "loc_upazila_title_en": null,
+                                        "loc_upazila_title": null,
+                                        "verification_code": "1234",
+                                        "verification_code_verified_at": "2021-10-16T13:15:06.000000Z",
+                                        "verification_code_sent_at": "2021-10-15T00:00:00.000000Z",
                                         "row_status": 1,
                                         "created_by": null,
                                         "updated_by": null,
-                                        "created_at": "2021-08-11T12:23:13.000000Z",
-                                        "updated_at": "2021-08-11T12:23:13.000000Z",
-                                        "deleted_at": null,
-                                        "role_title_en": "Test Title (EN)",
-                                        "role_title": "Test Title (Native)",
-                                        "loc_divisions_title_en": null,
-                                        "loc_divisions_title": null,
-                                        "loc_district_title_en": null,
-                                        "loc_district_title": null,
-                                        "loc_upazila_title_en": null,
-                                        "loc_upazila_title": null
+                                        "created_at": "2021-10-16T13:15:07.000000Z",
+                                        "updated_at": "2021-10-16T13:15:07.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -1065,62 +1057,11 @@
                             "type": "integer",
                             "example": 1
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/user_type"
-                    },
-                    {
-                        "$ref": "#/components/parameters/username"
-                    },
-                    {
-                        "$ref": "#/components/parameters/name_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/name"
-                    },
-                    {
-                        "$ref": "#/components/parameters/email"
-                    },
-                    {
-                        "$ref": "#/components/parameters/mobile"
-                    },
-                    {
-                        "$ref": "#/components/parameters/role_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/organization_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/institute_id_optional"
-                    },
-                    {
-                        "$ref": "#/components/parameters/loc_division_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/loc_district_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/loc_upazila_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/password"
-                    },
-                    {
-                        "$ref": "#/components/parameters/verification_code_sent_at"
-                    },
-                    {
-                        "$ref": "#/components/parameters/verification_code_verified_at"
-                    },
-                    {
-                        "$ref": "#/components/parameters/remember_token"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Get one User",
+                        "description": "successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1128,28 +1069,38 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "id": 16,
-                                        "user_type": "1",
-                                        "username": "ডেমো নাম",
-                                        "organization_id": "1",
-                                        "institute_id": "1",
-                                        "role_id": "1",
-                                        "name_en": "Demo Name En",
-                                        "name": "ডেমো নাম",
-                                        "email": "user1@gmail.com",
-                                        "mobile": "11111",
-                                        "loc_division_id": "1",
-                                        "loc_district_id": "1",
-                                        "loc_upazila_id": "1",
-                                        "verification_code_sent_at": null,
-                                        "verification_code_verified_at": null,
-                                        "profile_pic": null,
-                                        "row_status": "1",
+                                        "id": 1,
+                                        "idp_user_id": "ce5c437f-d80d-4455-9037-6c84d8aab784",
+                                        "name_en": "Super Admin",
+                                        "name": "Super Admin",
+                                        "user_type": 1,
+                                        "username": "super_admin",
+                                        "institute_id": null,
+                                        "organization_id": null,
+                                        "role_id": 1,
+                                        "role_title_en": "Super Admin",
+                                        "role_title": "সুপার এডমিন",
+                                        "email": "super@gmail.com",
+                                        "country": "BD",
+                                        "phone_code": "880",
+                                        "mobile": null,
+                                        "loc_division_id": null,
+                                        "loc_divisions_title_en": null,
+                                        "loc_divisions_title": null,
+                                        "loc_district_id": null,
+                                        "loc_district_title_en": null,
+                                        "loc_district_title": null,
+                                        "loc_upazila_id": null,
+                                        "loc_upazila_title_en": null,
+                                        "loc_upazila_title": null,
+                                        "verification_code": "1234",
+                                        "verification_code_verified_at": "2021-10-16T13:15:06.000000Z",
+                                        "verification_code_sent_at": "2021-10-15T00:00:00.000000Z",
+                                        "row_status": 1,
                                         "created_by": null,
                                         "updated_by": null,
-                                        "created_at": "2021-08-23T07:16:51.000000Z",
-                                        "updated_at": "2021-08-23T07:40:28.000000Z",
-                                        "deleted_at": null
+                                        "created_at": "2021-10-16T13:15:07.000000Z",
+                                        "updated_at": "2021-10-16T13:15:07.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -1238,26 +1189,30 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
-                                        "user_type": 0,
-                                        "username": "gkerluke",
+                                        "idp_user_id": "ce5c437f-d80d-4455-9037-6c84d8aab784",
+                                        "user_type": 1,
+                                        "username": "super_admin",
                                         "organization_id": null,
                                         "institute_id": null,
                                         "role_id": 1,
-                                        "name_en": "Dr. Quincy Schinner IV",
-                                        "name": "Selina Blanda",
-                                        "email": "freeman.bartell@example.org",
+                                        "name_en": "Super Admin",
+                                        "name": "Super Admin",
+                                        "email": "super@gmail.com",
+                                        "country": "BD",
+                                        "phone_code": "880",
                                         "mobile": null,
                                         "loc_division_id": null,
                                         "loc_district_id": null,
                                         "loc_upazila_id": null,
-                                        "verification_code_sent_at": "2021-08-11T12:23:12.000000Z",
-                                        "verification_code_verified_at": null,
+                                        "verification_code": "1234",
+                                        "verification_code_sent_at": "2021-10-15T00:00:00.000000Z",
+                                        "verification_code_verified_at": "2021-10-16T13:15:06.000000Z",
                                         "profile_pic": null,
                                         "row_status": 1,
                                         "created_by": null,
                                         "updated_by": null,
-                                        "created_at": "2021-08-11T12:23:13.000000Z",
-                                        "updated_at": "2021-08-11T12:23:13.000000Z",
+                                        "created_at": "2021-10-16T13:15:07.000000Z",
+                                        "updated_at": "2021-10-16T13:15:07.000000Z",
                                         "deleted_at": null
                                     },
                                     "_response_status": {
@@ -1304,32 +1259,36 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
-                                        "user_type": 0,
-                                        "username": "gkerluke",
+                                        "idp_user_id": "ce5c437f-d80d-4455-9037-6c84d8aab784",
+                                        "user_type": 1,
+                                        "username": "super_admin",
                                         "organization_id": null,
                                         "institute_id": null,
                                         "role_id": 1,
-                                        "name_en": "Dr. Quincy Schinner IV",
-                                        "name": "Selina Blanda",
-                                        "email": "freeman.bartell@example.org",
+                                        "name_en": "Super Admin",
+                                        "name": "Super Admin",
+                                        "email": "super@gmail.com",
+                                        "country": "BD",
+                                        "phone_code": "880",
                                         "mobile": null,
                                         "loc_division_id": null,
                                         "loc_district_id": null,
                                         "loc_upazila_id": null,
-                                        "verification_code_sent_at": "2021-08-11T12:23:12.000000Z",
-                                        "verification_code_verified_at": null,
+                                        "verification_code": "1234",
+                                        "verification_code_sent_at": "2021-10-15T00:00:00.000000Z",
+                                        "verification_code_verified_at": "2021-10-16T13:15:06.000000Z",
                                         "profile_pic": null,
                                         "row_status": 1,
                                         "created_by": null,
                                         "updated_by": null,
-                                        "created_at": "2021-08-11T12:23:13.000000Z",
-                                        "updated_at": "2021-08-11T12:23:13.000000Z",
+                                        "created_at": "2021-10-16T13:15:07.000000Z",
+                                        "updated_at": "2021-10-16T13:15:07.000000Z",
                                         "deleted_at": null
                                     },
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
-                                        "message": "Permission assigned into User successfully",
+                                        "message": "Permissions assigned into User successfully.",
                                         "query_time": 0
                                     }
                                 }
@@ -1445,23 +1404,13 @@
                             "type": "string",
                             "format": "password"
                         }
+                    },
+                    {
+                        "name": "profile_pic",
+                        "in": "query",
+                        "required": false
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "profile_pic": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -1513,21 +1462,34 @@
                                     "$ref": "#/components/schemas/permissionGroup"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 1,
-                                    "page_size": "10",
-                                    "total": 7,
                                     "order": "ASC",
-                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 1,
-                                            "title_en": "Professor En",
-                                            "title": "Professor Bn",
-                                            "key": "professor",
+                                            "title_en": "System",
+                                            "title": "System",
+                                            "key": "system",
                                             "row_status": 1,
-                                            "created_at": "2021-08-11T12:23:12.000000Z",
-                                            "updated_at": "2021-08-11T12:23:12.000000Z"
+                                            "created_at": "2021-10-16T13:14:34.000000Z",
+                                            "updated_at": "2021-10-16T13:14:34.000000Z"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "title_en": "Institute",
+                                            "title": "Institute",
+                                            "key": "institute",
+                                            "row_status": 1,
+                                            "created_at": "2021-10-16T13:14:43.000000Z",
+                                            "updated_at": "2021-10-16T13:14:43.000000Z"
+                                        },
+                                        {
+                                            "id": 4,
+                                            "title_en": "aaaaaa",
+                                            "title": "aaaaaaaaaaaa",
+                                            "key": "aaaaaaaaaaaaa",
+                                            "row_status": 1,
+                                            "created_at": "2021-10-16T14:09:26.000000Z",
+                                            "updated_at": "2021-10-16T14:09:26.000000Z"
                                         }
                                     ],
                                     "_response_status": {
@@ -1549,19 +1511,17 @@
             },
             "post": {
                 "summary": "store",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/key"
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissionGroup"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "success",
                         "content": {
                             "application/json": {
@@ -1570,18 +1530,19 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "title_en": "Test Title (EN)",
-                                        "title": "Test Title (Native)",
-                                        "key": "demo_key",
-                                        "updated_at": "2021-08-23T08:12:53.000000Z",
-                                        "created_at": "2021-08-23T08:12:53.000000Z",
-                                        "id": 8
+                                        "id": 1,
+                                        "title_en": "System",
+                                        "title": "System",
+                                        "key": "system",
+                                        "row_status": 1,
+                                        "created_at": "2021-10-16T13:14:34.000000Z",
+                                        "updated_at": "2021-10-16T13:14:34.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
                                         "code": 201,
                                         "message": "PermissionGroup added successfully.",
-                                        "query_time": 0
+                                        "query_time": "1 second before"
                                     }
                                 }
                             }
@@ -1633,7 +1594,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Get one Division",
+                        "description": "successful",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1642,12 +1603,35 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
-                                        "title_en": "Professor En",
-                                        "title": "Professor Bn",
-                                        "key": "professor",
+                                        "title_en": "System",
+                                        "title": "System",
+                                        "key": "system",
                                         "row_status": 1,
-                                        "created_at": "2021-08-11T12:23:12.000000Z",
-                                        "updated_at": "2021-08-11T12:23:12.000000Z"
+                                        "created_at": "2021-10-16T13:14:34.000000Z",
+                                        "updated_at": "2021-10-16T13:14:34.000000Z",
+                                        "permission_sub_group": [
+                                            {
+                                                "id": 1,
+                                                "permission_group_id": 1,
+                                                "title_en": "Substance Abuse Social Worker En",
+                                                "title": "Substance Abuse Social Worker Bn",
+                                                "key": "substance_abuse_social_worker",
+                                                "row_status": 1,
+                                                "created_at": "2021-10-16T13:14:34.000000Z",
+                                                "updated_at": "2021-10-16T13:14:34.000000Z"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "permission_group_id": 1,
+                                                "title_en": "Office Machine And Cash Register Servicer En",
+                                                "title": "Office Machine And Cash Register Servicer Bn",
+                                                "key": "office_machine_and_cash_register_servicer",
+                                                "row_status": 1,
+                                                "created_at": "2021-10-16T13:14:34.000000Z",
+                                                "updated_at": "2021-10-16T13:14:34.000000Z"
+                                            }
+                                        ],
+                                        "permissions": []
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -1677,20 +1661,17 @@
                             "type": "integer",
                             "example": 1
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/key"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissionGroup"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -1701,19 +1682,19 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "id": 8,
-                                        "title_en": "Test Title (EN)",
-                                        "title": "Test Title (Native)",
-                                        "key": "demo_key",
-                                        "row_status": "1",
-                                        "created_at": "2021-08-23T08:12:53.000000Z",
-                                        "updated_at": "2021-08-23T08:12:53.000000Z"
+                                        "id": 1,
+                                        "title_en": "System",
+                                        "title": "System",
+                                        "key": "system",
+                                        "row_status": 1,
+                                        "created_at": "2021-10-16T13:14:34.000000Z",
+                                        "updated_at": "2021-10-16T13:14:34.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
-                                        "code": 200,
+                                        "code": 201,
                                         "message": "PermissionGroup updated successfully.",
-                                        "query_time": 0
+                                        "query_time": "1 second before"
                                     }
                                 }
                             }
@@ -1791,6 +1772,20 @@
                                     "$ref": "#/components/schemas/permissionGroupPermissions"
                                 },
                                 "example": {
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "title_en": "View any division",
+                                            "title": "View any division",
+                                            "module": "division",
+                                            "key": "view_any_division",
+                                            "uri": "api/v1/division",
+                                            "method": 1,
+                                            "row_status": 1,
+                                            "created_at": "2021-10-16T13:14:06.000000Z",
+                                            "updated_at": "2021-10-16T13:14:06.000000Z"
+                                        }
+                                    ],
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
@@ -1840,12 +1835,7 @@
                                     "$ref": "#/components/schemas/permissionSubGroupPermissions"
                                 },
                                 "example": {
-                                    "current_page": 1,
-                                    "total_page": 2,
-                                    "page_size": "10",
-                                    "total": 15,
                                     "order": "ASC",
-                                    "row_status": "1",
                                     "data": [
                                         {
                                             "id": 7,
@@ -1878,21 +1868,16 @@
                 ]
             },
             "post": {
-                "summary": "store",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/permission_group_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/key"
+                "summary": "successful",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissionSubGroup"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -1903,19 +1888,23 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "permission_group_id": "3",
-                                        "title_en": "Test Title (EN)",
-                                        "title": "Test Title (Native)",
-                                        "key": "demo_key",
-                                        "updated_at": "2021-08-23T08:56:41.000000Z",
-                                        "created_at": "2021-08-23T08:56:41.000000Z",
-                                        "id": 22
+                                        "id": 1,
+                                        "title_en": "Substance Abuse Social Worker En",
+                                        "title": "Substance Abuse Social Worker Bn",
+                                        "key": "substance_abuse_social_worker",
+                                        "permission_group_id": 1,
+                                        "permission_group_title_en": "System",
+                                        "permission_group_title": "System",
+                                        "row_status": 1,
+                                        "created_at": "2021-10-16T13:14:34.000000Z",
+                                        "updated_at": "2021-10-16T13:14:34.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
-                                        "code": 201,
-                                        "message": "Permission Sub Group added successfully",
-                                        "query_time": 0
+                                        "code": 200,
+                                        "message": "permissionSubGroup added successfully",
+                                        "started": "17 34 28",
+                                        "finished": "17 34 28"
                                     }
                                 }
                             }
@@ -1951,22 +1940,23 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "id": 7,
-                                        "permission_group_id": 3,
-                                        "title_en": "Community Service Manager En",
-                                        "title": "Community Service Manager Bn",
-                                        "key": "community_service_manager",
+                                        "id": 1,
+                                        "title_en": "Substance Abuse Social Worker En",
+                                        "title": "Substance Abuse Social Worker Bn",
+                                        "key": "substance_abuse_social_worker",
+                                        "permission_group_id": 1,
+                                        "permission_group_title_en": "System",
+                                        "permission_group_title": "System",
                                         "row_status": 1,
-                                        "created_at": "2021-08-11T12:23:12.000000Z",
-                                        "updated_at": "2021-08-11T12:23:12.000000Z",
-                                        "permission_group_title_en": "Maintenance Equipment Operator En",
-                                        "permission_group_title": "Maintenance Equipment Operator Bn"
+                                        "created_at": "2021-10-16T13:14:34.000000Z",
+                                        "updated_at": "2021-10-16T13:14:34.000000Z",
+                                        "permissions": []
                                     },
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
-                                        "started": "08 57 51",
-                                        "finished": "08 57 51"
+                                        "started": "17 39 26",
+                                        "finished": "17 39 26"
                                     }
                                 }
                             }
@@ -1981,7 +1971,7 @@
                 ]
             },
             "put": {
-                "summary": "update",
+                "summary": "successful",
                 "parameters": [
                     {
                         "name": "permissionSubGroupId",
@@ -1991,26 +1981,20 @@
                             "type": "integer",
                             "example": 1
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/permission_group_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_en"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/key"
-                    },
-                    {
-                        "$ref": "#/components/parameters/row_status"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissionSubGroup"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Get one Division",
+                        "description": "successful ",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2018,20 +2002,23 @@
                                 },
                                 "example": {
                                     "data": {
-                                        "id": 22,
-                                        "permission_group_id": "3",
-                                        "title_en": "Test Title (EN)",
-                                        "title": "Test Title (Native)",
-                                        "key": "demo_key",
-                                        "row_status": "0",
-                                        "created_at": "2021-08-23T08:56:41.000000Z",
-                                        "updated_at": "2021-08-23T09:00:08.000000Z"
+                                        "id": 1,
+                                        "title_en": "Substance Abuse Social Worker En",
+                                        "title": "Substance Abuse Social Worker Bn",
+                                        "key": "substance_abuse_social_worker",
+                                        "permission_group_id": 1,
+                                        "permission_group_title_en": "System",
+                                        "permission_group_title": "System",
+                                        "row_status": 1,
+                                        "created_at": "2021-10-16T13:14:34.000000Z",
+                                        "updated_at": "2021-10-16T13:14:34.000000Z"
                                     },
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
-                                        "message": "Permission Sub Group updated successfully",
-                                        "query_time": 0
+                                        "message": "permissionSubGroup updated successfully",
+                                        "started": "17 34 28",
+                                        "finished": "17 34 28"
                                     }
                                 }
                             }
@@ -2159,15 +2146,15 @@
                                     "data": [
                                         {
                                             "id": 1,
-                                            "name": "name_update",
-                                            "type": "type_update",
+                                            "name": "name1",
+                                            "type": "type1",
                                             "created_at": "2021-09-16T06:28:57.000000Z",
                                             "updated_at": "2021-09-16T06:30:40.000000Z"
                                         },
                                         {
                                             "id": 4,
-                                            "name": "menu1",
-                                            "type": "group",
+                                            "name": "menu4",
+                                            "type": "type4",
                                             "created_at": "2021-09-16T06:34:33.000000Z",
                                             "updated_at": "2021-09-16T06:34:33.000000Z"
                                         }
@@ -2188,14 +2175,15 @@
             },
             "post": {
                 "summary": "store",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/name"
-                    },
-                    {
-                        "$ref": "#/components/parameters/type"
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Menu"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -2271,14 +2259,17 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/menuId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/name"
-                    },
-                    {
-                        "$ref": "#/components/parameters/type"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Menu"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "update",
@@ -2377,41 +2368,15 @@
             },
             "post": {
                 "summary": "store",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/menu_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_lang_key"
-                    },
-                    {
-                        "$ref": "#/components/parameters/url"
-                    },
-                    {
-                        "$ref": "#/components/parameters/target"
-                    },
-                    {
-                        "$ref": "#/components/parameters/icon_class"
-                    },
-                    {
-                        "$ref": "#/components/parameters/color"
-                    },
-                    {
-                        "$ref": "#/components/parameters/parent_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/order"
-                    },
-                    {
-                        "$ref": "#/components/parameters/route"
-                    },
-                    {
-                        "$ref": "#/components/parameters/permission_key"
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MenuItems"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -3445,7 +3410,8 @@
                     "key": {
                         "type": "string",
                         "maxLength": 100,
-                        "minLength": 1
+                        "minLength": 1,
+                        "uniqueItems": true
                     },
                     "title_en": {
                         "type": "string"
@@ -3465,6 +3431,9 @@
                     "institute_id": {
                         "type": "integer"
                     },
+                    "organization_association_id": {
+                        "type": "integer"
+                    },
                     "description": {
                         "type": "string"
                     },
@@ -3476,23 +3445,13 @@
                             0
                         ],
                         "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": true
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": true
-                    },
-                    "deleted_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": true
                     }
-                }
+                },
+                "required": [
+                    "title",
+                    "title_en",
+                    "key"
+                ]
             },
             "rolePermissions": {
                 "type": "object",
@@ -3518,16 +3477,11 @@
                         "type": "integer",
                         "readOnly": true
                     },
+                    "idp_user_id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
                     "user_type": {
-                        "type": "integer"
-                    },
-                    "organization_id": {
-                        "type": "integer"
-                    },
-                    "institute_id": {
-                        "type": "integer"
-                    },
-                    "role_id": {
                         "type": "integer"
                     },
                     "username": {
@@ -3539,9 +3493,26 @@
                     "name": {
                         "type": "string"
                     },
+                    "organization_id": {
+                        "type": "integer"
+                    },
+                    "institute_id": {
+                        "type": "integer"
+                    },
+                    "role_id": {
+                        "type": "integer"
+                    },
                     "email": {
                         "type": "string",
                         "format": "email"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "BD"
+                    },
+                    "phone_code": {
+                        "type": "string",
+                        "example": "880"
                     },
                     "mobile": {
                         "type": "string"
@@ -3557,6 +3528,9 @@
                     "loc_upazila_id": {
                         "type": "integer",
                         "description": "Upazila Id"
+                    },
+                    "verification_code": {
+                        "type": "string"
                     },
                     "verification_code_sent_at": {
                         "type": "string",
@@ -3688,7 +3662,8 @@
                         "type": "string"
                     },
                     "key": {
-                        "type": "string"
+                        "type": "string",
+                        "uniqueItems": true
                     },
                     "row_status": {
                         "type": "integer",
@@ -3697,14 +3672,6 @@
                             0
                         ],
                         "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
                     }
                 },
                 "required": [
