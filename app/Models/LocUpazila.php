@@ -17,8 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $bbs_code
  * @property int $loc_division_id
  * @property int $loc_district_id
- * @property Carbon $created_at
- * @property Carbon $updated_at
  * @property-read LocDistrict $locDistrict
  * @property-read LocDivision $locDivision
  */
