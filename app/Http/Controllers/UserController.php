@@ -250,8 +250,6 @@ class UserController extends Controller
      */
     public function organizationOrInstituteUserCreate(Request $request): JsonResponse //When admin user create an institute or organization
     {
-        Log::info("institute admin user create");
-        Log::info($request);
         $user = new User();
         $request['password'] = $request['password'] ?? '123456';
         $validated = $this->userService->organizationOrInstituteUserCreateValidator($request)->validate();

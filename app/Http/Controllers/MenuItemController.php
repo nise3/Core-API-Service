@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
-use Exception;
 use App\Services\MenuBuilder\MenuItemService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
