@@ -324,16 +324,17 @@ class UserService
 
     /**
      * @param string|null $id
-     * @return User
+     * @return mixed
      */
-    public function getAuthPermission(?string $id): User
+    public function getAuthPermission(?string $id): mixed
     {
         $user = User::where('idp_user_id', $id)
             ->where('row_status', BaseModel::ROW_STATUS_ACTIVE)
             ->first();
 
-        if ($user == null)
+        if (!$user){
             return new \stdClass();
+        }
 
         $role = Role::find($user->role_id);
         $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:key')->first();
