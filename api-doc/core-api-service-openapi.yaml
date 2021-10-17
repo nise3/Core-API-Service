@@ -992,7 +992,34 @@ paths:
           description: success
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/user'
               example: {}
+      tags:
+        - User
+  /users/{userId}/user-approval:
+    get:
+      summary: User approval
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: '1'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+              example:
+                _response_status:
+                  success: false
+                  code: 422
+                  message: User is approved!
+                  query_time: 0
       tags:
         - User
   /permission-groups:
