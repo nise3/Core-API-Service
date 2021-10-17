@@ -109,11 +109,11 @@ class PermissionGroupService
         $permissionGroupBuilder->where('id', $id);
 
 
-        if ($permissionSubGroup == 1) {
+        if ($permissionSubGroup == BaseModel::WITH_PERMISSION_SUB_GROUP_TRUE) {
             $permissionGroupBuilder->with('permissionSubGroup');
         }
 
-        if ($permission == 1) {
+        if ($permission == BaseModel::WITH_PERMISSION_TRUE) {
             $permissionGroupBuilder->with('permissions');
         }
 

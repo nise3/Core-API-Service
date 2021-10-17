@@ -47,7 +47,13 @@ class PermissionSubGroupService
             "permission_sub_groups.created_at",
             "permission_sub_groups.updated_at"
         ]);
-        $permissionSubGroupBuilder->join('permission_groups', 'permission_groups.id', 'permission_sub_groups.permission_group_id');
+        $permissionSubGroupBuilder->join('permission_groups', function ($join) use ($rowStatus) {
+            $join->on('permission_groups.id', '=', 'permission_sub_groups.permission_group_id');
+            if (is_int($rowStatus)) {
+                $join->where('permission_groups.row_status', $rowStatus);
+            }
+        });
+
 
         if (!empty($titleEn)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.title_en', 'like', '%' . $titleEn . '%');

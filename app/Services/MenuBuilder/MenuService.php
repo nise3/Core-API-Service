@@ -22,6 +22,9 @@ class MenuService
      */
     public function getAllMenus(array $request, Carbon $startTime): array
     {
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
         $name = $request['name'] ?? "";
         $order = $request['order'] ?? "ASC";
 
@@ -39,9 +42,25 @@ class MenuService
         if (!empty($name)) {
             $menuBuilder->where('menus.name', 'like', '%' . $name . '%');
         }
-        /** @var Collection $menus */
-        $menus = $menuBuilder->get();
+        if (is_int($rowStatus)) {
+            $menuBuilder->where('menus.row_status', $rowStatus);
+        }
 
+
+        /** @var Collection $menus */
+        if (is_int($paginate) || is_int($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $menus = $menuBuilder->paginate($pageSize);
+            $paginateData = (object)$menus->toArray();
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
+        } else {
+            $menus = $menuBuilder->get();
+        }
+
+        $response['order'] = $order;
         $response['data'] = $menus->toArray()['data'] ?? $menus->toArray();
         $response['response_status'] = [
             "success" => true,
@@ -49,7 +68,6 @@ class MenuService
             "query_time" => $startTime->diffInSeconds(Carbon::now())
         ];
         return $response;
-
     }
 
     /**
@@ -135,11 +153,18 @@ class MenuService
         }
 
         return Validator::make($request->all(), [
+            'page' => 'int|gt:0',
+            'page_size' => 'int|gt:0',
             'name' => 'nullable|max:191|min:2',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
-            ]
+            ],
+            'row_status' => [
+                "int",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
+
         ], $customMessage);
     }
 

@@ -17,6 +17,11 @@ abstract class BaseModel extends Model
     public const COMMON_GUARDED_FIELDS_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at'];
     public const COMMON_GUARDED_FIELDS_NON_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
 
+
+    public const WITH_PERMISSION_SUB_GROUP_TRUE = 1;
+    public const WITH_PERMISSION_TRUE = 1;
+
+
     public const ROW_STATUS_INACTIVE = 0;
     public const ROW_STATUS_ACTIVE = 1;
     public const ROW_STATUS_PENDING = 2;

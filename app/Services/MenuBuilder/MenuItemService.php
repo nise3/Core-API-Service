@@ -23,6 +23,9 @@ class MenuItemService
     public function getAllMenuItems(array $request, Carbon $startTime): array
     {
         $title = $request['title'] ?? "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
         $order = $request['order'] ?? "ASC";
 
 
@@ -45,16 +48,43 @@ class MenuItemService
             'menu_items.updated_at',
         ]);
 
-        $menuItemBuilder->leftJoin('menus', 'menu_items.menu_id', '=', 'menus.id');
-        $menuItemBuilder->leftJoin('menu_items as parent', 'menu_items.parent_id', '=', 'parent.id');
+        $menuItemBuilder->leftJoin('menus', function ($join) use ($rowStatus) {
+            $join->on('menu_items.menu_id', '=', 'menus.id');
+            if (is_int($rowStatus)) {
+                $join->where('menus.row_status', $rowStatus);
+            }
+        });
+        $menuItemBuilder->leftJoin('menu_items as parent', function ($join) use ($rowStatus) {
+            $join->on('menu_items.parent_id', '=', 'parent.id');
+            if (is_int($rowStatus)) {
+                $join->where('permission_groups.row_status', $rowStatus);
+            }
+        });
         $menuItemBuilder->orderBy('menu_items.id', $order);
-
         if (!empty($title)) {
             $menuItemBuilder->where('menu_items.title', 'like', '%' . $title . '%');
         }
+        if (is_int($rowStatus)) {
+            $menuItemBuilder->where('menus.row_status', $rowStatus);
+        }
         /** @var Collection $menuItems */
-        $menuItems = $menuItemBuilder->get();
 
+
+        /** @var Collection $menuItems */
+        if (is_int($paginate) || is_int($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $menuItems = $menuItemBuilder->paginate($pageSize);
+            $paginateData = (object)$menuItems->toArray();
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
+        } else {
+            $menuItems = $menuItemBuilder->get();
+        }
+
+
+        $response['order'] = $order;
         $response['data'] = $menuItems->toArray()['data'] ?? $menuItems->toArray();
         $response['response_status'] = [
             "success" => true,
@@ -95,8 +125,12 @@ class MenuItemService
             'menu_items.updated_at',
         ]);
 
-        $menuItemBuilder->leftJoin('menus', 'menu_items.menu_id', 'menus.id');
-        $menuItemBuilder->leftJoin('menu-items as parent', 'menu_items.parent_id', 'parent.id');
+        $menuItemBuilder->leftJoin('menus', function ($join) {
+            $join->on('menu_items.menu_id', '=', 'menus.id');
+        });
+        $menuItemBuilder->leftJoin('menu_items as parent', function ($join) {
+            $join->on('menu_items.parent_id', '=', 'parent.id');
+        });
         $menuItemBuilder->where('menu_items.id', $id);
 
         /** @var  MenuItem $menuItem */
@@ -164,11 +198,17 @@ class MenuItemService
         }
 
         return Validator::make($request->all(), [
+            'page' => 'int|gt:0',
+            'page_size' => 'int|gt:0',
             'title' => 'nullable|max:191|min:2',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
-            ]
+            ],
+            'row_status' => [
+                "int",
+                Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
+            ],
         ], $customMessage);
     }
 
