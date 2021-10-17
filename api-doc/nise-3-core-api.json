@@ -1408,7 +1408,11 @@
                     {
                         "name": "profile_pic",
                         "in": "query",
-                        "required": false
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "password"
+                        }
                     }
                 ],
                 "responses": {
@@ -1835,25 +1839,25 @@
                                     "$ref": "#/components/schemas/permissionSubGroupPermissions"
                                 },
                                 "example": {
-                                    "order": "ASC",
                                     "data": [
                                         {
-                                            "id": 7,
-                                            "permission_group_id": 3,
-                                            "title_en": "Community Service Manager En",
-                                            "title": "Community Service Manager Bn",
-                                            "key": "community_service_manager",
+                                            "id": 1,
+                                            "title_en": "Substance Abuse Social Worker En",
+                                            "title": "Substance Abuse Social Worker Bn",
+                                            "key": "substance_abuse_social_worker",
+                                            "permission_group_id": 1,
+                                            "permission_group_title_en": "System",
+                                            "permission_group_title": "System",
                                             "row_status": 1,
-                                            "created_at": "2021-08-11T12:23:12.000000Z",
-                                            "updated_at": "2021-08-11T12:23:12.000000Z",
-                                            "permission_group_title_en": "Maintenance Equipment Operator En",
-                                            "permission_group_title": "Maintenance Equipment Operator Bn"
+                                            "created_at": "2021-10-16T13:14:34.000000Z",
+                                            "updated_at": "2021-10-16T13:14:34.000000Z"
                                         }
                                     ],
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
-                                        "query_time": "1 second before"
+                                        "started": "17 39 26",
+                                        "finished": "17 39 26"
                                     }
                                 }
                             }
@@ -1971,7 +1975,7 @@
                 ]
             },
             "put": {
-                "summary": "successful",
+                "summary": "update",
                 "parameters": [
                     {
                         "name": "permissionSubGroupId",
@@ -2131,7 +2135,16 @@
                         "$ref": "#/components/parameters/order"
                     },
                     {
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
                         "$ref": "#/components/parameters/name_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
                     }
                 ],
                 "responses": {
@@ -2342,10 +2355,16 @@
                 "description": "get all menuItems",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/order"
+                        "$ref": "#/components/parameters/page_size"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
                     },
                     {
                         "$ref": "#/components/parameters/name_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/row_status_optional"
                     }
                 ],
                 "responses": {
@@ -2357,6 +2376,29 @@
                                     "$ref": "#/components/schemas/Menu"
                                 },
                                 "example": {
+                                    "order": "ASC",
+                                    "data": {
+                                        "id": 1,
+                                        "menu_id": 4,
+                                        "title": "title",
+                                        "title_lang_key": "title_bangla",
+                                        "permission_key": "get_permission",
+                                        "url": "wwww.nise3",
+                                        "target": "self",
+                                        "icon_class": "fa fa-dashboard",
+                                        "color": "blue",
+                                        "parent_id": 1,
+                                        "order": 0,
+                                        "route": "1",
+                                        "parameters": null,
+                                        "created_at": "2021-09-16T07:31:51.000000Z",
+                                        "updated_at": "2021-09-16T07:31:51.000000Z"
+                                    },
+                                    "response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "query_time": 0
+                                    }
                                 }
                             }
                         }
@@ -2386,45 +2428,27 @@
                                     "$ref": "#/components/schemas/MenuItems"
                                 },
                                 "example": {
-                                    "data": [
-                                        {
-                                            "id": 1,
-                                            "menu_id": 4,
-                                            "title": "title",
-                                            "title_lang_key": "title_bangla",
-                                            "permission_key": "get_permission",
-                                            "url": "wwww.nise3",
-                                            "target": "self",
-                                            "icon_class": "fa fa-dashboard",
-                                            "color": "blue",
-                                            "parent_id": 1,
-                                            "order": 0,
-                                            "route": "1",
-                                            "parameters": null,
-                                            "created_at": "2021-09-16T07:31:51.000000Z",
-                                            "updated_at": "2021-09-16T07:31:51.000000Z"
-                                        },
-                                        {
-                                            "id": 2,
-                                            "menu_id": 4,
-                                            "title": "title",
-                                            "title_lang_key": "title",
-                                            "permission_key": "ssssss",
-                                            "url": "aaaaaaaaaaa",
-                                            "target": "aaaaaaaaa",
-                                            "icon_class": "d;laksds",
-                                            "color": "blue",
-                                            "parent_id": 1,
-                                            "order": 0,
-                                            "route": "1",
-                                            "parameters": null,
-                                            "created_at": "2021-09-16T07:42:05.000000Z",
-                                            "updated_at": "2021-09-16T07:42:05.000000Z"
-                                        }
-                                    ],
+                                    "data": {
+                                        "id": 2,
+                                        "menu_id": 4,
+                                        "title": "title",
+                                        "title_lang_key": "title",
+                                        "permission_key": "view any division",
+                                        "url": "url.com",
+                                        "target": "self",
+                                        "icon_class": "fa",
+                                        "color": "blue",
+                                        "parent_id": 1,
+                                        "order": 0,
+                                        "route": "1",
+                                        "parameters": null,
+                                        "created_at": "2021-09-16T07:42:05.000000Z",
+                                        "updated_at": "2021-09-16T07:42:05.000000Z"
+                                    },
                                     "response_status": {
                                         "success": true,
                                         "code": 200,
+                                        "message": "MenuItem added successfully",
                                         "query_time": 0
                                     }
                                 }
@@ -2456,25 +2480,27 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
-                                        "menu_id": "4",
-                                        "title": "title_update",
-                                        "title_lang_key": "title_update",
-                                        "permission_key": "post_permission",
-                                        "url": "www.nise3.com/update",
-                                        "target": "seld",
-                                        "icon_class": "fa fa -dashboard",
-                                        "color": "red",
-                                        "parent_id": "2",
-                                        "order": 0,
-                                        "route": "1",
+                                        "menu_id": 1,
+                                        "menu_name": "division",
+                                        "menu_type": "",
+                                        "title": "view_any_division",
+                                        "title_lang_key": "EN",
+                                        "permission_key": "view_any_division",
+                                        "url": "api/v1/division",
+                                        "target": "_self",
+                                        "icon_class": "fa",
+                                        "color": "blue",
+                                        "parent_id": null,
+                                        "parent_title": null,
+                                        "order": 1,
+                                        "route": null,
                                         "parameters": null,
-                                        "created_at": "2021-09-16T07:31:51.000000Z",
-                                        "updated_at": "2021-09-16T08:04:36.000000Z"
+                                        "created_at": null,
+                                        "updated_at": null
                                     },
                                     "_response_status": {
                                         "success": true,
                                         "code": 200,
-                                        "message": "MenuItem updated successfully",
                                         "query_time": 0
                                     }
                                 }
@@ -2491,41 +2517,17 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/menuItemId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title"
-                    },
-                    {
-                        "$ref": "#/components/parameters/menu_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/title_lang_key"
-                    },
-                    {
-                        "$ref": "#/components/parameters/url"
-                    },
-                    {
-                        "$ref": "#/components/parameters/target"
-                    },
-                    {
-                        "$ref": "#/components/parameters/icon_class"
-                    },
-                    {
-                        "$ref": "#/components/parameters/color"
-                    },
-                    {
-                        "$ref": "#/components/parameters/parent_id"
-                    },
-                    {
-                        "$ref": "#/components/parameters/order"
-                    },
-                    {
-                        "$ref": "#/components/parameters/route"
-                    },
-                    {
-                        "$ref": "#/components/parameters/permission_key"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MenuItems"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "update",
@@ -2537,20 +2539,23 @@
                                 "example": {
                                     "data": {
                                         "id": 1,
-                                        "menu_id": "4",
-                                        "title": "title_update",
-                                        "title_lang_key": "title_update",
-                                        "permission_key": "post_permission",
-                                        "url": "www.nise3.com/update",
-                                        "target": "seld",
-                                        "icon_class": "fa fa -dashboard",
-                                        "color": "red",
-                                        "parent_id": "2",
-                                        "order": 0,
-                                        "route": "1",
+                                        "menu_id": 1,
+                                        "menu_name": "division",
+                                        "menu_type": "",
+                                        "title": "view_any_division",
+                                        "title_lang_key": "EN",
+                                        "permission_key": "view_any_division",
+                                        "url": "api/v1/division",
+                                        "target": "_self",
+                                        "icon_class": "fa",
+                                        "color": "blue",
+                                        "parent_id": null,
+                                        "parent_title": null,
+                                        "order": 1,
+                                        "route": null,
                                         "parameters": null,
-                                        "created_at": "2021-09-16T07:31:51.000000Z",
-                                        "updated_at": "2021-09-16T08:04:36.000000Z"
+                                        "created_at": null,
+                                        "updated_at": null
                                     },
                                     "_response_status": {
                                         "success": true,
@@ -2996,8 +3001,7 @@
                 "required": true,
                 "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "Demo Name En"
+                    "type": "string"
                 }
             },
             "name_en_optional": {
@@ -3006,8 +3010,7 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "Demo Name En"
+                    "type": "string"
                 }
             },
             "name": {
@@ -3016,8 +3019,7 @@
                 "required": true,
                 "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "ডেমো নাম"
+                    "type": "string"
                 }
             },
             "name_optional": {
@@ -3026,8 +3028,7 @@
                 "required": false,
                 "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "ডেমো নাম"
+                    "type": "string"
                 }
             },
             "username": {
@@ -3036,8 +3037,7 @@
                 "required": true,
                 "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "ডেমো নাম"
+                    "type": "string"
                 }
             },
             "username_optional": {
@@ -3765,8 +3765,7 @@
                         "type": "string",
                         "description": "target value",
                         "minLength": 1,
-                        "maxLength": 191,
-                        "default": true
+                        "maxLength": 191
                     },
                     "icon_class": {
                         "type": "string",
@@ -3800,7 +3799,9 @@
                     }
                 },
                 "required": [
-                    "icon_class"
+                    "title",
+                    "icon_class",
+                    "order"
                 ]
             },
             "ErrorResponse": {

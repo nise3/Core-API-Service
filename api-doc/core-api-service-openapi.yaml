@@ -1,15 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Nise 3 Core Api Service
-  description: API Description in Markdown.
+  title: Core Api Service
+  description: It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally
   version: 1.0.0
-  termsOfService: ''
-  contact: {}
   license:
     name: MIT
 servers:
-  - url: https://core.bus-staging.softbdltd.com/api/v1
   - url: http://localhost:8000/api/v1
+  - url: https://core.bus-staging.softbdltd.com/api/v1
 security:
   - bearerAuth: []
 paths:
@@ -26,10 +24,6 @@ paths:
                 service_version: V1
                 lumen_version: Lumen (8.2.4) (Laravel Components ^8.0)
                 modules:
-                  LocationManagement:
-                    - LocDivision
-                    - LocDistrict
-                    - LocUpazila
                   UserRoleManagement:
                     - Permission
                     - Role
@@ -50,7 +44,7 @@ paths:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/name_optional'
+        - $ref: '#/components/parameters/key_optional'
         - $ref: '#/components/parameters/uri_optional'
       responses:
         '200':
@@ -60,19 +54,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/permission'
               example:
-                current_page: 1
-                total_page: 4
-                page_size: '10'
-                total: 40
                 order: ASC
-                uri: api/v1/divisions/1
                 data:
-                  - id: 2
-                    name: divisions-read
-                    uri: api/v1/divisions/{id}
+                  - id: 1
+                    title_en: View any division
+                    title: View any division
+                    module: division
+                    key: view_any_division
+                    uri: api/v1/division
+                    method: 1
                     row_status: 1
-                    created_at: '2021-08-11T12:23:12.000000Z'
-                    updated_at: '2021-08-11T12:23:12.000000Z'
+                    created_at: '2021-10-16T13:14:06.000000Z'
+                    updated_at: '2021-10-16T13:14:06.000000Z'
+                    method_name: GET
+                  - id: 2
+                    title_en: View single division
+                    title: View single division
+                    module: division
+                    key: view_single_division
+                    uri: api/v1/division/{id}
+                    method: 1
+                    row_status: 1
+                    created_at: '2021-10-16T13:14:07.000000Z'
+                    updated_at: '2021-10-16T13:14:07.000000Z'
+                    method_name: GET
                 _response_status:
                   success: true
                   code: 200
@@ -83,13 +88,13 @@ paths:
         - Permission
     post:
       summary: store
-      parameters:
-        - $ref: '#/components/parameters/name'
-        - $ref: '#/components/parameters/uri'
-        - $ref: '#/components/parameters/method'
-        - $ref: '#/components/parameters/module'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/permission'
       responses:
-        '200':
+        '201':
           description: success
           content:
             application/json:
@@ -97,13 +102,16 @@ paths:
                 $ref: '#/components/schemas/permission'
               example:
                 data:
-                  name: Demo Name
-                  method: '1'
-                  module: roles
-                  uri: api/v1/roles
-                  updated_at: '2021-08-22T10:01:18.000000Z'
-                  created_at: '2021-08-22T10:01:18.000000Z'
-                  id: 42
+                  id: 1
+                  title_en: View any division
+                  title: View any division
+                  module: division
+                  key: view_any_division
+                  uri: api/v1/division
+                  method: 1
+                  row_status: 1
+                  created_at: '2021-10-14T06:36:23.000000Z'
+                  updated_at: '2021-10-14T06:36:23.000000Z'
                 _response_status:
                   success: true
                   code: 201
@@ -131,13 +139,15 @@ paths:
               example:
                 data:
                   id: 1
-                  name: divisions-get_all
-                  module: divisions
-                  uri: api/v1/divisions
+                  title_en: View any division
+                  title: View any division
+                  module: division
+                  key: view_any_division
+                  uri: api/v1/division
                   method: 1
                   row_status: 1
-                  created_at: '2021-09-15T06:33:37.000000Z'
-                  updated_at: '2021-09-15T06:33:37.000000Z'
+                  created_at: '2021-10-14T06:36:23.000000Z'
+                  updated_at: '2021-10-14T06:36:23.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -155,14 +165,14 @@ paths:
           schema:
             type: integer
             example: 1
-        - $ref: '#/components/parameters/name'
-        - $ref: '#/components/parameters/uri'
-        - $ref: '#/components/parameters/method'
-        - $ref: '#/components/parameters/row_status'
-        - $ref: '#/components/parameters/module'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/permission'
       responses:
         '200':
-          description: Update Permission
+          description: ''
           content:
             application/json:
               schema:
@@ -170,13 +180,15 @@ paths:
               example:
                 data:
                   id: 1
-                  module: divisions
-                  name: Demo Named
-                  uri: api/v1/demod
-                  method: '1'
+                  title_en: View any division
+                  title: View any division
+                  module: division
+                  key: view_any_division
+                  uri: api/v1/division
+                  method: 1
                   row_status: 1
-                  created_at: '2021-08-11T12:23:12.000000Z'
-                  updated_at: '2021-08-22T10:03:38.000000Z'
+                  created_at: '2021-10-14T06:36:23.000000Z'
+                  updated_at: '2021-10-14T06:36:23.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -283,26 +295,38 @@ paths:
               schema:
                 $ref: '#/components/schemas/role'
               example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 5
-                order: asc
-                row_status: '1'
+                order: ASC
                 data:
                   - id: 1
                     title: সুপার এডমিন
                     title_en: Super Admin
                     key: super_admin
                     description: null
-                    permission_group_id: null
                     organization_id: null
                     institute_id: null
+                    permission_group_id: null
                     permission_group_title_en: null
                     permission_group_title: null
+                    permission_sub_group_id: null
+                    permission_sub_group_title_en: null
+                    permission_sub_group_title: null
                     row_status: 1
                     created_at: null
-                    updated_at: null
+                  - id: 2
+                    title: সিস্টেম এডমিন
+                    title_en: System Admin
+                    key: system_admin
+                    description: null
+                    organization_id: null
+                    institute_id: null
+                    permission_group_id: null
+                    permission_group_title_en: null
+                    permission_group_title: null
+                    permission_sub_group_id: null
+                    permission_sub_group_title_en: null
+                    permission_sub_group_title: null
+                    row_status: 1
+                    created_at: null
                 _response_status:
                   success: true
                   code: 200
@@ -313,15 +337,11 @@ paths:
         - Role
     post:
       summary: store
-      parameters:
-        - $ref: '#/components/parameters/key'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/description'
-        - $ref: '#/components/parameters/permission_group_id_optional'
-        - $ref: '#/components/parameters/permission_sub_group_id_optional'
-        - $ref: '#/components/parameters/organization_id'
-        - $ref: '#/components/parameters/institute_id_optional'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/role'
       responses:
         '200':
           description: success
@@ -331,13 +351,21 @@ paths:
                 $ref: '#/components/schemas/role'
               example:
                 data:
-                  title_en: Test Title (EN)
-                  title: Test Title (Native)
-                  description: Lorem Ipsum is simply dummy text of the printing and typesetting industry
-                  key: demo_key
-                  updated_at: '2021-08-23T04:17:31.000000Z'
-                  created_at: '2021-08-23T04:17:31.000000Z'
-                  id: 6
+                  id: 1
+                  title: সুপার এডমিন
+                  title_en: Super Admin
+                  key: super_admin
+                  description: null
+                  organization_id: null
+                  institute_id: null
+                  permission_group_id: null
+                  permission_group_title_en: null
+                  permission_group_title: null
+                  permission_sub_group_id: null
+                  permission_sub_group_title_en: null
+                  permission_sub_group_title: null
+                  row_status: 1
+                  created_at: null
                 _response_status:
                   success: true
                   code: 201
@@ -414,18 +442,14 @@ paths:
           schema:
             type: integer
             example: 1
-        - $ref: '#/components/parameters/key'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/description'
-        - $ref: '#/components/parameters/permission_group_id_optional'
-        - $ref: '#/components/parameters/permission_sub_group_id_optional'
-        - $ref: '#/components/parameters/organization_id'
-        - $ref: '#/components/parameters/institute_id_optional'
-        - $ref: '#/components/parameters/row_status'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/role'
       responses:
         '200':
-          description: Get one Division
+          description: successful
           content:
             application/json:
               schema:
@@ -433,17 +457,20 @@ paths:
               example:
                 data:
                   id: 1
+                  title: সুপার এডমিন
+                  title_en: Super Admin
                   key: super_admin
-                  title_en: Test Title (EN)
-                  title: Test Title (Native)
-                  permission_group_id: null
+                  description: null
                   organization_id: null
                   institute_id: null
-                  description: Lorem Ipsum is simply dummy text of the printing and typesetting industry
+                  permission_group_id: null
+                  permission_group_title_en: null
+                  permission_group_title: null
+                  permission_sub_group_id: null
+                  permission_sub_group_title_en: null
+                  permission_sub_group_title: null
                   row_status: 1
                   created_at: null
-                  updated_at: '2021-08-23T04:26:16.000000Z'
-                  deleted_at: null
                 _response_status:
                   success: true
                   code: 200
@@ -539,43 +566,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
               example:
-                current_page: 1
-                total_page: 2
-                page_size: '10'
-                total: 15
-                row_status: 1
                 order: ASC
                 data:
                   - id: 1
-                    user_type: 0
-                    username: gkerluke
-                    organization_id: null
+                    idp_user_id: ce5c437f-d80d-4455-9037-6c84d8aab784
+                    name_en: Super Admin
+                    name: Super Admin
+                    user_type: 1
+                    username: super_admin
                     institute_id: null
+                    organization_id: null
                     role_id: 1
-                    name_en: Dr. Quincy Schinner IV
-                    name: Selina Blanda
-                    email: freeman.bartell@example.org
+                    role_title_en: Super Admin
+                    role_title: সুপার এডমিন
+                    email: super@gmail.com
+                    country: BD
+                    phone_code: '880'
                     mobile: null
                     loc_division_id: null
+                    loc_divisions_title_en: null
+                    loc_divisions_title: null
                     loc_district_id: null
+                    loc_district_title_en: null
+                    loc_district_title: null
                     loc_upazila_id: null
-                    verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
-                    verification_code_verified_at: null
-                    profile_pic: null
+                    loc_upazila_title_en: null
+                    loc_upazila_title: null
+                    verification_code_verified_at: '2021-10-16T13:15:06.000000Z'
+                    verification_code_sent_at: '2021-10-15T00:00:00.000000Z'
                     row_status: 1
                     created_by: null
                     updated_by: null
-                    created_at: '2021-08-11T12:23:13.000000Z'
-                    updated_at: '2021-08-11T12:23:13.000000Z'
-                    deleted_at: null
-                    role_title_en: Test Title (EN)
-                    role_title: Test Title (Native)
-                    loc_divisions_title_en: null
-                    loc_divisions_title: null
-                    loc_district_title_en: null
-                    loc_district_title: null
-                    loc_upazila_title_en: null
-                    loc_upazila_title: null
+                    created_at: '2021-10-16T13:15:07.000000Z'
+                    updated_at: '2021-10-16T13:15:07.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -586,20 +609,11 @@ paths:
         - User
     post:
       summary: store
-      parameters:
-        - $ref: '#/components/parameters/user_type'
-        - $ref: '#/components/parameters/username'
-        - $ref: '#/components/parameters/name_en'
-        - $ref: '#/components/parameters/name'
-        - $ref: '#/components/parameters/email'
-        - $ref: '#/components/parameters/mobile'
-        - $ref: '#/components/parameters/role_id'
-        - $ref: '#/components/parameters/organization_id'
-        - $ref: '#/components/parameters/institute_id_optional'
-        - $ref: '#/components/parameters/loc_division_id'
-        - $ref: '#/components/parameters/loc_district_id'
-        - $ref: '#/components/parameters/loc_upazila_id'
-        - $ref: '#/components/parameters/password'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/user'
       responses:
         '200':
           description: success
@@ -608,27 +622,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
               example:
+                order: ASC
                 data:
-                  user_type: '1'
-                  username: ডেমো নাম
-                  organization_id: '1'
-                  institute_id: '1'
-                  role_id: '1'
-                  name_en: Demo Name En
-                  name: ডেমো নাম
-                  email: user1@gmail.com
-                  mobile: '0176667711'
-                  loc_division_id: '1'
-                  loc_district_id: '1'
-                  loc_upazila_id: '1'
-                  updated_at: '2021-08-23T07:16:51.000000Z'
-                  created_at: '2021-08-23T07:16:51.000000Z'
-                  id: 16
+                  id: 1
+                  idp_user_id: ce5c437f-d80d-4455-9037-6c84d8aab784
+                  name_en: Super Admin
+                  name: Super Admin
+                  user_type: 1
+                  username: super_admin
+                  institute_id: null
+                  organization_id: null
+                  role_id: 1
+                  role_title_en: Super Admin
+                  role_title: সুপার এডমিন
+                  email: super@gmail.com
+                  country: BD
+                  phone_code: '880'
+                  mobile: null
+                  loc_division_id: null
+                  loc_divisions_title_en: null
+                  loc_divisions_title: null
+                  loc_district_id: null
+                  loc_district_title_en: null
+                  loc_district_title: null
+                  loc_upazila_id: null
+                  loc_upazila_title_en: null
+                  loc_upazila_title: null
+                  verification_code: '1234'
+                  verification_code_verified_at: '2021-10-16T13:15:06.000000Z'
+                  verification_code_sent_at: '2021-10-15T00:00:00.000000Z'
+                  row_status: 1
+                  created_by: null
+                  updated_by: null
+                  created_at: '2021-10-16T13:15:07.000000Z'
+                  updated_at: '2021-10-16T13:15:07.000000Z'
                 _response_status:
                   success: true
-                  code: 201
-                  message: User added successfully
-                  query_time: 0
+                  code: 200
+                  message: user added successfully
+                  query_time: 1 second before
       tags:
         - User
   /users/{userId}:
@@ -651,35 +683,37 @@ paths:
               example:
                 data:
                   id: 1
-                  user_type: 0
-                  username: gkerluke
-                  organization_id: null
+                  idp_user_id: ce5c437f-d80d-4455-9037-6c84d8aab784
+                  name_en: Super Admin
+                  name: Super Admin
+                  user_type: 1
+                  username: super_admin
                   institute_id: null
+                  organization_id: null
                   role_id: 1
-                  name_en: Dr. Quincy Schinner IV
-                  name: Selina Blanda
-                  email: freeman.bartell@example.org
+                  role_title_en: Super Admin
+                  role_title: সুপার এডমিন
+                  email: super@gmail.com
+                  country: BD
+                  phone_code: '880'
                   mobile: null
                   loc_division_id: null
+                  loc_divisions_title_en: null
+                  loc_divisions_title: null
                   loc_district_id: null
+                  loc_district_title_en: null
+                  loc_district_title: null
                   loc_upazila_id: null
-                  verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
-                  verification_code_verified_at: null
-                  profile_pic: null
+                  loc_upazila_title_en: null
+                  loc_upazila_title: null
+                  verification_code: '1234'
+                  verification_code_verified_at: '2021-10-16T13:15:06.000000Z'
+                  verification_code_sent_at: '2021-10-15T00:00:00.000000Z'
                   row_status: 1
                   created_by: null
                   updated_by: null
-                  created_at: '2021-08-11T12:23:13.000000Z'
-                  updated_at: '2021-08-11T12:23:13.000000Z'
-                  deleted_at: null
-                  role_title_en: Test Title (EN)
-                  role_title: Test Title (Native)
-                  loc_divisions_title_en: null
-                  loc_divisions_title: null
-                  loc_district_title_en: null
-                  loc_district_title: null
-                  loc_upazila_title_en: null
-                  loc_upazila_title: null
+                  created_at: '2021-10-16T13:15:07.000000Z'
+                  updated_at: '2021-10-16T13:15:07.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -697,54 +731,47 @@ paths:
           schema:
             type: integer
             example: 1
-        - $ref: '#/components/parameters/user_type'
-        - $ref: '#/components/parameters/username'
-        - $ref: '#/components/parameters/name_en'
-        - $ref: '#/components/parameters/name'
-        - $ref: '#/components/parameters/email'
-        - $ref: '#/components/parameters/mobile'
-        - $ref: '#/components/parameters/role_id'
-        - $ref: '#/components/parameters/organization_id'
-        - $ref: '#/components/parameters/institute_id_optional'
-        - $ref: '#/components/parameters/loc_division_id'
-        - $ref: '#/components/parameters/loc_district_id'
-        - $ref: '#/components/parameters/loc_upazila_id'
-        - $ref: '#/components/parameters/password'
-        - $ref: '#/components/parameters/verification_code_sent_at'
-        - $ref: '#/components/parameters/verification_code_verified_at'
-        - $ref: '#/components/parameters/remember_token'
-        - $ref: '#/components/parameters/row_status'
       responses:
         '200':
-          description: Get one User
+          description: successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
               example:
                 data:
-                  id: 16
-                  user_type: '1'
-                  username: ডেমো নাম
-                  organization_id: '1'
-                  institute_id: '1'
-                  role_id: '1'
-                  name_en: Demo Name En
-                  name: ডেমো নাম
-                  email: user1@gmail.com
-                  mobile: '11111'
-                  loc_division_id: '1'
-                  loc_district_id: '1'
-                  loc_upazila_id: '1'
-                  verification_code_sent_at: null
-                  verification_code_verified_at: null
-                  profile_pic: null
-                  row_status: '1'
+                  id: 1
+                  idp_user_id: ce5c437f-d80d-4455-9037-6c84d8aab784
+                  name_en: Super Admin
+                  name: Super Admin
+                  user_type: 1
+                  username: super_admin
+                  institute_id: null
+                  organization_id: null
+                  role_id: 1
+                  role_title_en: Super Admin
+                  role_title: সুপার এডমিন
+                  email: super@gmail.com
+                  country: BD
+                  phone_code: '880'
+                  mobile: null
+                  loc_division_id: null
+                  loc_divisions_title_en: null
+                  loc_divisions_title: null
+                  loc_district_id: null
+                  loc_district_title_en: null
+                  loc_district_title: null
+                  loc_upazila_id: null
+                  loc_upazila_title_en: null
+                  loc_upazila_title: null
+                  verification_code: '1234'
+                  verification_code_verified_at: '2021-10-16T13:15:06.000000Z'
+                  verification_code_sent_at: '2021-10-15T00:00:00.000000Z'
+                  row_status: 1
                   created_by: null
                   updated_by: null
-                  created_at: '2021-08-23T07:16:51.000000Z'
-                  updated_at: '2021-08-23T07:40:28.000000Z'
-                  deleted_at: null
+                  created_at: '2021-10-16T13:15:07.000000Z'
+                  updated_at: '2021-10-16T13:15:07.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -802,26 +829,30 @@ paths:
               example:
                 data:
                   id: 1
-                  user_type: 0
-                  username: gkerluke
+                  idp_user_id: ce5c437f-d80d-4455-9037-6c84d8aab784
+                  user_type: 1
+                  username: super_admin
                   organization_id: null
                   institute_id: null
                   role_id: 1
-                  name_en: Dr. Quincy Schinner IV
-                  name: Selina Blanda
-                  email: freeman.bartell@example.org
+                  name_en: Super Admin
+                  name: Super Admin
+                  email: super@gmail.com
+                  country: BD
+                  phone_code: '880'
                   mobile: null
                   loc_division_id: null
                   loc_district_id: null
                   loc_upazila_id: null
-                  verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
-                  verification_code_verified_at: null
+                  verification_code: '1234'
+                  verification_code_sent_at: '2021-10-15T00:00:00.000000Z'
+                  verification_code_verified_at: '2021-10-16T13:15:06.000000Z'
                   profile_pic: null
                   row_status: 1
                   created_by: null
                   updated_by: null
-                  created_at: '2021-08-11T12:23:13.000000Z'
-                  updated_at: '2021-08-11T12:23:13.000000Z'
+                  created_at: '2021-10-16T13:15:07.000000Z'
+                  updated_at: '2021-10-16T13:15:07.000000Z'
                   deleted_at: null
                 _response_status:
                   success: true
@@ -851,31 +882,35 @@ paths:
               example:
                 data:
                   id: 1
-                  user_type: 0
-                  username: gkerluke
+                  idp_user_id: ce5c437f-d80d-4455-9037-6c84d8aab784
+                  user_type: 1
+                  username: super_admin
                   organization_id: null
                   institute_id: null
                   role_id: 1
-                  name_en: Dr. Quincy Schinner IV
-                  name: Selina Blanda
-                  email: freeman.bartell@example.org
+                  name_en: Super Admin
+                  name: Super Admin
+                  email: super@gmail.com
+                  country: BD
+                  phone_code: '880'
                   mobile: null
                   loc_division_id: null
                   loc_district_id: null
                   loc_upazila_id: null
-                  verification_code_sent_at: '2021-08-11T12:23:12.000000Z'
-                  verification_code_verified_at: null
+                  verification_code: '1234'
+                  verification_code_sent_at: '2021-10-15T00:00:00.000000Z'
+                  verification_code_verified_at: '2021-10-16T13:15:06.000000Z'
                   profile_pic: null
                   row_status: 1
                   created_by: null
                   updated_by: null
-                  created_at: '2021-08-11T12:23:13.000000Z'
-                  updated_at: '2021-08-11T12:23:13.000000Z'
+                  created_at: '2021-10-16T13:15:07.000000Z'
+                  updated_at: '2021-10-16T13:15:07.000000Z'
                   deleted_at: null
                 _response_status:
                   success: true
                   code: 200
-                  message: Permission assigned into User successfully
+                  message: Permissions assigned into User successfully.
                   query_time: 0
       tags:
         - User
@@ -946,15 +981,12 @@ paths:
           schema:
             type: string
             format: password
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                profile_pic:
-                  type: string
-                  format: binary
+        - name: profile_pic
+          in: query
+          required: false
+          schema:
+            type: string
+            format: password
       responses:
         '200':
           description: success
@@ -982,20 +1014,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/permissionGroup'
               example:
-                current_page: 1
-                total_page: 1
-                page_size: '10'
-                total: 7
                 order: ASC
-                row_status: '1'
                 data:
                   - id: 1
-                    title_en: Professor En
-                    title: Professor Bn
-                    key: professor
+                    title_en: System
+                    title: System
+                    key: system
                     row_status: 1
-                    created_at: '2021-08-11T12:23:12.000000Z'
-                    updated_at: '2021-08-11T12:23:12.000000Z'
+                    created_at: '2021-10-16T13:14:34.000000Z'
+                    updated_at: '2021-10-16T13:14:34.000000Z'
+                  - id: 3
+                    title_en: Institute
+                    title: Institute
+                    key: institute
+                    row_status: 1
+                    created_at: '2021-10-16T13:14:43.000000Z'
+                    updated_at: '2021-10-16T13:14:43.000000Z'
+                  - id: 4
+                    title_en: aaaaaa
+                    title: aaaaaaaaaaaa
+                    key: aaaaaaaaaaaaa
+                    row_status: 1
+                    created_at: '2021-10-16T14:09:26.000000Z'
+                    updated_at: '2021-10-16T14:09:26.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -1006,12 +1047,13 @@ paths:
         - PermissionGroup
     post:
       summary: store
-      parameters:
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/key'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/permissionGroup'
       responses:
-        '200':
+        '201':
           description: success
           content:
             application/json:
@@ -1019,17 +1061,18 @@ paths:
                 $ref: '#/components/schemas/permissionGroup'
               example:
                 data:
-                  title_en: Test Title (EN)
-                  title: Test Title (Native)
-                  key: demo_key
-                  updated_at: '2021-08-23T08:12:53.000000Z'
-                  created_at: '2021-08-23T08:12:53.000000Z'
-                  id: 8
+                  id: 1
+                  title_en: System
+                  title: System
+                  key: system
+                  row_status: 1
+                  created_at: '2021-10-16T13:14:34.000000Z'
+                  updated_at: '2021-10-16T13:14:34.000000Z'
                 _response_status:
                   success: true
                   code: 201
                   message: PermissionGroup added successfully.
-                  query_time: 0
+                  query_time: 1 second before
       tags:
         - PermissionGroup
   /permission-groups/{permissionGroupId}:
@@ -1060,7 +1103,7 @@ paths:
               - 1
       responses:
         '200':
-          description: Get one Division
+          description: successful
           content:
             application/json:
               schema:
@@ -1068,12 +1111,30 @@ paths:
               example:
                 data:
                   id: 1
-                  title_en: Professor En
-                  title: Professor Bn
-                  key: professor
+                  title_en: System
+                  title: System
+                  key: system
                   row_status: 1
-                  created_at: '2021-08-11T12:23:12.000000Z'
-                  updated_at: '2021-08-11T12:23:12.000000Z'
+                  created_at: '2021-10-16T13:14:34.000000Z'
+                  updated_at: '2021-10-16T13:14:34.000000Z'
+                  permission_sub_group:
+                    - id: 1
+                      permission_group_id: 1
+                      title_en: Substance Abuse Social Worker En
+                      title: Substance Abuse Social Worker Bn
+                      key: substance_abuse_social_worker
+                      row_status: 1
+                      created_at: '2021-10-16T13:14:34.000000Z'
+                      updated_at: '2021-10-16T13:14:34.000000Z'
+                    - id: 2
+                      permission_group_id: 1
+                      title_en: Office Machine And Cash Register Servicer En
+                      title: Office Machine And Cash Register Servicer Bn
+                      key: office_machine_and_cash_register_servicer
+                      row_status: 1
+                      created_at: '2021-10-16T13:14:34.000000Z'
+                      updated_at: '2021-10-16T13:14:34.000000Z'
+                  permissions: []
                 _response_status:
                   success: true
                   code: 200
@@ -1091,10 +1152,11 @@ paths:
           schema:
             type: integer
             example: 1
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/key'
-        - $ref: '#/components/parameters/row_status'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/permissionGroup'
       responses:
         '200':
           description: Success
@@ -1104,18 +1166,18 @@ paths:
                 $ref: '#/components/schemas/permissionGroup'
               example:
                 data:
-                  id: 8
-                  title_en: Test Title (EN)
-                  title: Test Title (Native)
-                  key: demo_key
-                  row_status: '1'
-                  created_at: '2021-08-23T08:12:53.000000Z'
-                  updated_at: '2021-08-23T08:12:53.000000Z'
+                  id: 1
+                  title_en: System
+                  title: System
+                  key: system
+                  row_status: 1
+                  created_at: '2021-10-16T13:14:34.000000Z'
+                  updated_at: '2021-10-16T13:14:34.000000Z'
                 _response_status:
                   success: true
-                  code: 200
+                  code: 201
                   message: PermissionGroup updated successfully.
-                  query_time: 0
+                  query_time: 1 second before
         default:
           description: Unexpected error
       tags:
@@ -1163,6 +1225,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/permissionGroupPermissions'
               example:
+                data:
+                  - id: 1
+                    title_en: View any division
+                    title: View any division
+                    module: division
+                    key: view_any_division
+                    uri: api/v1/division
+                    method: 1
+                    row_status: 1
+                    created_at: '2021-10-16T13:14:06.000000Z'
+                    updated_at: '2021-10-16T13:14:06.000000Z'
                 _response_status:
                   success: true
                   code: 200
@@ -1189,38 +1262,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/permissionSubGroupPermissions'
               example:
-                current_page: 1
-                total_page: 2
-                page_size: '10'
-                total: 15
-                order: ASC
-                row_status: '1'
                 data:
-                  - id: 7
-                    permission_group_id: 3
-                    title_en: Community Service Manager En
-                    title: Community Service Manager Bn
-                    key: community_service_manager
+                  - id: 1
+                    title_en: Substance Abuse Social Worker En
+                    title: Substance Abuse Social Worker Bn
+                    key: substance_abuse_social_worker
+                    permission_group_id: 1
+                    permission_group_title_en: System
+                    permission_group_title: System
                     row_status: 1
-                    created_at: '2021-08-11T12:23:12.000000Z'
-                    updated_at: '2021-08-11T12:23:12.000000Z'
-                    permission_group_title_en: Maintenance Equipment Operator En
-                    permission_group_title: Maintenance Equipment Operator Bn
+                    created_at: '2021-10-16T13:14:34.000000Z'
+                    updated_at: '2021-10-16T13:14:34.000000Z'
                 _response_status:
                   success: true
                   code: 200
-                  query_time: 1 second before
+                  started: 17 39 26
+                  finished: 17 39 26
         default:
           description: Unexpected error
       tags:
         - PermissionSubGroup
     post:
-      summary: store
-      parameters:
-        - $ref: '#/components/parameters/permission_group_id'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/key'
+      summary: successful
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/permissionSubGroup'
       responses:
         '200':
           description: success
@@ -1230,18 +1298,22 @@ paths:
                 $ref: '#/components/schemas/permissionSubGroup'
               example:
                 data:
-                  permission_group_id: '3'
-                  title_en: Test Title (EN)
-                  title: Test Title (Native)
-                  key: demo_key
-                  updated_at: '2021-08-23T08:56:41.000000Z'
-                  created_at: '2021-08-23T08:56:41.000000Z'
-                  id: 22
+                  id: 1
+                  title_en: Substance Abuse Social Worker En
+                  title: Substance Abuse Social Worker Bn
+                  key: substance_abuse_social_worker
+                  permission_group_id: 1
+                  permission_group_title_en: System
+                  permission_group_title: System
+                  row_status: 1
+                  created_at: '2021-10-16T13:14:34.000000Z'
+                  updated_at: '2021-10-16T13:14:34.000000Z'
                 _response_status:
                   success: true
-                  code: 201
-                  message: Permission Sub Group added successfully
-                  query_time: 0
+                  code: 200
+                  message: permissionSubGroup added successfully
+                  started: 17 34 28
+                  finished: 17 34 28
       tags:
         - PermissionSubGroup
   /permission-sub-groups/{permissionSubGroupId}:
@@ -1263,21 +1335,22 @@ paths:
                 $ref: '#/components/schemas/permissionSubGroup'
               example:
                 data:
-                  id: 7
-                  permission_group_id: 3
-                  title_en: Community Service Manager En
-                  title: Community Service Manager Bn
-                  key: community_service_manager
+                  id: 1
+                  title_en: Substance Abuse Social Worker En
+                  title: Substance Abuse Social Worker Bn
+                  key: substance_abuse_social_worker
+                  permission_group_id: 1
+                  permission_group_title_en: System
+                  permission_group_title: System
                   row_status: 1
-                  created_at: '2021-08-11T12:23:12.000000Z'
-                  updated_at: '2021-08-11T12:23:12.000000Z'
-                  permission_group_title_en: Maintenance Equipment Operator En
-                  permission_group_title: Maintenance Equipment Operator Bn
+                  created_at: '2021-10-16T13:14:34.000000Z'
+                  updated_at: '2021-10-16T13:14:34.000000Z'
+                  permissions: []
                 _response_status:
                   success: true
                   code: 200
-                  started: 08 57 51
-                  finished: 08 57 51
+                  started: 17 39 26
+                  finished: 17 39 26
         default:
           description: Unexpected error
       tags:
@@ -1291,33 +1364,36 @@ paths:
           schema:
             type: integer
             example: 1
-        - $ref: '#/components/parameters/permission_group_id'
-        - $ref: '#/components/parameters/title_en'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/key'
-        - $ref: '#/components/parameters/row_status'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/permissionSubGroup'
       responses:
         '200':
-          description: Get one Division
+          description: 'successful '
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/permissionSubGroup'
               example:
                 data:
-                  id: 22
-                  permission_group_id: '3'
-                  title_en: Test Title (EN)
-                  title: Test Title (Native)
-                  key: demo_key
-                  row_status: '0'
-                  created_at: '2021-08-23T08:56:41.000000Z'
-                  updated_at: '2021-08-23T09:00:08.000000Z'
+                  id: 1
+                  title_en: Substance Abuse Social Worker En
+                  title: Substance Abuse Social Worker Bn
+                  key: substance_abuse_social_worker
+                  permission_group_id: 1
+                  permission_group_title_en: System
+                  permission_group_title: System
+                  row_status: 1
+                  created_at: '2021-10-16T13:14:34.000000Z'
+                  updated_at: '2021-10-16T13:14:34.000000Z'
                 _response_status:
                   success: true
                   code: 200
-                  message: Permission Sub Group updated successfully
-                  query_time: 0
+                  message: permissionSubGroup updated successfully
+                  started: 17 34 28
+                  finished: 17 34 28
         default:
           description: Unexpected error
       tags:
@@ -1387,7 +1463,10 @@ paths:
       description: get all menus
       parameters:
         - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/name_optional'
+        - $ref: '#/components/parameters/row_status_optional'
       responses:
         '200':
           description: Successful
@@ -1398,13 +1477,13 @@ paths:
               example:
                 data:
                   - id: 1
-                    name: name_update
-                    type: type_update
+                    name: name1
+                    type: type1
                     created_at: '2021-09-16T06:28:57.000000Z'
                     updated_at: '2021-09-16T06:30:40.000000Z'
                   - id: 4
-                    name: menu1
-                    type: group
+                    name: menu4
+                    type: type4
                     created_at: '2021-09-16T06:34:33.000000Z'
                     updated_at: '2021-09-16T06:34:33.000000Z'
                 response_status:
@@ -1415,9 +1494,11 @@ paths:
         - Menu
     post:
       summary: store
-      parameters:
-        - $ref: '#/components/parameters/name'
-        - $ref: '#/components/parameters/type'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Menu'
       responses:
         '200':
           description: success
@@ -1468,8 +1549,11 @@ paths:
       summary: update
       parameters:
         - $ref: '#/components/parameters/menuId'
-        - $ref: '#/components/parameters/name'
-        - $ref: '#/components/parameters/type'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Menu'
       responses:
         '200':
           description: update
@@ -1517,8 +1601,10 @@ paths:
       summary: get list
       description: get all menuItems
       parameters:
-        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/name_optional'
+        - $ref: '#/components/parameters/row_status_optional'
       responses:
         '200':
           description: Successful
@@ -1526,23 +1612,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Menu'
-              example: {}
+              example:
+                order: ASC
+                data:
+                  id: 1
+                  menu_id: 4
+                  title: title
+                  title_lang_key: title_bangla
+                  permission_key: get_permission
+                  url: wwww.nise3
+                  target: self
+                  icon_class: fa fa-dashboard
+                  color: blue
+                  parent_id: 1
+                  order: 0
+                  route: '1'
+                  parameters: null
+                  created_at: '2021-09-16T07:31:51.000000Z'
+                  updated_at: '2021-09-16T07:31:51.000000Z'
+                response_status:
+                  success: true
+                  code: 200
+                  query_time: 0
       tags:
         - MenuItem
     post:
       summary: store
-      parameters:
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/menu_id'
-        - $ref: '#/components/parameters/title_lang_key'
-        - $ref: '#/components/parameters/url'
-        - $ref: '#/components/parameters/target'
-        - $ref: '#/components/parameters/icon_class'
-        - $ref: '#/components/parameters/color'
-        - $ref: '#/components/parameters/parent_id'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/route'
-        - $ref: '#/components/parameters/permission_key'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MenuItems'
       responses:
         '200':
           description: success
@@ -1552,39 +1652,25 @@ paths:
                 $ref: '#/components/schemas/MenuItems'
               example:
                 data:
-                  - id: 1
-                    menu_id: 4
-                    title: title
-                    title_lang_key: title_bangla
-                    permission_key: get_permission
-                    url: wwww.nise3
-                    target: self
-                    icon_class: fa fa-dashboard
-                    color: blue
-                    parent_id: 1
-                    order: 0
-                    route: '1'
-                    parameters: null
-                    created_at: '2021-09-16T07:31:51.000000Z'
-                    updated_at: '2021-09-16T07:31:51.000000Z'
-                  - id: 2
-                    menu_id: 4
-                    title: title
-                    title_lang_key: title
-                    permission_key: ssssss
-                    url: aaaaaaaaaaa
-                    target: aaaaaaaaa
-                    icon_class: d;laksds
-                    color: blue
-                    parent_id: 1
-                    order: 0
-                    route: '1'
-                    parameters: null
-                    created_at: '2021-09-16T07:42:05.000000Z'
-                    updated_at: '2021-09-16T07:42:05.000000Z'
+                  id: 2
+                  menu_id: 4
+                  title: title
+                  title_lang_key: title
+                  permission_key: view any division
+                  url: url.com
+                  target: self
+                  icon_class: fa
+                  color: blue
+                  parent_id: 1
+                  order: 0
+                  route: '1'
+                  parameters: null
+                  created_at: '2021-09-16T07:42:05.000000Z'
+                  updated_at: '2021-09-16T07:42:05.000000Z'
                 response_status:
                   success: true
                   code: 200
+                  message: MenuItem added successfully
                   query_time: 0
       tags:
         - MenuItem
@@ -1603,24 +1689,26 @@ paths:
               example:
                 data:
                   id: 1
-                  menu_id: '4'
-                  title: title_update
-                  title_lang_key: title_update
-                  permission_key: post_permission
-                  url: www.nise3.com/update
-                  target: seld
-                  icon_class: fa fa -dashboard
-                  color: red
-                  parent_id: '2'
-                  order: 0
-                  route: '1'
+                  menu_id: 1
+                  menu_name: division
+                  menu_type: ''
+                  title: view_any_division
+                  title_lang_key: EN
+                  permission_key: view_any_division
+                  url: api/v1/division
+                  target: _self
+                  icon_class: fa
+                  color: blue
+                  parent_id: null
+                  parent_title: null
+                  order: 1
+                  route: null
                   parameters: null
-                  created_at: '2021-09-16T07:31:51.000000Z'
-                  updated_at: '2021-09-16T08:04:36.000000Z'
+                  created_at: null
+                  updated_at: null
                 _response_status:
                   success: true
                   code: 200
-                  message: MenuItem updated successfully
                   query_time: 0
       tags:
         - MenuItem
@@ -1628,17 +1716,11 @@ paths:
       summary: update
       parameters:
         - $ref: '#/components/parameters/menuItemId'
-        - $ref: '#/components/parameters/title'
-        - $ref: '#/components/parameters/menu_id'
-        - $ref: '#/components/parameters/title_lang_key'
-        - $ref: '#/components/parameters/url'
-        - $ref: '#/components/parameters/target'
-        - $ref: '#/components/parameters/icon_class'
-        - $ref: '#/components/parameters/color'
-        - $ref: '#/components/parameters/parent_id'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/route'
-        - $ref: '#/components/parameters/permission_key'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MenuItems'
       responses:
         '200':
           description: update
@@ -1649,20 +1731,23 @@ paths:
               example:
                 data:
                   id: 1
-                  menu_id: '4'
-                  title: title_update
-                  title_lang_key: title_update
-                  permission_key: post_permission
-                  url: www.nise3.com/update
-                  target: seld
-                  icon_class: fa fa -dashboard
-                  color: red
-                  parent_id: '2'
-                  order: 0
-                  route: '1'
+                  menu_id: 1
+                  menu_name: division
+                  menu_type: ''
+                  title: view_any_division
+                  title_lang_key: EN
+                  permission_key: view_any_division
+                  url: api/v1/division
+                  target: _self
+                  icon_class: fa
+                  color: blue
+                  parent_id: null
+                  parent_title: null
+                  order: 1
+                  route: null
                   parameters: null
-                  created_at: '2021-09-16T07:31:51.000000Z'
-                  updated_at: '2021-09-16T08:04:36.000000Z'
+                  created_at: null
+                  updated_at: null
                 _response_status:
                   success: true
                   code: 200
@@ -1692,9 +1777,9 @@ paths:
 components:
   securitySchemes:
     bearerAuth:
-      type: apiKey
-      name: Token
-      in: header
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   parameters:
     is_button_available:
       name: is_button_available
@@ -1999,7 +2084,6 @@ components:
       style: form
       schema:
         type: string
-        example: Demo Name En
     name_en_optional:
       name: name_en
       in: query
@@ -2007,7 +2091,6 @@ components:
       style: form
       schema:
         type: string
-        example: Demo Name En
     name:
       name: name
       in: query
@@ -2015,7 +2098,6 @@ components:
       style: form
       schema:
         type: string
-        example: ডেমো নাম
     name_optional:
       name: name
       in: query
@@ -2023,7 +2105,6 @@ components:
       style: form
       schema:
         type: string
-        example: ডেমো নাম
     username:
       name: username
       in: query
@@ -2031,7 +2112,6 @@ components:
       style: form
       schema:
         type: string
-        example: ডেমো নাম
     username_optional:
       name: username
       in: query
@@ -2055,7 +2135,6 @@ components:
       style: form
       schema:
         type: string
-        example: system
     email:
       name: email
       in: query
@@ -2240,167 +2319,6 @@ components:
         type: integer
         example: 1
   schemas:
-    division:
-      type: object
-      description: Provide the Loc Division
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        title_en:
-          type: string
-          description: Division Title In English
-          minLength: 1
-          maxLength: 255
-        title:
-          type: string
-          description: Division Title In Bengali
-          minLength: 1
-          maxLength: 500
-        bbs_code:
-          type: string
-          description: Division BBS code
-          minLength: 1
-          maxLength: 4
-        row_status:
-          type: integer
-          description: Division activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        create_by:
-          type: integer
-          description: Division creater id
-        updated_by:
-          type: integer
-          description: Division modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - title_en
-        - title
-    district:
-      type: object
-      description: Provide the Loc District
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        loc_division_id:
-          type: integer
-          description: Division Id
-        title_en:
-          type: string
-          description: District Title In English
-          minLength: 1
-          maxLength: 255
-        title:
-          type: string
-          description: District Title In Bengali
-          minLength: 1
-          maxLength: 500
-        bbs_code:
-          type: string
-          description: District BBS code
-          minLength: 1
-          maxLength: 4
-        division_bbs_code:
-          type: string
-          description: Division BBS code
-          minLength: 1
-          maxLength: 4
-        row_status:
-          type: integer
-          description: District activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        create_by:
-          type: integer
-          description: District creater id
-        updated_by:
-          type: integer
-          description: District modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - loc_division_id
-        - title_en
-        - title
-    upazila:
-      type: object
-      description: Provide the Loc Upazila Data
-      properties:
-        id:
-          type: integer
-          description: Primary Key
-          readOnly: true
-        loc_division_id:
-          type: integer
-          description: Division Id
-        loc_district_id:
-          type: integer
-          description: Division Id
-        title_en:
-          type: string
-          description: District Title In English
-          minLength: 1
-          maxLength: 255
-        title:
-          type: string
-          description: District Title In Bengali
-          minLength: 1
-          maxLength: 500
-        bbs_code:
-          type: string
-          description: District BBS code
-          minLength: 1
-          maxLength: 4
-        division_bbs_code:
-          type: string
-          description: Division BBS code
-          minLength: 1
-          maxLength: 4
-        district_bbs_code:
-          type: string
-          description: Division BBS code
-          minLength: 1
-          maxLength: 4
-        row_status:
-          type: integer
-          description: District activation status
-          enum:
-            - 1
-            - 0
-          example: 1
-        create_by:
-          type: integer
-          description: District creater id
-        updated_by:
-          type: integer
-          description: District modifier id
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - loc_division_id
-        - title_en
-        - title
     permission:
       type: object
       description: Provide Permission Data
@@ -2408,18 +2326,24 @@ components:
         id:
           type: integer
           readOnly: true
-        name:
+        title_en:
           type: integer
-          description: Permission Title
+          description: Permission Title in english
+        title:
+          type: integer
+          description: Permission Title in Native
+        key:
+          type: string
+          uniqueItems: true
         uri:
           type: string
-          description: Permission Uri
+          description: Permission Uri.Unique with method
         module:
           type: string
           description: Module name
         method:
           type: integer
-          description: 1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE
+          description: Unique with uri .1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE
           enum:
             - 1
             - 2
@@ -2429,22 +2353,18 @@ components:
           example: 1
         row_status:
           type: integer
-          description: 1=>Active,0=>Inactive,99=>Delete
+          description: 1=>Active,0=>Inactive
           enum:
             - 1
             - 0
           example: 1
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
       required:
-        - name
+        - title
+        - title_en
+        - module
+        - key
         - uri
         - method
-        - module
     organizationPermission:
       type: object
       description: Associate model
@@ -2478,6 +2398,7 @@ components:
           type: string
           maxLength: 100
           minLength: 1
+          uniqueItems: true
         title_en:
           type: string
         title:
@@ -2490,6 +2411,8 @@ components:
           type: integer
         institute_id:
           type: integer
+        organization_association_id:
+          type: integer
         description:
           type: string
         row_status:
@@ -2499,18 +2422,10 @@ components:
             - 1
             - 0
           example: 1
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        deleted_at:
-          type: string
-          format: date-time
-          readOnly: true
+      required:
+        - title
+        - title_en
+        - key
     rolePermissions:
       type: object
       description: Associate model
@@ -2529,13 +2444,10 @@ components:
         id:
           type: integer
           readOnly: true
+        idp_user_id:
+          type: integer
+          readOnly: true
         user_type:
-          type: integer
-        organization_id:
-          type: integer
-        institute_id:
-          type: integer
-        role_id:
           type: integer
         username:
           type: string
@@ -2543,9 +2455,21 @@ components:
           type: string
         name:
           type: string
+        organization_id:
+          type: integer
+        institute_id:
+          type: integer
+        role_id:
+          type: integer
         email:
           type: string
           format: email
+        country:
+          type: string
+          example: BD
+        phone_code:
+          type: string
+          example: '880'
         mobile:
           type: string
         loc_division_id:
@@ -2557,6 +2481,8 @@ components:
         loc_upazila_id:
           type: integer
           description: Upazila Id
+        verification_code:
+          type: string
         verification_code_sent_at:
           type: string
           format: date-time
@@ -2614,6 +2540,7 @@ components:
           type: string
         key:
           type: string
+          uniqueItems: true
         row_status:
           type: integer
           description: 1=>Active,0=>InActive
@@ -2621,12 +2548,6 @@ components:
             - 1
             - 0
           example: 1
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
       required:
         - title_en
         - title
@@ -2657,18 +2578,13 @@ components:
           type: string
         key:
           type: string
+          uniqueItems: true
         row_status:
           type: integer
           enum:
             - 1
             - 0
           example: 1
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
       required:
         - permission_group_id
         - title_en
@@ -2742,7 +2658,6 @@ components:
           description: target value
           minLength: 1
           maxLength: 191
-          default: true
         icon_class:
           type: string
           description: icon
@@ -2768,14 +2683,16 @@ components:
           type: string
           description: parameters
       required:
+        - title
         - icon_class
+        - order
     ErrorResponse:
       type: object
-      description: Recent activities
+      description: Error Response
       properties:
         _response_status:
           type: object
-          description: Recent activities
+          description: Error Response
           properties:
             success:
               type: boolean
