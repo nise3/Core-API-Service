@@ -18,8 +18,8 @@ class PermissionSeeder extends Seeder
 
     public function run()
     {
-//        Schema::disableForeignKeyConstraints();
-//        DB::table('permissions')->truncate();
+        Schema::disableForeignKeyConstraints();
+        DB::table('permissions')->truncate();
 
         $methods = [
             'view_any' => [
@@ -97,6 +97,6 @@ class PermissionSeeder extends Seeder
             }
 
         }
-//        Schema::enableForeignKeyConstraints();
+        Schema::enableForeignKeyConstraints();
     }
 }
