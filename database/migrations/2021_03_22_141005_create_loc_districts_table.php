@@ -21,10 +21,7 @@ class CreateLocDistrictsTable extends Migration {
             $table->string('title', 500);
             $table->unsignedTinyInteger('is_sadar_district')->default(0);
             $table->char('bbs_code', 5)->nullable();
-            $table->unsignedTinyInteger('row_status')->default(1);
-            $table->timestamps();
             $table->softDeletes();
-
 		});
 	}
 

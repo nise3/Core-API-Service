@@ -83,33 +83,21 @@ class UserService
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')
                 ->whereNull('roles.deleted_at');
-            if (is_int($rowStatus)) {
-                $join->where('roles.row_status', $rowStatus);
-            }
         });
 
         $usersBuilder->leftJoin('loc_divisions', function ($join) use ($rowStatus) {
             $join->on('loc_divisions.id', '=', 'users.loc_division_id')
                 ->whereNull('loc_divisions.deleted_at');
-            if (is_int($rowStatus)) {
-                $join->where('roles.row_status', $rowStatus);
-            }
         });
 
         $usersBuilder->leftJoin('loc_districts', function ($join) use ($rowStatus) {
             $join->on('loc_districts.id', '=', 'users.loc_district_id')
                 ->whereNull('loc_districts.deleted_at');
-            if (is_int($rowStatus)) {
-                $join->where('roles.row_status', $rowStatus);
-            }
         });
 
         $usersBuilder->leftJoin('loc_upazilas', function ($join) use ($rowStatus) {
             $join->on('loc_upazilas.id', '=', 'users.loc_upazila_id')
                 ->whereNull('loc_upazilas.deleted_at');
-            if (is_int($rowStatus)) {
-                $join->where('roles.row_status', $rowStatus);
-            }
         });
 
         $usersBuilder->orderBy('users.id', $order);

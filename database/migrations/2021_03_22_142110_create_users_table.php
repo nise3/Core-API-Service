@@ -31,9 +31,12 @@ class CreateUsersTable extends Migration
             $table->string("phone_code")->default("880");
             $table->string('mobile', 11)->nullable();
 
-            $table->unsignedMediumInteger('loc_division_id')->nullable()->index('users_loc_division_id_inx');
-            $table->unsignedMediumInteger('loc_district_id')->nullable()->index('users_loc_district_id_inx');
-            $table->unsignedMediumInteger('loc_upazila_id')->nullable()->index('users_loc_upazila_id_inx');
+            $table->unsignedMediumInteger('loc_division_id')
+                ->nullable()->index('users_loc_division_id_inx');
+            $table->unsignedMediumInteger('loc_district_id')
+                ->nullable()->index('users_loc_district_id_inx');
+            $table->unsignedMediumInteger('loc_upazila_id')
+                ->nullable()->index('users_loc_upazila_id_inx');
 
             /**
              * $table->timestamp('email_verified_at')->nullable();
