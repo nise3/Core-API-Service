@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,8 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $title_en
  * @property string|null $bbs_code
  * @property int $loc_division_id
- * @property Carbon $created_at
- * @property Carbon $updated_at
  * @property bool|null $is_sadar_district
  * @property-read Collection|LocUpazila[] $locUpazilas
  * @property-read LocDivision $locDivision
