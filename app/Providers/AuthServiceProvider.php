@@ -47,7 +47,6 @@ class AuthServiceProvider extends ServiceProvider
                 }
             }
 
-
 //            $token = $request->header('Authorization');
 //            $authUser = null;
 //            if ($token) {
