@@ -463,7 +463,7 @@ class UserService
             "username" => 'required|max:100|string|unique:users,username,' . $id,
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
-            "name_en" => 'required|max:255|min:3',
+            "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
             "mobile" => [
