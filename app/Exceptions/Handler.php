@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use ParseError;
+use PDOException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -93,6 +94,12 @@ class Handler extends ExceptionHandler
             $errors['_response_status']['message'] = $e->getMessage();
         } elseif ($e instanceof BadMethodCallException) {
             $errors['_response_status']['message'] = "Bad Method has been Called";
+        } elseif ($e instanceof PDOException) {
+            $errors['_response_status']['code'] = ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
+            $errors['_response_status']['message'] = "PDO Error";
+        } elseif ($e instanceof \RuntimeException) {
+            $errors['_response_status']['code'] = ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
+            $errors['_response_status']['message'] = $e->getMessage();
         } elseif ($e instanceof ErrorException) {
             $errors['_response_status']['message'] = "Internal Server Side Error";
         } elseif ($e instanceof TypeError) {
