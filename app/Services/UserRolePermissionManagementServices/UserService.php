@@ -332,7 +332,7 @@ class UserService
             ->where('row_status', BaseModel::ROW_STATUS_ACTIVE)
             ->first();
 
-        if (!$user){
+        if (!$user) {
             return new \stdClass();
         }
 
@@ -524,7 +524,7 @@ class UserService
             "name_en" => 'required|string|min:3',
             "name" => 'required|string|min:3',
             "country" => 'nullable|string|min:3',
-            "phone_code"=>"nullable|string",
+            "phone_code" => "nullable|string",
             "email" => 'required|email',
             "mobile" => [
                 "nullable",
@@ -534,7 +534,7 @@ class UserService
             "loc_division_id" => 'nullable|gt:0|exists:loc_districts,id',
             "loc_district_id" => 'nullable|gt:0|exists:loc_divisions,id',
             "loc_upazila_id" => 'nullable|gt:0|exists:loc_upazilas,id',
-            "verification_code"=>'nullable|string',
+            "verification_code" => 'nullable|string',
             "verification_code_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => [
@@ -679,14 +679,15 @@ class UserService
         return $client;
     }
 
-    private function prepareIdpPayload($data){
-        $userEmailNo =  trim($data['username']);
-        $cleanUserName =  trim($data['username']);
-        if(!str_contains($userEmailNo, '@')){
-            $userEmailNo = 'y_' . $data['username'] . '@youth.nise3.com';
-        }else{
-            $cleanUserName =  str_replace('@', '', $cleanUserName);
-        }
+    private function prepareIdpPayload($data)
+    {
+        $userEmailNo = trim($data['email']);
+        $cleanUserName = trim($data['username']);
+//        if(!str_contains($userEmailNo, '@')){ TODO :"This code should be checked"
+//            $userEmailNo = 'y_' . $data['username'] . '@youth.nise3.com';
+//        }else{
+//            $cleanUserName =  str_replace('@', '', $cleanUserName);
+//        }
         return [
             'schemas' => [
                 "urn:ietf:params:scim:schemas:core:2.0:User",
@@ -696,9 +697,9 @@ class UserService
                 'familyName' => $data['name'],
                 'givenName' => $data['name']
             ],
-            'active' => (string) $data['active'],
+            'active' => (string)$data['status'],
             'organization' => $data['name'],
-            'userName' =>$cleanUserName,
+            'userName' => $cleanUserName,
             'password' => $data['password'],
             'userType' => $data['user_type'],
             'country' => 'BD',

@@ -311,7 +311,7 @@ class UserController extends Controller
         try {
             /** @var  $idpUserPayLoad */
             $idpUserPayLoad = [
-                'name' => $validatedData['name_en'],
+                'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'username' => $validatedData['username'],
                 'password' => $validatedData['password'],
