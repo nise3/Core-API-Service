@@ -485,7 +485,7 @@ class UserService
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
             "role_id" => 'nullable|exists:roles,id',
-            "name_en" => 'required|max:255|min:3',
+            "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
             "mobile" => "nullable|max:15|string",
