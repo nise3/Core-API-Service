@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('institute_id')->nullable();
             $table->unsignedSmallInteger('role_id')->nullable();
 
-            $table->string('name_en', 255);
+            $table->string('name_en', 255)->nullable();
             $table->string('name', 300)->nullable();
 
             $table->string('email', 191);
