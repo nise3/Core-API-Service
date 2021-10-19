@@ -256,7 +256,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $idpUserPayLoad = [
-                'name' => $validated['name_en'],
+                'name' => $validated['name'],
                 'email' => $validated['email'],
                 'username' => $validated['username'],
                 'password' => $validated['password'],
