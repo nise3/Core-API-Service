@@ -1400,6 +1400,7 @@
                         "name": "password_confirmation",
                         "in": "query",
                         "required": true,
+                        "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
                         "schema": {
                             "type": "string",
                             "format": "password"
@@ -3181,7 +3182,7 @@
                 "name": "password",
                 "in": "query",
                 "required": true,
-                "style": "form",
+                "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
                 "schema": {
                     "type": "string",
                     "format": "password"
@@ -3191,6 +3192,7 @@
                 "name": "permission_group_id",
                 "in": "query",
                 "required": true,
+                "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
                 "style": "form",
                 "schema": {
                     "type": "integer"
@@ -3583,7 +3585,16 @@
                         "format": "date-time"
                     },
                     "password": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
+                        "maxLength": 8,
+                        "format": "password"
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
+                        "maxLength": 8,
+                        "format": "password"
                     },
                     "profile_pic": {
                         "type": "string"
@@ -3602,22 +3613,15 @@
                     },
                     "updated_by": {
                         "type": "integer"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
                     }
                 },
                 "required": [
                     "user_type",
                     "username",
-                    "name_en",
                     "name",
-                    "email"
+                    "email",
+                    "password",
+                    "password_confirmation"
                 ]
             },
             "userPermissions": {
