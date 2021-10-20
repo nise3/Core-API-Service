@@ -727,7 +727,7 @@ class UserService
         return $client;
     }
 
-    private function prepareIdpPayload($data)
+    private function prepareIdpPayload($data): array
     {
         $userEmailNo = trim($data['email']);
         $cleanUserName = trim($data['username']);
