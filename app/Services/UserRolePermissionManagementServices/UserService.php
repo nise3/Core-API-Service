@@ -18,8 +18,12 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *
+ */
 class UserService
 {
     /**
@@ -444,6 +448,11 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param User $user
+     * @param array $permissionIds
+     * @return User
+     */
     public function assignPermission(User $user, array $permissionIds): User
     {
         $validPermissions = Permission::whereIn('id', $permissionIds)->orderBy('id', 'ASC')->pluck('id')->toArray();
@@ -471,11 +480,24 @@ class UserService
                 "string",
                 BaseModel::MOBILE_REGEX
             ],
-            "password" => "required|string|min:6"
+            "password" => [
+                "required",
+                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+            ],
         ];
         return Validator::make($request->all(), $rules);
     }
 
+
+    /**
+     * validation for organization or institute creation by admin
+     * @param Request $request
+     * @param int|null $id
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function organizationOrInstituteUserCreateValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
@@ -494,7 +516,13 @@ class UserService
             "loc_upazila_id" => 'nullable|exists:loc_upazilas,id',
             "verification_code_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "password" => 'nullable|max:191|min:6',
+            "password" => [
+                "required",
+                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+            ],
             "profile_pic" => 'nullable|max:1000|string',
             "created_by" => "nullable|int",
             "updated_by" => "nullable|int",
@@ -521,9 +549,9 @@ class UserService
             "organization_id" => 'nullable|int|gt:0',
             "institute_id" => 'nullable|int|gt:0',
             "role_id" => 'nullable|exists:roles,id',
-            "name_en" => 'required|string|min:3',
-            "name" => 'required|string|min:3',
-            "country" => 'nullable|string|min:3',
+            "name_en" => 'nullable|string|min:2',
+            "name" => 'required|string|min:2',
+            "country" => 'nullable|string|',
             "phone_code" => "nullable|string",
             "email" => 'required|email',
             "mobile" => [
@@ -539,8 +567,13 @@ class UserService
             "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
             "password" => [
                 'required_if:' . $id . ',==,null',
-                'string'
+                "confirmed",
+                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
             ],
+            "password_confirmation" => 'required_with:password',
             "profile_pic" => 'nullable|string',
             "created_by" => "nullable|int|gt:0",
             "updated_by" => "nullable|int|gt:0",
@@ -583,10 +616,13 @@ class UserService
 
             ],
             "password" => [
-                'required_with:password_confirmation',
-                'string',
+                "required",
+                "confirmed",
                 'different:current_password',
-                'confirmed'
+                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers(),
             ],
             "password_confirmation" => 'required_with:password',
             "profile_pic" => [
@@ -600,6 +636,10 @@ class UserService
         return Validator::make($request->all(), $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function roleIdValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
@@ -608,6 +648,10 @@ class UserService
         return Validator::make($request->all(), $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
@@ -618,6 +662,10 @@ class UserService
         return Validator::make($data, $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         if (!empty($request['order'])) {

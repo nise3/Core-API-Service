@@ -35,6 +35,10 @@ abstract class BaseModel extends Model
 
     public const IN = "IN";
 
+    public const INSTITUTE_ORGANIZATION_USER_DEFAULT_PASSWORD = "ABcd1234";
+
+    public const PASSWORD_MIN_LENGTH = 8;
+    public const PASSWORD_MAX_LENGTH = 50;
 
     /** Idp User */
     public const IDP_USERNAME = 'admin';

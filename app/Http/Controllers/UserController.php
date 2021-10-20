@@ -8,6 +8,7 @@ use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Exception;
 use Faker\Provider\Uuid;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -195,6 +196,8 @@ class UserController extends Controller
      * @param Request $request
      * @param string $id
      * @return JsonResponse
+     * @throws Throwable
+     * @throws RequestException
      */
     public function getUserPermissionList(Request $request, string $id): JsonResponse
     {
@@ -251,7 +254,7 @@ class UserController extends Controller
     public function organizationOrInstituteUserCreate(Request $request): JsonResponse //When admin user create an institute or organization
     {
         $user = new User();
-        $request['password'] = $request['password'] ?? '123456';
+        $request['password'] = $request['password'] ?? BaseModel::INSTITUTE_ORGANIZATION_USER_DEFAULT_PASSWORD;
         $validated = $this->userService->organizationOrInstituteUserCreateValidator($request)->validate();
         DB::beginTransaction();
         try {
