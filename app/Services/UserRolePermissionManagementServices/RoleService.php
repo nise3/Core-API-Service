@@ -207,23 +207,22 @@ class RoleService
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $customMessage = [
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
         ];
+
         $rules = [
             'title_en' => 'required|max:191|min:2',
             'title' => 'required|max:300|min:2',
             'description' => 'nullable|string',
-            'permission_group_id' => ['exists:permission_groups,id', 'nullable'],
-            'permission_sub_group_id' => ['exists:permission_sub_groups,id', 'nullable'],
+            'permission_group_id' => ['nullable', 'exists:permission_groups,id'],
+            'permission_sub_group_id' => ['nullable', 'exists:permission_sub_groups,id'],
             'organization_id' => 'nullable|int|gt:0',
             'organization_association_id' => 'nullable|int|gt:0',
             'institute_id' => 'nullable|int|gt:0',
-            'key' => ['unique:roles,key,' . $id, 'required', 'min:2'],
+            'key' => ['required', 'unique:roles,key,' . $id, 'min:2'],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
+                'nullable',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
@@ -232,7 +231,15 @@ class RoleService
 
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
+        $permissions = $request->input('permissions');
+        $data = [];
+
+        if ($permissions) {
+            $data = [
+                'permissions' => is_array($permissions) ? $permissions : explode(',', $permissions)
+            ];
+        }
+
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|int|distinct|min:1'
@@ -242,18 +249,13 @@ class RoleService
 
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        if (!empty($request['order'])) {
-            $request['order'] = strtoupper($request['order']);
+        if ($request->filled('order')) {
+            $request->offsetSet('order', strtoupper($request->get('order')));
         }
+
         $customMessage = [
-            'order.in' => [
-                'code' => 30000,
-                "message" => 'Order must be within ASC or DESC',
-            ],
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'order.in' => 'Order must be within ASC or DESC.[30000]',
+            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
         ];
 
         return Validator::make($request->all(), [
