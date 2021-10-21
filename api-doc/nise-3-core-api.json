@@ -77,6 +77,15 @@
                     },
                     {
                         "$ref": "#/components/parameters/uri_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/method_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_optional"
+                    },
+                    {
+                        "$ref": "#/components/parameters/title_en_optional"
                     }
                 ],
                 "responses": {
@@ -2691,8 +2700,7 @@
                 "in": "path",
                 "required": true,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "parameters": {
@@ -2700,8 +2708,7 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "route": {
@@ -2709,8 +2716,7 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "parent_id": {
@@ -2718,8 +2724,7 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "icon_class": {
@@ -2775,8 +2780,7 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "sub_title_en": {
@@ -2784,8 +2788,7 @@
                 "in": "query",
                 "required": true,
                 "schema": {
-                    "type": "string",
-                    "example": "subtitle"
+                    "type": "string"
                 }
             },
             "sub_title_en_optional": {
@@ -2793,8 +2796,7 @@
                 "in": "query",
                 "required": true,
                 "schema": {
-                    "type": "string",
-                    "example": "subtitle"
+                    "type": "string"
                 }
             },
             "sub_title": {
@@ -2802,8 +2804,7 @@
                 "required": true,
                 "in": "query",
                 "schema": {
-                    "type": "string",
-                    "example": "subtitle"
+                    "type": "string"
                 }
             },
             "sub_title_optional": {
@@ -2811,8 +2812,7 @@
                 "required": false,
                 "in": "query",
                 "schema": {
-                    "type": "string",
-                    "example": "subtitle"
+                    "type": "string"
                 }
             },
             "title": {
@@ -2820,8 +2820,7 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "string",
-                    "example": "title"
+                    "type": "string"
                 }
             },
             "batch_id": {
@@ -2829,8 +2828,7 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "programme_id": {
@@ -2838,8 +2836,7 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "image": {
@@ -2860,15 +2857,13 @@
                         0,
                         1
                     ],
-                    "example": 1,
-                    "default": false
+                    "default": 0
                 }
             },
             "page": {
                 "name": "page",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "integer"
                 }
@@ -2889,7 +2884,6 @@
                 "name": "page_size",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "integer"
                 }
@@ -2898,7 +2892,6 @@
                 "in": "query",
                 "name": "order",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string",
                     "enum": [
@@ -2911,7 +2904,6 @@
                 "name": "row_status",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "integer",
                     "enum": [
@@ -2925,7 +2917,6 @@
                 "name": "title",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -2934,17 +2925,14 @@
                 "name": "title_en",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "Test Title (EN)"
+                    "type": "string"
                 }
             },
             "title_en_optional": {
                 "name": "title_en",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -2953,58 +2941,46 @@
                 "name": "bbs_code",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
-                    "type": "string",
-                    "maxLength": 4,
-                    "example": "1000"
+                    "type": "string"
                 }
             },
             "loc_division_id": {
                 "name": "loc_division_id",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "loc_division_id_optional": {
                 "name": "loc_division_id",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "loc_district_id": {
                 "name": "loc_district_id",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "loc_district_id_optional": {
                 "name": "loc_district_id",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "uri": {
                 "name": "uri",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3013,27 +2989,46 @@
                 "name": "method",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
-                    "type": "number",
-                    "example": "1"
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "description": "1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE"
+                }
+            },
+            "method_optional": {
+                "name": "method",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "description": "1 => GET, 2 => POST, 3 => PUT, 4 => PATCH, 5 => DELETE"
                 }
             },
             "module": {
                 "name": "module",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "roles"
+                    "type": "string"
                 }
             },
             "uri_optional": {
                 "name": "uri",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3042,7 +3037,6 @@
                 "name": "name_en",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3051,7 +3045,6 @@
                 "name": "name_en",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3060,7 +3053,6 @@
                 "name": "name",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3069,7 +3061,6 @@
                 "name": "name",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3078,7 +3069,6 @@
                 "name": "username",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3087,17 +3077,14 @@
                 "name": "username",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
-                    "type": "string",
-                    "example": "ডেমো নাম"
+                    "type": "string"
                 }
             },
             "key": {
                 "name": "key",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
                     "type": "string",
                     "example": "demo_key"
@@ -3107,7 +3094,6 @@
                 "name": "key",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string"
                 }
@@ -3116,18 +3102,15 @@
                 "name": "email",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
                     "type": "string",
-                    "format": "email",
-                    "example": "user1@gmail.com"
+                    "format": "email"
                 }
             },
             "email_optional": {
                 "name": "email",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string",
                     "format": "email"
@@ -3146,15 +3129,13 @@
                 "in": "query",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "institute_id": {
                 "name": "institute_id",
                 "in": "query",
                 "required": true,
-                "style": "form",
                 "schema": {
                     "type": "integer"
                 }
@@ -3163,17 +3144,14 @@
                 "name": "institute_id",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "loc_upazila_id": {
                 "name": "loc_upazila_id",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "integer"
                 }
@@ -3193,7 +3171,6 @@
                 "in": "query",
                 "required": true,
                 "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
-                "style": "form",
                 "schema": {
                     "type": "integer"
                 }
@@ -3202,7 +3179,6 @@
                 "name": "permission_group_id",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "integer"
                 }
@@ -3211,7 +3187,6 @@
                 "name": "permission_sub_group_id",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "integer"
                 }
@@ -3220,10 +3195,8 @@
                 "name": "description",
                 "in": "query",
                 "required": false,
-                "style": "form",
                 "schema": {
                     "type": "string",
-                    "format": "email",
                     "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                 }
             },
@@ -3277,8 +3250,7 @@
                 "name": "role_id",
                 "required": false,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             },
             "profile_pic": {
@@ -3337,8 +3309,7 @@
                 "name": "type",
                 "required": true,
                 "schema": {
-                    "type": "string",
-                    "example": "group"
+                    "type": "string"
                 }
             },
             "menuId": {
@@ -3346,8 +3317,7 @@
                 "in": "path",
                 "required": true,
                 "schema": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             }
         },
