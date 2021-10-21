@@ -728,15 +728,10 @@ class UserService
         return $client;
     }
 
-    private function prepareIdpPayload($data)
+    private function prepareIdpPayload($data): array
     {
         $userEmailNo = trim($data['email']);
         $cleanUserName = trim($data['username']);
-//        if(!str_contains($userEmailNo, '@')){ TODO :"This code should be checked"
-//            $userEmailNo = 'y_' . $data['username'] . '@youth.nise3.com';
-//        }else{
-//            $cleanUserName =  str_replace('@', '', $cleanUserName);
-//        }
         return [
             'schemas' => [
                 "urn:ietf:params:scim:schemas:core:2.0:User",
