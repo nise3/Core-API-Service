@@ -50,13 +50,13 @@ class MenuItemService
 
         $menuItemBuilder->leftJoin('menus', function ($join) use ($rowStatus) {
             $join->on('menu_items.menu_id', '=', 'menus.id');
-            if (is_int($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('menus.row_status', $rowStatus);
             }
         });
         $menuItemBuilder->leftJoin('menu_items as parent', function ($join) use ($rowStatus) {
             $join->on('menu_items.parent_id', '=', 'parent.id');
-            if (is_int($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('permission_groups.row_status', $rowStatus);
             }
         });
@@ -64,7 +64,7 @@ class MenuItemService
         if (!empty($title)) {
             $menuItemBuilder->where('menu_items.title', 'like', '%' . $title . '%');
         }
-        if (is_int($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $menuItemBuilder->where('menus.row_status', $rowStatus);
         }
         /** @var Collection $menuItems */
@@ -131,13 +131,14 @@ class MenuItemService
         $menuItemBuilder->leftJoin('menu_items as parent', function ($join) {
             $join->on('menu_items.parent_id', '=', 'parent.id');
         });
+
         $menuItemBuilder->where('menu_items.id', $id);
 
         /** @var  MenuItem $menuItem */
-        $menuItem = $menuItemBuilder->first();
+        $menuItem = $menuItemBuilder->firstOrFail();
 
         return [
-            "data" => $menuItem ?: [],
+            "data" => $menuItem,
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
@@ -187,14 +188,12 @@ class MenuItemService
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $customMessage = [
-            'order.in' => [
-                'code' => 30000,
-                "message" => 'Order must be within ASC or DESC',
-            ],
+            'order.in' => 'Order must be within ASC or DESC.[30000]',
+            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
         ];
 
-        if (!empty($request['order'])) {
-            $request['order'] = strtoupper($request['order']);
+        if ($request->filled('order')) {
+            $request->offsetSet('order', strtoupper($request->get('order')));
         }
 
         return Validator::make($request->all(), [
@@ -220,16 +219,16 @@ class MenuItemService
     {
         $rules = [
             'menu_id' => 'nullable|exists:menus,id|int',
-            'title' => 'required_without:title_lang_key|max:191|min:2',
-            'title_lang_key' => 'required_without:title|max:255|min:2',
+            'title' => 'required_without:title_lang_key|nullable|max:191|min:2',
+            'title_lang_key' => 'required_without:title|nullable|max:255|min:2',
             'permission_key' => 'nullable|string|max:191',
-            'url' => 'required_without:route|string|max:191',
+            'url' => 'required_without:route|nullable|string|max:191',
             'target' => 'nullable|string|max:191',
             'icon_class' => 'required|string|max:191',
             'color' => 'nullable|string|max:191',
             'parent_id' => 'nullable|exists:menu_items,id|int',
-            'order' => 'int' | 'required',
-            'route' => 'required_without:url|string|max:191',
+            'order' => ['required', 'int'],
+            'route' => 'required_without:url|nullable|string|max:191',
             'parameters' => 'nullable|string'
         ];
 

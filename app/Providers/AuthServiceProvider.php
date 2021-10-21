@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Helpers\Classes\HttpClientRequest;
-use App\Models\Role;
-use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
      * Boot the authentication services for the application.
      *
      * @return void
+     * @throws BindingResolutionException
      */
     public function boot()
     {
@@ -47,25 +46,31 @@ class AuthServiceProvider extends ServiceProvider
                 }
             }
 
-//            $token = $request->header('Authorization');
-//            $authUser = null;
-//            if ($token) {
-//                $header = explode(" ", $token);
-//                if (count($header) > 1) {
-//                    $tokenParts = explode(".", $header[1]);
-//                    if (count($tokenParts) == 3) {
-//                        $tokenPayload = base64_decode($tokenParts[1]);
-//                        $jwtPayload = json_decode($tokenPayload);
-//                        $userService = $this->app->make(UserService::class);
-//                        $authUser = $userService->getAuthPermission($jwtPayload->sub ?? null);
-//                    }
-//                }
-//                Log::info("userInfoWithIdpId:" . json_encode($authUser));
-//            }
-//            return $authUser;
+/*
+            // Old Code
+            $token = $request->header('Authorization');
+            $authUser = null;
+            if ($token) {
+                $header = explode(" ", $token);
+                if (count($header) > 1) {
+                    $tokenParts = explode(".", $header[1]);
+                    if (count($tokenParts) == 3) {
+                        $tokenPayload = base64_decode($tokenParts[1]);
+                        $jwtPayload = json_decode($tokenPayload);
+                        $userService = $this->app->make(UserService::class);
+                        $authUser = $userService->getAuthPermission($jwtPayload->sub ?? null);
+                    }
+                }
+                Log::info("userInfoWithIdpId:" . json_encode($authUser));
+            }
+            return $authUser;
+*/
         });
     }
 
+    /**
+     * @throws \Exception
+     */
     private function getIdpServerIdFromToken($data, $verify = false)
     {
         $sections = explode('.', $data);

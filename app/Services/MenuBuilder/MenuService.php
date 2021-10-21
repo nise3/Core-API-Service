@@ -28,7 +28,6 @@ class MenuService
         $name = $request['name'] ?? "";
         $order = $request['order'] ?? "ASC";
 
-
         /** @var Builder $menuBuilder */
         $menuBuilder = Menu::select([
             'menus.id',
@@ -42,13 +41,12 @@ class MenuService
         if (!empty($name)) {
             $menuBuilder->where('menus.name', 'like', '%' . $name . '%');
         }
-        if (is_int($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $menuBuilder->where('menus.row_status', $rowStatus);
         }
 
-
         /** @var Collection $menus */
-        if (is_int($paginate) || is_int($pageSize)) {
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $menus = $menuBuilder->paginate($pageSize);
             $paginateData = (object)$menus->toArray();
@@ -88,10 +86,10 @@ class MenuService
         $menuBuilder->where('menus.id', $id);
 
         /** @var  $menu */
-        $menu = $menuBuilder->first();
+        $menu = $menuBuilder->firstOrFail();
 
         return [
-            "data" => $menu ?: [],
+            "data" => $menu,
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
@@ -142,14 +140,11 @@ class MenuService
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $customMessage = [
-            'order.in' => [
-                'code' => 30000,
-                "message" => 'Order must be within ASC or DESC',
-            ],
+            'order.in' => 'Order must be within ASC or DESC. [30000]'
         ];
 
-        if (!empty($request['order'])) {
-            $request['order'] = strtoupper($request['order']);
+        if ($request->filled('order')) {
+            $request->offsetSet('order', strtoupper($request->get('order')));
         }
 
         return Validator::make($request->all(), [
