@@ -47,11 +47,7 @@ class RoleController extends Controller
     {
         $filter = $this->roleService->filterValidator($request)->validate();
 
-        try {
-            $response = $this->roleService->getAllRoles($filter, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->roleService->getAllRoles($filter, $this->startTime);
         return Response::json($response);
     }
 
@@ -65,11 +61,7 @@ class RoleController extends Controller
      */
     public function read(Request $request, int $id): JsonResponse
     {
-        try {
-            $response = $this->roleService->getOneRole($id, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->roleService->getOneRole($id, $this->startTime);
         return Response::json($response);
     }
 
@@ -84,20 +76,16 @@ class RoleController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $this->roleService->validator($request)->validate();
-        try {
-            $role = $this->roleService->store($validated);
-            $response = [
-                'data' => $role,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "Role added successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $role = $this->roleService->store($validated);
+        $response = [
+            'data' => $role,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_CREATED,
+                "message" => "Role added successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -115,20 +103,16 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $validated = $this->roleService->validator($request, $id)->validate();
-        try {
-            $role = $this->roleService->update($role, $validated);
-            $response = [
-                'data' => $role,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Role updated successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $role = $this->roleService->update($role, $validated);
+        $response = [
+            'data' => $role,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Role updated successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -141,19 +125,15 @@ class RoleController extends Controller
     public function destroy($id): JsonResponse
     {
         $role = Role::findOrFail($id);
-        try {
-            $this->roleService->destroy($role);
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Role deleted successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $this->roleService->destroy($role);
+        $response = [
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Role deleted successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
@@ -168,20 +148,16 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $validated = $this->roleService->permissionValidation($request)->validated();
-        try {
-            $role = $this->roleService->assignPermission($role, $validated['permissions']);
-            $response = [
-                'data' => $role,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Permission assigned into Role successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $role = $this->roleService->assignPermission($role, $validated['permissions']);
+        $response = [
+            'data' => $role,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Permission assigned into Role successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }

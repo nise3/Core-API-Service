@@ -40,11 +40,7 @@ class PermissionGroupController extends Controller
     {
         $filter = $this->permissionGroupService->filterValidator($request)->validate();
 
-        try {
-            $response = $this->permissionGroupService->getAllPermissionGroups($filter, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->permissionGroupService->getAllPermissionGroups($filter, $this->startTime);
         return Response::json($response);
     }
 
@@ -57,11 +53,7 @@ class PermissionGroupController extends Controller
      */
     public function read(Request $request,int $id): JsonResponse
     {
-        try {
-            $response = $this->permissionGroupService->getOnePermissionGroup($request,$id, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->permissionGroupService->getOnePermissionGroup($request,$id, $this->startTime);
         return Response::json($response);
     }
 
@@ -76,21 +68,17 @@ class PermissionGroupController extends Controller
     {
         $validated = $this->permissionGroupService->validator($request)->validate();
 
-        try {
-            $permissionGroup = new PermissionGroup();
-            $permissionGroup = $this->permissionGroupService->store($validated, $permissionGroup);
-            $response = [
-                'data' => $permissionGroup,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "PermissionGroup added successfully.",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $permissionGroup = new PermissionGroup();
+        $permissionGroup = $this->permissionGroupService->store($validated, $permissionGroup);
+        $response = [
+            'data' => $permissionGroup,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_CREATED,
+                "message" => "PermissionGroup added successfully.",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -108,20 +96,16 @@ class PermissionGroupController extends Controller
         $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->validator($request, $id)->validate();
 
-        try {
-            $permissionGroup = $this->permissionGroupService->update($validated, $permissionGroup);
-            $response = [
-                'data' => $permissionGroup,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "PermissionGroup updated successfully.",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $permissionGroup = $this->permissionGroupService->update($validated, $permissionGroup);
+        $response = [
+            'data' => $permissionGroup,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "PermissionGroup updated successfully.",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -135,19 +119,15 @@ class PermissionGroupController extends Controller
     {
         /** @var PermissionGroup $permissionGroup */
         $permissionGroup = PermissionGroup::findOrFail($id);
-        try {
-            $this->permissionGroupService->destroy($permissionGroup);
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "PermissionGroup deleted successfully.",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $this->permissionGroupService->destroy($permissionGroup);
+        $response = [
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "PermissionGroup deleted successfully.",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
@@ -163,20 +143,16 @@ class PermissionGroupController extends Controller
         /** @var PermissionGroup $permissionGroup */
         $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->permissionValidation($request)->validated();
-        try {
-            $permissionGroup=$this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
-            $response = [
-                'data'=>$permissionGroup->permissions()->get(),
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Permission(s) assigned into Permission Group successfully done",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $permissionGroup=$this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
+        $response = [
+            'data'=>$permissionGroup->permissions()->get(),
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Permission(s) assigned into Permission Group successfully done",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }

@@ -38,11 +38,7 @@ class MenuItemController extends Controller
     public function getList(Request $request): JsonResponse
     {
         $filter = $this->menuItemService->filterValidator($request)->validate();
-        try {
-            $response = $this->menuItemService->getAllMenuItems($filter, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->menuItemService->getAllMenuItems($filter, $this->startTime);
         return Response::json($response);
     }
 
@@ -53,11 +49,7 @@ class MenuItemController extends Controller
      */
     public function read(int $id): JsonResponse
     {
-        try {
-            $response = $this->menuItemService->getOneMenuItem($id, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->menuItemService->getOneMenuItem($id, $this->startTime);
         return Response::json($response);
     }
 
@@ -71,20 +63,16 @@ class MenuItemController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $this->menuItemService->validator($request)->validate();
-        try {
-            $menuItem = $this->menuItemService->store($validated);
-            $response = [
-                'data' => $menuItem,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "MenuItem added successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now())
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $menuItem = $this->menuItemService->store($validated);
+        $response = [
+            'data' => $menuItem,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_CREATED,
+                "message" => "MenuItem added successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now())
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -101,20 +89,16 @@ class MenuItemController extends Controller
     {
         $menuItem = MenuItem::findOrFail($id);
         $validated = $this->menuItemService->validator($request, $id)->validate();
-        try {
-            $menuItem = $this->menuItemService->update($menuItem, $validated);
-            $response = [
-                'data' => $menuItem,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "MenuItem updated successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $menuItem = $this->menuItemService->update($menuItem, $validated);
+        $response = [
+            'data' => $menuItem,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "MenuItem updated successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -127,19 +111,15 @@ class MenuItemController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $menuItem = MenuItem::findOrFail($id);
-        try {
-            $this->menuItemService->destroy($menuItem);
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "MenuItem deleted successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $this->menuItemService->destroy($menuItem);
+        $response = [
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "MenuItem deleted successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }

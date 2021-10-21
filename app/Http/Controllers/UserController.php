@@ -6,13 +6,11 @@ use App\Models\BaseModel;
 use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
-use Exception;
 use Faker\Provider\Uuid;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -44,11 +42,7 @@ class UserController extends Controller
     {
         $filter = $this->userService->filterValidator($request)->validate();
 
-        try {
-            $response = $this->userService->getAllUsers($filter, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->userService->getAllUsers($filter, $this->startTime);
         return Response::json($response);
     }
 
@@ -62,11 +56,7 @@ class UserController extends Controller
      */
     public function read(Request $request, int $id): JsonResponse
     {
-        try {
-            $response = $this->userService->getOneUser($id, $this->startTime);
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $response = $this->userService->getOneUser($id, $this->startTime);
         return Response::json($response);
     }
 
@@ -82,35 +72,30 @@ class UserController extends Controller
         $user = new User();
         $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $validated = $this->userService->validator($request)->validate();
-        try {
-            $httpClient = $this->userService->idpUserCreate($validated);
-            if ($httpClient->json('id')) {
-                $validated['idp_user_id'] = $httpClient->json('id');
-                $user = $this->userService->store($user, $validated);
-                $response = [
-                    'data' => $user ?? [],
-                    '_response_status' => [
-                        "success" => true,
-                        "code" => ResponseAlias::HTTP_CREATED,
-                        "message" => "User added successfully",
-                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                    ]
-                ];
-                DB::commit();
-            } else {
-                DB::rollBack();
-                $response = [
-                    '_response_status' => [
-                        "success" => false,
-                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
-                        "message" => "User is not created",
-                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                    ]
-                ];
-            }
-
-        } catch (Throwable $e) {
-            throw $e;
+        $httpClient = $this->userService->idpUserCreate($validated);
+        if ($httpClient->json('id')) {
+            $validated['idp_user_id'] = $httpClient->json('id');
+            $user = $this->userService->store($user, $validated);
+            $response = [
+                'data' => $user ?? [],
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_CREATED,
+                    "message" => "User added successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+            DB::commit();
+        } else {
+            DB::rollBack();
+            $response = [
+                '_response_status' => [
+                    "success" => false,
+                    "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                    "message" => "User is not created",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
         }
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -120,27 +105,26 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return Exception|JsonResponse|Throwable
-     * @throws ValidationException|Throwable
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->validator($request, $id)->validate();
-        try {
-            $user = $this->userService->update($validated, $user);
-            $response = [
-                'data' => $user,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "User updated successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $user = $this->userService->update($validated, $user);
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "User updated successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -148,20 +132,18 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->profileUpdatedvalidator($request, $user)->validate();
-        try {
-            $user = $this->userService->update($validated, $user);
-            $response = [
-                'data' => $user,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "User updated successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $user = $this->userService->update($validated, $user);
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "User updated successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+
         return Response::json($response, ResponseAlias::HTTP_CREATED);
 
     }
@@ -175,19 +157,16 @@ class UserController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
-        try {
-            $this->userService->destroy($user);
-            $response = [
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "User deleted successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $this->userService->destroy($user);
+        $response = [
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "User deleted successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
@@ -201,20 +180,17 @@ class UserController extends Controller
      */
     public function getUserPermissionList(Request $request, string $id): JsonResponse
     {
-        try {
-            $user = $this->userService->getUserPermissionWithMenuItems($id);
-            $response = [
-                'data' => $user ?? [],
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "User Permission List",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $user = $this->userService->getUserPermissionWithMenuItems($id);
+        $response = [
+            'data' => $user ?? [],
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "User Permission List",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+
         return Response::json($response, ResponseAlias::HTTP_OK);
 
     }
@@ -227,23 +203,18 @@ class UserController extends Controller
      */
     public function getAuthUserInfoByIdpId(Request $request): JsonResponse
     {
-        try {
-            $authUserInfo = $this->userService->getAuthPermission($request->idp_user_id ?? null);
-            $response = [
-                'data' => $authUserInfo,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Auth User information",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $authUserInfo = $this->userService->getAuthPermission($request->idp_user_id ?? null);
+        $response = [
+            'data' => $authUserInfo,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Auth User information",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
 
         return Response::json($response, ResponseAlias::HTTP_OK);
-
     }
 
     /**
@@ -350,11 +321,12 @@ class UserController extends Controller
                     ]
                 ];
             }
+            return Response::json($response, ResponseAlias::HTTP_OK);
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
         }
-        return Response::json($response, ResponseAlias::HTTP_OK);
+
     }
 
     /**
@@ -413,11 +385,13 @@ class UserController extends Controller
                 ];
             }
 
+            return Response::json($response, ResponseAlias::HTTP_OK);
+
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
         }
-        return Response::json($response, ResponseAlias::HTTP_OK);
+
     }
 
     /**
@@ -431,20 +405,16 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->permissionValidation($request)->validated();
-        try {
-            $user = $this->userService->assignPermission($user, $validated['permissions']);
-            $response = [
-                'data' => $user,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Permission assigned into User successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $user = $this->userService->assignPermission($user, $validated['permissions']);
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Permission assigned into User successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
@@ -459,20 +429,16 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->roleIdValidation($request)->validated();
-        try {
-            $user = $this->userService->setRole($user, $validated['role_id']);
-            $response = [
-                'data' => $user,
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_OK,
-                    "message" => "Role assigned into User successfully.",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
-        } catch (Throwable $e) {
-            throw $e;
-        }
+        $user = $this->userService->setRole($user, $validated['role_id']);
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Role assigned into User successfully.",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }
