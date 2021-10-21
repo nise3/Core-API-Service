@@ -267,12 +267,9 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Successfully Updated",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/permission"
-                                },
                                 "example": {
                                     "data": {
                                         "id": 1,
@@ -354,11 +351,17 @@
                             "type": "integer",
                             "example": "1"
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/permissions"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissions"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -396,11 +399,17 @@
                             "type": "integer",
                             "example": "1"
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/permissions"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissions"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -768,11 +777,17 @@
                             "type": "integer",
                             "example": "1"
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/permissions"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissions"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -1240,76 +1255,6 @@
                 ]
             }
         },
-        "/users/{userId}/assign-permissions": {
-            "post": {
-                "summary": "Assign ACL Permission to an User",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": "1"
-                        }
-                    },
-                    {
-                        "$ref": "#/components/parameters/permissions"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/userPermissions"
-                                },
-                                "example": {
-                                    "data": {
-                                        "id": 1,
-                                        "idp_user_id": "ce5c437f-d80d-4455-9037-6c84d8aab784",
-                                        "user_type": 1,
-                                        "username": "super_admin",
-                                        "organization_id": null,
-                                        "institute_id": null,
-                                        "role_id": 1,
-                                        "name_en": "Super Admin",
-                                        "name": "Super Admin",
-                                        "email": "super@gmail.com",
-                                        "country": "BD",
-                                        "phone_code": "880",
-                                        "mobile": null,
-                                        "loc_division_id": null,
-                                        "loc_district_id": null,
-                                        "loc_upazila_id": null,
-                                        "verification_code": "1234",
-                                        "verification_code_sent_at": "2021-10-15T00:00:00.000000Z",
-                                        "verification_code_verified_at": "2021-10-16T13:15:06.000000Z",
-                                        "profile_pic": null,
-                                        "row_status": 1,
-                                        "created_by": null,
-                                        "updated_by": null,
-                                        "created_at": "2021-10-16T13:15:07.000000Z",
-                                        "updated_at": "2021-10-16T13:15:07.000000Z",
-                                        "deleted_at": null
-                                    },
-                                    "_response_status": {
-                                        "success": true,
-                                        "code": 200,
-                                        "message": "Permissions assigned into User successfully.",
-                                        "query_time": 0
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "User"
-                ]
-            }
-        },
         "/users/{userId}/permissions": {
             "get": {
                 "summary": "Get The list of ACL Permissions and Menu Items for a Particular User",
@@ -1319,8 +1264,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "example": "7d04c997-18c9-4430-98b1-14adf5ee88d7"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1540,9 +1484,9 @@
                                         },
                                         {
                                             "id": 4,
-                                            "title_en": "aaaaaa",
-                                            "title": "aaaaaaaaaaaa",
-                                            "key": "aaaaaaaaaaaaa",
+                                            "title_en": "Permission Group 1",
+                                            "title": "Permission Group 1",
+                                            "key": "permission_group_1",
                                             "row_status": 1,
                                             "created_at": "2021-10-16T14:09:26.000000Z",
                                             "updated_at": "2021-10-16T14:09:26.000000Z"
@@ -1814,11 +1758,17 @@
                             "type": "integer",
                             "example": "1"
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/permissions"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissions"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -2138,11 +2088,17 @@
                             "type": "integer",
                             "example": "1"
                         }
-                    },
-                    {
-                        "$ref": "#/components/parameters/permissions"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/permissions"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -2703,14 +2659,6 @@
                     "type": "integer"
                 }
             },
-            "parameters": {
-                "name": "parameters",
-                "in": "query",
-                "required": false,
-                "schema": {
-                    "type": "integer"
-                }
-            },
             "route": {
                 "name": "route",
                 "in": "query",
@@ -3200,22 +3148,6 @@
                     "example": "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                 }
             },
-            "permissions": {
-                "name": "permissions",
-                "in": "query",
-                "required": true,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer",
-                                "uniqueItems": true
-                            }
-                        }
-                    }
-                }
-            },
             "user_type": {
                 "in": "query",
                 "name": "user_type",
@@ -3326,16 +3258,12 @@
                 "type": "object",
                 "description": "Provide Permission Data",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": true
-                    },
                     "title_en": {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Permission Title in english"
                     },
                     "title": {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Permission Title in Native"
                     },
                     "key": {
@@ -3642,6 +3570,22 @@
                     "title_en",
                     "title",
                     "key"
+                ]
+            },
+            "permissions": {
+                "type": "object",
+                "description": "Provide Permissions",
+                "properties": {
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "uniqueItems": true
+                        }
+                    }
+                },
+                "required": [
+                    "permissions"
                 ]
             },
             "permissionGroupPermissions": {
