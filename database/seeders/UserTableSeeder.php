@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
+use App\Models\PermissionGroup;
+use App\Models\PermissionSubGroup;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -23,8 +25,15 @@ class UserTableSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
         DB::table('users')->truncate();
 
-        $role = Role::find(1);
         $permissions = Permission::orderBy('id', 'ASC')->pluck('id')->toArray();
+
+        $permissionGroup = PermissionGroup::find(1);
+        $permissionGroup->permissions()->sync($permissions);
+
+        $permissionSubGroup = PermissionSubGroup::find(1);
+        $permissionSubGroup->permissions()->sync($permissions);
+
+        $role = Role::find(1);
         $role->permissions()->sync($permissions);
 
         $data = [
@@ -33,7 +42,7 @@ class UserTableSeeder extends Seeder
             'email' => 'super@gmail.com',
             'username' => 'super_admin',
             'role_id' => 1,
-            'idp_user_id' => 'ce5c437f-d80d-4455-9037-6c84d8aab784',
+            'idp_user_id' => '89d24658-74db-45b0-babc-de5b9baaee1e',
             'user_type' => 1,
             'verification_code' => '1234',
             'verification_code_sent_at' => Carbon::yesterday(),
