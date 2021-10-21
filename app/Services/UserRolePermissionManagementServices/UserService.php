@@ -556,7 +556,7 @@ class UserService
             "phone_code" => "nullable|string",
             "email" => 'required|email',
             "mobile" => [
-                "nullable",
+                "required",
                 "string",
                 BaseModel::MOBILE_REGEX
             ],
@@ -566,25 +566,28 @@ class UserService
             "verification_code" => 'nullable|string',
             "verification_code_verified_at" => 'nullable|date_format:Y-m-d H:i:s',
             "verification_code_sent_at" => 'nullable|date_format:Y-m-d H:i:s',
-            "password" => [
-                'required_if:' . $id . ',==,null',
-                "confirmed",
-                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-            ],
-            "password_confirmation" => 'required_with:password',
             "profile_pic" => 'nullable|string',
             "created_by" => "nullable|int|gt:0",
             "updated_by" => "nullable|int|gt:0",
             "remember_token" => "nullable|string",
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
+                'nullable',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ]
         ];
 
+        if(!$id){
+            $rules['password'] = [
+                'required',
+                "confirmed",
+                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+            ];
+            $rules['password_confirmation'] = 'required_with:password';
+        }
         return Validator::make($request->all(), $rules);
     }
 
@@ -655,7 +658,15 @@ class UserService
      */
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
+        $permissions = $request->input('permissions');
+        $data = [];
+
+        if ($permissions) {
+            $data = [
+                'permissions' => is_array($permissions) ? $permissions : explode(',', $permissions)
+            ];
+        }
+
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|int|distinct|min:1'
@@ -669,26 +680,21 @@ class UserService
      */
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        if (!empty($request['order'])) {
-            $request['order'] = strtoupper($request['order']);
+        if ($request->filled('order')) {
+            $request->offsetSet('order', strtoupper($request->get('order')));
         }
+
         $customMessage = [
-            'order.in' => [
-                'code' => 30000,
-                "message" => 'Order must be within ASC or DESC',
-            ],
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'order.in' => 'Order must be within ASC or DESC.[30000]',
+            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
         ];
 
         return Validator::make($request->all(), [
             'page' => 'int',
             'page_size' => 'int',
-            'name_en' => 'string',
-            'name' => 'string',
-            'email' => 'string',
+            'name_en' => 'nullable|string',
+            'name' => 'nullable|string',
+            'email' => 'nullable|string',
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
             'user_type' => 'nullable|int',
@@ -697,6 +703,7 @@ class UserService
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
+                'nullable',
                 "int",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
