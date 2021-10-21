@@ -32,7 +32,10 @@ class PermissionService
         $pageSize = $request['page_size'] ?? "";
         $key = $request['key'] ?? "";
         $rowStatus = $request['row_status'] ?? "";
+        $method = $request['method'] ?? "";
         $uri = $request['uri'] ?? "";
+        $titleEn = $request['title_en'] ?? "";
+        $title = $request['title'] ?? "";
         $order = $request['order'] ?? "ASC";
 
         /** @var Builder $permissionBuilder */
@@ -55,11 +58,19 @@ class PermissionService
             $permissionBuilder->where('permissions.key', 'like', '%' . $key . '%');
         }
 
+        if (!empty($titleEn)) {
+            $permissionBuilder->where('permissions.title_en', 'like', '%' . $titleEn . '%');
+        }
+
+        if (!empty($title)) {
+            $permissionBuilder->where('permissions.title', 'like', '%' . $title . '%');
+        }
+
         if (!empty($uri)) {
             $permissionBuilder->where('permissions.uri', 'like', '%' . $uri . '%');
         }
 
-        if (is_int($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $permissionBuilder->where('permissions.row_status', $rowStatus);
         }
 
@@ -246,11 +257,9 @@ class PermissionService
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $customMessage = [
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'row_status.in' => 'Row status must be within 1 or 0. [30000]'
         ];
+
         $rules = [
             'title' => 'required|string|max:500|min:2',
             'title_en' => 'required|string|max:191|min:2',
@@ -261,13 +270,14 @@ class PermissionService
                 'unique:permissions,key,' . $id
             ],
             'uri' => [
-                'unique_with:permissions,method,' . $id,
                 'required',
+                'unique_with:permissions,method,' . $id,
                 'max:300',
                 'min:2'
             ],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
+                'nullable',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
@@ -281,13 +291,20 @@ class PermissionService
      */
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
+        $permissions = $request->input('permissions');
+        $data = [];
 
-        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
+        if ($permissions) {
+            $data = [
+                'permissions' => is_array($permissions) ? $permissions : explode(',', $permissions)
+            ];
+        }
 
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|int|distinct|min:1'
         ];
+
         return Validator::make($data, $rules);
     }
 
@@ -297,18 +314,13 @@ class PermissionService
      */
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        if (!empty($request['order'])) {
-            $request['order'] = strtoupper($request['order']);
+        if ($request->filled('order')) {
+            $request->offsetSet('order', strtoupper($request->get('order')));
         }
+
         $customMessage = [
-            'order.in' => [
-                'code' => 30000,
-                "message" => 'Order must be within ASC or DESC',
-            ],
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'order.in' => 'Order must be within ASC or DESC.[30000]',
+            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
         ];
 
         return Validator::make($request->all(), [
@@ -321,6 +333,7 @@ class PermissionService
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
+                "nullable",
                 "int",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
