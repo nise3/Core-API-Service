@@ -183,25 +183,14 @@ class PermissionService
      */
     private function getMethodName($item): string
     {
-        $methodName = "";
-        switch ($item) {
-            case 1:
-                $methodName = "GET";
-                break;
-            case 2:
-                $methodName = "POST";
-                break;
-            case 3:
-                $methodName = "PUT";
-                break;
-            case 4:
-                $methodName = "PATCH";
-                break;
-            case 5:
-                $methodName = "DELETE";
-                break;
-        }
-        return $methodName;
+        return match ($item) {
+            1 => "GET",
+            2 => "POST",
+            3 => "PUT",
+            4 => "PATCH",
+            5 => "DELETE",
+            default => "",
+        };
     }
 
     /**
