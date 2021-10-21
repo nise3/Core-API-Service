@@ -329,7 +329,7 @@ class UserController extends Controller
 
     }
 
-    /**
+    /** TODO: Pending
      * @param int $id
      * @return JsonResponse
      * @throws Throwable
