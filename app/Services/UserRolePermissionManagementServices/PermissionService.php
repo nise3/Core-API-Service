@@ -70,7 +70,7 @@ class PermissionService
             $permissionBuilder->where('permissions.uri', 'like', '%' . $uri . '%');
         }
 
-        if (!empty($method)) {
+        if (is_numeric($method)) {
             $permissionBuilder->where('permissions.method', '=', $method);
         }
 

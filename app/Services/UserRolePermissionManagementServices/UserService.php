@@ -116,22 +116,23 @@ class UserService
             $usersBuilder = $usersBuilder->where('users.email', 'like', '%' . $email . '%');
         }
 
-        if (is_int($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $usersBuilder->where('users.row_status', $rowStatus);
         }
-        if (is_int($organizationId)) {
+        if (is_numeric($organizationId)) {
             $usersBuilder->where('users.organization_id', $organizationId);
         }
-        if (is_int($instituteId)) {
+        if (is_numeric($instituteId)) {
             $usersBuilder->where('users.institute_id', $instituteId);
         }
 
-        if (is_int($userType) && in_array($userType, BaseModel::USER_TYPES)) {
+        if (is_numeric($userType) && in_array($userType, BaseModel::USER_TYPES)) {
             $usersBuilder->where('users.user_type', $userType);
         }
+
         $response['order'] = $order;
 
-        if (is_int($paginate) || is_int($pageSize)) {
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $users = $usersBuilder->paginate($pageSize);
             $paginateData = (object)$users->toArray();
@@ -605,12 +606,7 @@ class UserService
                 'required_with:password',
                 function ($attribute, $value, $fail) use ($user) {
                     if (!Hash::check($value, $user->password)) {
-                        $fail([
-                            [
-                                "code" => 46001,
-                                "message" => 'Your password was not updated, since the provided current password does not match.'
-                            ]
-                        ]);
+                        $fail('Your password was not updated, since the provided current password does not match.[46001]');
                     }
                 }
 
@@ -643,7 +639,12 @@ class UserService
     public function roleIdValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            'role_id' => 'exists:roles,id', 'required,int,min:1'
+            'role_id' => [
+                'required',
+                'exists:roles,id',
+                'int',
+                'min:1'
+            ]
         ];
         return Validator::make($request->all(), $rules);
     }
