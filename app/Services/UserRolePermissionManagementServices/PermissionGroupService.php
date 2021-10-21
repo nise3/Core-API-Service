@@ -8,8 +8,8 @@ use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -53,16 +53,16 @@ class PermissionGroupService
             $permissionGroupBuilder->where('title', 'like', '%' . $title . '%');
         }
 
-        if (is_int($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $permissionGroupBuilder->where('row_status', $rowStatus);
         }
 
-        if ($key) {
+        if (!empty($key)) {
             $permissionGroupBuilder->where('permission_groups.key', $key);
         }
 
         /** @var Collection|PermissionGroup $permissionGroups */
-        if (is_int($paginate) || is_int($pageSize)) {
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $permissionGroups = $permissionGroupBuilder->paginate($pageSize);
             $paginateData = (object)$permissionGroups->toArray();
@@ -119,10 +119,10 @@ class PermissionGroupService
 
 
         /** @var PermissionGroup $permissionGroup */
-        $permissionGroup = $permissionGroupBuilder->first();
+        $permissionGroup = $permissionGroupBuilder->firstOrFail();
 
         return [
-            "data" => $permissionGroup ?: [],
+            "data" => $permissionGroup,
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
@@ -180,17 +180,15 @@ class PermissionGroupService
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $customMessage = [
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'row_status.in' => 'Row status must be within 1 or 0. [30000]'
         ];
         $rules = [
             'title_en' => 'required|max:191|min:2',
             'title' => 'required|max:300|min:2',
-            "key" => ['unique:permission_groups,key,' . $id, 'required', 'max:191', 'min:2'],
+            "key" => ['required', 'max:191', 'min:2', 'unique:permission_groups,key,' . $id],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
+                'nullable',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
@@ -199,7 +197,15 @@ class PermissionGroupService
 
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
+        $permissions = $request->input('permissions');
+        $data = [];
+
+        if ($permissions) {
+            $data = [
+                'permissions' => is_array($permissions) ? $permissions : explode(',', $permissions)
+            ];
+        }
+
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|int|distinct|min:1'
@@ -209,18 +215,13 @@ class PermissionGroupService
 
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        if (!empty($request['order'])) {
-            $request['order'] = strtoupper($request['order']);
+        if ($request->filled('order')) {
+            $request->offsetSet('order', strtoupper($request->get('order')));
         }
+
         $customMessage = [
-            'order.in' => [
-                'code' => 30000,
-                "message" => 'Order must be within ASC or DESC',
-            ],
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'order.in' => 'Order must be within ASC or DESC.[30000]',
+            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
         ];
 
         return Validator::make($request->all(), [
@@ -234,6 +235,7 @@ class PermissionGroupService
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
+                'nullable',
                 "int",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],

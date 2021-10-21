@@ -24,7 +24,6 @@ class PermissionSubGroupService
      */
     public function getAllPermissionSubGroups(array $request, Carbon $startTime): array
     {
-
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $titleEn = $request['title_en'] ?? "";
@@ -47,9 +46,10 @@ class PermissionSubGroupService
             "permission_sub_groups.created_at",
             "permission_sub_groups.updated_at"
         ]);
+
         $permissionSubGroupBuilder->join('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'permission_sub_groups.permission_group_id');
-            if (is_int($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('permission_groups.row_status', $rowStatus);
             }
         });
@@ -63,18 +63,18 @@ class PermissionSubGroupService
             $permissionSubGroupBuilder->where('permission_sub_groups.title', 'like', '%' . $title . '%');
         }
 
-        if (is_int($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.row_status', $rowStatus);
         }
 
-        if (is_int($permissionGroupId)) {
+        if (is_numeric($permissionGroupId)) {
             $permissionSubGroupBuilder->where('permission_sub_groups.permission_group_id', $permissionGroupId);
         }
 
         $permissionSubGroupBuilder->orderBy('permission_sub_groups.id', $order);
 
         /** @var Collection $permissionSubGroups */
-        if (is_int($paginate) || is_int($pageSize)) {
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $permissionSubGroups = $permissionSubGroupBuilder->paginate($pageSize);
             $paginateData = (object)$permissionSubGroups->toArray();
@@ -122,10 +122,10 @@ class PermissionSubGroupService
         $permissionSubGroupBuilder->with('permissions');
 
         /** @var PermissionSubGroup $permissionSubGroup */
-        $permissionSubGroup = $permissionSubGroupBuilder->first();
+        $permissionSubGroup = $permissionSubGroupBuilder->firstOrFail();
 
         return [
-            "data" => $permissionSubGroup ?: [],
+            "data" => $permissionSubGroup,
             "_response_status" => [
                 "success" => true,
                 "code" => Response::HTTP_OK,
@@ -189,28 +189,27 @@ class PermissionSubGroupService
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $customMessage = [
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'row_status.in' => 'Row status must be within 1 or 0. [30000]'
         ];
+
         $rules = [
             'permission_group_id' => [
                 'required',
+                'int',
                 'exists:permission_groups,id',
-                'int'
             ],
             'title_en' => 'required|string|max:191||min:2',
             'title' => 'required|string|max:300|min:2',
             "key" => [
-                'unique:permission_sub_groups,key,' . $id,
                 'required',
                 'string',
                 'max:191',
-                'min:2'
+                'min:2',
+                'unique:permission_sub_groups,key,' . $id,
             ],
             'row_status' => [
                 'required_if:' . $id . ',!=,null',
+                'nullable',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],
         ];
@@ -223,7 +222,15 @@ class PermissionSubGroupService
      */
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        $data["permissions"] = is_array($request['permissions']) ? $request['permissions'] : explode(',', $request['permissions']);
+        $permissions = $request->input('permissions');
+        $data = [];
+
+        if ($permissions) {
+            $data = [
+                'permissions' => is_array($permissions) ? $permissions : explode(',', $permissions)
+            ];
+        }
+
         $rules = [
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'required|integer|distinct|min:1'
@@ -233,19 +240,15 @@ class PermissionSubGroupService
 
     public function filterValidator(Request $request): \Illuminate\Contracts\Validation\Validator
     {
-        if (!empty($request['order'])) {
-            $request['order'] = strtoupper($request['order']);
+        if ($request->filled('order')) {
+            $request->offsetSet('order', strtoupper($request->get('order')));
         }
+
         $customMessage = [
-            'order.in' => [
-                'code' => 30000,
-                "message" => 'Order must be within ASC or DESC',
-            ],
-            'row_status.in' => [
-                'code' => 30000,
-                'message' => 'Row status must be within 1 or 0'
-            ]
+            'order.in' => 'Order must be within ASC or DESC.[30000]',
+            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
         ];
+
         return Validator::make($request->all(), [
             'page' => 'int|gt:0',
             'page_size' => 'int|gt:0',
@@ -257,6 +260,7 @@ class PermissionSubGroupService
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
             ],
             'row_status' => [
+                'nullable',
                 "int",
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ],

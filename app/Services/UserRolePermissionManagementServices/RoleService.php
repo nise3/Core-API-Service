@@ -52,24 +52,24 @@ class RoleService
         ]);
         $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'roles.permission_group_id');
-            if (is_int($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('permission_groups.row_status', $rowStatus);
             }
         });
         $rolesBuilder->leftJoin('permission_sub_groups', function ($join) use ($rowStatus) {
             $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
-            if (is_int($rowStatus)) {
+            if (is_numeric($rowStatus)) {
                 $join->where('permission_sub_groups.row_status', $rowStatus);
             }
         });
 
-        if (is_int($rowStatus)) {
+        if (is_numeric($rowStatus)) {
             $rolesBuilder->where('roles.row_status', $rowStatus);
         }
-        if (is_int($organizationId)) {
+        if (is_numeric($organizationId)) {
             $rolesBuilder->where('roles.organization_id', $organizationId);
         }
-        if (is_int($instituteId)) {
+        if (is_numeric($instituteId)) {
             $rolesBuilder->where('roles.institute_id', $instituteId);
         }
 
@@ -81,8 +81,9 @@ class RoleService
         if (!empty($title)) {
             $rolesBuilder->where('roles.title', 'like', '%' . $title . '%');
         }
+
         /** @var Collection $roles */
-        if (is_int($paginate) || is_int($pageSize)) {
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
             $pageSize = $pageSize ?: 10;
             $roles = $rolesBuilder->paginate($pageSize);
             $paginateData = (object)$roles->toArray();
@@ -139,7 +140,7 @@ class RoleService
         $roleBuilder->where('roles.id', $id);
 
         /** @var Role $role */
-        $role = $roleBuilder->first();
+        $role = $roleBuilder->firstOrFail();
 
         return [
             "data" => $role ?: [],
@@ -159,7 +160,7 @@ class RoleService
      */
     public function store(array $data): Role
     {
-        $role = new Role();
+        $role = app(Role::class);
         $role->fill($data);
         $role->save();
         return $role;
