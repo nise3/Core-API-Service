@@ -16,8 +16,9 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('idp_user_id')->nullable();
-            $table->unsignedTinyInteger('user_type')->comment('TBA');
-            $table->string('username', 100)->unique();
+            $table->unsignedTinyInteger('user_type')
+                ->comment('TBA');
+            $table->string('username', 150)->unique();
 
             $table->unsignedInteger('organization_id')->nullable();
             $table->unsignedInteger('institute_id')->nullable();
@@ -26,10 +27,11 @@ class CreateUsersTable extends Migration
             $table->string('name_en', 255)->nullable();
             $table->string('name', 300)->nullable();
 
-            $table->string('email', 191)->nullable();
+            $table->string('email', 150)->nullable();
+            $table->string('mobile', 15)->nullable();
+
             $table->string("country")->default("BD");
             $table->string("phone_code")->default("880");
-            $table->string('mobile', 15)->nullable();
 
             $table->unsignedMediumInteger('loc_division_id')
                 ->nullable()->index('users_loc_division_id_inx');
@@ -38,10 +40,6 @@ class CreateUsersTable extends Migration
             $table->unsignedMediumInteger('loc_upazila_id')
                 ->nullable()->index('users_loc_upazila_id_inx');
 
-            /**
-             * $table->timestamp('email_verified_at')->nullable();
-             * $table->timestamp('mobile_verified_at')->nullable();
-             */
             $table->string("verification_code", 50)->nullable()
                 ->comment('Email Or SMS verification code');
             $table->dateTime("verification_code_sent_at")->nullable()

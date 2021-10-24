@@ -4,7 +4,6 @@
 namespace App\Facade;
 
 
-use App\Helpers\Classes\AuthUserHandler;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Facade;

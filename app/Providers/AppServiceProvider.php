@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
             return new \Laravel\Lumen\Http\ResponseFactory();
         });
 
-        app()->singleton('authUser', AuthUserHandler::class);
+        $this->app->singleton('authUser', AuthUserHandler::class);
 
     }
 
