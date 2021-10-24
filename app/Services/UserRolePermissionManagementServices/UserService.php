@@ -546,7 +546,12 @@ class UserService
     {
         $rules = [
             "user_type" => "required|min:1",
-            "username" => 'required|string|unique:users,username,' . $id,
+            "username" => [
+                'required',
+                'string',
+                'unique:users,username,' . $id,
+                BaseModel::USERNAME_REGEX
+            ],
             "organization_id" => 'nullable|int|gt:0',
             "institute_id" => 'nullable|int|gt:0',
             "role_id" => 'nullable|exists:roles,id',
@@ -596,7 +601,7 @@ class UserService
      * @param User $user
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function profileUpdatedvalidator(Request $request, User $user): \Illuminate\Contracts\Validation\Validator
+    public function profileUpdatedValidator(Request $request, User $user): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "name_en" => 'required|min:3|max:255',
@@ -605,25 +610,25 @@ class UserService
                 'nullable',
                 BaseModel::MOBILE_REGEX
             ],
-            "current_password" => [
-                'required_with:password',
-                function ($attribute, $value, $fail) use ($user) {
-                    if (!Hash::check($value, $user->password)) {
-                        $fail('Your password was not updated, since the provided current password does not match.[46001]');
-                    }
-                }
-
-            ],
-            "password" => [
-                "required",
-                "confirmed",
-                'different:current_password',
-                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers(),
-            ],
-            "password_confirmation" => 'required_with:password',
+//            "current_password" => [
+//                'required_with:password',
+//                function ($attribute, $value, $fail) use ($user) {
+//                    if (!Hash::check($value, $user->password)) {
+//                        $fail('Your password was not updated, since the provided current password does not match.[46001]');
+//                    }
+//                }
+//
+//            ],
+//            "password" => [
+//                "required",
+//                "confirmed",
+//                'different:current_password',
+//                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
+//                    ->letters()
+//                    ->mixedCase()
+//                    ->numbers(),
+//            ],
+//            "password_confirmation" => 'required_with:password',
             "profile_pic" => [
                 'nullable',
                 "string"

@@ -18,7 +18,13 @@ use Throwable;
 
 class UserController extends Controller
 {
+    /**
+     * @var UserService
+     */
     public UserService $userService;
+    /**
+     * @var Carbon
+     */
     private Carbon $startTime;
 
     /**
@@ -128,10 +134,16 @@ class UserController extends Controller
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function updateProfile(Request $request, int $id)
     {
         $user = User::findOrFail($id);
-        $validated = $this->userService->profileUpdatedvalidator($request, $user)->validate();
+        $validated = $this->userService->profileUpdatedValidator($request, $user)->validate();
         $user = $this->userService->update($validated, $user);
 
         $response = [
