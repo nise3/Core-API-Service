@@ -64,6 +64,7 @@ abstract class BaseModel extends Model
     ];
 
     public const MOBILE_REGEX = 'regex: /^(01[3-9]\d{8})$/';
+    public const USERNAME_REGEX = 'regex: /^[a-zA-Z\_0-9]+$/';
 
 
 }
