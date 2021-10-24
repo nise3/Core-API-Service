@@ -1338,28 +1338,6 @@
                         "$ref": "#/components/parameters/mobile"
                     },
                     {
-                        "name": "current_password",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "password"
-                        }
-                    },
-                    {
-                        "$ref": "#/components/parameters/password"
-                    },
-                    {
-                        "name": "password_confirmation",
-                        "in": "query",
-                        "required": true,
-                        "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
-                        "schema": {
-                            "type": "string",
-                            "format": "password"
-                        }
-                    },
-                    {
                         "name": "profile_pic",
                         "in": "query",
                         "required": false,
