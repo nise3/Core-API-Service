@@ -183,7 +183,7 @@ class PermissionGroupService
             'row_status.in' => 'Row status must be within 1 or 0. [30000]'
         ];
         $rules = [
-            'title_en' => 'nullable|max:191|min:2',
+            'title_en' => 'required|max:191|min:2',
             'title' => 'required|max:300|min:2',
             "key" => ['required', 'max:191', 'min:2', 'unique:permission_groups,key,' . $id],
             'row_status' => [

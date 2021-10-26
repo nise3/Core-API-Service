@@ -211,7 +211,7 @@ class RoleService
         ];
 
         $rules = [
-            'title_en' => 'nullable|max:191|min:2',
+            'title_en' => 'required|max:191|min:2',
             'title' => 'required|max:300|min:2',
             'description' => 'nullable|string',
             'permission_group_id' => ['nullable', 'exists:permission_groups,id'],

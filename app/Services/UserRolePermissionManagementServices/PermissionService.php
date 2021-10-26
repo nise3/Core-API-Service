@@ -255,7 +255,7 @@ class PermissionService
 
         $rules = [
             'title' => 'required|string|max:500|min:2',
-            'title_en' => 'nullable|string|max:191|min:2',
+            'title_en' => 'required|string|max:191|min:2',
             'method' => 'required|int',
             'module' => 'required|max:191|string',
             'key' => [

@@ -198,7 +198,7 @@ class PermissionSubGroupService
                 'int',
                 'exists:permission_groups,id',
             ],
-            'title_en' => 'nullable|string|max:191||min:2',
+            'title_en' => 'required|string|max:191||min:2',
             'title' => 'required|string|max:300|min:2',
             "key" => [
                 'required',
