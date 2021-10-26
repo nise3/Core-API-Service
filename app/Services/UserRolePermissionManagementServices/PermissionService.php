@@ -163,7 +163,7 @@ class PermissionService
      */
     public function update(array $data, Permission $permission): Permission
     {
-        $permission->fll($data);
+        $permission->fill($data);
         $permission->save();
         return $permission;
     }
