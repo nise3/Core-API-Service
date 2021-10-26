@@ -395,7 +395,7 @@ class UserService
         $roleService = new RoleService();
 
         $roleField = [
-            'key' => str_replace('', '_', $data['name_en']),
+            'key' => str_replace(' ', '_', $data['name_en'])."_".time(),
             'title_en' => $data['name_en'],
             'title' => $data['name'],
             'permission_sub_group_id' => $data['permission_sub_group_id'] ?? null,
@@ -403,10 +403,7 @@ class UserService
             'institute_id' => $data['institute_id'] ?? null,
         ];
 
-        $role = Role::updateOrCreate(
-            ['key' => $roleField['key']],
-            $roleField
-        );
+        $role = app(RoleService::class)->store($roleField);
         $permissionSubGroupPermissionIds = DB::table('permission_sub_group_permissions')
             ->where('permission_sub_group_id', $data['permission_sub_group_id'])
             ->pluck('permission_id')
