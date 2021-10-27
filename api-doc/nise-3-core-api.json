@@ -3414,14 +3414,6 @@
                         "type": "string",
                         "format": "email"
                     },
-                    "country": {
-                        "type": "string",
-                        "example": "BD"
-                    },
-                    "phone_code": {
-                        "type": "string",
-                        "example": "880"
-                    },
                     "mobile": {
                         "type": "string"
                     },
