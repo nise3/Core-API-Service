@@ -78,7 +78,17 @@ class UserController extends Controller
         $user = new User();
         $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $validated = $this->userService->validator($request)->validate();
-        $httpClient = $this->userService->idpUserCreate($validated);
+
+        $idpUserPayLoad = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'username' => $validated['username'],
+            'password' => $validated['password'],
+            'user_type' => $validated['user_type'],
+            'status' => $validated['row_status']
+        ];
+
+        $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
         if ($httpClient->json('id')) {
             $validated['idp_user_id'] = $httpClient->json('id');
             $user = $this->userService->store($user, $validated);

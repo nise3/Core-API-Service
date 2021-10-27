@@ -3393,19 +3393,16 @@
                 "type": "object",
                 "description": "Provide User Information",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": true
-                    },
-                    "idp_user_id": {
-                        "type": "integer",
-                        "readOnly": true
-                    },
+
                     "user_type": {
-                        "type": "integer"
+                        "type": "integer",
+                        "enum": [1,2,3],
+                        "description": "1=>system_user 2=>organization_user 3=>institute_user"
                     },
                     "username": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Rules: \n1) Space, symbol not allowed\n2) Must be inside a-z, A-Z, 0-9"
+
                     },
                     "name_en": {
                         "type": "string"
@@ -3413,26 +3410,13 @@
                     "name": {
                         "type": "string"
                     },
-                    "organization_id": {
-                        "type": "integer"
-                    },
-                    "institute_id": {
-                        "type": "integer"
-                    },
+
                     "role_id": {
                         "type": "integer"
                     },
                     "email": {
                         "type": "string",
                         "format": "email"
-                    },
-                    "country": {
-                        "type": "string",
-                        "example": "BD"
-                    },
-                    "phone_code": {
-                        "type": "string",
-                        "example": "880"
                     },
                     "mobile": {
                         "type": "string"
@@ -3449,17 +3433,7 @@
                         "type": "integer",
                         "description": "Upazila Id"
                     },
-                    "verification_code": {
-                        "type": "string"
-                    },
-                    "verification_code_sent_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "verification_code_verified_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
+
                     "password": {
                         "type": "string",
                         "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
@@ -3483,19 +3457,16 @@
                         ],
                         "example": 1,
                         "description": "1=>Active,0=>InActive"
-                    },
-                    "created_by": {
-                        "type": "integer"
-                    },
-                    "updated_by": {
-                        "type": "integer"
                     }
+
+
                 },
                 "required": [
                     "user_type",
                     "username",
                     "name",
                     "email",
+                    "mobile",
                     "password",
                     "password_confirmation"
                 ]
