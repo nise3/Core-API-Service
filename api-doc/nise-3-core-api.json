@@ -3397,7 +3397,7 @@
                     "user_type": {
                         "type": "integer",
                         "enum": [1,2,3],
-                        "description": "1=>SYSTEM_USER 2=>ORGANIZATION_USER 3=>INSTITUTE_USER"
+                        "description": "1=>system_user 2=>organization_user 3=>institute_user"
                     },
                     "username": {
                         "type": "string"
