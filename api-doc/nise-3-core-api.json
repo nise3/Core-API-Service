@@ -3393,14 +3393,7 @@
                 "type": "object",
                 "description": "Provide User Information",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": true
-                    },
-                    "idp_user_id": {
-                        "type": "integer",
-                        "readOnly": true
-                    },
+
                     "user_type": {
                         "type": "integer"
                     },
@@ -3413,12 +3406,7 @@
                     "name": {
                         "type": "string"
                     },
-                    "organization_id": {
-                        "type": "integer"
-                    },
-                    "institute_id": {
-                        "type": "integer"
-                    },
+
                     "role_id": {
                         "type": "integer"
                     },
@@ -3449,17 +3437,7 @@
                         "type": "integer",
                         "description": "Upazila Id"
                     },
-                    "verification_code": {
-                        "type": "string"
-                    },
-                    "verification_code_sent_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "verification_code_verified_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
+
                     "password": {
                         "type": "string",
                         "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
@@ -3483,13 +3461,9 @@
                         ],
                         "example": 1,
                         "description": "1=>Active,0=>InActive"
-                    },
-                    "created_by": {
-                        "type": "integer"
-                    },
-                    "updated_by": {
-                        "type": "integer"
                     }
+
+
                 },
                 "required": [
                     "user_type",
