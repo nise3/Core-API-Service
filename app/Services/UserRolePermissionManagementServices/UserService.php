@@ -542,7 +542,11 @@ class UserService
     public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            "user_type" => "required|min:1",
+            "user_type" => [
+                'required',
+                'min:1',
+                Rule::in(BaseModel::USER_TYPES)
+            ],
             "username" => [
                 'required',
                 'string',
