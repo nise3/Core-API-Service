@@ -3395,10 +3395,14 @@
                 "properties": {
 
                     "user_type": {
-                        "type": "integer"
+                        "type": "integer",
+                        "enum": [1,2,3],
+                        "description": "1=>system_user 2=>organization_user 3=>institute_user"
                     },
                     "username": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Rules: \n1) Space, symbol not allowed\n2) Must be inside a-z, A-Z, 0-9"
+
                     },
                     "name_en": {
                         "type": "string"
@@ -3413,14 +3417,6 @@
                     "email": {
                         "type": "string",
                         "format": "email"
-                    },
-                    "country": {
-                        "type": "string",
-                        "example": "BD"
-                    },
-                    "phone_code": {
-                        "type": "string",
-                        "example": "880"
                     },
                     "mobile": {
                         "type": "string"
@@ -3470,6 +3466,7 @@
                     "username",
                     "name",
                     "email",
+                    "mobile",
                     "password",
                     "password_confirmation"
                 ]
