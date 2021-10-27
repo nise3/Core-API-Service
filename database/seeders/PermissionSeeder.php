@@ -65,6 +65,14 @@ class PermissionSeeder extends Seeder
             'organization_unit',
             'human_resource',
             'human_resource_template',
+            'branch',
+            'batch',
+            'course',
+            'institute',
+            'program',
+            'training_center',
+            'trainer',
+            'course_enrollment'
         ];
         $menuOrder=1;
         foreach ($modules as $module) {
