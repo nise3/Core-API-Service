@@ -251,8 +251,8 @@ class UserService
 
             $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'organizations/' . $user->organization_id;
 
-            $responseData = Http::retry(3)
-                ->withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+            $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+                ->withHeaders([BaseModel::DEFAULT_SERVICE_TO_SERVICE_CALL_KEY=>true])
                 ->get($url)
                 ->throw(function ($response, $exception) {
                     return $exception;

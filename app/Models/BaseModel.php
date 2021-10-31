@@ -66,5 +66,8 @@ abstract class BaseModel extends Model
     public const MOBILE_REGEX = 'regex: /^(01[3-9]\d{8})$/';
     public const USERNAME_REGEX = 'regex: /^[a-zA-Z\_0-9]+$/';
 
-
+    /** Service to service internal calling header type */
+    public const DEFAULT_SERVICE_TO_SERVICE_CALL_KEY = 'service-to-service';
+    public const DEFAULT_SERVICE_TO_SERVICE_CALL_FLAG_TRUE = true;
+    public const DEFAULT_SERVICE_TO_SERVICE_CALL_FLAG_FALSE = false;
 }
