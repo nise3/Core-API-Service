@@ -18,13 +18,13 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
 
     $responseData = \Illuminate\Support\Facades\Http::withHeaders([
         'Authorization' => 'Basic RmhWcXdOcDZRNkZWMUg4S3V1THNoNVJFUXlzYTpHZnJEcHk5MDRMamFXTm1uN2FTd0VBMXF5RVFh',
-        'Content-Type' => 'application/x-www-form-urlencoded'
     ])->withOptions([
         'follow_redirects' => true,
-        'verify' => false
+        'verify' => false,
+        'debug' => false
     ])->post('https://bus-staging.softbdltd.com/oauth2/token', [
-        'grant_type' => 'client_credentials'
-    ]);
+            'grant_type' => 'client_credentials'
+        ]);
 
     return $responseData->json();
 });
