@@ -14,6 +14,21 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->post('/nise3-app-api-access-token', function (\Illuminate\Http\Request $request) {
+
+    $responseData = \Illuminate\Support\Facades\Http::withHeaders([
+        'Authorization' => 'Basic RmhWcXdOcDZRNkZWMUg4S3V1THNoNVJFUXlzYTpHZnJEcHk5MDRMamFXTm1uN2FTd0VBMXF5RVFh',
+        'Content-Type' => 'application/x-www-form-urlencoded'
+    ])->withOptions([
+        'follow_redirects' => true,
+        'verify' => false
+    ])->post('https://bus-staging.softbdltd.com/oauth2/token', [
+        'grant_type' => 'client_credentials'
+    ]);
+
+    return $responseData->json();
+});
+
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
 
     $router->get('/', ['uses' => 'ApiInfoController@apiInfo']);
@@ -55,7 +70,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->get('users/{id}/user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
 
     /** Auth user info */
-    $router->post("auth-user-info",["as"=>"users.auth-user-info","uses"=>"UserController@getAuthUserInfoByIdpId"]);
+    $router->post("auth-user-info", ["as" => "users.auth-user-info", "uses" => "UserController@getAuthUserInfoByIdpId"]);
 
 
     /* assign permission to permission group*/
