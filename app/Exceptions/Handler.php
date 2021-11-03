@@ -20,6 +20,7 @@ use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use ParseError;
 use PDOException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 use TypeError;
@@ -72,11 +73,14 @@ class Handler extends ExceptionHandler
             $errors['_response_status']['code'] = ResponseAlias::HTTP_BAD_REQUEST;
             $errors['_response_status']['message'] = "Invalid Request Format";
         } elseif ($e instanceof AuthenticationException) {
-            $errors['_response_status']['code'] = ResponseAlias::HTTP_UNAUTHORIZED;
+            $errors['_response_status']['code'] = ResponseAlias::HTTP_FORBIDDEN;
             $errors['_response_status']['message'] = $e->getMessage();
         } elseif ($e instanceof AuthorizationException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_UNAUTHORIZED;
             $errors['_response_status']['message'] = "Unable to Access";
+        } else if ($e instanceof HttpException) {
+            $errors['_response_status']['code'] = $e->getCode() ? $e->getCode() : ResponseAlias::HTTP_FORBIDDEN;
+            $errors['_response_status']['message'] = $e->getMessage();
         } elseif ($e instanceof ValidationException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_UNPROCESSABLE_ENTITY;
             $errors['_response_status']['message'] = "Validation Error";

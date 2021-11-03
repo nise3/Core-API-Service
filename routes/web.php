@@ -16,6 +16,13 @@ $router->get('/', function () use ($router) {
 
 $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $request) {
 
+    $refererUrl = $request->headers->get('referer');
+    $postmanToken = $request->headers->get('postman-token');
+
+    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+        throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+    }
+
     $responseData = \Illuminate\Support\Facades\Http::withHeaders([
         'Authorization' => 'Basic RmhWcXdOcDZRNkZWMUg4S3V1THNoNVJFUXlzYTpHZnJEcHk5MDRMamFXTm1uN2FTd0VBMXF5RVFh',
     ])->withOptions([
@@ -23,10 +30,11 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
         'verify' => false,
         'debug' => false
     ])->post('https://bus-staging.softbdltd.com/oauth2/token', [
-            'grant_type' => 'client_credentials'
-        ]);
+        'grant_type' => 'client_credentials'
+    ]);
 
     return $responseData->json();
+
 });
 
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
