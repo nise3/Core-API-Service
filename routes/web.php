@@ -14,7 +14,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/nise3-app-api-access-token', function (\Illuminate\Http\Request $request) {
+$router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $request) {
 
     $responseData = \Illuminate\Support\Facades\Http::withHeaders([
         'Authorization' => 'Basic RmhWcXdOcDZRNkZWMUg4S3V1THNoNVJFUXlzYTpHZnJEcHk5MDRMamFXTm1uN2FTd0VBMXF5RVFh',
