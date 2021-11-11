@@ -66,6 +66,7 @@ $app->configure('auth');
 $app->configure('services');
 $app->configure('nise3');
 $app->configure('httpclientendpoint');
+$app->configure('sms');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -102,6 +103,8 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Felixkiss\UniqueWithValidator\ServiceProvider::class);
+$app->register(Khbd\LaravelSmsBD\SMSServiceProvider::class);
+$app->register(Ixudra\Curl\CurlServiceProvider::class);
 
 
 //$app->register(Laravel\Passport\PassportServiceProvider::class);

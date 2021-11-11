@@ -265,6 +265,7 @@ class UserController extends Controller
             if ($httpClient->json('id')) {
                 $validated['idp_user_id'] = $httpClient->json('id');
                 $user = $this->userService->createRegisterUser($user, $validated);
+                $this->sendMessageToRegisteredUser($validated);
                 $response = [
                     'data' => $user ?: [],
                     '_response_status' => [
@@ -349,6 +350,12 @@ class UserController extends Controller
             throw $e;
         }
 
+    }
+
+    private function sendMessageToRegisteredUser(array $data) : bool
+    {
+        $message = 'Welcome to NISE-3. Your username is ' . $data['username'] . " and password is " . $data['password'];
+        return sms()->send($data['username'], $message)->is_successful();
     }
 
     /** TODO: Pending

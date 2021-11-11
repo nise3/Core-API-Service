@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Component\HttpFoundation\Response;
@@ -232,6 +231,8 @@ class UserService
     }
 
     /**
+     * @param string $id
+     * @return array
      * @throws RequestException
      */
     public function getUserPermissionWithMenuItems(string $id): array
