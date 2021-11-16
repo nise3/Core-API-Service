@@ -77,7 +77,7 @@ class Handler extends ExceptionHandler
             $errors['_response_status']['message'] = $e->getMessage();
         } elseif ($e instanceof AuthorizationException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_UNAUTHORIZED;
-            $errors['_response_status']['message'] = "Unable to Access";
+            $errors['_response_status']['message'] = $e->getMessage();
         } else if ($e instanceof HttpException) {
             $errors['_response_status']['code'] = $e->getCode() ? $e->getCode() : ResponseAlias::HTTP_FORBIDDEN;
             $errors['_response_status']['message'] = $e->getMessage();
