@@ -70,9 +70,9 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
 
-/*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
         throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
-    }*/
+    }
 
     \Illuminate\Support\Facades\Log::debug('refresh token: ' . $request->input('refresh_token'));
 
@@ -85,7 +85,7 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
             'verify' => false,
             'debug' => false
         ])
-            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token'));
+            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token') .'ss');
         $response = $responseData->json();
 
         \Illuminate\Support\Facades\Log::debug($response);
