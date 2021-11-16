@@ -2589,6 +2589,43 @@
                     "MenuItem"
                 ]
             }
+        },
+        "/sso-authorize-code-grant": {
+            "post": {
+                "summary": "Get Access Token & Refresh Token Using Auth Code Grant",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Get Access Token & Refresh Token Using Auth Code Grant",
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "OAuth2 Authorization Code"
+                                    },
+                                    "redirect_uri": {
+                                        "type": "string",
+                                        "description": "Redirect URI"
+                                    }
+                                },
+                                "required": [
+                                    "code",
+                                    "redirect_uri"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Menu"
+                ]
+            }
         }
     },
     "components": {
