@@ -3,6 +3,7 @@
 /** @var Router $router */
 
 use App\Helpers\Classes\CustomRouter;
+use Illuminate\Auth\Access\AuthorizationException;
 use Laravel\Lumen\Routing\Router;
 
 $customRouter = function (string $as = '') use ($router) {
@@ -39,7 +40,7 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
     \Illuminate\Support\Facades\Log::debug($response);
 
     if (isset($response['error']) && $response['error']) {
-        throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+        throw new AuthorizationException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
     }
 
     return $response;
@@ -71,7 +72,7 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
         \Illuminate\Support\Facades\Log::debug($response);
 
         if (isset($response['error']) && $response['error']) {
-            throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+            throw new AuthorizationException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
         }
 
         return $response;
@@ -110,7 +111,7 @@ $router->post('/sso-renew-access-token', function (\Illuminate\Http\Request $req
         \Illuminate\Support\Facades\Log::debug($response);
 
         if (isset($response['error']) && $response['error']) {
-            throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+            throw new AuthorizationException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
         }
 
         return $response;
