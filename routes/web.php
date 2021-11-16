@@ -64,8 +64,32 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
         throw $exception;
     }
 
+});
 
+$router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $request) {
 
+    $refererUrl = $request->headers->get('referer');
+    $postmanToken = $request->headers->get('postman-token');
+
+    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+        throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+    }
+
+    try {
+        $responseData = \Illuminate\Support\Facades\Http::withHeaders([
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Authorization' => 'Basic ' . base64_encode('FhVqwNp6Q6FV1H8KuuLsh5REQysa:GfrDpy904LjaWNmn7aSwEA1qyEQa'),
+        ])->withOptions([
+            'follow_redirects' => true,
+            'verify' => false,
+            'debug' => false
+        ])
+            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=grant_type=refresh_token&refresh_token='.  $request->input('refresh_token'));
+        return $responseData->json();
+    } catch (Throwable $exception){
+        \Illuminate\Support\Facades\Log::debug($exception->getMessage());
+        throw $exception;
+    }
 
 });
 
