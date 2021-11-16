@@ -56,11 +56,8 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
             'follow_redirects' => true,
             'verify' => false,
             'debug' => false
-        ])->post('https://bus-staging.softbdltd.com/oauth2/token', [
-            'grant_type' => 'authorization_code',
-            'code' => $request->input('code'),
-            'redirect_uri' => $request->input('redirect_uri')
-        ]);
+        ])
+            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=authorization_code&code=' . $request->input('code') . '&redirect_uri=' . urlencode($request->input('redirect_uri')));
         return $responseData->json();
     } catch (Throwable $exception){
         \Illuminate\Support\Facades\Log::debug($exception->getMessage());
