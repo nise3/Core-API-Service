@@ -48,20 +48,27 @@ $router->get('/sso-authorize-code-grant', function (\Illuminate\Http\Request $re
         throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
     }
 
-    $responseData = \Illuminate\Support\Facades\Http::withHeaders([
-        'Content-Type' => 'application/x-www-form-urlencoded',
-        'Authorization' => 'Basic ' . base64_encode('FhVqwNp6Q6FV1H8KuuLsh5REQysa:GfrDpy904LjaWNmn7aSwEA1qyEQa'),
-    ])->withOptions([
-        'follow_redirects' => true,
-        'verify' => false,
-        'debug' => false
-    ])->post('https://bus-staging.softbdltd.com/oauth2/token', [
-        'grant_type' => 'authorization_code',
-        'code' => $request->input('code'),
-        'redirect_uri' => $request->input('redirect_uri')
-    ]);
+    try {
+        $responseData = \Illuminate\Support\Facades\Http::withHeaders([
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Authorization' => 'Basic ' . base64_encode('FhVqwNp6Q6FV1H8KuuLsh5REQysa:GfrDpy904LjaWNmn7aSwEA1qyEQa'),
+        ])->withOptions([
+            'follow_redirects' => true,
+            'verify' => false,
+            'debug' => false
+        ])->post('https://bus-staging.softbdltd.com/oauth2/token', [
+            'grant_type' => 'authorization_code',
+            'code' => $request->input('code'),
+            'redirect_uri' => $request->input('redirect_uri')
+        ]);
+        return $responseData->json();
+    } catch (Throwable $exception){
+        \Illuminate\Support\Facades\Log::debug($exception->getMessage());
+        throw $exception;
+    }
 
-    return $responseData->json();
+
+
 
 });
 
