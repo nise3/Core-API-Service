@@ -40,7 +40,7 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
     \Illuminate\Support\Facades\Log::debug($response);
 
     if (isset($response['error']) && $response['error']) {
-        throw new AuthorizationException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+        throw new AuthorizationException(json_encode($response), \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
     }
 
     return $response;
@@ -72,7 +72,7 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
         \Illuminate\Support\Facades\Log::debug($response);
 
         if (isset($response['error']) && $response['error']) {
-            throw new AuthorizationException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+            throw new AuthorizationException(json_encode($response), \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
         }
 
         return $response;
@@ -111,7 +111,7 @@ $router->post('/sso-renew-access-token', function (\Illuminate\Http\Request $req
         \Illuminate\Support\Facades\Log::debug($response);
 
         if (isset($response['error']) && $response['error']) {
-            throw new AuthorizationException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+            throw new AuthorizationException(json_encode($response), \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
         }
 
         return $response;
