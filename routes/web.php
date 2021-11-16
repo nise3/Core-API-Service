@@ -92,7 +92,8 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
         return $response;
 
     } catch (Throwable $exception) {
-        \Illuminate\Support\Facades\Log::debug($exception->getMessage());
+        \Illuminate\Support\Facades\Log::error(get_class($exception));
+        \Illuminate\Support\Facades\Log::error($exception->getMessage());
         throw $exception;
     }
 
