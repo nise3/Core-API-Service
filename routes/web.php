@@ -83,7 +83,7 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
 
 });
 
-$router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $request) {
+$router->post('/sso-renew-access-token', function (\Illuminate\Http\Request $request) {
 
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
@@ -103,7 +103,7 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
             'verify' => false,
             'debug' => false
         ])
-            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token') . 'ss');
+            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token') );
 
         $response = $responseData->json();
 
