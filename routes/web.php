@@ -39,7 +39,7 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
 
 });
 
-$router->get('/sso-authorize-code-grant', function (\Illuminate\Http\Request $request) {
+$router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $request) {
 
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
