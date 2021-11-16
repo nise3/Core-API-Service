@@ -15,7 +15,6 @@ $router->get('/', function () use ($router) {
 });
 
 
-
 $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $request) {
 
     $refererUrl = $request->headers->get('referer');
@@ -59,7 +58,7 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
         ])
             ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=authorization_code&code=' . $request->input('code') . '&redirect_uri=' . urlencode($request->input('redirect_uri')));
         return $responseData->json();
-    } catch (Throwable $exception){
+    } catch (Throwable $exception) {
         \Illuminate\Support\Facades\Log::debug($exception->getMessage());
         throw $exception;
     }
@@ -75,6 +74,7 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
         throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
     }
 
+    \Illuminate\Support\Facades\Log::debug('refresh token: ' . $request->input('refresh_token'));
     try {
         $responseData = \Illuminate\Support\Facades\Http::withHeaders([
             'Content-Type' => 'application/x-www-form-urlencoded',
@@ -84,9 +84,13 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
             'verify' => false,
             'debug' => false
         ])
-            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=grant_type=refresh_token&refresh_token='.  $request->input('refresh_token'));
-        return $responseData->json();
-    } catch (Throwable $exception){
+            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token'));
+        $response = $responseData->json();
+
+        \Illuminate\Support\Facades\Log::debug($response);
+        return $response;
+
+    } catch (Throwable $exception) {
         \Illuminate\Support\Facades\Log::debug($exception->getMessage());
         throw $exception;
     }
@@ -96,7 +100,6 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
 $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($router, $customRouter) {
 
     $router->get('/', ['uses' => 'ApiInfoController@apiInfo']);
-
 
 
     $router->post('auth/login', 'Auth\AuthController@login');
