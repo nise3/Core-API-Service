@@ -34,7 +34,15 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
         'grant_type' => 'client_credentials'
     ]);
 
-    return $responseData->json();
+    $response = $responseData->json();
+
+    \Illuminate\Support\Facades\Log::debug($response);
+
+    if (isset($response['error']) && $response['error']) {
+        throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+    }
+
+    return $response;
 
 });
 
@@ -57,7 +65,17 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
             'debug' => false
         ])
             ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=authorization_code&code=' . $request->input('code') . '&redirect_uri=' . urlencode($request->input('redirect_uri')));
-        return $responseData->json();
+
+        $response = $responseData->json();
+
+        \Illuminate\Support\Facades\Log::debug($response);
+
+        if (isset($response['error']) && $response['error']) {
+            throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+        }
+
+        return $response;
+
     } catch (Throwable $exception) {
         \Illuminate\Support\Facades\Log::debug($exception->getMessage());
         throw $exception;
@@ -85,14 +103,19 @@ $router->post('/sso-get-refresh-token', function (\Illuminate\Http\Request $requ
             'verify' => false,
             'debug' => false
         ])
-            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token') .'ss');
+            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token') . 'ss');
+
         $response = $responseData->json();
 
         \Illuminate\Support\Facades\Log::debug($response);
+
+        if (isset($response['error']) && $response['error']) {
+            throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, json_encode($response));
+        }
+
         return $response;
 
     } catch (Throwable $exception) {
-        \Illuminate\Support\Facades\Log::error(get_class($exception));
         \Illuminate\Support\Facades\Log::error($exception->getMessage());
         throw $exception;
     }
