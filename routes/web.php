@@ -21,9 +21,9 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
 
-    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+/*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
         throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
-    }
+    }*/
 
     $responseData = \Illuminate\Support\Facades\Http::withHeaders([
         'Authorization' => 'Basic RmhWcXdOcDZRNkZWMUg4S3V1THNoNVJFUXlzYTpHZnJEcHk5MDRMamFXTm1uN2FTd0VBMXF5RVFh',
@@ -52,9 +52,9 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
 
-    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+/*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
         throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
-    }
+    }*/
 
     try {
         $responseData = \Illuminate\Support\Facades\Http::withHeaders([
@@ -89,9 +89,9 @@ $router->post('/sso-renew-access-token', function (\Illuminate\Http\Request $req
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
 
-    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+/*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
         throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
-    }
+    }*/
 
     \Illuminate\Support\Facades\Log::debug('refresh token: ' . $request->input('refresh_token'));
 
