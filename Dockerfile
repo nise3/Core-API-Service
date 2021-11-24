@@ -1,10 +1,10 @@
-FROM composer:2.0.7 as build
+FROM composer:2.0.13 as build
 
 WORKDIR /app
 COPY . /app
-RUN composer install
+RUN composer update
 
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
