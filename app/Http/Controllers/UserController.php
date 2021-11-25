@@ -11,6 +11,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -240,15 +241,17 @@ class UserController extends Controller
     }
 
     /**
+     * Admin user create from different services
      * @param Request $request
      * @return JsonResponse
      * @throws ValidationException|Throwable
      */
-    public function organizationOrInstituteUserCreate(Request $request): JsonResponse //When admin user create an institute or organization
+    public function adminUserCreate(Request $request): JsonResponse
     {
         $user = new User();
-        $request['password'] = $request['password'] ?? BaseModel::INSTITUTE_ORGANIZATION_USER_DEFAULT_PASSWORD;
-        $validated = $this->userService->organizationOrInstituteUserCreateValidator($request)->validate();
+        $request['password'] = $request['password'] ?? BaseModel::ADMIN_CREATED_USER_DEFAULT_PASSWORD;
+        $validated = $this->userService->adminUserCreateValidator($request)->validate();
+        Log::info(json_encode($validated));
         DB::beginTransaction();
         try {
             $idpUserPayLoad = [
@@ -259,13 +262,12 @@ class UserController extends Controller
                 'user_type' => $validated['user_type'],
                 'status' => BaseModel::ROW_STATUS_ACTIVE
             ];
-
             $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
 
             if ($httpClient->json('id')) {
                 $validated['idp_user_id'] = $httpClient->json('id');
                 $user = $this->userService->createRegisterUser($user, $validated);
-                $this->sendMessageToRegisteredUser($validated);
+//                $this->sendMessageToRegisteredUser($validated);
                 $response = [
                     'data' => $user ?: [],
                     '_response_status' => [
@@ -295,15 +297,16 @@ class UserController extends Controller
     }
 
     /**
+     * User open registration from different services
      * @param Request $request
      * @return JsonResponse
      * @throws Throwable
      * @throws ValidationException
      */
-    public function userOpenRegistration(Request $request): JsonResponse // When user open registration
+    public function userOpenRegistration(Request $request): JsonResponse
     {
         $user = new User();
-        $validatedData = $this->userService->registerUserValidator($request)->validate();
+        $validatedData = $this->userService->userOpenRegistrationValidator($request)->validate();
         DB::beginTransaction();
         try {
             /** @var  $idpUserPayLoad */
@@ -352,7 +355,7 @@ class UserController extends Controller
 
     }
 
-    private function sendMessageToRegisteredUser(array $data) : bool
+    private function sendMessageToRegisteredUser(array $data): bool
     {
         $message = 'Welcome to NISE-3. Your username is ' . $data['username'] . " and password is " . $data['password'];
         return sms()->send($data['username'], $message)->is_successful();

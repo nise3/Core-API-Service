@@ -35,7 +35,7 @@ abstract class BaseModel extends Model
 
     public const IN = "IN";
 
-    public const INSTITUTE_ORGANIZATION_USER_DEFAULT_PASSWORD = "ABcd1234";
+    public const ADMIN_CREATED_USER_DEFAULT_PASSWORD = "ABcd1234";
 
     public const PASSWORD_MIN_LENGTH = 8;
     public const PASSWORD_MAX_LENGTH = 20;
@@ -54,8 +54,16 @@ abstract class BaseModel extends Model
     public const SYSTEM_USER = 1;
     public const ORGANIZATION_USER = 2;
     public const INSTITUTE_USER = 3;
+    public const YOUTH_USER_TYPE = 4;
+    public const INDUSTRY_ASSOCIATION_TYPE = 5;
+
     /**User Types*/
-    public const USER_TYPES = [self::SYSTEM_USER, self::ORGANIZATION_USER, self::INSTITUTE_USER];
+    public const USER_TYPES = [
+        self::SYSTEM_USER,
+        self::ORGANIZATION_USER,
+        self::INSTITUTE_USER,
+        self::INDUSTRY_ASSOCIATION_TYPE
+    ];
 
     public const USER_TYPE = [
         self::SYSTEM_USER => 'system',

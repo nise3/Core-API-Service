@@ -21,9 +21,9 @@ $router->get('/nise3-app-api-access-token', function (\Illuminate\Http\Request $
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
 
-/*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
-        throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
-    }*/
+    /*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+            throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        }*/
 
     $responseData = \Illuminate\Support\Facades\Http::withHeaders([
         'Authorization' => 'Basic RmhWcXdOcDZRNkZWMUg4S3V1THNoNVJFUXlzYTpHZnJEcHk5MDRMamFXTm1uN2FTd0VBMXF5RVFh',
@@ -52,9 +52,9 @@ $router->post('/sso-authorize-code-grant', function (\Illuminate\Http\Request $r
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
 
-/*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
-        throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
-    }*/
+    /*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+            throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        }*/
 
     try {
         $responseData = \Illuminate\Support\Facades\Http::withHeaders([
@@ -89,9 +89,9 @@ $router->post('/sso-renew-access-token', function (\Illuminate\Http\Request $req
     $refererUrl = $request->headers->get('referer');
     $postmanToken = $request->headers->get('postman-token');
 
-/*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
-        throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
-    }*/
+    /*    if (!(($refererUrl && preg_match("/https?:\/\/(123.49.47.38)|(127.0.0.1)|(localhost)/", $refererUrl)) || $postmanToken)) {
+            throw new Symfony\Component\HttpKernel\Exception\HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        }*/
 
     \Illuminate\Support\Facades\Log::debug('refresh token: ' . $request->input('refresh_token'));
 
@@ -104,7 +104,7 @@ $router->post('/sso-renew-access-token', function (\Illuminate\Http\Request $req
             'verify' => false,
             'debug' => false
         ])
-            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token') );
+            ->post('https://bus-staging.softbdltd.com/oauth2/token?grant_type=refresh_token&refresh_token=' . $request->input('refresh_token'));
 
         $response = $responseData->json();
 
@@ -180,9 +180,10 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         $router->post('auth/profile', 'Auth\AuthController@profile');
         $router->post('auth/logout', 'Auth\AuthController@logout');
     });
-    /** Organization or institute User Create */
-    $router->post('organization-or-institute-user-create', ['as' => 'users.organization-or-institute-user-create', 'uses' => 'UserController@organizationOrInstituteUserCreate']);
-    /** Register User */
+    /** Organization,institute and industry Association User create by admin  */
+    $router->post('admin-user-create', ['as' => 'admin-user-create', 'uses' => 'UserController@adminUserCreate']);
+
+    /** User open Registration from Organization,institute and industry Association */
     $router->post('user-open-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userOpenRegistration']);
 
 

@@ -253,7 +253,7 @@ class UserService
             $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'organizations/' . $user->organization_id;
 
             $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
-                ->withHeaders([BaseModel::DEFAULT_SERVICE_TO_SERVICE_CALL_KEY=>true])
+                ->withHeaders([BaseModel::DEFAULT_SERVICE_TO_SERVICE_CALL_KEY => true])
                 ->get($url)
                 ->throw(function ($response, $exception) {
                     return $exception;
@@ -396,12 +396,13 @@ class UserService
         $roleService = new RoleService();
 
         $roleField = [
-            'key' => str_replace(' ', '_', $data['name_en'])."_".time(),
+            'key' => str_replace(' ', '_', $data['name_en']) . "_" . time(),
             'title_en' => $data['name_en'],
             'title' => $data['name'],
             'permission_sub_group_id' => $data['permission_sub_group_id'] ?? null,
             'organization_id' => $data['organization_id'] ?? null,
             'institute_id' => $data['institute_id'] ?? null,
+            'industry_association_id' => $data['industry_association_id'] ?? null,
         ];
 
         $role = app(RoleService::class)->store($roleField);
@@ -464,13 +465,14 @@ class UserService
      * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function registerUserValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function userOpenRegistrationValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "user_type" => "required|min:1",
             "username" => 'required|max:100|string|unique:users,username,' . $id,
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
+            "industry_association_id" => 'nullable|int',
             "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
@@ -497,7 +499,7 @@ class UserService
      * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function organizationOrInstituteUserCreateValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function adminUserCreateValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             'permission_sub_group_id' => 'required|int',
@@ -505,6 +507,7 @@ class UserService
             "username" => 'required|string|unique:users,username,' . $id,
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
+            "industry_association_id" => 'nullable|int',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
@@ -584,7 +587,7 @@ class UserService
             ]
         ];
 
-        if(!$id){
+        if (!$id) {
             $rules['password'] = [
                 'required',
                 "confirmed",
