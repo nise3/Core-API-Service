@@ -557,8 +557,21 @@ class UserService
                 'unique:users,username,' . $id,
                 BaseModel::USERNAME_REGEX
             ],
-            "organization_id" => 'nullable|int|gt:0',
-            "institute_id" => 'nullable|int|gt:0',
+            "organization_id" => [
+                'required_if:user_type,' . BaseModel::ORGANIZATION_USER,
+                'nullable',
+                'integer',
+                'int',
+                'gt:0'
+            ],
+            "institute_id" => [
+                'required_if:user_type,' . BaseModel::INSTITUTE_USER,
+                'nullable',
+                'integer',
+                'gt:0'
+            ],
+            'branch_id' => 'nullable|int|gt:0',
+            'training_center_id' => 'nullable|int|gt:0',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'nullable|string|min:2',
             "name" => 'required|string|min:2',

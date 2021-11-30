@@ -3430,16 +3430,32 @@
                 "type": "object",
                 "description": "Provide User Information",
                 "properties": {
-
                     "user_type": {
                         "type": "integer",
-                        "enum": [1,2,3],
+                        "enum": [
+                            1,
+                            2,
+                            3
+                        ],
                         "description": "1=>system_user 2=>organization_user 3=>institute_user"
+                    },
+                    "institute_id": {
+                        "type": "integer",
+                        "description": "Required if user_type=>institute_user"
+                    },
+                    "organization_id": {
+                        "type": "integer",
+                        "description": "Required if user_type=>organization_user"
+                    },
+                    "branch_id": {
+                        "type": "integer"
+                    },
+                    "training_center_id": {
+                        "type": "integer"
                     },
                     "username": {
                         "type": "string",
-                        "description": "Rules: \n1) Space, symbol not allowed\n2) Must be inside a-z, A-Z, 0-9"
-
+                        "description": "1) Space, symbol not allowed  2) Must be inside a-z, A-Z, 0-9"
                     },
                     "name_en": {
                         "type": "string"
@@ -3447,7 +3463,6 @@
                     "name": {
                         "type": "string"
                     },
-
                     "role_id": {
                         "type": "integer"
                     },
@@ -3470,7 +3485,6 @@
                         "type": "integer",
                         "description": "Upazila Id"
                     },
-
                     "password": {
                         "type": "string",
                         "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
@@ -3495,8 +3509,6 @@
                         "example": 1,
                         "description": "1=>Active,0=>InActive"
                     }
-
-
                 },
                 "required": [
                     "user_type",
