@@ -150,7 +150,7 @@ class UserController extends Controller
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function updateProfile(Request $request, int $id)
+    public function updateProfile(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->profileUpdatedValidator($request, $user)->validate();
