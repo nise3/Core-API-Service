@@ -361,68 +361,25 @@ class UserController extends Controller
         return sms()->send($data['username'], $message)->is_successful();
     }
 
-    /** TODO: Pending
-     * @param int $id
+    /**
+     * @param Request $request
      * @return JsonResponse
-     * @throws Throwable
      */
-    public function userApproval(int $id): JsonResponse
+    public function userApproval(Request $request): JsonResponse
     {
-        /** @var User $user */
-        $user = User::findOrFail($id);
-        DB::beginTransaction();
-        try {
-            if ($user->row_status != 1) {
-                /**Idp User Payload*/
-                $idpUserPayLoad = [
-                    'name' => $user->name_en,
-                    'email' => $user->email,
-                    'username' => $user->username,
-                    'password' => "123456",
-                ];
-                $httpClient = Uuid::uuid();
-                if ($httpClient) {
-                    $data['row_status'] = BaseModel::ROW_STATUS_ACTIVE;
-                    $user = $this->userService->update($data, $user);
-                    $response = [
-                        'data' => $user ?: [],
-                        '_response_status' => [
-                            "success" => true,
-                            "code" => ResponseAlias::HTTP_OK,
-                            "message" => "User is approved successfully",
-                            "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                        ]
-                    ];
-                    DB::commit();
-                } else {
-                    DB::rollBack();
-                    $response = [
-                        'data' => $user ?: [],
-                        '_response_status' => [
-                            "success" => false,
-                            "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
-                            "message" => "User is not created",
-                            "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                        ]
-                    ];
-                }
-            } else {
-                $response = [
-                    '_response_status' => [
-                        "success" => false,
-                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
-                        "message" => "User has already approved!",
-                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                    ]
-                ];
-            }
+        $user = $this->userService->userApproval($request);
+        $response = [
+            'data' => $user ?: null,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "User is approved successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
 
-            return Response::json($response, ResponseAlias::HTTP_OK);
+        return Response::json($response, ResponseAlias::HTTP_OK);
 
-        } catch (Throwable $e) {
-            DB::rollBack();
-            throw $e;
-        }
 
     }
 

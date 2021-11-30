@@ -18,6 +18,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Khbd\LaravelWso2IdentityApiUser\Facades\IdpUser;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -29,9 +30,11 @@ class UserService
      * @param array $request
      * @param Carbon $startTime
      * @return array
+     * @throws \Exception
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
+
         $authUser = AuthUser::getUser();
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
@@ -384,6 +387,33 @@ class UserService
         $user->fill($data);
         $user->save();
         return $user;
+    }
+
+    public function userApproval(Request $request)
+    {
+        $requestData = $request->all();
+        Log::info(json_encode($requestData));
+        $userType = $requestData['user_type'];
+        $user = null;
+        if ($userType == BaseModel::ORGANIZATION_USER) {
+            $user = User::where('organization_id', $requestData['organization_id'])->firstOrFail();
+        } elseif ($userType == BaseModel::INSTITUTE_USER) {
+            $user = User::where('institute_id', $requestData['institute_id'])->firstOrFail();
+        } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
+            $user = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
+        }
+        if (!empty($user)) {
+            $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
+            $user->save();
+        }
+        return $user;
+    }
+
+    /** TODO :After the package works successfully */
+    public function IdpUserApproval(User $user)
+    {
+
+
     }
 
 

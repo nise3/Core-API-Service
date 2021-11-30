@@ -50,7 +50,8 @@ class CreateUsersTable extends Migration
             $table->string('password', 191);
             $table->string('profile_pic', 1000)->nullable();
 
-            $table->unsignedTinyInteger('row_status')->default(1);
+            $table->unsignedTinyInteger('row_status')
+                ->default(1)->comment('0 => Inactive, 1 => Approved, 2 => Pending, 3 => Rejected');;
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
             $table->rememberToken();

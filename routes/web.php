@@ -163,7 +163,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
     $router->post('users/{id}/profile-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updateProfile']);
 
-    $router->get('users/{id}/user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
+    $router->put('user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
 
     /** Auth user info */
     $router->post("auth-user-info", ["as" => "users.auth-user-info", "uses" => "UserController@getAuthUserInfoByIdpId"]);

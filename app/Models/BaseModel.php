@@ -55,14 +55,14 @@ abstract class BaseModel extends Model
     public const ORGANIZATION_USER = 2;
     public const INSTITUTE_USER = 3;
     public const YOUTH_USER_TYPE = 4;
-    public const INDUSTRY_ASSOCIATION_TYPE = 5;
+    public const INDUSTRY_ASSOCIATION_USER = 5;
 
     /**User Types*/
     public const USER_TYPES = [
         self::SYSTEM_USER,
         self::ORGANIZATION_USER,
         self::INSTITUTE_USER,
-        self::INDUSTRY_ASSOCIATION_TYPE
+        self::INDUSTRY_ASSOCIATION_USER
     ];
 
     public const USER_TYPE = [
