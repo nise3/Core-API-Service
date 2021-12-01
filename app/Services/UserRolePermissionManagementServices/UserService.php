@@ -389,7 +389,11 @@ class UserService
         return $user;
     }
 
-    public function userApproval(Request $request)
+    /**
+     * @param Request $request
+     * @return User|null
+     */
+    public function userApproval(Request $request): User|null
     {
         $requestData = $request->all();
         Log::info(json_encode($requestData));
@@ -403,7 +407,32 @@ class UserService
             $user = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
         }
         if (!empty($user)) {
-            $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
+            $user->row_status = User::ROW_STATUS_ACTIVE;
+            $user->save();
+        }
+        return $user;
+    }
+
+
+    /**
+     * @param Request $request
+     * @return User|null
+     */
+    public function userRejection(Request $request): User|null
+    {
+        $requestData = $request->all();
+        Log::info(json_encode($requestData));
+        $userType = $requestData['user_type'];
+        $user = null;
+        if ($userType == BaseModel::ORGANIZATION_USER) {
+            $user = User::where('organization_id', $requestData['organization_id'])->firstOrFail();
+        } elseif ($userType == BaseModel::INSTITUTE_USER) {
+            $user = User::where('institute_id', $requestData['institute_id'])->firstOrFail();
+        } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
+            $user = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
+        }
+        if (!empty($user)) {
+            $user->row_status = User::ROW_STATUS_REJECT;
             $user->save();
         }
         return $user;
@@ -788,6 +817,10 @@ class UserService
         return $client;
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     private function prepareIdpPayload($data): array
     {
         $userEmailNo = trim($data['email']);

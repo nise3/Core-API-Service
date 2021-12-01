@@ -380,6 +380,24 @@ class UserController extends Controller
 
         return Response::json($response, ResponseAlias::HTTP_OK);
 
+    }    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function userRejection(Request $request): JsonResponse
+    {
+        $user = $this->userService->userRejection($request);
+        $response = [
+            'data' => $user ?: null,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "User is rejected successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+
+        return Response::json($response, ResponseAlias::HTTP_OK);
 
     }
 
