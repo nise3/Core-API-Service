@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Hash;
  * @property int loc_division_id
  * @property int loc_district_id
  * @property int loc_upazila_id
+ * @property int branch_id
+ * @property int training_center_id
  * @property int $row_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
