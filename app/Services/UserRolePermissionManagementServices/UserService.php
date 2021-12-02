@@ -768,7 +768,8 @@ class UserService
             ->withOptions([
                 'verify' => false
             ])
-            ->post($url, $payload);
+            ->post($url, $payload)
+            ->throw();
 
         Log::channel('idp_user')->info('idp_user_payload', $data);
         Log::channel('idp_user')->info('idp_user_info', $client->json());
