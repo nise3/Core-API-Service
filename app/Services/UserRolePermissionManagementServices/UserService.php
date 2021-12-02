@@ -433,6 +433,24 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param Request $request
+     */
+    public function userDelete(Request $request)
+    {
+        $requestData = $request->all();
+        Log::info(json_encode($requestData));
+        $userType = $requestData['user_type'];
+
+        if ($userType == BaseModel::ORGANIZATION_USER) {
+            User::where('organization_id', $requestData['organization_id'])->delete();
+        } elseif ($userType == BaseModel::INSTITUTE_USER) {
+            User::where('institute_id', $requestData['institute_id'])->delete();
+        } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
+            User::where('industry_association_id', $requestData['industry_association_id'])->delete();
+        }
+    }
+
 
     /**
      * @param Request $request
