@@ -311,7 +311,8 @@ class UserService
         $menuItemBuilder->whereIn('permission_key', $conditionalPermissions);
         $menuItemBuilder->orWhereNull('permission_key');
         $menuItem = $menuItemBuilder->get()->toArray();
-        return [
+
+        $result = [
             'userType' => BaseModel::USER_TYPE[$user->user_type],
             'isSystemUser' => $isSystemUser,
             'isInstituteUser' => $isInstituteUser,
@@ -325,9 +326,28 @@ class UserService
             'organization_id' => $user->organization_id,
             'organization' => $organization,
             'username' => $user->username,
-            'displayName' => $user->name_en
+            'displayName' => $user->name_en,
 
         ];
+
+        if ($isInstituteUser) {
+            $result['branch_id'] = $user->branch_id;
+            $result['training_center_id'] = $user->training_center_id;
+            $result['institute_user_type'] = $this->getIndustryUserType($user);
+        }
+
+        return $result;
+    }
+
+
+    public function getIndustryUserType(User $user): string
+    {
+        if ($user->training_center_id) {
+            return 'training center';
+        } else if ($user->branch_id) {
+            return 'branch';
+        }
+        return 'institute';
     }
 
 
@@ -810,7 +830,8 @@ class UserService
             ->withOptions([
                 'verify' => false
             ])
-            ->post($url, $payload);
+            ->post($url, $payload)
+            ->throw();
 
         Log::channel('idp_user')->info('idp_user_payload', $data);
         Log::channel('idp_user')->info('idp_user_info', $client->json());

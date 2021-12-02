@@ -232,13 +232,10 @@ class RoleService
     public function permissionValidation(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $permissions = $request->input('permissions');
-        $data = [];
 
-        if ($permissions) {
-            $data = [
-                'permissions' => is_array($permissions) ? $permissions : explode(',', $permissions)
-            ];
-        }
+        $data = [
+            'permissions' => is_array($permissions) ? $permissions : explode(',', $permissions)
+        ];
 
         $rules = [
             'permissions' => 'required|array|min:1',
