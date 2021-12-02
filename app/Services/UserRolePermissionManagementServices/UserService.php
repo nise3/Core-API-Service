@@ -220,6 +220,12 @@ class UserService
 
         $user = $userBuilder->where('users.id', $id)->first();
 
+        if($user->user_type == BaseModel::INSTITUTE_USER){
+            $user['branch_id'] = $user->branch_id;
+            $user['training_center_id'] = $user->training_center_id;
+            $user['institute_user_type'] = $this->getIndustryUserType($user);
+        }
+
         return [
             "data" => $user ?: null,
             "_response_status" => [
