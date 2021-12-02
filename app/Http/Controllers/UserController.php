@@ -128,6 +128,17 @@ class UserController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
+
+        /** User cannot changes this attributes */
+        $request->offsetSet('user_type',$user->user_type);
+        $request->offsetSet('organization_id',$user->organization_id);
+        $request->offsetSet('institute_id',$user->institute_id);
+        $request->offsetSet('branch_id',$user->branch_id);
+        $request->offsetSet('training_center_id',$user->training_center_id);
+        $request->offsetSet('mobile',$user->mobile);
+        $request->offsetSet('email',$user->email);
+        $request->offsetSet('username',$user->username);
+
         $validated = $this->userService->validator($request, $id)->validate();
         $user = $this->userService->update($validated, $user);
 
