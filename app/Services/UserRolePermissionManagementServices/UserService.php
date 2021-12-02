@@ -191,6 +191,8 @@ class UserService
             "users.verification_code_sent_at",
             "users.password",
             "users.profile_pic",
+            "users.branch_id",
+            "users.training_center_id",
             "users.row_status",
             "users.created_by",
             "users.updated_by",
