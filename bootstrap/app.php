@@ -68,6 +68,7 @@ $app->configure('nise3');
 $app->configure('httpclientendpoint');
 $app->configure('sms');
 $app->configure('IdpUser');
+$app->configure('queue');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -107,6 +108,7 @@ $app->register(Felixkiss\UniqueWithValidator\ServiceProvider::class);
 $app->register(Khbd\LaravelSmsBD\SMSServiceProvider::class);
 $app->register(Ixudra\Curl\CurlServiceProvider::class);
 $app->register(Khbd\LaravelWso2IdentityApiUser\IdpUserServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 
 //$app->register(Laravel\Passport\PassportServiceProvider::class);
