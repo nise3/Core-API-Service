@@ -420,11 +420,17 @@ class UserService
         $userType = $requestData['user_type'];
         $user = null;
         if ($userType == BaseModel::ORGANIZATION_USER) {
-            $user = User::where('organization_id', $requestData['organization_id'])->firstOrFail();
+            $user = User::where('organization_id', $requestData['organization_id'])
+                ->where('user_type', $userType)
+                ->firstOrFail();
         } elseif ($userType == BaseModel::INSTITUTE_USER) {
-            $user = User::where('institute_id', $requestData['institute_id'])->firstOrFail();
+            $user = User::where('institute_id', $requestData['institute_id'])
+                ->where('user_type', $userType)
+                ->firstOrFail();
         } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
-            $user = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
+            $user = User::where('industry_association_id', $requestData['industry_association_id'])
+                ->where('user_type', $userType)
+                ->firstOrFail();
         }
         if (!empty($user)) {
             $user->row_status = User::ROW_STATUS_ACTIVE;
@@ -443,11 +449,17 @@ class UserService
         $userType = $requestData['user_type'];
 
         if ($userType == BaseModel::ORGANIZATION_USER) {
-            User::where('organization_id', $requestData['organization_id'])->delete();
+            User::where('organization_id', $requestData['organization_id'])
+                ->where('user_type', $userType)
+                ->delete();
         } elseif ($userType == BaseModel::INSTITUTE_USER) {
-            User::where('institute_id', $requestData['institute_id'])->delete();
+            User::where('institute_id', $requestData['institute_id'])
+                ->where('user_type', $userType)
+                ->where()->delete();
         } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
-            User::where('industry_association_id', $requestData['industry_association_id'])->delete();
+            User::where('industry_association_id', $requestData['industry_association_id'])
+                ->where('user_type', $userType)
+                ->delete();
         }
     }
 
