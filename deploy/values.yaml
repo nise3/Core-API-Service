@@ -41,11 +41,11 @@ variables:
 
 
   # application config
-
+  # mysql-service.db
   APP_ENV: "local"
   APP_DEBUG: "false"
   APP_URL: "coreapi.bus.softbd.xyz"
-  DB_HOST: mysql-service.db
+  DB_HOST: 192.168.10.190
   DB_PORT: "3306"
   DB_DATABASE: core_api
   DB_USERNAME: n3_core
