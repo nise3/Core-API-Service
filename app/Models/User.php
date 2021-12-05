@@ -74,4 +74,19 @@ class User extends AuthBaseModel
     {
         $this->attributes['password'] = Hash::make($pass);
     }
+
+    public function isSystemUser(): bool
+    {
+        return $this->user_type == BaseModel::SYSTEM_USER;
+    }
+
+    public function isOrganizationUser(): bool
+    {
+        return $this->user_type == BaseModel::ORGANIZATION_USER && $this->organization_id;
+    }
+
+    public function isInstituteUser(): bool
+    {
+        return $this->user_type == BaseModel::INSTITUTE_USER && $this->institute_id;
+    }
 }
