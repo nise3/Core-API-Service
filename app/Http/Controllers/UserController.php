@@ -205,7 +205,7 @@ class UserController extends Controller
     }
 
     /**
-     * Delete users created from other services
+     * Delete user created from Organization ,institute and industryAssociation
      * @param Request $request
      * @return JsonResponse
      */

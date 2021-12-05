@@ -9,16 +9,16 @@ use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-use Khbd\LaravelWso2IdentityApiUser\Facades\IdpUser;
+
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -433,7 +433,7 @@ class UserService
                 ->firstOrFail();
         }
         if (!empty($user)) {
-            $user->row_status = User::ROW_STATUS_ACTIVE;
+            $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
             $user->save();
         }
         return $user;
@@ -447,15 +447,30 @@ class UserService
         $requestData = $request->all();
         Log::info(json_encode($requestData));
         $userType = $requestData['user_type'];
+        if (!empty($requestData['training_center_id'])) {
+            $trainingCenterId = $requestData['training_center_id'];
+        }
+        if (!empty($requestData['branch_id'])) {
+            $branchId = $requestData['branch_id'];
+        }
 
         if ($userType == BaseModel::ORGANIZATION_USER) {
             User::where('organization_id', $requestData['organization_id'])
                 ->where('user_type', $userType)
                 ->delete();
         } elseif ($userType == BaseModel::INSTITUTE_USER) {
-            User::where('institute_id', $requestData['institute_id'])
-                ->where('user_type', $userType)
-                ->where()->delete();
+            /** @var Builder $userBuilder */
+            $userBuilder = User::where('institute_id', $requestData['institute_id']);
+            $userBuilder->where('user_type', $userType);
+            if (!empty($trainingCenterId)) {
+                $userBuilder->where('training_center_id', $trainingCenterId);
+            }
+            if (!empty($branchId)) {
+                $userBuilder->where('branch_id', $branchId);
+                $userBuilder->whereNull('training_center_id');
+            }
+            $userBuilder->delete();
+
         } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
             User::where('industry_association_id', $requestData['industry_association_id'])
                 ->where('user_type', $userType)
