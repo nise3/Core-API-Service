@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Hash;
  * @property int branch_id
  * @property int training_center_id
  * @property int $row_status
+ * @property int $idp_user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|Permission[] $permissions

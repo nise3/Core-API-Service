@@ -10,6 +10,7 @@ use Faker\Provider\Uuid;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
@@ -143,6 +144,9 @@ class UserController extends Controller
         $validated = $this->userService->validator($request, $id)->validate();
         $user = $this->userService->update($validated, $user);
 
+        /** Remove cache data for this user */
+        Cache::forget($user->idp_user_id);
+
         $response = [
             'data' => $user,
             '_response_status' => [
@@ -168,6 +172,9 @@ class UserController extends Controller
         $validated = $this->userService->profileUpdatedValidator($request, $user)->validate();
         $user = $this->userService->update($validated, $user);
 
+        /** Remove cache data for this user */
+        Cache::forget($user->idp_user_id);
+
         $response = [
             'data' => $user,
             '_response_status' => [
@@ -191,7 +198,11 @@ class UserController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
+        /** Remove cache data for this user */
+        Cache::forget($user->idp_user_id);
+
         $this->userService->destroy($user);
+
         $response = [
             '_response_status' => [
                 "success" => true,
