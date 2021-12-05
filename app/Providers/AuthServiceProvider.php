@@ -2,13 +2,21 @@
 
 namespace App\Providers;
 
+use App\Facade\AuthTokenUtility;
+use App\Facade\ServiceToServiceCall;
+use App\Models\Role;
+use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
+
+    private array $policies = [];
 
     /**
      * Register any application services.
@@ -24,63 +32,54 @@ class AuthServiceProvider extends ServiceProvider
      * Boot the authentication services for the application.
      *
      * @return void
-     * @throws BindingResolutionException
      */
     public function boot()
     {
-        $this->app['auth']->viaRequest('token', function ($request) {
-            $token = $request->header('Authorization');
-            Log::info($token);
-            $authUser = null;
-            if ($token) {
-                //$header = explode(" ", $token);
-                $token = trim(str_replace('Bearer', '', $token));
+        // Here you may define how you wish users to be authenticated for your Lumen
+        // application. The callback which receives the incoming request instance
+        // should return either a User instance or null. You're free to obtain
+        // the User instance via an API token or any other method necessary.
 
-                $idpServerId = $this->getIdpServerIdFromToken($token);
-                Log::info("Auth idp user id-->" . $idpServerId);
-                if ($idpServerId) {
-                    $userService = $this->app->make(UserService::class);
-                    $authUser = $userService->getAuthPermission($idpServerId);
-                    Log::info("userInfoWithIdpId:" . json_encode($authUser));
-
-                }
+        if (count($this->policies)) {
+            /** Registering Policies
+             * @var string $modelName
+             * @var string $policyName
+             */
+            foreach ($this->policies as $modelName => $policyName) {
+                Gate::policy($modelName, $policyName);
             }
-            return $authUser;
-            /*
-                        // Old Code
-                        $token = $request->header('Authorization');
-                        $authUser = null;
-                        if ($token) {
-                            $header = explode(" ", $token);
-                            if (count($header) > 1) {
-                                $tokenParts = explode(".", $header[1]);
-                                if (count($tokenParts) == 3) {
-                                    $tokenPayload = base64_decode($tokenParts[1]);
-                                    $jwtPayload = json_decode($tokenPayload);
-                                    $userService = $this->app->make(UserService::class);
-                                    $authUser = $userService->getAuthPermission($jwtPayload->sub ?? null);
-                                }
-                            }
-                            Log::info("userInfoWithIdpId:" . json_encode($authUser));
-                        }
-                        return $authUser;
-            */
-        });
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function getIdpServerIdFromToken($data, $verify = false)
-    {
-        $sections = explode('.', $data);
-        if (count($sections) < 3) {
-            throw new \Exception('Invalid number of sections of Tokens (<3)');
         }
 
-        list($header, $claims, $signature) = $sections;
-        preg_match("/['\"]sub['\"]:['\"](.*?)['\"][,]/", base64_decode($claims), $matches);
+        $this->app['auth']->viaRequest('token', function (Request $request) {
 
-        return count($matches) > 1 ? $matches[1] : "";
+            $token = $request->bearerToken();
+            Log::info('Bearer Token: ' . $token);
+
+            if (!$token) {
+                return null;
+            }
+
+            $authUser = null;
+            $idpServerUserId = AuthTokenUtility::getIdpServerIdFromToken($token);
+
+            Log::info("Auth idp user id-->" . $idpServerUserId);
+
+            if ($idpServerUserId) {
+
+                Cache::remember($idpServerUserId, config('nise3.user_cache_ttl'), function () use ($idpServerUserId, $authUser) {
+                    $userService = $this->app->make(UserService::class);
+                    $authUser = $userService->getAuthPermission($idpServerUserId);
+                    Log::info("userInfoWithIdpId:" . json_encode($authUser));
+                    return $authUser;
+                });
+
+                /** Remove cache key when value is null. Null can be set through previous cache remember function */
+                if (Cache::get($idpServerUserId) == null) {
+                    Cache::forget($idpServerUserId);
+                }
+            }
+
+            return Cache::get($idpServerUserId);
+        });
     }
 }

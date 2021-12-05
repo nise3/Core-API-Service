@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Hash;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|Permission[] $permissions
- * @property-read Role[] $roles
+ * @property-read Role $role
  */
 class User extends AuthBaseModel
 {
