@@ -6,7 +6,6 @@ use App\Models\BaseModel;
 use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
-use Faker\Provider\Uuid;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -197,6 +196,7 @@ class UserController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
+
         $user = User::findOrFail($id);
         /** Remove cache data for this user */
         Cache::forget($user->idp_user_id);

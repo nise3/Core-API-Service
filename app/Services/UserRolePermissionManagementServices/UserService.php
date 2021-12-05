@@ -2,7 +2,6 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
-use App\Facade\AuthUser;
 use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\Role;
@@ -11,6 +10,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -35,7 +35,6 @@ class UserService
     public function getAllUsers(array $request, Carbon $startTime): array
     {
 
-        $authUser = AuthUser::getUser();
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -433,6 +432,7 @@ class UserService
                 ->firstOrFail();
         }
         if (!empty($user)) {
+            Cache::forget($user->idp_user_id);
             $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
             $user->save();
         }
@@ -455,9 +455,9 @@ class UserService
         }
 
         if ($userType == BaseModel::ORGANIZATION_USER) {
-            User::where('organization_id', $requestData['organization_id'])
+            $users = User::where('organization_id', $requestData['organization_id'])
                 ->where('user_type', $userType)
-                ->delete();
+                ->get();
         } elseif ($userType == BaseModel::INSTITUTE_USER) {
             /** @var Builder $userBuilder */
             $userBuilder = User::where('institute_id', $requestData['institute_id']);
@@ -469,12 +469,19 @@ class UserService
                 $userBuilder->where('branch_id', $branchId);
                 $userBuilder->whereNull('training_center_id');
             }
-            $userBuilder->delete();
+            $users = $userBuilder->get();
 
         } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
-            User::where('industry_association_id', $requestData['industry_association_id'])
+            $users = User::where('industry_association_id', $requestData['industry_association_id'])
                 ->where('user_type', $userType)
-                ->delete();
+                ->get();
+        }
+
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                Cache::forget($user->idp_user_id);
+                $user->delete();
+            }
         }
     }
 
@@ -497,7 +504,8 @@ class UserService
             $user = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
         }
         if (!empty($user)) {
-            $user->row_status = User::ROW_STATUS_REJECT;
+            Cache::forget($user->idp_user_id);
+            $user->row_status = BaseModel::ROW_STATUS_REJECT;
             $user->save();
         }
         return $user;
