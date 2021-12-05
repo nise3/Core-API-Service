@@ -72,7 +72,8 @@ class PermissionSeeder extends Seeder
             'program',
             'training_center',
             'trainer',
-            'course_enrollment'
+            'course_enrollment',
+            'industry_association'
         ];
         $menuOrder=1;
         foreach ($modules as $module) {
