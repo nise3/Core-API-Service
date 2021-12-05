@@ -132,14 +132,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         /** User cannot changes this attributes */
-        $request->offsetSet('user_type',$user->user_type);
-        $request->offsetSet('organization_id',$user->organization_id);
-        $request->offsetSet('institute_id',$user->institute_id);
-        $request->offsetSet('branch_id',$user->branch_id);
-        $request->offsetSet('training_center_id',$user->training_center_id);
-        $request->offsetSet('mobile',$user->mobile);
-        $request->offsetSet('email',$user->email);
-        $request->offsetSet('username',$user->username);
+        $request->offsetSet('user_type', $user->user_type);
+        $request->offsetSet('organization_id', $user->organization_id);
+        $request->offsetSet('institute_id', $user->institute_id);
+        $request->offsetSet('branch_id', $user->branch_id);
+        $request->offsetSet('training_center_id', $user->training_center_id);
+        $request->offsetSet('mobile', $user->mobile);
+        $request->offsetSet('email', $user->email);
+        $request->offsetSet('username', $user->username);
 
         $validated = $this->userService->validator($request, $id)->validate();
         $user = $this->userService->update($validated, $user);
@@ -203,6 +203,26 @@ class UserController extends Controller
 
         $this->userService->destroy($user);
 
+        $response = [
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "User deleted successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * Delete user created from Organization ,institute and industryAssociation
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function userDestroy(Request $request): JsonResponse
+    {
+        $this->userService->userDelete($request);
         $response = [
             '_response_status' => [
                 "success" => true,
@@ -402,7 +422,9 @@ class UserController extends Controller
 
         return Response::json($response, ResponseAlias::HTTP_OK);
 
-    }    /**
+    }
+
+    /**
      * @param Request $request
      * @return JsonResponse
      */
