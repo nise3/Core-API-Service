@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Services\UserRolePermissionManagementServices\UserService;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -29,22 +31,25 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['auth']->viaRequest('token', function ($request) {
-            $token = $request->header('Authorization');
+            $token = $request->bearerToken();
+            Log::info('Bearer Token: ' . $token);
+
+            if (!$token) {
+                return null;
+            }
+
             Log::info($token);
             $authUser = null;
-            if ($token) {
-                //$header = explode(" ", $token);
-                $token = trim(str_replace('Bearer', '', $token));
 
-                $idpServerId = $this->getIdpServerIdFromToken($token);
-                Log::info("Auth idp user id-->" . $idpServerId);
-                if ($idpServerId) {
-                    $userService = $this->app->make(UserService::class);
-                    $authUser = $userService->getAuthPermission($idpServerId);
-                    Log::info("userInfoWithIdpId:" . json_encode($authUser));
+            $idpServerId = $this->getIdpServerIdFromToken($token);
+            Log::info("Auth idp user id-->" . $idpServerId);
+            if ($idpServerId) {
+                $userService = $this->app->make(UserService::class);
+                $authUser = $userService->getAuthPermission($idpServerId);
+                Log::info("userInfoWithIdpId:" . json_encode($authUser));
 
-                }
             }
+
             return $authUser;
             /*
                         // Old Code
@@ -68,17 +73,14 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * @throws \Exception
-     */
-    private function getIdpServerIdFromToken($data, $verify = false)
+    public function getIdpServerIdFromToken($data, bool $verify = false): mixed
     {
         $sections = explode('.', $data);
-        if (count($sections) < 3) {
-            throw new \Exception('Invalid number of sections of Tokens (<3)');
-        }
+
+        throw_if((count($sections) < 3), AuthenticationException::class, 'Invalid number of sections of Auth Tokens (<3)', Response::HTTP_BAD_REQUEST);
 
         list($header, $claims, $signature) = $sections;
+
         preg_match("/['\"]sub['\"]:['\"](.*?)['\"][,]/", base64_decode($claims), $matches);
 
         return count($matches) > 1 ? $matches[1] : "";
