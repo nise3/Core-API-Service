@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -32,7 +33,8 @@ class UserService
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
-        $authUser = AuthUser::getUser();
+        $authUser = Auth::user();
+
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -623,8 +625,7 @@ class UserService
             "updated_by" => "nullable|int|gt:0",
             "remember_token" => "nullable|string",
             'row_status' => [
-                'required_if:' . $id . ',!=,null',
-                'nullable',
+                'required',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ]
         ];
