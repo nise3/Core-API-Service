@@ -652,12 +652,8 @@ class UserService
     public function profileUpdatedValidator(Request $request, User $user): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            "name_en" => 'required|min:3|max:255',
+            "name_en" => 'nullable|min:3|max:255',
             "name" => 'required|min:3|max:500',
-            "mobile" => [
-                'nullable',
-                BaseModel::MOBILE_REGEX
-            ],
 //            "current_password" => [
 //                'required_with:password',
 //                function ($attribute, $value, $fail) use ($user) {
