@@ -338,6 +338,8 @@ class UserService
             'organization' => $organization,
             'username' => $user->username,
             'displayName' => $user->name_en,
+            'name' => $user->name,
+            'profile_pic' => $user->profile_pic,
 
         ];
 
