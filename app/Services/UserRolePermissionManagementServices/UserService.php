@@ -340,7 +340,7 @@ class UserService
             'displayName' => $user->name_en,
             'name' => $user->name,
             'profile_pic' => $user->profile_pic,
-
+            'user_id' => $user->id,
         ];
 
         if ($isInstituteUser) {
