@@ -80,7 +80,6 @@ class UserService
             "users.updated_by",
             "users.created_at",
             "users.updated_at",
-
         ]);
 
         /** auth user shouldn't show in user list*/
