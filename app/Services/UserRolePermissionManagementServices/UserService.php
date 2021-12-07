@@ -83,6 +83,11 @@ class UserService
 
         ]);
 
+        /** auth user shouldn't show in user list*/
+        if($authUser){
+            $usersBuilder->where('users.id','!=', $authUser->id);
+        }
+
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')
                 ->whereNull('roles.deleted_at');
