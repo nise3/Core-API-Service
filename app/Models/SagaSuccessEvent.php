@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class SagaSuccessEvent extends BaseModel
 {
     protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SIMPLE;
