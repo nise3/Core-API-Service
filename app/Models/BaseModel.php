@@ -78,4 +78,6 @@ abstract class BaseModel extends Model
     public const DEFAULT_SERVICE_TO_SERVICE_CALL_KEY = 'service-to-service';
     public const DEFAULT_SERVICE_TO_SERVICE_CALL_FLAG_TRUE = true;
     public const DEFAULT_SERVICE_TO_SERVICE_CALL_FLAG_FALSE = false;
+
+    public const SELF_EXCHANGE = 'core';
 }
