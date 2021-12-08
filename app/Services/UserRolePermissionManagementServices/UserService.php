@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -34,6 +35,7 @@ class UserService
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
+        $authUser = Auth::user();
 
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
@@ -82,8 +84,12 @@ class UserService
             "users.updated_by",
             "users.created_at",
             "users.updated_at",
-
         ]);
+
+        /** auth user shouldn't show in user list*/
+        if($authUser){
+            $usersBuilder->where('users.id','!=', $authUser->id);
+        }
 
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')
@@ -193,6 +199,8 @@ class UserService
             "users.verification_code_sent_at",
             "users.password",
             "users.profile_pic",
+            "users.branch_id",
+            "users.training_center_id",
             "users.row_status",
             "users.created_by",
             "users.updated_by",
@@ -221,6 +229,12 @@ class UserService
         });
 
         $user = $userBuilder->where('users.id', $id)->first();
+
+        if($user->user_type == BaseModel::INSTITUTE_USER){
+            $user['branch_id'] = $user->branch_id;
+            $user['training_center_id'] = $user->training_center_id;
+            $user['institute_user_type'] = $this->getIndustryUserType($user);
+        }
 
         return [
             "data" => $user ?: null,
@@ -326,7 +340,9 @@ class UserService
             'organization' => $organization,
             'username' => $user->username,
             'displayName' => $user->name_en,
-
+            'name' => $user->name,
+            'profile_pic' => $user->profile_pic,
+            'user_id' => $user->id,
         ];
 
         if ($isInstituteUser) {
@@ -726,8 +742,7 @@ class UserService
             "updated_by" => "nullable|int|gt:0",
             "remember_token" => "nullable|string",
             'row_status' => [
-                'required_if:' . $id . ',!=,null',
-                'nullable',
+                'required',
                 Rule::in([BaseModel::ROW_STATUS_ACTIVE, BaseModel::ROW_STATUS_INACTIVE]),
             ]
         ];
@@ -754,12 +769,8 @@ class UserService
     public function profileUpdatedValidator(Request $request, User $user): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            "name_en" => 'required|min:3|max:255',
+            "name_en" => 'nullable|min:3|max:255',
             "name" => 'required|min:3|max:500',
-            "mobile" => [
-                'nullable',
-                BaseModel::MOBILE_REGEX
-            ],
 //            "current_password" => [
 //                'required_with:password',
 //                function ($attribute, $value, $fail) use ($user) {
