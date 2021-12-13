@@ -47,6 +47,7 @@ class UserController extends Controller
      */
     public function getList(Request $request): JsonResponse
     {
+
         $filter = $this->userService->filterValidator($request)->validate();
 
         $response = $this->userService->getAllUsers($filter, $this->startTime);
@@ -81,17 +82,18 @@ class UserController extends Controller
         $validated = $this->userService->validator($request)->validate();
 
         $idpUserPayLoad = [
-            'name' => $validated['name'],
-            'email' => $validated['email'],
+            'first_name' => $validated['name'],
+            'last_name' => $validated['name'],
             'username' => $validated['username'],
+            'email' => $validated['email'],
+            'mobile' => $validated['mobile'],
             'password' => $validated['password'],
             'user_type' => $validated['user_type'],
             'status' => $validated['row_status']
         ];
 
-        $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
-        if ($httpClient->json('id')) {
-            $validated['idp_user_id'] = $httpClient->json('id');
+        $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
+        if (!empty($idpResponse['data']['id'])) {
             $user = $this->userService->store($user, $validated);
             $response = [
                 'data' => $user ?? [],

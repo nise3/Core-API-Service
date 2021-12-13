@@ -7,6 +7,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
@@ -31,7 +32,7 @@ class UserService
      * @param array $request
      * @param Carbon $startTime
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
@@ -87,8 +88,8 @@ class UserService
         ]);
 
         /** auth user shouldn't show in user list*/
-        if($authUser){
-            $usersBuilder->where('users.id','!=', $authUser->id);
+        if ($authUser) {
+            $usersBuilder->where('users.id', '!=', $authUser->id);
         }
 
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
@@ -230,7 +231,7 @@ class UserService
 
         $user = $userBuilder->where('users.id', $id)->first();
 
-        if($user->user_type == BaseModel::INSTITUTE_USER){
+        if ($user->user_type == BaseModel::INSTITUTE_USER) {
             $user['branch_id'] = $user->branch_id;
             $user['training_center_id'] = $user->training_center_id;
             $user['institute_user_type'] = $this->getIndustryUserType($user);
@@ -879,27 +880,21 @@ class UserService
     /**
      * @para m array $data
      * @param array $data
-     * @return PromiseInterface|\Illuminate\Http\Client\Response
+     * @return mixed
+     * @throws Exception
      */
-    public function idpUserCreate(array $data): PromiseInterface|\Illuminate\Http\Client\Response
+    public function idpUserCreate(array $idpUserPayload): mixed
     {
-        $url = clientUrl(BaseModel::IDP_SERVER_CLIENT_URL_TYPE);
-        $payload = $this->prepareIdpPayload($data);
+//        $payload = $this->prepareIdpPayload($idpUserPayload);
         Log::info("IDP_Payload is bellow");
-        Log::info(json_encode($payload));
-        $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
-            ->withHeaders([
-                'Content-Type' => 'application/json'
-            ])
-            ->withOptions([
-                'verify' => false
-            ])
-            ->post($url, $payload)
-            ->throw();
+        Log::info(json_encode($idpUserPayload));
 
-        Log::channel('idp_user')->info('idp_user_payload', $data);
-        Log::channel('idp_user')->info('idp_user_info', $client->json());
-        return $client;
+        /** response from idp server after user creation */
+        $response = IdpUser()->setPayload($idpUserPayload)->create()->get();
+        Log::channel('idp_user')->info('idp_user_payload', $idpUserPayload);
+        Log::channel('idp_user')->info('idp_user_info', $response);
+
+        return $response;
     }
 
     /**
