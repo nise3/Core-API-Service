@@ -8,7 +8,6 @@ use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
-use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +21,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 /**
  *
@@ -399,11 +399,12 @@ class UserService
      * @param array $data
      * @param User $user
      * @return User
+     * @throws Throwable
      */
     public function store(User $user, array $data): User
     {
         $user->fill($data);
-        $user->save();
+        throw_if(!$user->save(), 'Saving user to DB is failed', 500);
         return $user;
     }
 
@@ -458,6 +459,7 @@ class UserService
 
     /**
      * @param Request $request
+     * @throws Exception
      */
     public function userDelete(Request $request)
     {
@@ -496,7 +498,9 @@ class UserService
 
         if (!empty($users)) {
             foreach ($users as $user) {
-                Cache::forget($user->idp_user_id);
+                $idpUserId = $user->idp_user_id;
+                $this->idpUserDelete($idpUserId);
+                Cache::forget($idpUserId);
                 $user->delete();
             }
         }
@@ -879,7 +883,7 @@ class UserService
 
     /**
      * @para m array $data
-     * @param array $data
+     * @param array $idpUserPayload
      * @return mixed
      * @throws Exception
      */
@@ -895,6 +899,32 @@ class UserService
         Log::channel('idp_user')->info('idp_user_info', $response);
 
         return $response;
+    }
+
+
+    /**
+     * Delete Idp User
+     * @throws Exception
+     */
+    public function idpUserDelete(string $idpUserId): mixed
+    {
+        return IdpUser()
+            ->use('wso2idp')
+            ->setPayload($idpUserId)
+            ->delete()
+            ->get();
+    }
+
+    /**
+     * Delete Idp User
+     * @throws Exception
+     */
+    public function idpUserUpdate(array $idpUserPayload): mixed
+    {
+        return IdpUser()
+            ->setPayload($idpUserPayload)
+            ->update()
+            ->get();
     }
 
     /**

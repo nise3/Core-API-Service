@@ -6,14 +6,18 @@ use App\Models\BaseModel;
 use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use phpDocumentor\Reflection\DocBlock\Description;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -80,42 +84,52 @@ class UserController extends Controller
         $user = new User();
         $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $validated = $this->userService->validator($request)->validate();
-
-        $idpUserPayLoad = [
-            'first_name' => $validated['name'],
-            'last_name' => $validated['name'],
-            'username' => $validated['username'],
-            'email' => $validated['email'],
-            'mobile' => $validated['mobile'],
-            'password' => $validated['password'],
-            'user_type' => $validated['user_type'],
-            'status' => $validated['row_status']
-        ];
-
-        $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
-        if (!empty($idpResponse['data']['id'])) {
-            $user = $this->userService->store($user, $validated);
-            $response = [
-                'data' => $user ?? [],
-                '_response_status' => [
-                    "success" => true,
-                    "code" => ResponseAlias::HTTP_CREATED,
-                    "message" => "User added successfully",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
+        $idpResponse = null;
+        try {
+            $idpUserPayLoad = [
+                'first_name' => $validated['name'],
+                'last_name' => $validated['name'],
+                'username' => $validated['username'],
+                'email' => $validated['email'],
+                'mobile' => $validated['mobile'],
+                'password' => $validated['password'],
+                'user_type' => $validated['user_type'],
+                'active' => "2",
             ];
-            DB::commit();
-        } else {
-            DB::rollBack();
-            $response = [
-                '_response_status' => [
-                    "success" => false,
-                    "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
-                    "message" => "User is not created",
-                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                ]
-            ];
+            $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
+
+            if (!empty($idpResponse['code']) && $idpResponse['code'] == ResponseAlias::HTTP_CONFLICT) {
+                throw new RuntimeException('Idp user already exists', 409);
+            }
+
+            if (!empty($idpResponse['data']['id'])) {
+                $user = $this->userService->store($user, $validated);
+                if (!$user) {
+                    $idpUserId = $idpResponse['data']['id'];
+                    $this->userService->idpUserDelete($idpUserId);
+                    throw new RuntimeException('Saving user to DB is failed', 500);
+                }
+                $response = [
+                    'data' => $user,
+                    '_response_status' => [
+                        "success" => true,
+                        "code" => ResponseAlias::HTTP_CREATED,
+                        "message" => "User added successfully",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+            } else {
+                throw new RuntimeException('User is not created', 500);
+            }
+
+        } catch (Throwable $e) {
+            if (!empty($idpResponse['data']['id'])) {
+                $idpUserId = $idpResponse['data']['id'];
+                $this->userService->idpUserDelete($idpUserId);
+            }
+            throw $e;
         }
+
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
@@ -296,24 +310,38 @@ class UserController extends Controller
         $request['password'] = $request['password'] ?? BaseModel::ADMIN_CREATED_USER_DEFAULT_PASSWORD;
         $validated = $this->userService->adminUserCreateValidator($request)->validate();
         Log::info(json_encode($validated));
+        $idpResponse = null;
+
         DB::beginTransaction();
         try {
             $idpUserPayLoad = [
-                'name' => $validated['name'],
+                'first_name' => $validated['name'],
+                'last_name' => $validated['name'],
                 'email' => $validated['email'],
+                'mobile' => $validated['mobile'],
                 'username' => $validated['username'],
                 'password' => $validated['password'],
                 'user_type' => $validated['user_type'],
-                'status' => BaseModel::ROW_STATUS_ACTIVE
+                'active' => BaseModel::ROW_STATUS_ACTIVE
             ];
-            $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
+            $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
-            if ($httpClient->json('id')) {
-                $validated['idp_user_id'] = $httpClient->json('id');
+            if (!empty($idpResponse['code']) && $idpResponse['code'] == ResponseAlias::HTTP_CONFLICT) {
+                throw new RuntimeException('Idp user already exists', ResponseAlias::HTTP_CONFLICT);
+            }
+
+            if (!empty($idpResponse['data']['id'])) {
+                $validated['idp_user_id'] = $idpResponse['data']['id'];
                 $user = $this->userService->createRegisterUser($user, $validated);
+
+                if (!$user) {
+                    $idpUserId = $idpResponse['data']['id'];
+                    $this->userService->idpUserDelete($idpUserId);
+                    throw new RuntimeException('Saving user to DB is failed', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+                }
 //                $this->sendMessageToRegisteredUser($validated);
                 $response = [
-                    'data' => $user ?: [],
+                    'data' => $user,
                     '_response_status' => [
                         "success" => true,
                         "code" => ResponseAlias::HTTP_CREATED,
@@ -324,17 +352,14 @@ class UserController extends Controller
                 DB::commit();
             } else {
                 DB::rollBack();
-                $response = [
-                    '_response_status' => [
-                        "success" => false,
-                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
-                        "message" => "User is not created",
-                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                    ]
-                ];
+                throw new RuntimeException('User is not created', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
             }
         } catch (Throwable $e) {
             DB::rollBack();
+            if (!empty($idpResponse['data']['id'])) {
+                $idpUserId = $idpResponse['data']['id'];
+                $this->userService->idpUserDelete($idpUserId);
+            }
             throw $e;
         }
         return Response::json($response, ResponseAlias::HTTP_OK);
@@ -351,27 +376,39 @@ class UserController extends Controller
     {
         $user = new User();
         $validatedData = $this->userService->userOpenRegistrationValidator($request)->validate();
-        DB::beginTransaction();
+        $idpResponse = null;
         try {
             /** @var  $idpUserPayLoad */
             $idpUserPayLoad = [
-                'name' => $validatedData['name'],
+                'first_name' => $validatedData['name'],
+                'last_name' => $validatedData['name'],
                 'email' => $validatedData['email'],
+                'mobile' => $validatedData['mobile'],
                 'username' => $validatedData['username'],
                 'password' => $validatedData['password'],
                 'user_type' => $validatedData['user_type'],
-                'status' => BaseModel::ROW_STATUS_PENDING
+                'active' => BaseModel::ROW_STATUS_PENDING
             ];
 
-            $httpClient = $this->userService->idpUserCreate($idpUserPayLoad);
-            if ($httpClient->json('id')) {
-                $validatedData['idp_user_id'] = $httpClient->json('id');;
+            $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
+
+            if (!empty($idpResponse['code']) && $idpResponse['code'] == ResponseAlias::HTTP_CONFLICT) {
+                throw new RuntimeException('Idp user already exists', ResponseAlias::HTTP_CONFLICT);
+            }
+            if (!empty($idpResponse['data']['id'])) {
+                $validatedData['idp_user_id'] = $idpResponse['data']['id'];
                 $validatedData['row_status'] = BaseModel::ROW_STATUS_PENDING;
 
                 $user = $this->userService->store($user, $validatedData);
 
+                if (!$user) {
+                    $idpUserId = $idpResponse['data']['id'];
+                    $this->userService->idpUserDelete($idpUserId);
+                    throw new RuntimeException('Saving user to DB is failed', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+                }
+
                 $response = [
-                    'data' => $user ?: [],
+                    'data' => $user,
                     '_response_status' => [
                         "success" => true,
                         "code" => ResponseAlias::HTTP_CREATED,
@@ -379,24 +416,18 @@ class UserController extends Controller
                         "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                     ]
                 ];
-                DB::commit();
+
             } else {
-                DB::rollBack();
-                $response = [
-                    '_response_status' => [
-                        "success" => false,
-                        "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
-                        "message" => "User is not created",
-                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-                    ]
-                ];
+                throw new RuntimeException('User is not created', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
             }
-            return Response::json($response, ResponseAlias::HTTP_OK);
         } catch (Throwable $e) {
-            DB::rollBack();
+            if (!empty($idpResponse['data']['id'])) {
+                $idpUserId = $idpResponse['data']['id'];
+                $this->userService->idpUserDelete($idpUserId);
+            }
             throw $e;
         }
-
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
     private function sendMessageToRegisteredUser(array $data): bool
@@ -408,10 +439,20 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws Exception
      */
     public function userApproval(Request $request): JsonResponse
     {
+
         $user = $this->userService->userApproval($request);
+        if ($user) {
+            $idpUserPayload = [
+                'id' => $user->idp_user_id,
+                'username' => $user->username,
+                'active' => $user->row_status
+            ];
+            $this->userService->idpUserUpdate($idpUserPayload);
+        }
         $response = [
             'data' => $user ?: null,
             '_response_status' => [
@@ -429,10 +470,20 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws Exception
      */
     public function userRejection(Request $request): JsonResponse
     {
         $user = $this->userService->userRejection($request);
+        if ($user) {
+            $idpUserPayload = [
+                'id' => $user->idp_user_id,
+                'username' => $user->username,
+                'active' => $user->row_status
+
+            ];
+            $this->userService->idpUserUpdate($idpUserPayload);
+        }
         $response = [
             'data' => $user ?: null,
             '_response_status' => [
