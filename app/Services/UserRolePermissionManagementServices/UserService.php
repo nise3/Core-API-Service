@@ -498,9 +498,8 @@ class UserService
 
         if (!empty($users)) {
             foreach ($users as $user) {
-                $idpUserId = $user->idp_user_id;
-                $this->idpUserDelete($idpUserId);
-                Cache::forget($idpUserId);
+                $this->idpUserDelete($user->idp_user_id);
+                Cache::forget($user->idp_user_id);
                 $user->delete();
             }
         }
@@ -530,13 +529,6 @@ class UserService
             $user->save();
         }
         return $user;
-    }
-
-    /** TODO :After the package works successfully */
-    public function IdpUserApproval(User $user)
-    {
-
-
     }
 
 
@@ -916,7 +908,7 @@ class UserService
     }
 
     /**
-     * Delete Idp User
+     * Update Idp User
      * @throws Exception
      */
     public function idpUserUpdate(array $idpUserPayload): mixed
@@ -944,7 +936,7 @@ class UserService
                 'familyName' => $data['name'],
                 'givenName' => $data['name']
             ],
-            'active' => (string)$data['status'],
+            'active' => $data['status'],
             'organization' => $data['name'],
             'userName' => $cleanUserName,
             'password' => $data['password'],

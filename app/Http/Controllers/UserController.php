@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use phpDocumentor\Reflection\DocBlock\Description;
+use PhpParser\Node\Scalar\String_;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
@@ -94,7 +95,7 @@ class UserController extends Controller
                 'mobile' => $validated['mobile'],
                 'password' => $validated['password'],
                 'user_type' => $validated['user_type'],
-                'active' => "2",
+                'active' => (string)$validated['row_status'],
             ];
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
@@ -103,6 +104,7 @@ class UserController extends Controller
             }
 
             if (!empty($idpResponse['data']['id'])) {
+                $validated['idp_user_id'] = $idpResponse['data']['id'];
                 $user = $this->userService->store($user, $validated);
                 if (!$user) {
                     $idpUserId = $idpResponse['data']['id'];
@@ -157,20 +159,44 @@ class UserController extends Controller
         $request->offsetSet('username', $user->username);
 
         $validated = $this->userService->validator($request, $id)->validate();
-        $user = $this->userService->update($validated, $user);
 
-        /** Remove cache data for this user */
-        Cache::forget($user->idp_user_id);
+        DB::beginTransaction();
+        try {
+            $user = $this->userService->update($validated, $user);
+            if ($user) {
+                $idpUserPayload = [
+                    'id' => $user->idp_user_id,
+                    'username' => $user->username,
+                    'first_name' => $user->name,
+                    'last_name' => $user->name,
+                    'email' => $user->email,
+                    'mobile' => $user->mobile,
+                    'user_type' => $user->user_type,
+                    'active' => (string)$user->row_status
+                ];
+                $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
+                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
-        $response = [
-            'data' => $user,
-            '_response_status' => [
-                "success" => true,
-                "code" => ResponseAlias::HTTP_OK,
-                "message" => "User updated successfully",
-                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-            ]
-        ];
+            }
+
+            /** Remove cache data for this user */
+            Cache::forget($user->idp_user_id);
+
+            $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "User updated successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
 
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
@@ -180,28 +206,46 @@ class UserController extends Controller
      * @param int $id
      * @return JsonResponse
      * @throws ValidationException
+     * @throws Exception
+     * @throws Throwable
      */
     public function updateProfile(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->profileUpdatedValidator($request, $user)->validate();
-        $user = $this->userService->update($validated, $user);
 
-        /** Remove cache data for this user */
-        Cache::forget($user->idp_user_id);
+        DB::beginTransaction();
+        try {
+            $user = $this->userService->update($validated, $user);
+            if ($user) {
+                $idpUserPayload = [
+                    'id' => $user->idp_user_id,
+                    'username' => $user->username,
+                    'first_name' => $user->name,
+                    'last_name' => $user->name,
+                ];
+                $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
+                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
+            }
+            /** Remove cache data for this user */
+            Cache::forget($user->idp_user_id);
 
-        $response = [
-            'data' => $user,
-            '_response_status' => [
-                "success" => true,
-                "code" => ResponseAlias::HTTP_OK,
-                "message" => "User updated successfully",
-                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-            ]
-        ];
+            $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "User updated successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw  $e;
+        }
 
         return Response::json($response, ResponseAlias::HTTP_CREATED);
-
     }
 
     /**
@@ -212,21 +256,28 @@ class UserController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-
         $user = User::findOrFail($id);
-        /** Remove cache data for this user */
-        Cache::forget($user->idp_user_id);
+        try {
+            if ($user) {
+                $idpResponse = $this->userService->idpUserDelete($user->idp_user_id);
+                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not deleted in Idp");
+            }
+            /** Remove cache data for this user */
+            Cache::forget($user->idp_user_id);
 
-        $this->userService->destroy($user);
+            $this->userService->destroy($user);
 
-        $response = [
-            '_response_status' => [
-                "success" => true,
-                "code" => ResponseAlias::HTTP_OK,
-                "message" => "User deleted successfully",
-                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-            ]
-        ];
+            $response = [
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "User deleted successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+        } catch (Throwable $e) {
+            throw $e;
+        }
 
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
@@ -235,6 +286,7 @@ class UserController extends Controller
      * Delete user created from Organization ,institute and industryAssociation
      * @param Request $request
      * @return JsonResponse
+     * @throws Exception
      */
     public function userDestroy(Request $request): JsonResponse
     {
@@ -322,7 +374,7 @@ class UserController extends Controller
                 'username' => $validated['username'],
                 'password' => $validated['password'],
                 'user_type' => $validated['user_type'],
-                'active' => BaseModel::ROW_STATUS_ACTIVE
+                'active' => (string)BaseModel::ROW_STATUS_ACTIVE
             ];
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
@@ -387,7 +439,7 @@ class UserController extends Controller
                 'username' => $validatedData['username'],
                 'password' => $validatedData['password'],
                 'user_type' => $validatedData['user_type'],
-                'active' => BaseModel::ROW_STATUS_PENDING
+                'active' => (string)BaseModel::ROW_STATUS_PENDING,
             ];
 
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
@@ -443,25 +495,33 @@ class UserController extends Controller
      */
     public function userApproval(Request $request): JsonResponse
     {
+        DB::beginTransaction();
+        try {
+            $user = $this->userService->userApproval($request);
+            if ($user) {
+                $idpUserPayload = [
+                    'id' => $user->idp_user_id,
+                    'username' => $user->username,
+                    'active' => (string)$user->row_status
+                ];
+                $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
+                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
-        $user = $this->userService->userApproval($request);
-        if ($user) {
-            $idpUserPayload = [
-                'id' => $user->idp_user_id,
-                'username' => $user->username,
-                'active' => $user->row_status
+            }
+            $response = [
+                'data' => $user ?: null,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "User is approved successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
             ];
-            $this->userService->idpUserUpdate($idpUserPayload);
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
         }
-        $response = [
-            'data' => $user ?: null,
-            '_response_status' => [
-                "success" => true,
-                "code" => ResponseAlias::HTTP_OK,
-                "message" => "User is approved successfully",
-                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-            ]
-        ];
 
         return Response::json($response, ResponseAlias::HTTP_OK);
 
@@ -470,29 +530,38 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
-     * @throws Exception
+     * @throws Exception|Throwable
      */
     public function userRejection(Request $request): JsonResponse
     {
-        $user = $this->userService->userRejection($request);
-        if ($user) {
-            $idpUserPayload = [
-                'id' => $user->idp_user_id,
-                'username' => $user->username,
-                'active' => $user->row_status
+        DB::beginTransaction();
+        try {
+            $user = $this->userService->userRejection($request);
+            if ($user) {
+                $idpUserPayload = [
+                    'id' => $user->idp_user_id,
+                    'username' => $user->username,
+                    'active' => (string)$user->row_status
+                ];
+                $this->userService->idpUserUpdate($idpUserPayload);
+                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
+            }
+            $response = [
+                'data' => $user ?: null,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "User is rejected successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
             ];
-            $this->userService->idpUserUpdate($idpUserPayload);
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
         }
-        $response = [
-            'data' => $user ?: null,
-            '_response_status' => [
-                "success" => true,
-                "code" => ResponseAlias::HTTP_OK,
-                "message" => "User is rejected successfully",
-                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-            ]
-        ];
+
 
         return Response::json($response, ResponseAlias::HTTP_OK);
 
