@@ -75,7 +75,7 @@ class PermissionSeeder extends Seeder
             'course_enrollment',
             'industry_association',
             'publication',
-            'contact_us'
+            'contact_info'
         ];
         $menuOrder=1;
         foreach ($modules as $module) {
