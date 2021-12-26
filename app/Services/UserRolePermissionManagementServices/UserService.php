@@ -7,7 +7,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
-use GuzzleHttp\Promise\PromiseInterface;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +21,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 /**
  *
@@ -31,7 +32,7 @@ class UserService
      * @param array $request
      * @param Carbon $startTime
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
@@ -87,8 +88,8 @@ class UserService
         ]);
 
         /** auth user shouldn't show in user list*/
-        if($authUser){
-            $usersBuilder->where('users.id','!=', $authUser->id);
+        if ($authUser) {
+            $usersBuilder->where('users.id', '!=', $authUser->id);
         }
 
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
@@ -230,7 +231,7 @@ class UserService
 
         $user = $userBuilder->where('users.id', $id)->first();
 
-        if($user->user_type == BaseModel::INSTITUTE_USER){
+        if ($user->user_type == BaseModel::INSTITUTE_USER) {
             $user['branch_id'] = $user->branch_id;
             $user['training_center_id'] = $user->training_center_id;
             $user['institute_user_type'] = $this->getIndustryUserType($user);
@@ -398,11 +399,12 @@ class UserService
      * @param array $data
      * @param User $user
      * @return User
+     * @throws Throwable
      */
     public function store(User $user, array $data): User
     {
         $user->fill($data);
-        $user->save();
+        throw_if(!$user->save(), 'Saving user to DB is failed', 500);
         return $user;
     }
 
@@ -457,6 +459,7 @@ class UserService
 
     /**
      * @param Request $request
+     * @throws Exception
      */
     public function userDelete(Request $request)
     {
@@ -495,6 +498,7 @@ class UserService
 
         if (!empty($users)) {
             foreach ($users as $user) {
+                $this->idpUserDelete($user->idp_user_id);
                 Cache::forget($user->idp_user_id);
                 $user->delete();
             }
@@ -525,13 +529,6 @@ class UserService
             $user->save();
         }
         return $user;
-    }
-
-    /** TODO :After the package works successfully */
-    public function IdpUserApproval(User $user)
-    {
-
-
     }
 
 
@@ -878,28 +875,48 @@ class UserService
 
     /**
      * @para m array $data
-     * @param array $data
-     * @return PromiseInterface|\Illuminate\Http\Client\Response
+     * @param array $idpUserPayload
+     * @return mixed
+     * @throws Exception
      */
-    public function idpUserCreate(array $data): PromiseInterface|\Illuminate\Http\Client\Response
+    public function idpUserCreate(array $idpUserPayload): mixed
     {
-        $url = clientUrl(BaseModel::IDP_SERVER_CLIENT_URL_TYPE);
-        $payload = $this->prepareIdpPayload($data);
+//        $payload = $this->prepareIdpPayload($idpUserPayload);
         Log::info("IDP_Payload is bellow");
-        Log::info(json_encode($payload));
-        $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
-            ->withHeaders([
-                'Content-Type' => 'application/json'
-            ])
-            ->withOptions([
-                'verify' => false
-            ])
-            ->post($url, $payload)
-            ->throw();
+        Log::info(json_encode($idpUserPayload));
 
-        Log::channel('idp_user')->info('idp_user_payload', $data);
-        Log::channel('idp_user')->info('idp_user_info', $client->json());
-        return $client;
+        /** response from idp server after user creation */
+        $response = IdpUser()->setPayload($idpUserPayload)->create()->get();
+        Log::channel('idp_user')->info('idp_user_payload', $idpUserPayload);
+        Log::channel('idp_user')->info('idp_user_info', $response);
+
+        return $response;
+    }
+
+
+    /**
+     * Delete Idp User
+     * @throws Exception
+     */
+    public function idpUserDelete(string $idpUserId): mixed
+    {
+        return IdpUser()
+            ->use('wso2idp')
+            ->setPayload($idpUserId)
+            ->delete()
+            ->get();
+    }
+
+    /**
+     * Update Idp User
+     * @throws Exception
+     */
+    public function idpUserUpdate(array $idpUserPayload): mixed
+    {
+        return IdpUser()
+            ->setPayload($idpUserPayload)
+            ->update()
+            ->get();
     }
 
     /**
@@ -919,7 +936,7 @@ class UserService
                 'familyName' => $data['name'],
                 'givenName' => $data['name']
             ],
-            'active' => (string)$data['status'],
+            'active' => $data['status'],
             'organization' => $data['name'],
             'userName' => $cleanUserName,
             'password' => $data['password'],

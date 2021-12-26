@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
  * @package App\Models
  * @property string name_en
  * @property string username
+ * @property string idp_user_id
  * @property string name
  * @property string email
  * @property string mobile
@@ -32,7 +33,6 @@ use Illuminate\Support\Facades\Hash;
  * @property int branch_id
  * @property int training_center_id
  * @property int $row_status
- * @property int $idp_user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|Permission[] $permissions

@@ -59,7 +59,7 @@ return [
             'days' => 14,
         ],
         'idp_user' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/idp_user.log'),
             'level' => 'info'
         ],
