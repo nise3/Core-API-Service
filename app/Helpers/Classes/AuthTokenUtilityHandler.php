@@ -3,6 +3,7 @@
 namespace App\Helpers\Classes;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -26,6 +27,7 @@ class AuthTokenUtilityHandler
 
         preg_match("/['\"]sub['\"]:['\"](.*?)['\"][,]/", base64_decode($claims), $matches);
 
+        Log::debug($matches);
         return count($matches) > 1 ? $matches[1] : "";
     }
     /**
