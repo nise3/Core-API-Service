@@ -18,7 +18,7 @@
     ],
     "security": [
         {
-            "BasicAuth": []
+            "ApiKeyAuth": []
         }
     ],
     "paths": {
@@ -128,9 +128,10 @@
     },
     "components": {
         "securitySchemes": {
-            "BasicAuth": {
-                "type": "http",
-                "scheme": "basic"
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "apikey"
             }
         },
         "parameters": {
