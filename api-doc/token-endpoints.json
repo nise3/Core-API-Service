@@ -32,7 +32,7 @@
                             "application/json": {
                                 "example": {
                                     "data": {
-
+                                        "access_token": "9238740923409328409823904832098409328kjhsafdklsdflkdsjflkdsjflkj"
                                     }
                                 }
                             }
@@ -54,19 +54,6 @@
             }
         },
         "parameters": {
-            "is_button_available": {
-                "name": "is_button_available",
-                "in": "query",
-                "required": true,
-                "description": "1=>available,0=>not available",
-                "schema": {
-                    "type": "integer",
-                    "enum": [
-                        1,
-                        0
-                    ]
-                }
-            }
         }
     }
 }
