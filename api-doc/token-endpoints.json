@@ -1,0 +1,72 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "APP Token and SSO Token Generation APIs",
+        "description": "APP Token and SSO Token Generation APIs",
+        "version": "1.0.0",
+        "license": {
+            "name": "MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://nise-core.softbd"
+        },
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "security": [
+        {
+            "BasicAuth": []
+        }
+    ],
+    "paths": {
+        "/nise3-app-api-access-token": {
+            "get": {
+                "summary": "API Manager Access Token Generation",
+                "description": "API Manager Access Token Generation with Consumer Key & Secret",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": {
+
+                                    }
+                                }
+                            }
+                        },
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Api info"
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BasicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        },
+        "parameters": {
+            "is_button_available": {
+                "name": "is_button_available",
+                "in": "query",
+                "required": true,
+                "description": "1=>available,0=>not available",
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        0
+                    ]
+                }
+            }
+        }
+    }
+}
