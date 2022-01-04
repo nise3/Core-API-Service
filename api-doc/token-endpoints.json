@@ -22,10 +22,10 @@
         }
     ],
     "paths": {
-        "/nise3-app-api-access-token": {
+        "/apim-app-oauth2-access-token": {
             "get": {
-                "summary": "API Manager Access Token Generation",
-                "description": "API Manager Access Token Generation with Consumer Key & Secret",
+                "summary": "API Manager OAuth2 Access Token Generation ",
+                "description": "API Manager OAuth2 Access Token Generation with Consumer Key & Secret",
                 "responses": {
                     "200": {
                         "content": {
@@ -47,7 +47,7 @@
         },
         "/sso-authorize-code-grant": {
             "post": {
-                "summary": "Endpoint to generate access and refresh token using authorize code using authorization code grant",
+                "summary": "Endpoint to generate OAuth2 access and refresh token using authorize code using authorization code grant",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -89,7 +89,7 @@
         },
         "/sso-renew-access-token": {
             "post": {
-                "summary": "Endpoint to renew access token using refresh token using refresh token grant",
+                "summary": "Endpoint to renew OAuth2 access token using refresh token using refresh token grant",
                 "requestBody": {
                     "content": {
                         "application/json": {
