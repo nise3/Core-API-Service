@@ -14,7 +14,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/apim-app-oauth2-access-token', ['as' => 'nise3-app-api-access-token', 'uses' => 'BackChannelTokenGenerationController@apimAppApiAccessToken']);
+$router->get('/apim-app-oauth2-access-token', ['as' => 'apim-app-oauth2-access-token', 'uses' => 'BackChannelTokenGenerationController@apimAppApiAccessToken']);
 $router->post('/sso-authorize-code-grant', ['as' => 'sso-authorize-code-grant', 'uses' => 'BackChannelTokenGenerationController@ssoAuthorizeCodeGrant']);
 $router->post('/sso-renew-access-token', ['as' => 'sso-renew-access-token', 'uses' => 'BackChannelTokenGenerationController@ssoRenewAccessToken']);
 
