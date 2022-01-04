@@ -75,7 +75,8 @@ class PermissionSeeder extends Seeder
             'course_enrollment',
             'industry_association',
             'publication',
-            'contact_info'
+            'contact_info',
+            'hr_demand'
         ];
         $menuOrder=1;
         foreach ($modules as $module) {
@@ -107,6 +108,41 @@ class PermissionSeeder extends Seeder
 //                ]);
             }
 
+        }
+
+        /** For custom API permissions */
+        $customPermissions = [
+            'update_hr_demand_request_by_tsp' => [
+                'uri' => 'update-hr-demand-request-by-tsp/{id}',
+                'method' => 'PUT',
+                'module' => 'hr_demand'
+            ],
+            'view_any_hr_demand_request_resolved_by_tsp' => [
+                'uri' => 'hr-demand-request-resolved-by-tsp',
+                'method' => 'GET',
+                'module' => 'hr_demand'
+            ],
+            'view_single_hr_demand_request_resolved_by_tsp' => [
+                'uri' => 'hr-demand-request-resolved-by-tsp/{id}',
+                'method' => 'GET',
+                'module' => 'hr_demand'
+            ],
+            'update_hr_demand_request_resolved_by_tsp' => [
+                'uri' => 'update-hr-demand-request-resolved-by-tsp/{id}',
+                'method' => 'PUT',
+                'module' => 'hr_demand'
+            ]
+        ];
+        foreach ($customPermissions as $permission => $details){
+            $title=ucfirst(str_replace('_',' ',$permission));
+            Permission::create([
+                'title_en'=>$title,
+                'title'=>$title,
+                'key' => $permission,
+                'uri' => self::ROUTE_PREFIX . $details['uri'],
+                'method' => $details['method'],
+                'module' => $details['module']
+            ]);
         }
         Schema::enableForeignKeyConstraints();
     }
