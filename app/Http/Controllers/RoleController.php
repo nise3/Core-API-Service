@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\UserRolePermissionManagementServices\RoleService;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
