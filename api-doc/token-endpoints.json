@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "https://nise-core.softbd"
+            "url": "http://nise-core.softbd"
         },
         {
             "url": "http://localhost:8000"
