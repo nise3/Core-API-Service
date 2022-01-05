@@ -310,6 +310,9 @@ class UserController extends Controller
      */
     public function getUserPermissionList(Request $request, string $id): JsonResponse
     {
+/*        Log::debug('Bearer Tokens: ');
+        Log::debug($request->headers);*/
+
         $user = $this->userService->getUserPermissionWithMenuItems($id);
         $response = [
             'data' => $user ?? [],

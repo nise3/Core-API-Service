@@ -33,6 +33,8 @@ class BackChannelTokenGenerationController extends Controller
 
         $response = $responseData->json();
 
+        Log::debug('SSO New Access Token: ');
+
         \Illuminate\Support\Facades\Log::debug($response);
 
         if (isset($response['error']) && $response['error']) {
@@ -62,7 +64,7 @@ class BackChannelTokenGenerationController extends Controller
             ->post($postUrl);
 
         $response = $responseData->json();
-
+        Log::debug('SSO Access Token: ');
         Log::debug($response);
 
         if (isset($response['error']) && $response['error']) {
@@ -79,17 +81,18 @@ class BackChannelTokenGenerationController extends Controller
     public function apimAppApiAccessToken(Request $request)
     {
         $responseData = Http::withHeaders([
-            'Authorization' => 'Basic RmhWcXdOcDZRNkZWMUg4S3V1THNoNVJFUXlzYTpHZnJEcHk5MDRMamFXTm1uN2FTd0VBMXF5RVFh',
+            'Authorization' => 'Basic ' . base64_encode(env('WSO2_APIM_CLIENT_KEY') . ':' . env('WSO2_APIM_CLIENT_SECRET')),
         ])->withOptions([
             'follow_redirects' => true,
             'verify' => false,
             'debug' => false
-        ])->post('https://bus-staging.softbdltd.com/oauth2/token', [
+        ])->post(env('WSO2_APIM_BASE_URL', 'https://bus-staging.softbdltd.com/') . 'oauth2/token', [
             'grant_type' => 'client_credentials'
         ]);
 
         $response = $responseData->json();
 
+        Log::debug('APP Access Token: ');
         Log::debug($response);
 
         if (isset($response['error']) && $response['error']) {

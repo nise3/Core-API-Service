@@ -3,9 +3,6 @@
 namespace App\Providers;
 
 use App\Facade\AuthTokenUtility;
-use App\Facade\ServiceToServiceCall;
-use App\Models\Role;
-use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -52,8 +49,9 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('token', function (Request $request) {
 
-            $token = $request->bearerToken();
-            Log::info('Bearer Token: ' . $token);
+            $token = bearerUserToken($request);
+            Log::debug('Bearer Tokens: ' );
+            Log::debug( $token);
 
             if (!$token) {
                 return null;

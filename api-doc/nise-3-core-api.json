@@ -2633,7 +2633,12 @@
     },
     "components": {
         "securitySchemes": {
-            "bearerAuth": {
+            "Authorization": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "User-Token": {
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
