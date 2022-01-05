@@ -14,8 +14,8 @@ class AddBranchIdAndTrainingCenterIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedInteger('branch_id')->nullable();
-            $table->unsignedInteger('training_center_id')->nullable();
+            $table->unsignedInteger('branch_id')->nullable()->after('institute_id');
+            $table->unsignedInteger('training_center_id')->nullable()->after('institute_id');
         });
     }
 

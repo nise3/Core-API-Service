@@ -37,12 +37,13 @@ class UserTableSeeder extends Seeder
         $role->permissions()->sync($permissions);
 
         $data = [
-            'name_en' => 'Super Admin',
-            'name' => 'Super Admin',
-            'email' => 'super@gmail.com',
-            'username' => 'super_admin',
+            'name_en' => 'System Admin',
+            'name' => 'System Admin',
+            'email' => 'support@nise.gov.bd',
+            'mobile' => '01790000000',
+            'username' => 'app_admin',
             'role_id' => 1,
-            'idp_user_id' => '89d24658-74db-45b0-babc-de5b9baaee1e',
+            'idp_user_id' => 'f54c7ff7-c7ee-42d1-8fa9-45b6069805c3',
             'user_type' => 1,
             'verification_code' => '1234',
             'verification_code_sent_at' => Carbon::yesterday(),

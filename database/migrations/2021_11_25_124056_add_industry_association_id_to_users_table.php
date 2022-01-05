@@ -14,7 +14,7 @@ class AddIndustryAssociationIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedInteger('industry_association_id')->nullable();
+            $table->unsignedInteger('industry_association_id')->nullable()->after('institute_id');
         });
     }
 
