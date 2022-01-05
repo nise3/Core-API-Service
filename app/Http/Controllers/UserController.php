@@ -336,6 +336,9 @@ class UserController extends Controller
      */
     public function getAuthUserInfoByIdpId(Request $request): JsonResponse
     {
+        Log::debug('getAuthUserInfoByIdpId-$request->idp_user_id');
+        Log::debug($request->idp_user_id);
+
         $authUserInfo = $this->userService->getAuthPermission($request->idp_user_id ?? null);
         $response = [
             'data' => $authUserInfo,
