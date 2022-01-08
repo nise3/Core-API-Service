@@ -112,23 +112,18 @@ class PermissionSeeder extends Seeder
 
         /** For custom API permissions */
         $customPermissions = [
-            'update_hr_demand_request_by_tsp' => [
-                'uri' => 'update-hr-demand-request-by-tsp/{id}',
-                'method' => 'PUT',
-                'module' => 'hr_demand'
-            ],
-            'view_any_hr_demand_request_resolved_by_tsp' => [
-                'uri' => 'hr-demand-request-resolved-by-tsp',
+            'view_any_hr_demand_by_institute' => [
+                'uri' => 'view-any-hr-demand-by-institute',
                 'method' => 'GET',
                 'module' => 'hr_demand'
             ],
-            'view_single_hr_demand_request_resolved_by_tsp' => [
-                'uri' => 'hr-demand-request-resolved-by-tsp/{id}',
+            'view_single_hr_demand_by_institute' => [
+                'uri' => 'view-single-hr-demand-by-institute/{id}',
                 'method' => 'GET',
                 'module' => 'hr_demand'
             ],
-            'update_hr_demand_request_resolved_by_tsp' => [
-                'uri' => 'update-hr-demand-request-resolved-by-tsp/{id}',
+            'update_hr_demand_by_institute' => [
+                'uri' => 'update-hr-demand-by-institute/{id}',
                 'method' => 'PUT',
                 'module' => 'hr_demand'
             ]
