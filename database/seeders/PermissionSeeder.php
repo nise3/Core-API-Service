@@ -78,7 +78,7 @@ class PermissionSeeder extends Seeder
             'contact_info',
             'hr_demand',
             'banner',
-            'calender_events',
+            'calender_event',
             'faq',
             'gallery_album',
             'gallery_image_video',
@@ -87,8 +87,8 @@ class PermissionSeeder extends Seeder
             'recent_activity',
             'slider',
             'static_page_content_or_page_block',
-            'Static_page_type',
-            'Visitor_feedback_suggestion'
+            'static_page_type',
+            'visitor_feedback_suggestion'
         ];
         $menuOrder = 1;
         foreach ($modules as $module) {
