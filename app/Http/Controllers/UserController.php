@@ -360,6 +360,8 @@ class UserController extends Controller
     {
         $user = new User();
         $request['password'] = $request['password'] ?? BaseModel::ADMIN_CREATED_USER_DEFAULT_PASSWORD;
+        $request['row_status'] = $request['row_status'] ?? BaseModel::ROW_STATUS_ACTIVE;
+
         $validated = $this->userService->adminUserCreateValidator($request)->validate();
         Log::info(json_encode($validated));
         $idpResponse = null;
