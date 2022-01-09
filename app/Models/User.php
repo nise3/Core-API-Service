@@ -89,4 +89,9 @@ class User extends AuthBaseModel
     {
         return $this->user_type == BaseModel::INSTITUTE_USER && $this->institute_id;
     }
+
+    public function isIndustryAssociationUser(): bool
+    {
+        return $this->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER && $this->industry_association_id;
+    }
 }

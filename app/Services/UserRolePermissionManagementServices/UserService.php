@@ -36,8 +36,6 @@ class UserService
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
-        $authUser = Auth::user();
-
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -85,12 +83,12 @@ class UserService
             "users.updated_by",
             "users.created_at",
             "users.updated_at",
-        ]);
+
+        ])->acl();
 
         /** auth user shouldn't show in user list*/
-        if ($authUser) {
-            $usersBuilder->where('users.id', '!=', $authUser->id);
-        }
+        $usersBuilder->where('users.id', '!=', Auth::id());
+
 
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')

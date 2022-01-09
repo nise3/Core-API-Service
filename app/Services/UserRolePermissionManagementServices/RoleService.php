@@ -49,7 +49,9 @@ class RoleService
             'roles.row_status',
             'roles.created_at',
             'roles.updated_at',
-        ]);
+
+        ])->acl();
+
         $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
             $join->on('permission_groups.id', '=', 'roles.permission_group_id');
             if (is_numeric($rowStatus)) {
