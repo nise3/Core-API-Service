@@ -76,9 +76,21 @@ class PermissionSeeder extends Seeder
             'industry_association',
             'publication',
             'contact_info',
-            'hr_demand'
+            'hr_demand',
+            'banner',
+            'calender_events',
+            'faq',
+            'gallery_album',
+            'gallery_image_video',
+            'nise3_partner',
+            'notice_or_news',
+            'recent_activity',
+            'slider',
+            'static_page_content_or_Page_block',
+            'Static_page_type',
+            'Visitor_feedback_suggestion'
         ];
-        $menuOrder=1;
+        $menuOrder = 1;
         foreach ($modules as $module) {
 //            $menuId=DB::table('menus')->insertGetId(
 //                [
@@ -87,11 +99,11 @@ class PermissionSeeder extends Seeder
 //            );
 //            $order=1;
             foreach ($methods as $key => $method) {
-                $permissionKey=$key . '_' . $module;
-                $title=ucfirst(str_replace('_',' ',$permissionKey));
+                $permissionKey = $key . '_' . $module;
+                $title = ucfirst(str_replace('_', ' ', $permissionKey));
                 Permission::create([
-                    'title_en'=>$title,
-                    'title'=>$title,
+                    'title_en' => $title,
+                    'title' => $title,
                     'key' => $permissionKey,
                     'uri' => self::ROUTE_PREFIX . $module . $method['uri'],
                     'method' => $method['method'],
@@ -113,26 +125,28 @@ class PermissionSeeder extends Seeder
         /** For custom API permissions */
         $customPermissions = [
             'view_any_hr_demand_by_institute' => [
-                'uri' => 'view-any-hr-demand-by-institute',
+                'uri' => 'view - any - hr - demand - by - institute',
                 'method' => 'GET',
                 'module' => 'hr_demand'
             ],
             'view_single_hr_demand_by_institute' => [
-                'uri' => 'view-single-hr-demand-by-institute/{id}',
+                'uri' => 'view - single - hr - demand - by - institute /{
+        id}',
                 'method' => 'GET',
                 'module' => 'hr_demand'
             ],
             'update_hr_demand_by_institute' => [
-                'uri' => 'update-hr-demand-by-institute/{id}',
+                'uri' => 'update - hr - demand - by - institute /{
+        id}',
                 'method' => 'PUT',
                 'module' => 'hr_demand'
             ]
         ];
-        foreach ($customPermissions as $permission => $details){
-            $title=ucfirst(str_replace('_',' ',$permission));
+        foreach ($customPermissions as $permission => $details) {
+            $title = ucfirst(str_replace('_', ' ', $permission));
             Permission::create([
-                'title_en'=>$title,
-                'title'=>$title,
+                'title_en' => $title,
+                'title' => $title,
                 'key' => $permission,
                 'uri' => self::ROUTE_PREFIX . $details['uri'],
                 'method' => $details['method'],
