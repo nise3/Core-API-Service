@@ -86,7 +86,7 @@ class PermissionSeeder extends Seeder
             'notice_or_news',
             'recent_activity',
             'slider',
-            'static_page_content_or_Page_block',
+            'static_page_content_or_page_block',
             'Static_page_type',
             'Visitor_feedback_suggestion'
         ];
