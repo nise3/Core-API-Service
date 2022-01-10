@@ -52,7 +52,6 @@ class BackChannelTokenGenerationController extends Controller
         $basicAuth = 'Basic ' . base64_encode(env('WSO2_IDP_CLIENT_KEY', 'FhVqwNp6Q6FV1H8KuuLsh5REQysa') . ':' . env('WSO2_IDP_CLIENT_SECRET', 'GfrDpy904LjaWNmn7aSwEA1qyEQa'));
         $postUrl = env('WSO2_IDP_BASE_URL', 'https://bus-staging.softbdltd.com') . '/oauth2/token?grant_type=authorization_code&code=' . $request->input('code') . '&redirect_uri=' . urlencode($request->input('redirect_uri'));
 
-
         $responseData = Http::withHeaders([
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Authorization' => $basicAuth,
