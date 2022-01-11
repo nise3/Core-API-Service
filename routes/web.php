@@ -50,13 +50,6 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         $router->post('users/{id}/profile-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updateProfile']);
 
-        $router->put('user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
-
-        $router->put('user-rejection', ['as' => 'users.user-rejection', 'uses' => 'UserController@userRejection']);
-
-        /** Delete user created from Organization ,institute and industryAssociation */
-        $router->delete('user-delete', ['as' => 'users.user-delete', 'uses' => 'UserController@userDestroy']);
-
         /* assign permission to permission group*/
         $router->post('permission-groups/{id}/assign-permissions', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
 
@@ -64,6 +57,13 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         $router->post('permission-sub-groups/{id}/assign-permissions', ['as' => 'permission-sub-groups.assign-permissions', 'uses' => 'PermissionSubGroupController@assignPermissionToPermissionSubGroup']);
 
     });
+
+    $router->put('user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
+
+    $router->put('user-rejection', ['as' => 'users.user-rejection', 'uses' => 'UserController@userRejection']);
+
+    /** Delete user created from Organization ,institute and industryAssociation */
+    $router->delete('user-delete', ['as' => 'users.user-delete', 'uses' => 'UserController@userDestroy']);
 
 
     /** Auth user info Call from other service*/
