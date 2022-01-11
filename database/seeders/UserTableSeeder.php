@@ -33,8 +33,6 @@ class UserTableSeeder extends Seeder
         $permissionSubGroup = PermissionSubGroup::find(1);
         $permissionSubGroup->permissions()->sync($permissions);
 
-        $role = Role::find(1);
-        $role->permissions()->sync($permissions);
 
         $data = [
             'name_en' => 'System Admin',
