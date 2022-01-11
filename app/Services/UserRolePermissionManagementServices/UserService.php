@@ -279,10 +279,9 @@ class UserService
 
         } else if ($user->user_type == BaseModel::INSTITUTE_USER && !is_null($user->institute_id)) {
 
-            $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'institutes/' . $user->institute_id;
+            $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/institutes/' . $user->institute_id;
 
             $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
-                ->withHeaders([BaseModel::DEFAULT_SERVICE_TO_SERVICE_CALL_KEY => true])
                 ->get($url)
                 ->throw(function ($response, $exception) {
                     return $exception;
