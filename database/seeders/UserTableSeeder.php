@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
-use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -33,8 +32,6 @@ class UserTableSeeder extends Seeder
         $permissionSubGroup = PermissionSubGroup::find(1);
         $permissionSubGroup->permissions()->sync($permissions);
 
-        $role = Role::find(1);
-        $role->permissions()->sync($permissions);
 
         $data = [
             'name_en' => 'System Admin',
