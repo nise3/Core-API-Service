@@ -148,7 +148,8 @@ class PermissionSeeder extends Seeder
                 'module' => 'industry_association'
             ],
             'view_single_industry_association_member'=>[
-                'uri' => 'view-single-industry-association-member',
+                'uri' => 'view-single-industry-association-member /{
+        industryId',
                 'method' => 'GET',
                 'module' => 'industry_association'
             ]
