@@ -137,10 +137,20 @@ class PermissionSeeder extends Seeder
                 'module' => 'hr_demand'
             ],
             'update_hr_demand_by_institute' => [
-                'uri' => 'update - hr - demand - by - institute /{
+                'uri' => 'update- hr - demand - by - institute /{
         id}',
                 'method' => 'PUT',
                 'module' => 'hr_demand'
+            ],
+            'view_any_industry_association_member'=>[
+                'uri' => 'view-any-industry-association-member',
+                'method' => 'GET',
+                'module' => 'industry_association'
+            ],
+            'view_single_industry_association_member'=>[
+                'uri' => 'view-single-industry-association-member',
+                'method' => 'GET',
+                'module' => 'industry_association'
             ]
         ];
         foreach ($customPermissions as $permission => $details) {

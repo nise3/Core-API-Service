@@ -18,10 +18,10 @@ class PermissionGroupSeeder extends Seeder
      */
     public function run()
     {
-//        Schema::disableForeignKeyConstraints();
-//
-//        DB::table('permission_groups')->truncate();
-//        DB::table('permission_sub_groups')->truncate();
+        Schema::disableForeignKeyConstraints();
+
+        DB::table('permission_groups')->truncate();
+        DB::table('permission_sub_groups')->truncate();
 
         PermissionGroup::factory()
             ->count(3)
@@ -45,7 +45,7 @@ class PermissionGroupSeeder extends Seeder
             ->has(PermissionSubGroup::factory()->count(2))
             ->create();
 
-//        Schema::enableForeignKeyConstraints();
+        Schema::enableForeignKeyConstraints();
 
     }
 }
