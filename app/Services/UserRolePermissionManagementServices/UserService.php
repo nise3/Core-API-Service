@@ -281,6 +281,8 @@ class UserService
 
             $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'institutes/' . $user->institute_id;
 
+            Log::debug('getUserPermissionWithMenuItems - INSTITUTE_USER');
+            Log::debug($url);
             $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
                 ->withHeaders([BaseModel::DEFAULT_SERVICE_TO_SERVICE_CALL_KEY => true])
                 ->get($url)
