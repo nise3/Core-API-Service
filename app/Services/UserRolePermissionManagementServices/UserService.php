@@ -252,13 +252,11 @@ class UserService
      */
     public function getUserPermissionWithMenuItems(string $id): array
     {
-        $user = User::where('idp_user_id', $id)->first();
-
-        if ($user == null)
-            return [];
+        $user = User::where('idp_user_id', $id)->firstOrFail();
 
         $institute = null;
         $organization = null;
+        $industryAssociation = null;
         $isSystemUser = $user->user_type == BaseModel::SYSTEM_USER;
         $isOrganizationUser = $user->user_type == BaseModel::ORGANIZATION_USER;
         $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
@@ -301,7 +299,7 @@ class UserService
                 })
                 ->json();
 
-            $institute = $responseData['data'] ?? [];
+            $industryAssociation = $responseData['data'] ?? [];
         }
 
         $role = Role::find($user->role_id);
@@ -350,6 +348,8 @@ class UserService
             'institute' => $institute,
             'organization_id' => $user->organization_id,
             'organization' => $organization,
+            'industry_association_id' => $user->industry_association_id,
+            'industry_association' => $industryAssociation,
             'username' => $user->username,
             'displayName' => $user->name_en,
             'name' => $user->name,
@@ -387,8 +387,7 @@ class UserService
         $user = User::where('idp_user_id', $id)
             ->where('row_status', BaseModel::ROW_STATUS_ACTIVE)
             ->first();
-        Log::debug('getAuthPermission');
-        Log::debug($user);
+
         if (!$user) {
             return new \stdClass();
         }

@@ -73,6 +73,7 @@ abstract class BaseModel extends Model
         self::SYSTEM_USER => 'system',
         self::ORGANIZATION_USER => 'organization',
         self::INSTITUTE_USER => 'institute',
+        self::INDUSTRY_ASSOCIATION_USER => 'industry-association',
     ];
 
     public const MOBILE_REGEX = 'regex: /^(01[3-9]\d{8})$/';
