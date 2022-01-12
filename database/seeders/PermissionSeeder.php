@@ -106,7 +106,7 @@ class PermissionSeeder extends Seeder
                     'title_en' => $title,
                     'title' => $title,
                     'key' => $permissionKey,
-                    'uri' => self::ROUTE_PREFIX . $module . $method['uri'],
+                    'uri' => self::ROUTE_PREFIX . str_replace('_', '-', $module) . $method['uri'],
                     'method' => $method['method'],
                     'module' => $module
                 ]);
@@ -126,28 +126,28 @@ class PermissionSeeder extends Seeder
         /** For custom API permissions */
         $customPermissions = [
             'view_any_hr_demand_by_institute' => [
-                'uri' => 'view - any - hr - demand - by - institute',
+                'uri' => 'view-any-hr-demand-by-institute',
                 'method' => 'GET',
                 'module' => 'hr_demand'
             ],
             'view_single_hr_demand_by_institute' => [
-                'uri' => 'view - single - hr - demand - by - institute /{
+                'uri' => 'view-single-hr-demand-by-institute /{
         id}',
                 'method' => 'GET',
                 'module' => 'hr_demand'
             ],
             'update_hr_demand_by_institute' => [
-                'uri' => 'update- hr - demand - by - institute /{
+                'uri' => 'update-hr-demand-by-institute /{
         id}',
                 'method' => 'PUT',
                 'module' => 'hr_demand'
             ],
-            'view_any_industry_association_member'=>[
+            'view_any_industry_association_member' => [
                 'uri' => 'view-any-industry-association-member',
                 'method' => 'GET',
                 'module' => 'industry_association'
             ],
-            'view_single_industry_association_member'=>[
+            'view_single_industry_association_member' => [
                 'uri' => 'view-single-industry-association-member /{
         industryId',
                 'method' => 'GET',
