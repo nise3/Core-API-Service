@@ -333,12 +333,11 @@ class UserController extends Controller
      */
     public function getAuthUserInfoByIdpId(Request $request): JsonResponse
     {
-        Log::debug('getAuthUserInfoByIdpId-$request->idp_user_id');
+        Log::debug('getAuthUserInfoByIdpId->>>>>>');
         Log::debug($request->idp_user_id);
 
         $authUserInfo = $this->userService->getAuthPermission($request->idp_user_id ?? null);
-        Log::debug('authUserInfo');
-        Log::debug($authUserInfo);
+
         $response = [
             'data' => $authUserInfo,
             '_response_status' => [
@@ -348,9 +347,6 @@ class UserController extends Controller
                 "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
             ]
         ];
-
-        Log::debug('getAuthUserInfoByIdpId----->');
-        Log::debug($response);
 
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
