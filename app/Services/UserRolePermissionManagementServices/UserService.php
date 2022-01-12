@@ -280,6 +280,8 @@ class UserService
 
             $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/institutes/' . $user->institute_id;
 
+            Log::debug('getUserPermissionWithMenuItems - INSTITUTE_USER');
+            Log::debug($url);
             $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
                 ->get($url)
                 ->throw(function ($response, $exception) {
