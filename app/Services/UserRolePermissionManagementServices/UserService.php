@@ -252,23 +252,22 @@ class UserService
      */
     public function getUserPermissionWithMenuItems(string $id): array
     {
-        $user = User::where('idp_user_id', $id)->first();
 
-        if ($user == null)
-            return [];
+        $user = User::where('idp_user_id', $id)->firstOrFail();
 
         $institute = null;
         $organization = null;
+        $industryAssociation = null;
         $isSystemUser = $user->user_type == BaseModel::SYSTEM_USER;
         $isOrganizationUser = $user->user_type == BaseModel::ORGANIZATION_USER;
         $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
+        $isIndustryAssociationUser = $user->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER;
 
         if ($user->user_type == BaseModel::ORGANIZATION_USER && !is_null($user->organization_id)) {
 
-            $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'organizations/' . $user->organization_id;
+            $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'service-to-service-call/organizations/' . $user->organization_id;
 
             $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
-                ->withHeaders([BaseModel::DEFAULT_SERVICE_TO_SERVICE_CALL_KEY => true])
                 ->get($url)
                 ->throw(function ($response, $exception) {
                     return $exception;
@@ -281,6 +280,8 @@ class UserService
 
             $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/institutes/' . $user->institute_id;
 
+            Log::debug('getUserPermissionWithMenuItems - INSTITUTE_USER');
+            Log::debug($url);
             $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
                 ->get($url)
                 ->throw(function ($response, $exception) {
@@ -289,6 +290,19 @@ class UserService
                 ->json();
 
             $institute = $responseData['data'] ?? [];
+
+        } else if ($user->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER && !is_null($user->industry_association_id)) {
+
+            $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'service-to-service-call/industry-associations/' . $user->industry_association_id;
+
+            $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+                ->get($url)
+                ->throw(function ($response, $exception) {
+                    return $exception;
+                })
+                ->json();
+
+            $industryAssociation = $responseData['data'] ?? [];
         }
 
         $role = Role::find($user->role_id);
@@ -328,6 +342,7 @@ class UserService
             'isSystemUser' => $isSystemUser,
             'isInstituteUser' => $isInstituteUser,
             'isOrganizationUser' => $isOrganizationUser,
+            'isIndustryAssociationUser' => $isIndustryAssociationUser,
             'permissions' => $conditionalPermissions,
             'menu_items' => $menuItem,
             'role_id' => $user->role_id,
@@ -336,6 +351,8 @@ class UserService
             'institute' => $institute,
             'organization_id' => $user->organization_id,
             'organization' => $organization,
+            'industry_association_id' => $user->industry_association_id,
+            'industry_association' => $industryAssociation,
             'username' => $user->username,
             'displayName' => $user->name_en,
             'name' => $user->name,
