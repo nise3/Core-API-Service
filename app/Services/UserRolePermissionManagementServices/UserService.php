@@ -262,6 +262,7 @@ class UserService
         $isSystemUser = $user->user_type == BaseModel::SYSTEM_USER;
         $isOrganizationUser = $user->user_type == BaseModel::ORGANIZATION_USER;
         $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
+        $isIndustryAssociationUser = $user->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER;
 
         if ($user->user_type == BaseModel::ORGANIZATION_USER && !is_null($user->organization_id)) {
 
@@ -342,6 +343,7 @@ class UserService
             'isSystemUser' => $isSystemUser,
             'isInstituteUser' => $isInstituteUser,
             'isOrganizationUser' => $isOrganizationUser,
+            'isIndustryAssociationUser' => $isIndustryAssociationUser,
             'permissions' => $conditionalPermissions,
             'menu_items' => $menuItem,
             'role_id' => $user->role_id,
