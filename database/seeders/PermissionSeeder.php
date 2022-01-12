@@ -127,44 +127,44 @@ class PermissionSeeder extends Seeder
         $customPermissions = [
             'view_any_hr_demand_by_institute' => [
                 'uri' => 'view-any-hr-demand-by-institute',
-                'method' => 'GET',
+                'method' => '1',
                 'module' => 'hr_demand'
             ],
             'view_single_hr_demand_by_institute' => [
                 'uri' => 'view-single-hr-demand-by-institute /{
         id}',
-                'method' => 'GET',
+                'method' => '1',
                 'module' => 'hr_demand'
             ],
             'update_hr_demand_by_institute' => [
                 'uri' => 'update-hr-demand-by-institute /{
         id}',
-                'method' => 'PUT',
+                'method' => '3',
                 'module' => 'hr_demand'
             ],
             'view_any_industry_association_member' => [
                 'uri' => 'view-any-industry-association-member',
-                'method' => 'GET',
+                'method' => '1',
                 'module' => 'industry_association'
             ],
             'view_single_industry_association_member' => [
                 'uri' => 'view-single-industry-association-member /{industryId}',
-                'method' => 'GET',
+                'method' => '1',
                 'module' => 'industry_association'
             ] ,
             'create_job' => [
                 'uri' => 'create_job',
-                'method' => 'GET',
+                'method' => '2',
                 'module' => 'job'
             ]  ,
             'view_single_job' => [
                 'uri' => 'view_single_job/{jobId}',
-                'method' => 'GET',
+                'method' => '1',
                 'module' => 'job'
             ] ,
             'view_any_job' => [
                 'uri' => 'view_any_job/{jobId}',
-                'method' => 'GET',
+                'method' => '1',
                 'module' => 'job'
             ]
         ];
