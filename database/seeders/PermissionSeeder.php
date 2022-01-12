@@ -161,6 +161,11 @@ class PermissionSeeder extends Seeder
                 'uri' => 'view_single_job/{jobId}',
                 'method' => 'GET',
                 'module' => 'job'
+            ] ,
+            'view_any_job' => [
+                'uri' => 'view_any_job/{jobId}',
+                'method' => 'GET',
+                'module' => 'job'
             ]
         ];
         foreach ($customPermissions as $permission => $details) {
