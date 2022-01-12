@@ -387,7 +387,8 @@ class UserService
         $user = User::where('idp_user_id', $id)
             ->where('row_status', BaseModel::ROW_STATUS_ACTIVE)
             ->first();
-
+        Log::debug('getAuthPermission');
+        Log::debug($user);
         if (!$user) {
             return new \stdClass();
         }
