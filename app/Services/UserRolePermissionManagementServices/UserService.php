@@ -254,8 +254,7 @@ class UserService
     {
 
         $user = User::where('idp_user_id', $id)->firstOrFail();
-        Log::debug('getUserPermissionWithMenuItems');
-        Log::debug($user);
+
         $institute = null;
         $organization = null;
         $industryAssociation = null;
