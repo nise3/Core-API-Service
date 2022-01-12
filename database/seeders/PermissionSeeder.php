@@ -148,10 +148,19 @@ class PermissionSeeder extends Seeder
                 'module' => 'industry_association'
             ],
             'view_single_industry_association_member' => [
-                'uri' => 'view-single-industry-association-member /{
-        industryId',
+                'uri' => 'view-single-industry-association-member /{industryId}',
                 'method' => 'GET',
                 'module' => 'industry_association'
+            ] ,
+            'create_job' => [
+                'uri' => 'create_job',
+                'method' => 'GET',
+                'module' => 'job'
+            ]  ,
+            'view_single_job' => [
+                'uri' => 'view_single_job/{jobId}',
+                'method' => 'GET',
+                'module' => 'job'
             ]
         ];
         foreach ($customPermissions as $permission => $details) {
