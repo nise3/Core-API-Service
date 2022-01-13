@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -148,6 +149,9 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $validated = $this->roleService->permissionValidation($request)->validated();
         $role = $this->roleService->assignPermission($role, $validated['permissions']);
+
+        Cache::flush(); // invalidate all cache data when role permission assign
+
         $response = [
             'data' => $role,
             '_response_status' => [

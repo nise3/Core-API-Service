@@ -406,8 +406,6 @@ class UserService
         $user ["role"] = $role;
         $user ["permissions"] = collect($permissionKeys);
 
-        Log::debug('User permissionssssssss');
-        Log::debug(json_encode($user));
         return $user;
     }
 

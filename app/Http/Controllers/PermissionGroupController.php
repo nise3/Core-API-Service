@@ -7,6 +7,7 @@ use App\Services\UserRolePermissionManagementServices\PermissionGroupService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
@@ -144,6 +145,7 @@ class PermissionGroupController extends Controller
         $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->permissionValidation($request)->validated();
         $permissionGroup=$this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
+        Cache::flush(); // invalidate all user cache data when permission group permission assign
         $response = [
             'data'=>$permissionGroup->permissions()->get(),
             '_response_status' => [

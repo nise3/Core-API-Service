@@ -7,6 +7,7 @@ use App\Services\UserRolePermissionManagementServices\PermissionSubGroupService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -129,6 +130,7 @@ class PermissionSubGroupController extends Controller
         $permissionSubGroup = PermissionSubGroup::findOrFail($id);
         $validated = $this->permissionSubGroupService->permissionValidation($request)->validated();
         $permissionSubGroup = $this->permissionSubGroupService->assignPermission($permissionSubGroup, $validated['permissions']);
+        Cache::flush(); // invalidate all user cache data when permission sub group permission assign
         $response = [
             'data' => $permissionSubGroup->permissions()->get(),
             '_response_status' => [
