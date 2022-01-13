@@ -77,7 +77,6 @@ class PermissionSeeder extends Seeder
             'industry_association',
             'publication',
             'contact_info',
-            'hr_demand',
             'banner',
             'calender_event',
             'faq',
@@ -89,7 +88,9 @@ class PermissionSeeder extends Seeder
             'slider',
             'static_page_content_or_page_block',
             'static_page_type',
-            'visitor_feedback_suggestion'
+            'visitor_feedback_suggestion',
+            'industry_association_hr_demand',
+            'institute_hr_demand'
         ];
         $menuOrder = 1;
         foreach ($modules as $module) {
@@ -125,22 +126,10 @@ class PermissionSeeder extends Seeder
 
         /** For custom API permissions */
         $customPermissions = [
-            'view_any_hr_demand_by_institute' => [
-                'uri' => 'view-any-hr-demand-by-institute',
-                'method' => '1',
-                'module' => 'hr_demand'
-            ],
-            'view_single_hr_demand_by_institute' => [
-                'uri' => 'view-single-hr-demand-by-institute /{
-        id}',
-                'method' => '1',
-                'module' => 'hr_demand'
-            ],
-            'update_hr_demand_by_institute' => [
-                'uri' => 'update-hr-demand-by-institute /{
-        id}',
+            'update_institute_hr_demand_by_institute' => [
+                'uri' => 'update-hr-demand-institute-by-institute/{id}',
                 'method' => '3',
-                'module' => 'hr_demand'
+                'module' => 'institute_hr_demand'
             ],
             'view_any_industry_association_member' => [
                 'uri' => 'view-any-industry-association-member',
