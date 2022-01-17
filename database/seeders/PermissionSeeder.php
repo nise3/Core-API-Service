@@ -180,11 +180,59 @@ class PermissionSeeder extends Seeder
                 'module' => $details['module']
             ]);
         }
-        Schema::enableForeignKeyConstraints();
 
         $role = Role::find(1);
         $permissions = Permission::orderBy('id', 'ASC')->pluck('id')->toArray();
         $role->permissions()->sync($permissions);
         Cache::flush();
+
+        $nonSuperAdminPermissions =[
+            'view_institute_profile' => [
+                'uri' => 'view_institute_profile',
+                'method' => '1',
+                'module' => 'institute'
+            ],
+            'update_institute_profile' => [
+                'uri' => 'update_institute_profile',
+                'method' => '2',
+                'module' => 'institute'
+            ],
+            'view_organization_profile' => [
+                'uri' => 'view_organization_profile',
+                'method' => '1',
+                'module' => 'organization'
+            ],
+            'update_organization_profile' => [
+                'uri' => 'update_organization_profile',
+                'method' => '2',
+                'module' => 'organization'
+            ],
+            'view_industry_association_profile' => [
+                'uri' => 'view_industry_association_profile',
+                'method' => '1',
+                'module' => 'industry_association'
+            ],
+            'update_industry_association_profile' => [
+                'uri' => 'update_industry_association_profile',
+                'method' => '2',
+                'module' => 'industry_association'
+            ],
+        ];
+
+        foreach ($nonSuperAdminPermissions as $permission => $details) {
+            $title = ucfirst(str_replace('_', ' ', $permission));
+            Permission::create([
+                'title_en' => $title,
+                'title' => $title,
+                'key' => $permission,
+                'uri' => self::ROUTE_PREFIX . $details['uri'],
+                'method' => $details['method'],
+                'module' => $details['module']
+            ]);
+        }
+
+
+        Schema::enableForeignKeyConstraints();
+
     }
 }
