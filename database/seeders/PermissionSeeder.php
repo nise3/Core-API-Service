@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -151,17 +152,17 @@ class PermissionSeeder extends Seeder
                 'uri' => 'view-single-industry-association-member /{industryId}',
                 'method' => '1',
                 'module' => 'industry_association'
-            ] ,
+            ],
             'create_job' => [
                 'uri' => 'create_job',
                 'method' => '2',
                 'module' => 'job'
-            ]  ,
+            ],
             'view_single_job' => [
                 'uri' => 'view_single_job/{jobId}',
                 'method' => '1',
                 'module' => 'job'
-            ] ,
+            ],
             'view_any_job' => [
                 'uri' => 'view_any_job/{jobId}',
                 'method' => '1',
@@ -184,5 +185,6 @@ class PermissionSeeder extends Seeder
         $role = Role::find(1);
         $permissions = Permission::orderBy('id', 'ASC')->pluck('id')->toArray();
         $role->permissions()->sync($permissions);
+        Cache::flush();
     }
 }
