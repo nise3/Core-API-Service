@@ -22,7 +22,7 @@ class DomainTableSeeder extends Seeder
                 array(
                     'id' => 1,
                     'domain' => 'dyd.nise.gov.bd',
-                    'institute_id' => 1,
+                    'institute_id' => 26,
                     'organization_id' => null,
                     'industry_association_id' => null,
                     'created_at' => Carbon::now(),
@@ -32,7 +32,7 @@ class DomainTableSeeder extends Seeder
                 array(
                     'id' => 2,
                     'domain' => 'bitac.nise.gov.bd',
-                    'institute_id' => 2,
+                    'institute_id' => 27,
                     'organization_id' => null,
                     'industry_association_id' => null,
                     'created_at' => Carbon::now(),
