@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\User;
+use App\Services\Common\CodeGenerateService;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Exception;
@@ -82,6 +83,7 @@ class UserController extends Controller
         $user = new User();
         $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
         $validated = $this->userService->validator($request)->validate();
+        $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
         $idpResponse = null;
         try {
             $idpUserPayLoad = [
@@ -364,6 +366,7 @@ class UserController extends Controller
         $request['row_status'] = $request['row_status'] ?? BaseModel::ROW_STATUS_ACTIVE;
 
         $validated = $this->userService->adminUserCreateValidator($request)->validate();
+        $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
         Log::info(json_encode($validated));
         $idpResponse = null;
 
@@ -431,6 +434,7 @@ class UserController extends Controller
     {
         $user = new User();
         $validatedData = $this->userService->userOpenRegistrationValidator($request)->validate();
+        $validatedData['code'] = CodeGenerateService::getUserCode($validatedData['user_type']);
         $idpResponse = null;
         try {
             /** @var  $idpUserPayLoad */

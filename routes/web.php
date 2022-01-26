@@ -82,3 +82,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->post('user-open-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userOpenRegistration']);
 
 });
+
+$router->get("/code", function () {
+    return \App\Services\Common\CodeGenerateService::getUserCode(1);
+});

@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
 use App\Models\User;
+use App\Services\Common\CodeGenerateService;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -31,9 +33,10 @@ class UserTableSeeder extends Seeder
 
         $permissionSubGroup = PermissionSubGroup::find(1);
         $permissionSubGroup->permissions()->sync($permissions);
-
+        $code = CodeGenerateService::getUserCode(BaseModel::SYSTEM_USER);
 
         $data = [
+            "code" => $code,
             'name_en' => 'System Admin',
             'name' => 'System Admin',
             'email' => 'support@nise.gov.bd',

@@ -75,6 +75,13 @@ abstract class BaseModel extends Model
         self::INSTITUTE_USER => 'institute',
         self::INDUSTRY_ASSOCIATION_USER => 'industry-association',
     ];
+    public const USER_CODE_SIZE = 11;
+    public const USER_CODE_PREFIXES = [
+        self::SYSTEM_USER => "USYS",
+        self::ORGANIZATION_USER => 'UIND',
+        self::INSTITUTE_USER => 'USSP',
+        self::INDUSTRY_ASSOCIATION_USER => 'UINA',
+    ];
 
     public const MOBILE_REGEX = 'regex: /^(01[3-9]\d{8})$/';
     public const USERNAME_REGEX = 'regex: /^[a-zA-Z\_0-9]+$/';
