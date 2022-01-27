@@ -21,8 +21,8 @@ class DomainTableSeeder extends Seeder
             0 =>
                 array(
                     'id' => 1,
-                    'domain' => 'dyd.nise.gov.bd',
-                    'institute_id' => 26,
+                    'domain' => 'nise.gov.bd',
+                    'institute_id' => null,
                     'organization_id' => null,
                     'industry_association_id' => null,
                     'created_at' => Carbon::now(),
@@ -31,6 +31,26 @@ class DomainTableSeeder extends Seeder
             1 =>
                 array(
                     'id' => 2,
+                    'domain' => 'youth.nise.gov.bd',
+                    'institute_id' => null,
+                    'organization_id' => null,
+                    'industry_association_id' => null,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            2 =>
+                array(
+                    'id' => 3,
+                    'domain' => 'dyd.nise.gov.bd',
+                    'institute_id' => 26,
+                    'organization_id' => null,
+                    'industry_association_id' => null,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            3 =>
+                array(
+                    'id' => 4,
                     'domain' => 'bitac.nise.gov.bd',
                     'institute_id' => 27,
                     'organization_id' => null,
@@ -38,6 +58,7 @@ class DomainTableSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ),
+
         ));
     }
 }
