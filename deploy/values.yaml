@@ -64,6 +64,10 @@ variables:
     DB_USERNAME: nise3
     DB_PASSWORD: nise3
 
+    CACHE_DRIVER: redis
+    REDIS_CLIENT: predis
+    QUEUE_CONNECTION: rabbitmq
+
     RABBITMQ_HOST: "rabbitmqcluster"
     RABBITMQ_PORT: "5672"
     RABBITMQ_VHOST: "/"
