@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DomainTableSeeder extends Seeder
 {
@@ -15,6 +16,8 @@ class DomainTableSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
+
         DB::table('domains')->truncate();
 
         DB::table('domains')->insert(array(
@@ -190,5 +193,7 @@ class DomainTableSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             )
         ));
+
+        Schema::enableForeignKeyConstraints();
     }
 }
