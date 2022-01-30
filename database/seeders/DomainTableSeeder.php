@@ -18,26 +18,45 @@ class DomainTableSeeder extends Seeder
         DB::table('domains')->truncate();
 
         DB::table('domains')->insert(array(
-            0 =>
-                array(
-                    'id' => 1,
-                    'domain' => 'nise.gov.bd',
-                    'institute_id' => null,
-                    'organization_id' => null,
-                    'industry_association_id' => null,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ),
-            1 =>
-                array(
-                    'id' => 2,
-                    'domain' => 'youth.nise.gov.bd',
-                    'institute_id' => null,
-                    'organization_id' => null,
-                    'industry_association_id' => null,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ),
+
+            array(
+                'id' => 1,
+                'domain' => 'nise.gov.bd',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'id' => 2,
+                'domain' => 'dev.nise3.xyx',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+
+            array(
+                'id' => 3,
+                'domain' => 'nise.asm',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+
+            array(
+                'id' => 2,
+                'domain' => 'youth.nise.gov.bd',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
             2 =>
                 array(
                     'id' => 3,
