@@ -164,8 +164,7 @@ class DomainTableSeeder extends Seeder
                 'industry_association_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            )
-        ,
+            ),
             array(
                 'domain' => 'smef.nise.gov.bd',
                 'institute_id' => null,
