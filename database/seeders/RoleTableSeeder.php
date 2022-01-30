@@ -21,41 +21,38 @@ class RoleTableSeeder extends Seeder
         DB::table('roles')->truncate();
 
         DB::table('roles')->insert(array(
-            0 =>
-                array(
-                    'id' => 1,
-                    'title_en' => 'Super Admin',
-                    'title' => 'সুপার এডমিন',
-                    'key' => 'super_admin',
-                ),
-            1 =>
-                array(
-                    'id' => 2,
-                    'title_en' => 'System Admin',
-                    'title' => 'সিস্টেম এডমিন',
-                    'key' => 'system_admin',
-                ),
-            2 =>
-                array(
-                    'id' => 3,
-                    'title_en' => 'Institute Admin',
-                    'title' => 'ইনস্টিটিউট এডমিন',
-                    'key' => 'institute_admin',
-                ),
-            3 =>
-                array(
-                    'id' => 4,
-                    'title_en' => 'Organization Admin',
-                    'title' => 'অর্গানাইজেশন এডমিন',
-                    'key' => 'organization_admin',
-                ),
-            4 =>
-                array(
-                    'id' => 5,
-                    'title_en' => 'DC',
-                    'title' => 'ডিসি',
-                    'key' => 'dc',
-                ),
+
+            array(
+                'title_en' => 'System Admin',
+                'title' => 'সিস্টেম এডমিন',
+                'key' => 'system_admin',
+                'permission_group_id' => 1,
+                'permission_sub_group_id' => 1,
+            ),
+
+            array(
+                'title_en' => 'TSP Admin',
+                'title' => 'ইনস্টিটিউট এডমিন',
+                'key' => 'tsp_admin',
+                'permission_group_id' => 2,
+                'permission_sub_group_id' => 2,
+            ),
+
+            array(
+                'title_en' => 'Industry Admin',
+                'title' => 'ইন্ডাস্ট্রি এডমিন',
+                'key' => 'industry_admin',
+                'permission_group_id' => 3,
+                'permission_sub_group_id' => 3,
+            ),
+
+            array(
+                'title_en' => 'Industry Association Admin',
+                'title' => 'ইন্ডাস্ট্রি এসোসিয়েসন এডমিন',
+                'key' => 'industry_association_admin',
+                'permission_group_id' => 4,
+                'permission_sub_group_id' => 4,
+            )
         ));
 
         Schema::enableForeignKeyConstraints();

@@ -10,11 +10,12 @@ use Throwable;
 class CodeGenerateService
 {
     /**
+     * @param int $userType
+     * @return string
      * @throws Throwable
      */
     public static function getUserCode(int $userType): string
     {
-        $userCode = "";
         DB::beginTransaction();
         try {
             /** @var UserCodePessimisticLocking $existingSSPCode */

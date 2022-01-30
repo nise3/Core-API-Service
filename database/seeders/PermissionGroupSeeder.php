@@ -21,31 +21,34 @@ class PermissionGroupSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         DB::table('permission_groups')->truncate();
-        DB::table('permission_sub_groups')->truncate();
 
-        PermissionGroup::factory()
-            ->count(3)
-            ->state(new Sequence(
-                [
-                    'title_en' =>  'System',
-                    'title' =>  'System',
-                    'key' => 'system',
-                ],
-                [
-                    'title_en' =>  'Organization',
-                    'title' =>  'Organization',
-                    'key' => 'organization',
-                ],
-                [
-                    'title_en' =>  'Institute',
-                    'title' =>  'Institute',
-                    'key' => 'institute',
-                ]
-            ))
-            ->has(PermissionSubGroup::factory()->count(2))
-            ->create();
+        DB::table('permission_groups')->insert(array(
+
+            array(
+                'title_en' => 'System',
+                'title' => 'System',
+                'key' => 'system',
+            ),
+
+            array(
+                'title_en' => 'Tsp',
+                'title' => 'Tsp',
+                'key' => 'tsp',
+            ),
+
+            array(
+                'title_en' => 'Industry',
+                'title' => 'Industry',
+                'key' => 'industry',
+            ),
+
+            array(
+                'title_en' => 'Industry Association',
+                'title' => 'Industry Association',
+                'key' => 'industry_association',
+            )
+        ));
 
         Schema::enableForeignKeyConstraints();
-
     }
 }

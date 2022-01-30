@@ -21,6 +21,7 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         Schema::disableForeignKeyConstraints();
+
         DB::table('permissions')->truncate();
 
         $methods = [
@@ -93,14 +94,8 @@ class PermissionSeeder extends Seeder
             'industry_association_hr_demand',
             'institute_hr_demand'
         ];
-        $menuOrder = 1;
+
         foreach ($modules as $module) {
-//            $menuId=DB::table('menus')->insertGetId(
-//                [
-//                    'name'=>$module
-//                ]
-//            );
-//            $order=1;
             foreach ($methods as $key => $method) {
                 $permissionKey = $key . '_' . $module;
                 $title = ucfirst(str_replace('_', ' ', $permissionKey));
@@ -112,15 +107,6 @@ class PermissionSeeder extends Seeder
                     'method' => $method['method'],
                     'module' => $module
                 ]);
-//                $parentId=DB::table('menu_items')->insertGetId([
-//                    'menu_id'=>$menuId,
-//                    'title'=>$permissionKey,
-//                    'title_lang_key'=>'EN',
-//                    'type'=>'item',
-//                    'permission_key'=>$permissionKey,
-//                    'url'=>self::ROUTE_PREFIX . $module . $method['uri'],
-//                    'order'=>$order++
-//                ]);
             }
 
         }
