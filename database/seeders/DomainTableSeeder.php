@@ -58,6 +58,16 @@ class DomainTableSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ),
+            4 =>
+                array(
+                    'id' => 5,
+                    'domain' => 'mcci.nise.gov.bd',
+                    'institute_id' => null,
+                    'organization_id' => null,
+                    'industry_association_id' => 1,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                )
 
         ));
     }
