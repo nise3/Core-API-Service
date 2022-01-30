@@ -54,20 +54,20 @@ variables:
   APP_ENV: "DEV"
   DEV:
     APP_ENV: "local"
-    APP_DEBUG: "false"
+    APP_DEBUG: "true"
     APP_URL: "core-dev.nise3.xyz"
 
-    DB_HOST: 192.168.10.95
-    DB_PORT: "3306"
+    DB_HOST: "db-service.default"
+    DB_PORT: 3306
     DB_DATABASE: core_api
-    DB_USERNAME: nise3
-    DB_PASSWORD: nise3
+    DB_USERNAME: core3
+    DB_PASSWORD: core3
 
     REDIS_HOST: "redis.redis"
     REDIS_PASSWORD: "k?admin"
     REDIS_PORT: 6379
 
-    RABBITMQ_HOST: "rabbitmqcluster"
+    RABBITMQ_HOST: "rabbitmqcluster.default"
     RABBITMQ_PORT: "5672"
     RABBITMQ_VHOST: "/"
     RABBITMQ_USER: "default_user_8JE9yWDb4fHdn35Ua9w"
