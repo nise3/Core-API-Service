@@ -20,7 +20,6 @@ class DomainTableSeeder extends Seeder
         DB::table('domains')->insert(array(
 
             array(
-                'id' => 1,
                 'domain' => 'nise.gov.bd',
                 'institute_id' => null,
                 'organization_id' => null,
@@ -29,7 +28,6 @@ class DomainTableSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ),
             array(
-                'id' => 2,
                 'domain' => 'dev.nise3.xyx',
                 'institute_id' => null,
                 'organization_id' => null,
@@ -39,7 +37,6 @@ class DomainTableSeeder extends Seeder
             ),
 
             array(
-                'id' => 3,
                 'domain' => 'nise.asm',
                 'institute_id' => null,
                 'organization_id' => null,
@@ -49,7 +46,6 @@ class DomainTableSeeder extends Seeder
             ),
 
             array(
-                'id' => 2,
                 'domain' => 'youth.nise.gov.bd',
                 'institute_id' => null,
                 'organization_id' => null,
@@ -57,37 +53,143 @@ class DomainTableSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ),
-            2 =>
-                array(
-                    'id' => 3,
-                    'domain' => 'dyd.nise.gov.bd',
-                    'institute_id' => 26,
-                    'organization_id' => null,
-                    'industry_association_id' => null,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ),
-            3 =>
-                array(
-                    'id' => 4,
-                    'domain' => 'bitac.nise.gov.bd',
-                    'institute_id' => 27,
-                    'organization_id' => null,
-                    'industry_association_id' => null,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ),
-            4 =>
-                array(
-                    'id' => 5,
-                    'domain' => 'mcci.nise.gov.bd',
-                    'institute_id' => null,
-                    'organization_id' => null,
-                    'industry_association_id' => 1,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                )
-
+            array(
+                'domain' => 'youth-dev.nise3.xyx',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'youth.nise.asm',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'dyd.nise.gov.bd',
+                'institute_id' => 26,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'dyd-dev.nise3.xyz',
+                'institute_id' => 26,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'dyd.nise.asm',
+                'institute_id' => 26,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'sidcht.nise.gov.bd',
+                'institute_id' => 27,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'sidcht-dev.nise3.xyz',
+                'institute_id' => 27,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'sidcht.nise.asm',
+                'institute_id' => 27,
+                'organization_id' => null,
+                'industry_association_id' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'mcci.nise.gov.bd',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'mcci-dev.nise3.xyz',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'mcci.nise.asm',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'nascib.nise.gov.bd',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'nascib-dev.nise3.xyz',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'nascib.nise.asm',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            )
+        ,
+            array(
+                'domain' => 'smef.nise.gov.bd',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'smef-dev.nise3.xyz',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ),
+            array(
+                'domain' => 'smef.nise.asm',
+                'institute_id' => null,
+                'organization_id' => null,
+                'industry_association_id' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            )
         ));
     }
 }
