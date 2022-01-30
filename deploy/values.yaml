@@ -63,9 +63,9 @@ variables:
     DB_USERNAME: nise3
     DB_PASSWORD: nise3
 
-    CACHE_DRIVER: redis
-    REDIS_CLIENT: predis
-    QUEUE_CONNECTION: rabbitmq
+    REDIS_HOST: "redis.redis"
+    REDIS_PASSWORD: "k?admin"
+    REDIS_PORT: 6379
 
     RABBITMQ_HOST: "rabbitmqcluster"
     RABBITMQ_PORT: "5672"
@@ -74,8 +74,8 @@ variables:
     RABBITMQ_PASSWORD: "OvK7CUJOlZHfLWbYeTjdTlbdG2GHfr1Q"
 
     WSO2_APIM_BASE_URL: "https://apim-dev.nise3.xyz"
-    WSO2_APIM_CLIENT_KEY: YB8yDxCc2eDmTeV_DQix9E17dQQa
-    WSO2_APIM_CLIENT_SECRET: dnZiGK34AvPErTZxpxzmkf0RznUa
+    WSO2_APIM_CLIENT_KEY: "YB8yDxCc2eDmTeV_DQix9E17dQQa"
+    WSO2_APIM_CLIENT_SECRET: "dnZiGK34AvPErTZxpxzmkf0RznUa"
 
     WSO2_IDP_BASE_URL: "https://identity-dev.nise3.xyz"
     WSO2_IDP_BASE_USER_URL: "https://identity-dev.nise3.xyz/scim2/Users"
