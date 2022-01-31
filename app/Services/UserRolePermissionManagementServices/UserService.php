@@ -280,8 +280,6 @@ class UserService
 
             $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/institutes/' . $user->institute_id;
 
-            Log::debug('getUserPermissionWithMenuItems - INSTITUTE_USER');
-            Log::debug($url);
             $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
                 ->get($url)
                 ->throw(function ($response, $exception) {
@@ -552,9 +550,7 @@ class UserService
      */
     private function createDefaultRole(array $data): Role
     {
-        $roleService = new RoleService();
-
-        $roleField = [
+        $data = [
             'key' => str_replace(' ', '_', $data['name_en']) . "_" . time(),
             'title_en' => $data['name_en'],
             'title' => $data['name'],
@@ -564,12 +560,14 @@ class UserService
             'industry_association_id' => $data['industry_association_id'] ?? null,
         ];
 
-        $role = app(RoleService::class)->store($roleField);
+        $role = app(RoleService::class)->store($data);
+
         $permissionSubGroupPermissionIds = DB::table('permission_sub_group_permissions')
             ->where('permission_sub_group_id', $data['permission_sub_group_id'])
             ->pluck('permission_id')
             ->toArray();
-        $roleService->assignPermission($role, $permissionSubGroupPermissionIds);
+
+        $role->permissions()->sync($permissionSubGroupPermissionIds);
 
         return $role;
     }

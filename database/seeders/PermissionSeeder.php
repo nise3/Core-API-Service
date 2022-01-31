@@ -92,7 +92,9 @@ class PermissionSeeder extends Seeder
             'static_page_type',
             'visitor_feedback_suggestion',
             'industry_association_hr_demand',
-            'institute_hr_demand'
+            'institute_hr_demand',
+            'cv_bank',
+            'freelance_corner',
         ];
 
         foreach ($modules as $module) {

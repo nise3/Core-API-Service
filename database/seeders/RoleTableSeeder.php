@@ -32,7 +32,7 @@ class RoleTableSeeder extends Seeder
 
             array(
                 'title_en' => 'TSP Admin',
-                'title' => 'ইনস্টিটিউট এডমিন',
+                'title' => 'টি এস পি এডমিন',
                 'key' => 'tsp_admin',
                 'permission_group_id' => 2,
                 'permission_sub_group_id' => 2,
