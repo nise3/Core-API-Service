@@ -464,6 +464,14 @@ class UserService
         if (!empty($users)) {
             foreach ($users as $user) {
                 Cache::forget($user->idp_user_id);
+
+                /** default role will be created when the user is approved for first time */
+                if (!empty($requestData['row_status']) && $requestData['row_status'] == BaseModel::ROW_STATUS_PENDING) {
+                    $role = $this->createDefaultRole($requestData);
+                    if ($role) {
+                        $user->role_id = $role->id;
+                    }
+                }
                 $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
                 $user->save();
             }
