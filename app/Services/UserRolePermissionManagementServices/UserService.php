@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -440,33 +441,34 @@ class UserService
 
     /**
      * @param Request $request
-     * @return User|null
      */
-    public function userApproval(Request $request): User|null
+    public function userApproval(Request $request)
     {
         $requestData = $request->all();
         Log::info(json_encode($requestData));
         $userType = $requestData['user_type'];
-        $user = null;
+        $users = null;
         if ($userType == BaseModel::ORGANIZATION_USER) {
-            $user = User::where('organization_id', $requestData['organization_id'])
+            $users = User::where('organization_id', $requestData['organization_id'])
                 ->where('user_type', $userType)
-                ->firstOrFail();
+                ->get();
         } elseif ($userType == BaseModel::INSTITUTE_USER) {
-            $user = User::where('institute_id', $requestData['institute_id'])
+            $users = User::where('institute_id', $requestData['institute_id'])
                 ->where('user_type', $userType)
-                ->firstOrFail();
+                ->get();
         } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
-            $user = User::where('industry_association_id', $requestData['industry_association_id'])
+            $users = User::where('industry_association_id', $requestData['industry_association_id'])
                 ->where('user_type', $userType)
-                ->firstOrFail();
+                ->get();
         }
-        if (!empty($user)) {
-            Cache::forget($user->idp_user_id);
-            $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
-            $user->save();
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                Cache::forget($user->idp_user_id);
+                $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
+                $user->save();
+            }
         }
-        return $user;
+        return $users;
     }
 
     /**
@@ -520,27 +522,29 @@ class UserService
 
     /**
      * @param Request $request
-     * @return User|null
      */
-    public function userRejection(Request $request): User|null
+    public function userRejection(Request $request)
     {
         $requestData = $request->all();
         Log::info(json_encode($requestData));
         $userType = $requestData['user_type'];
-        $user = null;
+        $users = null;
         if ($userType == BaseModel::ORGANIZATION_USER) {
-            $user = User::where('organization_id', $requestData['organization_id'])->firstOrFail();
+            $users = User::where('organization_id', $requestData['organization_id'])->get();
         } elseif ($userType == BaseModel::INSTITUTE_USER) {
-            $user = User::where('institute_id', $requestData['institute_id'])->firstOrFail();
+            $users = User::where('institute_id', $requestData['institute_id'])->get();
         } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
-            $user = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
+            $users = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
         }
-        if (!empty($user)) {
-            Cache::forget($user->idp_user_id);
-            $user->row_status = BaseModel::ROW_STATUS_REJECT;
-            $user->save();
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                Cache::forget($user->idp_user_id);
+                $user->row_status = BaseModel::ROW_STATUS_REJECT;
+                $user->save();
+            }
+
         }
-        return $user;
+        return $users;
     }
 
 

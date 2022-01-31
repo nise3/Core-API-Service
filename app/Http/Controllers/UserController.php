@@ -495,25 +495,29 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
-     * @throws Exception
+     * @throws Exception|Throwable
      */
     public function userApproval(Request $request): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $user = $this->userService->userApproval($request);
-            if ($user) {
-                $idpUserPayload = [
-                    'id' => $user->idp_user_id,
-                    'username' => $user->username,
-                    'active' => (string)$user->row_status
-                ];
+            $users = $this->userService->userApproval($request);
+            $idpUserPayload = array();
+            if ($users) {
+                foreach ($users as $user) {
+                    $idpUserPayload[] = array(
+                        'id' => $user->idp_user_id,
+                        'username' => $user->username,
+                        'active' => (string)$user->row_status
+                    );
+                }
+
                 $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
                 throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
             }
             $response = [
-                'data' => $user ?: null,
+                'data' => $users ?? null,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
@@ -540,19 +544,22 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            $user = $this->userService->userRejection($request);
-            if ($user) {
-                $idpUserPayload = [
-                    'id' => $user->idp_user_id,
-                    'username' => $user->username,
-                    'active' => (string)$user->row_status
-                ];
+            $users = $this->userService->userRejection($request);
+            $idpUserPayload = array();
+            if ($users) {
+                foreach ($users as $user) {
+                    $idpUserPayload[] = array(
+                        'id' => $user->idp_user_id,
+                        'username' => $user->username,
+                        'active' => (string)$user->row_status
+                    );
+                }
                 $this->userService->idpUserUpdate($idpUserPayload);
                 throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
             }
             $response = [
-                'data' => $user ?: null,
+                'data' => $users ?? null,
                 '_response_status' => [
                     "success" => true,
                     "code" => ResponseAlias::HTTP_OK,
