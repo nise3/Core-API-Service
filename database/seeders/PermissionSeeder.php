@@ -158,11 +158,6 @@ class PermissionSeeder extends Seeder
             ]);
         }
 
-        $role = Role::find(1);
-        $permissions = Permission::orderBy('id', 'ASC')->pluck('id')->toArray();
-        $role->permissions()->sync($permissions);
-        Cache::flush();
-
         $nonSuperAdminPermissions =[
             'view_institute_profile' => [
                 'uri' => 'view_institute_profile',
