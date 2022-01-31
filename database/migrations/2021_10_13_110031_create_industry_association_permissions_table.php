@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrganizationAssociationPermissionsTable extends Migration
+class CreateIndustryAssociationPermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateOrganizationAssociationPermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('organization_association_permissions', function (Blueprint $table) {
-            $table->unsignedInteger('organization_association_id');
+        Schema::create('industry_association_permissions', function (Blueprint $table) {
+            $table->unsignedInteger('industry_association_id');
             $table->unsignedMediumInteger('permission_id');
 
             $table->foreign('permission_id')

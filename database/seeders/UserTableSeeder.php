@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
+use App\Models\Role;
 use App\Models\User;
 use App\Services\Common\CodeGenerateService;
 use Carbon\Carbon;
@@ -26,25 +27,19 @@ class UserTableSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
         DB::table('users')->truncate();
 
-        $permissions = Permission::orderBy('id', 'ASC')->pluck('id')->toArray();
-
-        $permissionGroup = PermissionGroup::find(1);
-        $permissionGroup->permissions()->sync($permissions);
-
-        $permissionSubGroup = PermissionSubGroup::find(1);
-        $permissionSubGroup->permissions()->sync($permissions);
         $code = CodeGenerateService::getUserCode(BaseModel::SYSTEM_USER);
+        $role = Role::where('key', 'system_admin')->firstOrFail();
 
         $data = [
-            "code" => $code,
+            'code' => $code,
             'name_en' => 'System Admin',
             'name' => 'System Admin',
             'email' => 'support@nise.gov.bd',
             'mobile' => '01790000000',
             'username' => 'app_admin',
-            'role_id' => 1,
+            'role_id' => $role->id,
             'idp_user_id' => 'f54c7ff7-c7ee-42d1-8fa9-45b6069805c3',
-            'user_type' => 1,
+            'user_type' => BaseModel::SYSTEM_USER,
             'verification_code' => '1234',
             'verification_code_sent_at' => Carbon::yesterday(),
             'verification_code_verified_at' => Carbon::now(),
