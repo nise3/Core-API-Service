@@ -16,57 +16,67 @@ class PermissionGroupsTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         Schema::disableForeignKeyConstraints();
 
         DB::table('permission_groups')->truncate();
-
+        
         \DB::table('permission_groups')->insert(array (
-            0 =>
+            0 => 
             array (
-                'created_at' => NULL,
+                'created_at' => '2022-01-05 10:53:45',
                 'id' => 1,
                 'key' => 'system',
                 'row_status' => 1,
                 'title' => 'System',
                 'title_en' => 'System',
-                'updated_at' => NULL,
+                'updated_at' => '2022-01-05 10:53:45',
             ),
-            1 =>
+            1 => 
             array (
-                'created_at' => NULL,
+                'created_at' => '2022-01-05 10:53:45',
                 'id' => 2,
-                'key' => 'tsp',
+                'key' => 'organization',
                 'row_status' => 1,
-                'title' => 'Tsp',
-                'title_en' => 'Tsp',
-                'updated_at' => NULL,
+                'title' => 'Organization',
+                'title_en' => 'Organization',
+                'updated_at' => '2022-01-05 10:53:45',
             ),
-            2 =>
+            2 => 
             array (
-                'created_at' => NULL,
+                'created_at' => '2022-01-05 10:53:45',
                 'id' => 3,
-                'key' => 'industry',
+                'key' => 'institute',
                 'row_status' => 1,
-                'title' => 'Industry',
-                'title_en' => 'Industry',
-                'updated_at' => NULL,
+                'title' => 'Institute',
+                'title_en' => 'Institute',
+                'updated_at' => '2022-01-05 10:53:45',
             ),
-            3 =>
+            3 => 
             array (
-                'created_at' => NULL,
+                'created_at' => '2022-01-12 14:08:27',
                 'id' => 4,
                 'key' => 'industry_association',
                 'row_status' => 1,
                 'title' => 'Industry Association',
                 'title_en' => 'Industry Association',
-                'updated_at' => NULL,
+                'updated_at' => '2022-01-12 14:08:27',
+            ),
+            4 => 
+            array (
+                'created_at' => '2022-01-24 16:56:18',
+                'id' => 5,
+                'key' => 'issue',
+                'row_status' => 1,
+                'title' => 'Issue',
+                'title_en' => 'Issue',
+                'updated_at' => '2022-01-24 16:56:18',
             ),
         ));
 
         Schema::enableForeignKeyConstraints();
 
-
+        
     }
 }

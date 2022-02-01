@@ -18,14 +18,12 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             PermissionGroupsTableSeeder::class,
             PermissionSubGroupsTableSeeder::class,
-
-            RolesTableSeeder::class,
-            UsersTableSeeder::class,
             PermissionGroupPermissionsTableSeeder::class,
             PermissionSubGroupPermissionsTableSeeder::class,
+            RolesTableSeeder::class,
             RolePermissionsTableSeeder::class,
+            UsersTableSeeder::class,
         ]);
 
-        $this->call(UsersTableSeeder::class);
     }
 }

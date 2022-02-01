@@ -16,15 +16,16 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
         Schema::disableForeignKeyConstraints();
 
         DB::table('permissions')->truncate();
-
+        
         \DB::table('permissions')->insert(array (
-            0 =>
+            0 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 1,
                 'key' => 'view_any_division',
                 'method' => 1,
@@ -32,12 +33,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any division',
                 'title_en' => 'View any division',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/division',
             ),
-            1 =>
+            1 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 2,
                 'key' => 'view_single_division',
                 'method' => 1,
@@ -45,12 +46,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single division',
                 'title_en' => 'View single division',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/division/{id}',
             ),
-            2 =>
+            2 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 3,
                 'key' => 'create_division',
                 'method' => 2,
@@ -58,12 +59,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create division',
                 'title_en' => 'Create division',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/division',
             ),
-            3 =>
+            3 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 4,
                 'key' => 'update_division',
                 'method' => 3,
@@ -71,12 +72,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update division',
                 'title_en' => 'Update division',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/division/{id}',
             ),
-            4 =>
+            4 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 5,
                 'key' => 'delete_division',
                 'method' => 5,
@@ -84,12 +85,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete division',
                 'title_en' => 'Delete division',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/division/{id}',
             ),
-            5 =>
+            5 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 6,
                 'key' => 'view_any_district',
                 'method' => 1,
@@ -97,12 +98,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any district',
                 'title_en' => 'View any district',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/district',
             ),
-            6 =>
+            6 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 7,
                 'key' => 'view_single_district',
                 'method' => 1,
@@ -110,12 +111,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single district',
                 'title_en' => 'View single district',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/district/{id}',
             ),
-            7 =>
+            7 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 8,
                 'key' => 'create_district',
                 'method' => 2,
@@ -123,12 +124,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create district',
                 'title_en' => 'Create district',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/district',
             ),
-            8 =>
+            8 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 9,
                 'key' => 'update_district',
                 'method' => 3,
@@ -136,12 +137,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update district',
                 'title_en' => 'Update district',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/district/{id}',
             ),
-            9 =>
+            9 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 10,
                 'key' => 'delete_district',
                 'method' => 5,
@@ -149,12 +150,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete district',
                 'title_en' => 'Delete district',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/district/{id}',
             ),
-            10 =>
+            10 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 11,
                 'key' => 'view_any_upazila',
                 'method' => 1,
@@ -162,12 +163,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any upazila',
                 'title_en' => 'View any upazila',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/upazila',
             ),
-            11 =>
+            11 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 12,
                 'key' => 'view_single_upazila',
                 'method' => 1,
@@ -175,12 +176,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single upazila',
                 'title_en' => 'View single upazila',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/upazila/{id}',
             ),
-            12 =>
+            12 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:50',
                 'id' => 13,
                 'key' => 'create_upazila',
                 'method' => 2,
@@ -188,12 +189,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create upazila',
                 'title_en' => 'Create upazila',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:50',
                 'uri' => 'api/v1/upazila',
             ),
-            13 =>
+            13 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 14,
                 'key' => 'update_upazila',
                 'method' => 3,
@@ -201,12 +202,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update upazila',
                 'title_en' => 'Update upazila',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/upazila/{id}',
             ),
-            14 =>
+            14 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 15,
                 'key' => 'delete_upazila',
                 'method' => 5,
@@ -214,12 +215,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete upazila',
                 'title_en' => 'Delete upazila',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/upazila/{id}',
             ),
-            15 =>
+            15 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 16,
                 'key' => 'view_any_user',
                 'method' => 1,
@@ -227,12 +228,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any user',
                 'title_en' => 'View any user',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/user',
             ),
-            16 =>
+            16 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 17,
                 'key' => 'view_single_user',
                 'method' => 1,
@@ -240,12 +241,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single user',
                 'title_en' => 'View single user',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/user/{id}',
             ),
-            17 =>
+            17 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 18,
                 'key' => 'create_user',
                 'method' => 2,
@@ -253,12 +254,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create user',
                 'title_en' => 'Create user',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/user',
             ),
-            18 =>
+            18 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 19,
                 'key' => 'update_user',
                 'method' => 3,
@@ -266,12 +267,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update user',
                 'title_en' => 'Update user',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/user/{id}',
             ),
-            19 =>
+            19 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 20,
                 'key' => 'delete_user',
                 'method' => 5,
@@ -279,12 +280,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete user',
                 'title_en' => 'Delete user',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/user/{id}',
             ),
-            20 =>
+            20 => 
             array (
-                'created_at' => '2022-01-31 18:40:28',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 21,
                 'key' => 'view_any_role',
                 'method' => 1,
@@ -292,12 +293,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any role',
                 'title_en' => 'View any role',
-                'updated_at' => '2022-01-31 18:40:28',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/role',
             ),
-            21 =>
+            21 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 22,
                 'key' => 'view_single_role',
                 'method' => 1,
@@ -305,12 +306,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single role',
                 'title_en' => 'View single role',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/role/{id}',
             ),
-            22 =>
+            22 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 23,
                 'key' => 'create_role',
                 'method' => 2,
@@ -318,12 +319,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create role',
                 'title_en' => 'Create role',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/role',
             ),
-            23 =>
+            23 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 24,
                 'key' => 'update_role',
                 'method' => 3,
@@ -331,12 +332,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update role',
                 'title_en' => 'Update role',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/role/{id}',
             ),
-            24 =>
+            24 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 25,
                 'key' => 'delete_role',
                 'method' => 5,
@@ -344,12 +345,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete role',
                 'title_en' => 'Delete role',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/role/{id}',
             ),
-            25 =>
+            25 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 26,
                 'key' => 'view_any_permission',
                 'method' => 1,
@@ -357,12 +358,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any permission',
                 'title_en' => 'View any permission',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission',
             ),
-            26 =>
+            26 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 27,
                 'key' => 'view_single_permission',
                 'method' => 1,
@@ -370,12 +371,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single permission',
                 'title_en' => 'View single permission',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission/{id}',
             ),
-            27 =>
+            27 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 28,
                 'key' => 'create_permission',
                 'method' => 2,
@@ -383,12 +384,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create permission',
                 'title_en' => 'Create permission',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission',
             ),
-            28 =>
+            28 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 29,
                 'key' => 'update_permission',
                 'method' => 3,
@@ -396,12 +397,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update permission',
                 'title_en' => 'Update permission',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission/{id}',
             ),
-            29 =>
+            29 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 30,
                 'key' => 'delete_permission',
                 'method' => 5,
@@ -409,12 +410,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete permission',
                 'title_en' => 'Delete permission',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission/{id}',
             ),
-            30 =>
+            30 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 31,
                 'key' => 'view_any_permission_group',
                 'method' => 1,
@@ -422,12 +423,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any permission group',
                 'title_en' => 'View any permission group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-group',
             ),
-            31 =>
+            31 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 32,
                 'key' => 'view_single_permission_group',
                 'method' => 1,
@@ -435,12 +436,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single permission group',
                 'title_en' => 'View single permission group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-group/{id}',
             ),
-            32 =>
+            32 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 33,
                 'key' => 'create_permission_group',
                 'method' => 2,
@@ -448,12 +449,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create permission group',
                 'title_en' => 'Create permission group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-group',
             ),
-            33 =>
+            33 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 34,
                 'key' => 'update_permission_group',
                 'method' => 3,
@@ -461,12 +462,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update permission group',
                 'title_en' => 'Update permission group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-group/{id}',
             ),
-            34 =>
+            34 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 35,
                 'key' => 'delete_permission_group',
                 'method' => 5,
@@ -474,12 +475,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete permission group',
                 'title_en' => 'Delete permission group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-group/{id}',
             ),
-            35 =>
+            35 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 36,
                 'key' => 'view_any_permission_sub_group',
                 'method' => 1,
@@ -487,12 +488,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any permission sub group',
                 'title_en' => 'View any permission sub group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-sub-group',
             ),
-            36 =>
+            36 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 37,
                 'key' => 'view_single_permission_sub_group',
                 'method' => 1,
@@ -500,12 +501,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single permission sub group',
                 'title_en' => 'View single permission sub group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-sub-group/{id}',
             ),
-            37 =>
+            37 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 38,
                 'key' => 'create_permission_sub_group',
                 'method' => 2,
@@ -513,12 +514,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create permission sub group',
                 'title_en' => 'Create permission sub group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-sub-group',
             ),
-            38 =>
+            38 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 39,
                 'key' => 'update_permission_sub_group',
                 'method' => 3,
@@ -526,12 +527,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update permission sub group',
                 'title_en' => 'Update permission sub group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-sub-group/{id}',
             ),
-            39 =>
+            39 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 40,
                 'key' => 'delete_permission_sub_group',
                 'method' => 5,
@@ -539,12 +540,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete permission sub group',
                 'title_en' => 'Delete permission sub group',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/permission-sub-group/{id}',
             ),
-            40 =>
+            40 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 41,
                 'key' => 'view_any_organization_type',
                 'method' => 1,
@@ -552,12 +553,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any organization type',
                 'title_en' => 'View any organization type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-type',
             ),
-            41 =>
+            41 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 42,
                 'key' => 'view_single_organization_type',
                 'method' => 1,
@@ -565,12 +566,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single organization type',
                 'title_en' => 'View single organization type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-type/{id}',
             ),
-            42 =>
+            42 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 43,
                 'key' => 'create_organization_type',
                 'method' => 2,
@@ -578,12 +579,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create organization type',
                 'title_en' => 'Create organization type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-type',
             ),
-            43 =>
+            43 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 44,
                 'key' => 'update_organization_type',
                 'method' => 3,
@@ -591,12 +592,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update organization type',
                 'title_en' => 'Update organization type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-type/{id}',
             ),
-            44 =>
+            44 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 45,
                 'key' => 'delete_organization_type',
                 'method' => 5,
@@ -604,12 +605,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete organization type',
                 'title_en' => 'Delete organization type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-type/{id}',
             ),
-            45 =>
+            45 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 46,
                 'key' => 'view_any_organization',
                 'method' => 1,
@@ -617,12 +618,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any organization',
                 'title_en' => 'View any organization',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization',
             ),
-            46 =>
+            46 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 47,
                 'key' => 'view_single_organization',
                 'method' => 1,
@@ -630,12 +631,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single organization',
                 'title_en' => 'View single organization',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization/{id}',
             ),
-            47 =>
+            47 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 48,
                 'key' => 'create_organization',
                 'method' => 2,
@@ -643,12 +644,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create organization',
                 'title_en' => 'Create organization',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization',
             ),
-            48 =>
+            48 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 49,
                 'key' => 'update_organization',
                 'method' => 3,
@@ -656,12 +657,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update organization',
                 'title_en' => 'Update organization',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization/{id}',
             ),
-            49 =>
+            49 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 50,
                 'key' => 'delete_organization',
                 'method' => 5,
@@ -669,12 +670,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete organization',
                 'title_en' => 'Delete organization',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization/{id}',
             ),
-            50 =>
+            50 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 51,
                 'key' => 'view_any_rank_type',
                 'method' => 1,
@@ -682,12 +683,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any rank type',
                 'title_en' => 'View any rank type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank-type',
             ),
-            51 =>
+            51 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 52,
                 'key' => 'view_single_rank_type',
                 'method' => 1,
@@ -695,12 +696,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single rank type',
                 'title_en' => 'View single rank type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank-type/{id}',
             ),
-            52 =>
+            52 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 53,
                 'key' => 'create_rank_type',
                 'method' => 2,
@@ -708,12 +709,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create rank type',
                 'title_en' => 'Create rank type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank-type',
             ),
-            53 =>
+            53 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 54,
                 'key' => 'update_rank_type',
                 'method' => 3,
@@ -721,12 +722,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update rank type',
                 'title_en' => 'Update rank type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank-type/{id}',
             ),
-            54 =>
+            54 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 55,
                 'key' => 'delete_rank_type',
                 'method' => 5,
@@ -734,12 +735,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete rank type',
                 'title_en' => 'Delete rank type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank-type/{id}',
             ),
-            55 =>
+            55 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 56,
                 'key' => 'view_any_rank',
                 'method' => 1,
@@ -747,12 +748,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any rank',
                 'title_en' => 'View any rank',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank',
             ),
-            56 =>
+            56 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 57,
                 'key' => 'view_single_rank',
                 'method' => 1,
@@ -760,12 +761,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single rank',
                 'title_en' => 'View single rank',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank/{id}',
             ),
-            57 =>
+            57 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 58,
                 'key' => 'create_rank',
                 'method' => 2,
@@ -773,12 +774,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create rank',
                 'title_en' => 'Create rank',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank',
             ),
-            58 =>
+            58 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 59,
                 'key' => 'update_rank',
                 'method' => 3,
@@ -786,12 +787,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update rank',
                 'title_en' => 'Update rank',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank/{id}',
             ),
-            59 =>
+            59 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 60,
                 'key' => 'delete_rank',
                 'method' => 5,
@@ -799,12 +800,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete rank',
                 'title_en' => 'Delete rank',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/rank/{id}',
             ),
-            60 =>
+            60 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 61,
                 'key' => 'view_any_service',
                 'method' => 1,
@@ -812,12 +813,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any service',
                 'title_en' => 'View any service',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/service',
             ),
-            61 =>
+            61 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 62,
                 'key' => 'view_single_service',
                 'method' => 1,
@@ -825,12 +826,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single service',
                 'title_en' => 'View single service',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/service/{id}',
             ),
-            62 =>
+            62 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 63,
                 'key' => 'create_service',
                 'method' => 2,
@@ -838,12 +839,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create service',
                 'title_en' => 'Create service',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/service',
             ),
-            63 =>
+            63 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 64,
                 'key' => 'update_service',
                 'method' => 3,
@@ -851,12 +852,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update service',
                 'title_en' => 'Update service',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/service/{id}',
             ),
-            64 =>
+            64 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 65,
                 'key' => 'delete_service',
                 'method' => 5,
@@ -864,12 +865,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete service',
                 'title_en' => 'Delete service',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/service/{id}',
             ),
-            65 =>
+            65 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 66,
                 'key' => 'view_any_skill',
                 'method' => 1,
@@ -877,12 +878,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any skill',
                 'title_en' => 'View any skill',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/skill',
             ),
-            66 =>
+            66 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 67,
                 'key' => 'view_single_skill',
                 'method' => 1,
@@ -890,12 +891,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single skill',
                 'title_en' => 'View single skill',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/skill/{id}',
             ),
-            67 =>
+            67 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 68,
                 'key' => 'create_skill',
                 'method' => 2,
@@ -903,12 +904,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create skill',
                 'title_en' => 'Create skill',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/skill',
             ),
-            68 =>
+            68 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 69,
                 'key' => 'update_skill',
                 'method' => 3,
@@ -916,12 +917,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update skill',
                 'title_en' => 'Update skill',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/skill/{id}',
             ),
-            69 =>
+            69 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 70,
                 'key' => 'delete_skill',
                 'method' => 5,
@@ -929,12 +930,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete skill',
                 'title_en' => 'Delete skill',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/skill/{id}',
             ),
-            70 =>
+            70 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 71,
                 'key' => 'view_any_job_sector',
                 'method' => 1,
@@ -942,12 +943,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any job sector',
                 'title_en' => 'View any job sector',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/job-sector',
             ),
-            71 =>
+            71 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 72,
                 'key' => 'view_single_job_sector',
                 'method' => 1,
@@ -955,12 +956,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single job sector',
                 'title_en' => 'View single job sector',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/job-sector/{id}',
             ),
-            72 =>
+            72 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 73,
                 'key' => 'create_job_sector',
                 'method' => 2,
@@ -968,12 +969,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create job sector',
                 'title_en' => 'Create job sector',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/job-sector',
             ),
-            73 =>
+            73 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 74,
                 'key' => 'update_job_sector',
                 'method' => 3,
@@ -981,12 +982,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update job sector',
                 'title_en' => 'Update job sector',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/job-sector/{id}',
             ),
-            74 =>
+            74 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 75,
                 'key' => 'delete_job_sector',
                 'method' => 5,
@@ -994,12 +995,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete job sector',
                 'title_en' => 'Delete job sector',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/job-sector/{id}',
             ),
-            75 =>
+            75 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 76,
                 'key' => 'view_any_occupation',
                 'method' => 1,
@@ -1007,12 +1008,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any occupation',
                 'title_en' => 'View any occupation',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/occupation',
             ),
-            76 =>
+            76 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 77,
                 'key' => 'view_single_occupation',
                 'method' => 1,
@@ -1020,12 +1021,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single occupation',
                 'title_en' => 'View single occupation',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/occupation/{id}',
             ),
-            77 =>
+            77 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 78,
                 'key' => 'create_occupation',
                 'method' => 2,
@@ -1033,12 +1034,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create occupation',
                 'title_en' => 'Create occupation',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/occupation',
             ),
-            78 =>
+            78 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 79,
                 'key' => 'update_occupation',
                 'method' => 3,
@@ -1046,12 +1047,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update occupation',
                 'title_en' => 'Update occupation',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/occupation/{id}',
             ),
-            79 =>
+            79 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 80,
                 'key' => 'delete_occupation',
                 'method' => 5,
@@ -1059,12 +1060,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete occupation',
                 'title_en' => 'Delete occupation',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/occupation/{id}',
             ),
-            80 =>
+            80 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 81,
                 'key' => 'view_any_organization_unit_type',
                 'method' => 1,
@@ -1072,12 +1073,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any organization unit type',
                 'title_en' => 'View any organization unit type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit-type',
             ),
-            81 =>
+            81 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 82,
                 'key' => 'view_single_organization_unit_type',
                 'method' => 1,
@@ -1085,12 +1086,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single organization unit type',
                 'title_en' => 'View single organization unit type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit-type/{id}',
             ),
-            82 =>
+            82 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 83,
                 'key' => 'create_organization_unit_type',
                 'method' => 2,
@@ -1098,12 +1099,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create organization unit type',
                 'title_en' => 'Create organization unit type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit-type',
             ),
-            83 =>
+            83 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 84,
                 'key' => 'update_organization_unit_type',
                 'method' => 3,
@@ -1111,12 +1112,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update organization unit type',
                 'title_en' => 'Update organization unit type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit-type/{id}',
             ),
-            84 =>
+            84 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 85,
                 'key' => 'delete_organization_unit_type',
                 'method' => 5,
@@ -1124,12 +1125,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete organization unit type',
                 'title_en' => 'Delete organization unit type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit-type/{id}',
             ),
-            85 =>
+            85 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 86,
                 'key' => 'view_any_organization_unit',
                 'method' => 1,
@@ -1137,12 +1138,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any organization unit',
                 'title_en' => 'View any organization unit',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit',
             ),
-            86 =>
+            86 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 87,
                 'key' => 'view_single_organization_unit',
                 'method' => 1,
@@ -1150,12 +1151,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single organization unit',
                 'title_en' => 'View single organization unit',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit/{id}',
             ),
-            87 =>
+            87 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 88,
                 'key' => 'create_organization_unit',
                 'method' => 2,
@@ -1163,12 +1164,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create organization unit',
                 'title_en' => 'Create organization unit',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit',
             ),
-            88 =>
+            88 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 89,
                 'key' => 'update_organization_unit',
                 'method' => 3,
@@ -1176,12 +1177,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update organization unit',
                 'title_en' => 'Update organization unit',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit/{id}',
             ),
-            89 =>
+            89 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 90,
                 'key' => 'delete_organization_unit',
                 'method' => 5,
@@ -1189,12 +1190,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete organization unit',
                 'title_en' => 'Delete organization unit',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/organization-unit/{id}',
             ),
-            90 =>
+            90 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 91,
                 'key' => 'view_any_human_resource',
                 'method' => 1,
@@ -1202,12 +1203,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any human resource',
                 'title_en' => 'View any human resource',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource',
             ),
-            91 =>
+            91 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 92,
                 'key' => 'view_single_human_resource',
                 'method' => 1,
@@ -1215,12 +1216,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single human resource',
                 'title_en' => 'View single human resource',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource/{id}',
             ),
-            92 =>
+            92 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 93,
                 'key' => 'create_human_resource',
                 'method' => 2,
@@ -1228,12 +1229,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create human resource',
                 'title_en' => 'Create human resource',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource',
             ),
-            93 =>
+            93 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 94,
                 'key' => 'update_human_resource',
                 'method' => 3,
@@ -1241,12 +1242,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update human resource',
                 'title_en' => 'Update human resource',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource/{id}',
             ),
-            94 =>
+            94 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 95,
                 'key' => 'delete_human_resource',
                 'method' => 5,
@@ -1254,12 +1255,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete human resource',
                 'title_en' => 'Delete human resource',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource/{id}',
             ),
-            95 =>
+            95 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 96,
                 'key' => 'view_any_human_resource_template',
                 'method' => 1,
@@ -1267,12 +1268,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any human resource template',
                 'title_en' => 'View any human resource template',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource-template',
             ),
-            96 =>
+            96 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 97,
                 'key' => 'view_single_human_resource_template',
                 'method' => 1,
@@ -1280,12 +1281,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single human resource template',
                 'title_en' => 'View single human resource template',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource-template/{id}',
             ),
-            97 =>
+            97 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 98,
                 'key' => 'create_human_resource_template',
                 'method' => 2,
@@ -1293,12 +1294,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create human resource template',
                 'title_en' => 'Create human resource template',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource-template',
             ),
-            98 =>
+            98 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 99,
                 'key' => 'update_human_resource_template',
                 'method' => 3,
@@ -1306,12 +1307,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update human resource template',
                 'title_en' => 'Update human resource template',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource-template/{id}',
             ),
-            99 =>
+            99 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 100,
                 'key' => 'delete_human_resource_template',
                 'method' => 5,
@@ -1319,12 +1320,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete human resource template',
                 'title_en' => 'Delete human resource template',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/human-resource-template/{id}',
             ),
-            100 =>
+            100 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 101,
                 'key' => 'view_any_branch',
                 'method' => 1,
@@ -1332,12 +1333,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any branch',
                 'title_en' => 'View any branch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/branch',
             ),
-            101 =>
+            101 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 102,
                 'key' => 'view_single_branch',
                 'method' => 1,
@@ -1345,12 +1346,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single branch',
                 'title_en' => 'View single branch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/branch/{id}',
             ),
-            102 =>
+            102 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 103,
                 'key' => 'create_branch',
                 'method' => 2,
@@ -1358,12 +1359,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create branch',
                 'title_en' => 'Create branch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/branch',
             ),
-            103 =>
+            103 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 104,
                 'key' => 'update_branch',
                 'method' => 3,
@@ -1371,12 +1372,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update branch',
                 'title_en' => 'Update branch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/branch/{id}',
             ),
-            104 =>
+            104 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 105,
                 'key' => 'delete_branch',
                 'method' => 5,
@@ -1384,12 +1385,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete branch',
                 'title_en' => 'Delete branch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/branch/{id}',
             ),
-            105 =>
+            105 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 106,
                 'key' => 'view_any_batch',
                 'method' => 1,
@@ -1397,12 +1398,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any batch',
                 'title_en' => 'View any batch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/batch',
             ),
-            106 =>
+            106 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 107,
                 'key' => 'view_single_batch',
                 'method' => 1,
@@ -1410,12 +1411,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single batch',
                 'title_en' => 'View single batch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/batch/{id}',
             ),
-            107 =>
+            107 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 108,
                 'key' => 'create_batch',
                 'method' => 2,
@@ -1423,12 +1424,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create batch',
                 'title_en' => 'Create batch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/batch',
             ),
-            108 =>
+            108 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 109,
                 'key' => 'update_batch',
                 'method' => 3,
@@ -1436,12 +1437,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update batch',
                 'title_en' => 'Update batch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/batch/{id}',
             ),
-            109 =>
+            109 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 110,
                 'key' => 'delete_batch',
                 'method' => 5,
@@ -1449,12 +1450,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete batch',
                 'title_en' => 'Delete batch',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/batch/{id}',
             ),
-            110 =>
+            110 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 111,
                 'key' => 'view_any_course',
                 'method' => 1,
@@ -1462,12 +1463,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any course',
                 'title_en' => 'View any course',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course',
             ),
-            111 =>
+            111 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 112,
                 'key' => 'view_single_course',
                 'method' => 1,
@@ -1475,12 +1476,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single course',
                 'title_en' => 'View single course',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course/{id}',
             ),
-            112 =>
+            112 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 113,
                 'key' => 'create_course',
                 'method' => 2,
@@ -1488,12 +1489,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create course',
                 'title_en' => 'Create course',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course',
             ),
-            113 =>
+            113 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 114,
                 'key' => 'update_course',
                 'method' => 3,
@@ -1501,12 +1502,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update course',
                 'title_en' => 'Update course',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course/{id}',
             ),
-            114 =>
+            114 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 115,
                 'key' => 'delete_course',
                 'method' => 5,
@@ -1514,12 +1515,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete course',
                 'title_en' => 'Delete course',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course/{id}',
             ),
-            115 =>
+            115 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 116,
                 'key' => 'view_any_institute',
                 'method' => 1,
@@ -1527,12 +1528,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any institute',
                 'title_en' => 'View any institute',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute',
             ),
-            116 =>
+            116 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 117,
                 'key' => 'view_single_institute',
                 'method' => 1,
@@ -1540,12 +1541,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single institute',
                 'title_en' => 'View single institute',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute/{id}',
             ),
-            117 =>
+            117 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 118,
                 'key' => 'create_institute',
                 'method' => 2,
@@ -1553,12 +1554,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create institute',
                 'title_en' => 'Create institute',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute',
             ),
-            118 =>
+            118 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 119,
                 'key' => 'update_institute',
                 'method' => 3,
@@ -1566,12 +1567,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update institute',
                 'title_en' => 'Update institute',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute/{id}',
             ),
-            119 =>
+            119 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 120,
                 'key' => 'delete_institute',
                 'method' => 5,
@@ -1579,12 +1580,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete institute',
                 'title_en' => 'Delete institute',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute/{id}',
             ),
-            120 =>
+            120 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 121,
                 'key' => 'view_any_program',
                 'method' => 1,
@@ -1592,12 +1593,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any program',
                 'title_en' => 'View any program',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/program',
             ),
-            121 =>
+            121 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 122,
                 'key' => 'view_single_program',
                 'method' => 1,
@@ -1605,12 +1606,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single program',
                 'title_en' => 'View single program',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/program/{id}',
             ),
-            122 =>
+            122 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 123,
                 'key' => 'create_program',
                 'method' => 2,
@@ -1618,12 +1619,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create program',
                 'title_en' => 'Create program',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/program',
             ),
-            123 =>
+            123 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 124,
                 'key' => 'update_program',
                 'method' => 3,
@@ -1631,12 +1632,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update program',
                 'title_en' => 'Update program',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/program/{id}',
             ),
-            124 =>
+            124 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 125,
                 'key' => 'delete_program',
                 'method' => 5,
@@ -1644,12 +1645,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete program',
                 'title_en' => 'Delete program',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/program/{id}',
             ),
-            125 =>
+            125 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 126,
                 'key' => 'view_any_training_center',
                 'method' => 1,
@@ -1657,12 +1658,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any training center',
                 'title_en' => 'View any training center',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/training-center',
             ),
-            126 =>
+            126 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 127,
                 'key' => 'view_single_training_center',
                 'method' => 1,
@@ -1670,12 +1671,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single training center',
                 'title_en' => 'View single training center',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/training-center/{id}',
             ),
-            127 =>
+            127 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 128,
                 'key' => 'create_training_center',
                 'method' => 2,
@@ -1683,12 +1684,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create training center',
                 'title_en' => 'Create training center',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/training-center',
             ),
-            128 =>
+            128 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 129,
                 'key' => 'update_training_center',
                 'method' => 3,
@@ -1696,12 +1697,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update training center',
                 'title_en' => 'Update training center',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/training-center/{id}',
             ),
-            129 =>
+            129 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 130,
                 'key' => 'delete_training_center',
                 'method' => 5,
@@ -1709,12 +1710,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete training center',
                 'title_en' => 'Delete training center',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/training-center/{id}',
             ),
-            130 =>
+            130 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 131,
                 'key' => 'view_any_trainer',
                 'method' => 1,
@@ -1722,12 +1723,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any trainer',
                 'title_en' => 'View any trainer',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/trainer',
             ),
-            131 =>
+            131 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 132,
                 'key' => 'view_single_trainer',
                 'method' => 1,
@@ -1735,12 +1736,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single trainer',
                 'title_en' => 'View single trainer',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/trainer/{id}',
             ),
-            132 =>
+            132 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 133,
                 'key' => 'create_trainer',
                 'method' => 2,
@@ -1748,12 +1749,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create trainer',
                 'title_en' => 'Create trainer',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/trainer',
             ),
-            133 =>
+            133 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 134,
                 'key' => 'update_trainer',
                 'method' => 3,
@@ -1761,12 +1762,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update trainer',
                 'title_en' => 'Update trainer',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/trainer/{id}',
             ),
-            134 =>
+            134 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 135,
                 'key' => 'delete_trainer',
                 'method' => 5,
@@ -1774,12 +1775,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete trainer',
                 'title_en' => 'Delete trainer',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/trainer/{id}',
             ),
-            135 =>
+            135 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 136,
                 'key' => 'view_any_course_enrollment',
                 'method' => 1,
@@ -1787,12 +1788,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any course enrollment',
                 'title_en' => 'View any course enrollment',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course-enrollment',
             ),
-            136 =>
+            136 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 137,
                 'key' => 'view_single_course_enrollment',
                 'method' => 1,
@@ -1800,12 +1801,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single course enrollment',
                 'title_en' => 'View single course enrollment',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course-enrollment/{id}',
             ),
-            137 =>
+            137 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 138,
                 'key' => 'create_course_enrollment',
                 'method' => 2,
@@ -1813,12 +1814,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create course enrollment',
                 'title_en' => 'Create course enrollment',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course-enrollment',
             ),
-            138 =>
+            138 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 139,
                 'key' => 'update_course_enrollment',
                 'method' => 3,
@@ -1826,12 +1827,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update course enrollment',
                 'title_en' => 'Update course enrollment',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course-enrollment/{id}',
             ),
-            139 =>
+            139 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 140,
                 'key' => 'delete_course_enrollment',
                 'method' => 5,
@@ -1839,12 +1840,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete course enrollment',
                 'title_en' => 'Delete course enrollment',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/course-enrollment/{id}',
             ),
-            140 =>
+            140 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 141,
                 'key' => 'view_any_industry_association',
                 'method' => 1,
@@ -1852,12 +1853,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any industry association',
                 'title_en' => 'View any industry association',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association',
             ),
-            141 =>
+            141 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 142,
                 'key' => 'view_single_industry_association',
                 'method' => 1,
@@ -1865,12 +1866,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single industry association',
                 'title_en' => 'View single industry association',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association/{id}',
             ),
-            142 =>
+            142 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 143,
                 'key' => 'create_industry_association',
                 'method' => 2,
@@ -1878,12 +1879,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create industry association',
                 'title_en' => 'Create industry association',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association',
             ),
-            143 =>
+            143 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 144,
                 'key' => 'update_industry_association',
                 'method' => 3,
@@ -1891,12 +1892,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update industry association',
                 'title_en' => 'Update industry association',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association/{id}',
             ),
-            144 =>
+            144 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 145,
                 'key' => 'delete_industry_association',
                 'method' => 5,
@@ -1904,12 +1905,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete industry association',
                 'title_en' => 'Delete industry association',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association/{id}',
             ),
-            145 =>
+            145 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 146,
                 'key' => 'view_any_publication',
                 'method' => 1,
@@ -1917,12 +1918,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any publication',
                 'title_en' => 'View any publication',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/publication',
             ),
-            146 =>
+            146 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 147,
                 'key' => 'view_single_publication',
                 'method' => 1,
@@ -1930,12 +1931,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single publication',
                 'title_en' => 'View single publication',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/publication/{id}',
             ),
-            147 =>
+            147 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 148,
                 'key' => 'create_publication',
                 'method' => 2,
@@ -1943,12 +1944,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create publication',
                 'title_en' => 'Create publication',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/publication',
             ),
-            148 =>
+            148 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 149,
                 'key' => 'update_publication',
                 'method' => 3,
@@ -1956,12 +1957,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update publication',
                 'title_en' => 'Update publication',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/publication/{id}',
             ),
-            149 =>
+            149 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 150,
                 'key' => 'delete_publication',
                 'method' => 5,
@@ -1969,12 +1970,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete publication',
                 'title_en' => 'Delete publication',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/publication/{id}',
             ),
-            150 =>
+            150 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 151,
                 'key' => 'view_any_contact_info',
                 'method' => 1,
@@ -1982,12 +1983,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any contact info',
                 'title_en' => 'View any contact info',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/contact-info',
             ),
-            151 =>
+            151 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 152,
                 'key' => 'view_single_contact_info',
                 'method' => 1,
@@ -1995,12 +1996,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single contact info',
                 'title_en' => 'View single contact info',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/contact-info/{id}',
             ),
-            152 =>
+            152 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 153,
                 'key' => 'create_contact_info',
                 'method' => 2,
@@ -2008,12 +2009,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create contact info',
                 'title_en' => 'Create contact info',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/contact-info',
             ),
-            153 =>
+            153 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 154,
                 'key' => 'update_contact_info',
                 'method' => 3,
@@ -2021,12 +2022,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update contact info',
                 'title_en' => 'Update contact info',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/contact-info/{id}',
             ),
-            154 =>
+            154 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 155,
                 'key' => 'delete_contact_info',
                 'method' => 5,
@@ -2034,12 +2035,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete contact info',
                 'title_en' => 'Delete contact info',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/contact-info/{id}',
             ),
-            155 =>
+            155 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 156,
                 'key' => 'view_any_banner',
                 'method' => 1,
@@ -2047,12 +2048,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any banner',
                 'title_en' => 'View any banner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/banner',
             ),
-            156 =>
+            156 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 157,
                 'key' => 'view_single_banner',
                 'method' => 1,
@@ -2060,12 +2061,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single banner',
                 'title_en' => 'View single banner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/banner/{id}',
             ),
-            157 =>
+            157 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 158,
                 'key' => 'create_banner',
                 'method' => 2,
@@ -2073,12 +2074,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create banner',
                 'title_en' => 'Create banner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/banner',
             ),
-            158 =>
+            158 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 159,
                 'key' => 'update_banner',
                 'method' => 3,
@@ -2086,12 +2087,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update banner',
                 'title_en' => 'Update banner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/banner/{id}',
             ),
-            159 =>
+            159 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 160,
                 'key' => 'delete_banner',
                 'method' => 5,
@@ -2099,12 +2100,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete banner',
                 'title_en' => 'Delete banner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/banner/{id}',
             ),
-            160 =>
+            160 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 161,
                 'key' => 'view_any_calender_event',
                 'method' => 1,
@@ -2112,12 +2113,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any calender event',
                 'title_en' => 'View any calender event',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/calender-event',
             ),
-            161 =>
+            161 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 162,
                 'key' => 'view_single_calender_event',
                 'method' => 1,
@@ -2125,12 +2126,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single calender event',
                 'title_en' => 'View single calender event',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/calender-event/{id}',
             ),
-            162 =>
+            162 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 163,
                 'key' => 'create_calender_event',
                 'method' => 2,
@@ -2138,12 +2139,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create calender event',
                 'title_en' => 'Create calender event',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/calender-event',
             ),
-            163 =>
+            163 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 164,
                 'key' => 'update_calender_event',
                 'method' => 3,
@@ -2151,12 +2152,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update calender event',
                 'title_en' => 'Update calender event',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/calender-event/{id}',
             ),
-            164 =>
+            164 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 165,
                 'key' => 'delete_calender_event',
                 'method' => 5,
@@ -2164,12 +2165,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete calender event',
                 'title_en' => 'Delete calender event',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/calender-event/{id}',
             ),
-            165 =>
+            165 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 166,
                 'key' => 'view_any_faq',
                 'method' => 1,
@@ -2177,12 +2178,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any faq',
                 'title_en' => 'View any faq',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/faq',
             ),
-            166 =>
+            166 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 167,
                 'key' => 'view_single_faq',
                 'method' => 1,
@@ -2190,12 +2191,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single faq',
                 'title_en' => 'View single faq',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/faq/{id}',
             ),
-            167 =>
+            167 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 168,
                 'key' => 'create_faq',
                 'method' => 2,
@@ -2203,12 +2204,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create faq',
                 'title_en' => 'Create faq',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/faq',
             ),
-            168 =>
+            168 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 169,
                 'key' => 'update_faq',
                 'method' => 3,
@@ -2216,12 +2217,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update faq',
                 'title_en' => 'Update faq',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/faq/{id}',
             ),
-            169 =>
+            169 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 170,
                 'key' => 'delete_faq',
                 'method' => 5,
@@ -2229,12 +2230,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete faq',
                 'title_en' => 'Delete faq',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/faq/{id}',
             ),
-            170 =>
+            170 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 171,
                 'key' => 'view_any_gallery_album',
                 'method' => 1,
@@ -2242,12 +2243,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any gallery album',
                 'title_en' => 'View any gallery album',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-album',
             ),
-            171 =>
+            171 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 172,
                 'key' => 'view_single_gallery_album',
                 'method' => 1,
@@ -2255,12 +2256,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single gallery album',
                 'title_en' => 'View single gallery album',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-album/{id}',
             ),
-            172 =>
+            172 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 173,
                 'key' => 'create_gallery_album',
                 'method' => 2,
@@ -2268,12 +2269,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create gallery album',
                 'title_en' => 'Create gallery album',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-album',
             ),
-            173 =>
+            173 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 174,
                 'key' => 'update_gallery_album',
                 'method' => 3,
@@ -2281,12 +2282,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update gallery album',
                 'title_en' => 'Update gallery album',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-album/{id}',
             ),
-            174 =>
+            174 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 175,
                 'key' => 'delete_gallery_album',
                 'method' => 5,
@@ -2294,12 +2295,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete gallery album',
                 'title_en' => 'Delete gallery album',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-album/{id}',
             ),
-            175 =>
+            175 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 176,
                 'key' => 'view_any_gallery_image_video',
                 'method' => 1,
@@ -2307,12 +2308,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any gallery image video',
                 'title_en' => 'View any gallery image video',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-image-video',
             ),
-            176 =>
+            176 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 177,
                 'key' => 'view_single_gallery_image_video',
                 'method' => 1,
@@ -2320,12 +2321,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single gallery image video',
                 'title_en' => 'View single gallery image video',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-image-video/{id}',
             ),
-            177 =>
+            177 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 178,
                 'key' => 'create_gallery_image_video',
                 'method' => 2,
@@ -2333,12 +2334,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create gallery image video',
                 'title_en' => 'Create gallery image video',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-image-video',
             ),
-            178 =>
+            178 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 179,
                 'key' => 'update_gallery_image_video',
                 'method' => 3,
@@ -2346,12 +2347,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update gallery image video',
                 'title_en' => 'Update gallery image video',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-image-video/{id}',
             ),
-            179 =>
+            179 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 180,
                 'key' => 'delete_gallery_image_video',
                 'method' => 5,
@@ -2359,12 +2360,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete gallery image video',
                 'title_en' => 'Delete gallery image video',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/gallery-image-video/{id}',
             ),
-            180 =>
+            180 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 181,
                 'key' => 'view_any_nise3_partner',
                 'method' => 1,
@@ -2372,12 +2373,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any nise3 partner',
                 'title_en' => 'View any nise3 partner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/nise3-partner',
             ),
-            181 =>
+            181 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 182,
                 'key' => 'view_single_nise3_partner',
                 'method' => 1,
@@ -2385,12 +2386,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single nise3 partner',
                 'title_en' => 'View single nise3 partner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/nise3-partner/{id}',
             ),
-            182 =>
+            182 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 183,
                 'key' => 'create_nise3_partner',
                 'method' => 2,
@@ -2398,12 +2399,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create nise3 partner',
                 'title_en' => 'Create nise3 partner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/nise3-partner',
             ),
-            183 =>
+            183 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 184,
                 'key' => 'update_nise3_partner',
                 'method' => 3,
@@ -2411,12 +2412,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update nise3 partner',
                 'title_en' => 'Update nise3 partner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/nise3-partner/{id}',
             ),
-            184 =>
+            184 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 185,
                 'key' => 'delete_nise3_partner',
                 'method' => 5,
@@ -2424,12 +2425,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete nise3 partner',
                 'title_en' => 'Delete nise3 partner',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/nise3-partner/{id}',
             ),
-            185 =>
+            185 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 186,
                 'key' => 'view_any_notice_or_news',
                 'method' => 1,
@@ -2437,12 +2438,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any notice or news',
                 'title_en' => 'View any notice or news',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/notice-or-news',
             ),
-            186 =>
+            186 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 187,
                 'key' => 'view_single_notice_or_news',
                 'method' => 1,
@@ -2450,12 +2451,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single notice or news',
                 'title_en' => 'View single notice or news',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/notice-or-news/{id}',
             ),
-            187 =>
+            187 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 188,
                 'key' => 'create_notice_or_news',
                 'method' => 2,
@@ -2463,12 +2464,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create notice or news',
                 'title_en' => 'Create notice or news',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/notice-or-news',
             ),
-            188 =>
+            188 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 189,
                 'key' => 'update_notice_or_news',
                 'method' => 3,
@@ -2476,12 +2477,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update notice or news',
                 'title_en' => 'Update notice or news',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/notice-or-news/{id}',
             ),
-            189 =>
+            189 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 190,
                 'key' => 'delete_notice_or_news',
                 'method' => 5,
@@ -2489,12 +2490,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete notice or news',
                 'title_en' => 'Delete notice or news',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/notice-or-news/{id}',
             ),
-            190 =>
+            190 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 191,
                 'key' => 'view_any_recent_activity',
                 'method' => 1,
@@ -2502,12 +2503,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any recent activity',
                 'title_en' => 'View any recent activity',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/recent-activity',
             ),
-            191 =>
+            191 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 192,
                 'key' => 'view_single_recent_activity',
                 'method' => 1,
@@ -2515,12 +2516,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single recent activity',
                 'title_en' => 'View single recent activity',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/recent-activity/{id}',
             ),
-            192 =>
+            192 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 193,
                 'key' => 'create_recent_activity',
                 'method' => 2,
@@ -2528,12 +2529,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create recent activity',
                 'title_en' => 'Create recent activity',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/recent-activity',
             ),
-            193 =>
+            193 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 194,
                 'key' => 'update_recent_activity',
                 'method' => 3,
@@ -2541,12 +2542,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update recent activity',
                 'title_en' => 'Update recent activity',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/recent-activity/{id}',
             ),
-            194 =>
+            194 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 195,
                 'key' => 'delete_recent_activity',
                 'method' => 5,
@@ -2554,12 +2555,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete recent activity',
                 'title_en' => 'Delete recent activity',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/recent-activity/{id}',
             ),
-            195 =>
+            195 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 196,
                 'key' => 'view_any_slider',
                 'method' => 1,
@@ -2567,12 +2568,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any slider',
                 'title_en' => 'View any slider',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/slider',
             ),
-            196 =>
+            196 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 197,
                 'key' => 'view_single_slider',
                 'method' => 1,
@@ -2580,12 +2581,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single slider',
                 'title_en' => 'View single slider',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/slider/{id}',
             ),
-            197 =>
+            197 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 198,
                 'key' => 'create_slider',
                 'method' => 2,
@@ -2593,12 +2594,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create slider',
                 'title_en' => 'Create slider',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/slider',
             ),
-            198 =>
+            198 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 199,
                 'key' => 'update_slider',
                 'method' => 3,
@@ -2606,12 +2607,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update slider',
                 'title_en' => 'Update slider',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/slider/{id}',
             ),
-            199 =>
+            199 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 200,
                 'key' => 'delete_slider',
                 'method' => 5,
@@ -2619,12 +2620,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete slider',
                 'title_en' => 'Delete slider',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/slider/{id}',
             ),
-            200 =>
+            200 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 201,
                 'key' => 'view_any_static_page_content_or_page_block',
                 'method' => 1,
@@ -2632,12 +2633,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any static page content or page block',
                 'title_en' => 'View any static page content or page block',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-content-or-page-block',
             ),
-            201 =>
+            201 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 202,
                 'key' => 'view_single_static_page_content_or_page_block',
                 'method' => 1,
@@ -2645,12 +2646,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single static page content or page block',
                 'title_en' => 'View single static page content or page block',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-content-or-page-block/{id}',
             ),
-            202 =>
+            202 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 203,
                 'key' => 'create_static_page_content_or_page_block',
                 'method' => 2,
@@ -2658,12 +2659,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create static page content or page block',
                 'title_en' => 'Create static page content or page block',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-content-or-page-block',
             ),
-            203 =>
+            203 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 204,
                 'key' => 'update_static_page_content_or_page_block',
                 'method' => 3,
@@ -2671,12 +2672,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update static page content or page block',
                 'title_en' => 'Update static page content or page block',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-content-or-page-block/{id}',
             ),
-            204 =>
+            204 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 205,
                 'key' => 'delete_static_page_content_or_page_block',
                 'method' => 5,
@@ -2684,12 +2685,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete static page content or page block',
                 'title_en' => 'Delete static page content or page block',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-content-or-page-block/{id}',
             ),
-            205 =>
+            205 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 206,
                 'key' => 'view_any_static_page_type',
                 'method' => 1,
@@ -2697,12 +2698,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any static page type',
                 'title_en' => 'View any static page type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-type',
             ),
-            206 =>
+            206 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 207,
                 'key' => 'view_single_static_page_type',
                 'method' => 1,
@@ -2710,12 +2711,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single static page type',
                 'title_en' => 'View single static page type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-type/{id}',
             ),
-            207 =>
+            207 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 208,
                 'key' => 'create_static_page_type',
                 'method' => 2,
@@ -2723,12 +2724,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create static page type',
                 'title_en' => 'Create static page type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-type',
             ),
-            208 =>
+            208 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 209,
                 'key' => 'update_static_page_type',
                 'method' => 3,
@@ -2736,12 +2737,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update static page type',
                 'title_en' => 'Update static page type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-type/{id}',
             ),
-            209 =>
+            209 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 210,
                 'key' => 'delete_static_page_type',
                 'method' => 5,
@@ -2749,12 +2750,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete static page type',
                 'title_en' => 'Delete static page type',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/static-page-type/{id}',
             ),
-            210 =>
+            210 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 211,
                 'key' => 'view_any_visitor_feedback_suggestion',
                 'method' => 1,
@@ -2762,12 +2763,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any visitor feedback suggestion',
                 'title_en' => 'View any visitor feedback suggestion',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/visitor-feedback-suggestion',
             ),
-            211 =>
+            211 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 212,
                 'key' => 'view_single_visitor_feedback_suggestion',
                 'method' => 1,
@@ -2775,12 +2776,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single visitor feedback suggestion',
                 'title_en' => 'View single visitor feedback suggestion',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/visitor-feedback-suggestion/{id}',
             ),
-            212 =>
+            212 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 213,
                 'key' => 'create_visitor_feedback_suggestion',
                 'method' => 2,
@@ -2788,12 +2789,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create visitor feedback suggestion',
                 'title_en' => 'Create visitor feedback suggestion',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/visitor-feedback-suggestion',
             ),
-            213 =>
+            213 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 214,
                 'key' => 'update_visitor_feedback_suggestion',
                 'method' => 3,
@@ -2801,12 +2802,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update visitor feedback suggestion',
                 'title_en' => 'Update visitor feedback suggestion',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/visitor-feedback-suggestion/{id}',
             ),
-            214 =>
+            214 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 215,
                 'key' => 'delete_visitor_feedback_suggestion',
                 'method' => 5,
@@ -2814,12 +2815,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete visitor feedback suggestion',
                 'title_en' => 'Delete visitor feedback suggestion',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/visitor-feedback-suggestion/{id}',
             ),
-            215 =>
+            215 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 216,
                 'key' => 'view_any_industry_association_hr_demand',
                 'method' => 1,
@@ -2827,12 +2828,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any industry association hr demand',
                 'title_en' => 'View any industry association hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association-hr-demand',
             ),
-            216 =>
+            216 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 217,
                 'key' => 'view_single_industry_association_hr_demand',
                 'method' => 1,
@@ -2840,12 +2841,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single industry association hr demand',
                 'title_en' => 'View single industry association hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association-hr-demand/{id}',
             ),
-            217 =>
+            217 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 218,
                 'key' => 'create_industry_association_hr_demand',
                 'method' => 2,
@@ -2853,12 +2854,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create industry association hr demand',
                 'title_en' => 'Create industry association hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association-hr-demand',
             ),
-            218 =>
+            218 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 219,
                 'key' => 'update_industry_association_hr_demand',
                 'method' => 3,
@@ -2866,12 +2867,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update industry association hr demand',
                 'title_en' => 'Update industry association hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association-hr-demand/{id}',
             ),
-            219 =>
+            219 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 220,
                 'key' => 'delete_industry_association_hr_demand',
                 'method' => 5,
@@ -2879,12 +2880,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete industry association hr demand',
                 'title_en' => 'Delete industry association hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/industry-association-hr-demand/{id}',
             ),
-            220 =>
+            220 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 221,
                 'key' => 'view_any_institute_hr_demand',
                 'method' => 1,
@@ -2892,12 +2893,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View any institute hr demand',
                 'title_en' => 'View any institute hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute-hr-demand',
             ),
-            221 =>
+            221 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 222,
                 'key' => 'view_single_institute_hr_demand',
                 'method' => 1,
@@ -2905,12 +2906,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'View single institute hr demand',
                 'title_en' => 'View single institute hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute-hr-demand/{id}',
             ),
-            222 =>
+            222 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 223,
                 'key' => 'create_institute_hr_demand',
                 'method' => 2,
@@ -2918,12 +2919,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Create institute hr demand',
                 'title_en' => 'Create institute hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute-hr-demand',
             ),
-            223 =>
+            223 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 224,
                 'key' => 'update_institute_hr_demand',
                 'method' => 3,
@@ -2931,12 +2932,12 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Update institute hr demand',
                 'title_en' => 'Update institute hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute-hr-demand/{id}',
             ),
-            224 =>
+            224 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 225,
                 'key' => 'delete_institute_hr_demand',
                 'method' => 5,
@@ -2944,299 +2945,195 @@ class PermissionsTableSeeder extends Seeder
                 'row_status' => 1,
                 'title' => 'Delete institute hr demand',
                 'title_en' => 'Delete institute hr demand',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/institute-hr-demand/{id}',
             ),
-            225 =>
+            225 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
+                'created_at' => '2022-01-17 15:49:51',
                 'id' => 226,
-                'key' => 'view_any_cv_bank',
-                'method' => 1,
-                'module' => 'cv_bank',
-                'row_status' => 1,
-                'title' => 'View any cv bank',
-                'title_en' => 'View any cv bank',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/cv-bank',
-            ),
-            226 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 227,
-                'key' => 'view_single_cv_bank',
-                'method' => 1,
-                'module' => 'cv_bank',
-                'row_status' => 1,
-                'title' => 'View single cv bank',
-                'title_en' => 'View single cv bank',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/cv-bank/{id}',
-            ),
-            227 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 228,
-                'key' => 'create_cv_bank',
-                'method' => 2,
-                'module' => 'cv_bank',
-                'row_status' => 1,
-                'title' => 'Create cv bank',
-                'title_en' => 'Create cv bank',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/cv-bank',
-            ),
-            228 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 229,
-                'key' => 'update_cv_bank',
-                'method' => 3,
-                'module' => 'cv_bank',
-                'row_status' => 1,
-                'title' => 'Update cv bank',
-                'title_en' => 'Update cv bank',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/cv-bank/{id}',
-            ),
-            229 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 230,
-                'key' => 'delete_cv_bank',
-                'method' => 5,
-                'module' => 'cv_bank',
-                'row_status' => 1,
-                'title' => 'Delete cv bank',
-                'title_en' => 'Delete cv bank',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/cv-bank/{id}',
-            ),
-            230 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 231,
-                'key' => 'view_any_freelance_corner',
-                'method' => 1,
-                'module' => 'freelance_corner',
-                'row_status' => 1,
-                'title' => 'View any freelance corner',
-                'title_en' => 'View any freelance corner',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/freelance-corner',
-            ),
-            231 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 232,
-                'key' => 'view_single_freelance_corner',
-                'method' => 1,
-                'module' => 'freelance_corner',
-                'row_status' => 1,
-                'title' => 'View single freelance corner',
-                'title_en' => 'View single freelance corner',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/freelance-corner/{id}',
-            ),
-            232 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 233,
-                'key' => 'create_freelance_corner',
-                'method' => 2,
-                'module' => 'freelance_corner',
-                'row_status' => 1,
-                'title' => 'Create freelance corner',
-                'title_en' => 'Create freelance corner',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/freelance-corner',
-            ),
-            233 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 234,
-                'key' => 'update_freelance_corner',
-                'method' => 3,
-                'module' => 'freelance_corner',
-                'row_status' => 1,
-                'title' => 'Update freelance corner',
-                'title_en' => 'Update freelance corner',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/freelance-corner/{id}',
-            ),
-            234 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 235,
-                'key' => 'delete_freelance_corner',
-                'method' => 5,
-                'module' => 'freelance_corner',
-                'row_status' => 1,
-                'title' => 'Delete freelance corner',
-                'title_en' => 'Delete freelance corner',
-                'updated_at' => '2022-01-31 18:40:29',
-                'uri' => 'api/v1/freelance-corner/{id}',
-            ),
-            235 =>
-            array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 236,
                 'key' => 'update_institute_hr_demand_by_institute',
                 'method' => 3,
                 'module' => 'institute_hr_demand',
                 'row_status' => 1,
                 'title' => 'Update institute hr demand by institute',
                 'title_en' => 'Update institute hr demand by institute',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/update-hr-demand-institute-by-institute/{id}',
             ),
-            236 =>
+            226 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 237,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 227,
                 'key' => 'view_any_industry_association_member',
                 'method' => 1,
                 'module' => 'industry_association',
                 'row_status' => 1,
                 'title' => 'View any industry association member',
                 'title_en' => 'View any industry association member',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/view-any-industry-association-member',
             ),
-            237 =>
+            227 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 238,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 228,
                 'key' => 'view_single_industry_association_member',
                 'method' => 1,
                 'module' => 'industry_association',
                 'row_status' => 1,
                 'title' => 'View single industry association member',
                 'title_en' => 'View single industry association member',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/view-single-industry-association-member /{industryId}',
             ),
-            238 =>
+            228 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 239,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 229,
                 'key' => 'create_job',
                 'method' => 2,
                 'module' => 'job',
                 'row_status' => 1,
                 'title' => 'Create job',
                 'title_en' => 'Create job',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/create_job',
             ),
-            239 =>
+            229 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 240,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 230,
                 'key' => 'view_single_job',
                 'method' => 1,
                 'module' => 'job',
                 'row_status' => 1,
                 'title' => 'View single job',
                 'title_en' => 'View single job',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/view_single_job/{jobId}',
             ),
-            240 =>
+            230 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 241,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 231,
                 'key' => 'view_any_job',
                 'method' => 1,
                 'module' => 'job',
                 'row_status' => 1,
                 'title' => 'View any job',
                 'title_en' => 'View any job',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/view_any_job/{jobId}',
             ),
-            241 =>
+            231 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 242,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 232,
                 'key' => 'view_institute_profile',
                 'method' => 1,
                 'module' => 'institute',
                 'row_status' => 1,
                 'title' => 'View institute profile',
                 'title_en' => 'View institute profile',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/view_institute_profile',
             ),
-            242 =>
+            232 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 243,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 233,
                 'key' => 'update_institute_profile',
                 'method' => 2,
                 'module' => 'institute',
                 'row_status' => 1,
                 'title' => 'Update institute profile',
                 'title_en' => 'Update institute profile',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/update_institute_profile',
             ),
-            243 =>
+            233 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 244,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 234,
                 'key' => 'view_organization_profile',
                 'method' => 1,
                 'module' => 'organization',
                 'row_status' => 1,
                 'title' => 'View organization profile',
                 'title_en' => 'View organization profile',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/view_organization_profile',
             ),
-            244 =>
+            234 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 245,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 235,
                 'key' => 'update_organization_profile',
                 'method' => 2,
                 'module' => 'organization',
                 'row_status' => 1,
                 'title' => 'Update organization profile',
                 'title_en' => 'Update organization profile',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/update_organization_profile',
             ),
-            245 =>
+            235 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 246,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 236,
                 'key' => 'view_industry_association_profile',
                 'method' => 1,
                 'module' => 'industry_association',
                 'row_status' => 1,
                 'title' => 'View industry association profile',
                 'title_en' => 'View industry association profile',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/view_industry_association_profile',
             ),
-            246 =>
+            236 => 
             array (
-                'created_at' => '2022-01-31 18:40:29',
-                'id' => 247,
+                'created_at' => '2022-01-17 15:49:51',
+                'id' => 237,
                 'key' => 'update_industry_association_profile',
                 'method' => 2,
                 'module' => 'industry_association',
                 'row_status' => 1,
                 'title' => 'Update industry association profile',
                 'title_en' => 'Update industry association profile',
-                'updated_at' => '2022-01-31 18:40:29',
+                'updated_at' => '2022-01-17 15:49:51',
                 'uri' => 'api/v1/update_industry_association_profile',
+            ),
+            237 => 
+            array (
+                'created_at' => '2022-01-26 17:28:53',
+                'id' => 238,
+                'key' => 'view_any_cv_bank',
+                'method' => 1,
+                'module' => 'cv_bank',
+                'row_status' => 1,
+                'title' => 'View Any CV Bank',
+                'title_en' => 'View Any CV Bank',
+                'updated_at' => '2022-01-26 17:30:01',
+                'uri' => 'api/v1/cv-bank',
+            ),
+            238 => 
+            array (
+                'created_at' => '2022-01-27 10:23:58',
+                'id' => 239,
+                'key' => 'view_any_hr_demand',
+                'method' => 1,
+                'module' => 'hr-demand',
+                'row_status' => 1,
+                'title' => 'View any hr demand',
+                'title_en' => 'View any hr demand',
+                'updated_at' => '2022-01-27 10:23:58',
+                'uri' => 'api/v1/hr-demand',
             ),
         ));
 
         Schema::enableForeignKeyConstraints();
 
-
+        
     }
 }
