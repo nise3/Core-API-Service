@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class PermissionSeeder extends Seeder
+class DefaultPermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -30,15 +30,15 @@ class PermissionSeeder extends Seeder
                 'uri' => ''
             ],
             'view_single' => [
-                'method' => 1,
+                'method' => 2,
                 'uri' => '/{id}'
             ],
             'create' => [
-                'method' => 2,
+                'method' => 3,
                 'uri' => ''
             ],
             'update' => [
-                'method' => 3,
+                'method' => 4,
                 'uri' => '/{id}'
             ],
             'delete' => [
@@ -115,9 +115,14 @@ class PermissionSeeder extends Seeder
 
         /** For custom API permissions */
         $customPermissions = [
+            'view_any_hr_demand_youth' => [
+                'uri' => 'hr-demand-youths/{hr_demand_institute_id}',
+                'method' => '1',
+                'module' => 'institute_hr_demand'
+            ],
             'update_institute_hr_demand_by_institute' => [
                 'uri' => 'update-hr-demand-institute-by-institute/{id}',
-                'method' => '3',
+                'method' => '1',
                 'module' => 'institute_hr_demand'
             ],
             'view_any_industry_association_member' => [

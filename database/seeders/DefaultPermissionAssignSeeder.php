@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class PermissionAssignSeeder
+ * Class DefaultPermissionAssignSeeder
  * @package Database\Seeders
  */
-class PermissionAssignSeeder extends Seeder
+class DefaultPermissionAssignSeeder extends Seeder
 {
     /**
      * Run the database seeds.

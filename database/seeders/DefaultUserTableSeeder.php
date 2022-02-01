@@ -3,9 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\BaseModel;
-use App\Models\Permission;
-use App\Models\PermissionGroup;
-use App\Models\PermissionSubGroup;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\Common\CodeGenerateService;
@@ -15,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
-class UserTableSeeder extends Seeder
+class DefaultUserTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
