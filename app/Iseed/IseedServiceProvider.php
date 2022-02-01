@@ -20,7 +20,7 @@ class IseedServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        require base_path() . '/vendor/autoload.php';
+//        require base_path() . '/vendor/autoload.php';
     }
 
     /**
@@ -65,7 +65,7 @@ class IseedServiceProvider extends ServiceProvider
      */
     protected function registerResources()
     {
-        $userConfigFile = app()->basePath() . '/config/iseed.php';
+        $userConfigFile = app()->basePath() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'iseed.php';
 
         $userConfig = $this->app['files']->getRequire($userConfigFile);
 

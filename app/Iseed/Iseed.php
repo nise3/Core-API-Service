@@ -2,8 +2,10 @@
 
 namespace App\Iseed;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Composer;
+use Illuminate\Support\Facades\Schema;
 
 class Iseed
 {
@@ -12,7 +14,7 @@ class Iseed
      *
      * @var string
      */
-    protected string $databaseName;
+    protected $databaseName;
 
     /**
      * New line character for seed files.
@@ -20,7 +22,7 @@ class Iseed
      *
      * @var string
      */
-    private string $newLineCharacter = PHP_EOL;
+    private $newLineCharacter = PHP_EOL;
 
     /**
      * Desired indent for the code.
@@ -29,7 +31,7 @@ class Iseed
      *
      * @var string
      */
-    private string $indentCharacter = "    ";
+    private $indentCharacter = "    ";
 
     /**
      * @var Composer
@@ -64,9 +66,9 @@ class Iseed
      * @param null $orderBy
      * @param string $direction
      * @return bool
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
-    public function generateSeed($table, $prefix=null, $suffix=null, $database = null, $max = 0, $chunkSize = 0, $exclude = null, $prerunEvent = null, $postrunEvent = null, $dumpAuto = true, $indexed = true, $orderBy = null, $direction = 'ASC')
+    public function generateSeed($table, $prefix = null, $suffix = null, $database = null, $max = 0, $chunkSize = 0, $exclude = null, $prerunEvent = null, $postrunEvent = null, $dumpAuto = true, $indexed = true, $orderBy = null, $direction = 'ASC'): bool
     {
         if (!$database) {
             $database = config('database.default');
@@ -132,8 +134,8 @@ class Iseed
 
     /**
      * Get the Data
-     * @param  string $table
-     * @return Array
+     * @param string $table
+     * @return mixed
      */
     public function getData($table, $max, $exclude = null, $orderBy = null, $direction = 'ASC')
     {
@@ -144,7 +146,7 @@ class Iseed
             $result = $result->select(array_diff($allColumns, $exclude));
         }
 
-        if($orderBy) {
+        if ($orderBy) {
             $result = $result->orderBy($orderBy, $direction);
         }
 
@@ -157,7 +159,7 @@ class Iseed
 
     /**
      * Repacks data read from the database
-     * @param  array|object $data
+     * @param array|object $data
      * @return array
      */
     public function repackSeedData($data)
@@ -185,17 +187,17 @@ class Iseed
      */
     public function hasTable($table)
     {
-        return \Schema::connection($this->databaseName)->hasTable($table);
+        return Schema::connection($this->databaseName)->hasTable($table);
     }
 
     /**
      * Generates a seed class name (also used as a filename)
-     * @param  string  $table
-     * @param  string  $prefix
-     * @param  string  $suffix
+     * @param string $table
+     * @param string $prefix
+     * @param string $suffix
      * @return string
      */
-    public function generateClassName($table, $prefix=null, $suffix=null)
+    public function generateClassName($table, $prefix = null, $suffix = null)
     {
         $tableString = '';
         $tableName = explode('_', $table);
@@ -291,8 +293,8 @@ class Iseed
 
     /**
      * Create the full path name to the seed file.
-     * @param  string  $name
-     * @param  string  $path
+     * @param string $name
+     * @param string $path
      * @return string
      */
     public function getPath($name, $path)
@@ -302,7 +304,7 @@ class Iseed
 
     /**
      * Prettify a var_export of an array
-     * @param  array  $array
+     * @param array $array
      * @return string
      */
     protected function prettifyArray($array, $indexed = true)
@@ -334,8 +336,7 @@ class Iseed
                 //skip character right after an escape \
                 if ($lines[$i][$j] == '\\') {
                     $j++;
-                }
-                //check string open/end
+                } //check string open/end
                 else if ($lines[$i][$j] == '\'') {
                     $inString = !$inString;
                 }
@@ -355,8 +356,8 @@ class Iseed
     /**
      * Adds new lines to the passed content variable reference.
      *
-     * @param string    $content
-     * @param int       $numberOfLines
+     * @param string $content
+     * @param int $numberOfLines
      */
     private function addNewLines(&$content, $numberOfLines = 1)
     {
@@ -369,8 +370,8 @@ class Iseed
     /**
      * Adds indentation to the passed content reference.
      *
-     * @param string    $content
-     * @param int       $numberOfIndents
+     * @param string $content
+     * @param int $numberOfIndents
      */
     private function addIndent(&$content, $numberOfIndents = 1)
     {
@@ -383,7 +384,7 @@ class Iseed
     /**
      * Cleans the iSeed section
      * @return bool
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function cleanSection()
     {
@@ -400,7 +401,7 @@ class Iseed
      * Updates the DatabaseSeeder file's run method (kudoz to: https://github.com/JeffreyWay/Laravel-4-Generators)
      * @param string $className
      * @return bool
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function updateDatabaseSeederRunMethod($className)
     {

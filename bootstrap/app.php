@@ -116,7 +116,7 @@ $app->register(App\Providers\RabbitMQServiceProvider::class);
 $app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
 
 if ($app->environment('local')) {
-    $app->register(App\Providers\Iseed\IseedServiceProvider::class);
+    $app->register(App\Iseed\IseedServiceProvider::class);
 }
 
 //$app->register(Laravel\Passport\PassportServiceProvider::class);

@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
             RolePermissionsTableSeeder::class,
         ]);
 
+        $this->call(UsersTableSeeder::class);
     }
 }

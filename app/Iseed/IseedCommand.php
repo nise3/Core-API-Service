@@ -33,14 +33,10 @@ class IseedCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
+
     public function handle()
     {
-        return $this->fire();
+       return $this->fire();
     }
 
     /**
