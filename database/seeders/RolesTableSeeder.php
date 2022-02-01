@@ -38,7 +38,6 @@ class RolesTableSeeder extends Seeder
                 'title' => 'নাইস সিস্টেম-এডমিন রোল',
                 'title_en' => 'NISE System-Admin Role',
             ),
-
             array(
                 'created_at' => '2022-01-09 18:30:56',
                 'updated_at' => '2022-01-12 13:01:38',
@@ -55,7 +54,6 @@ class RolesTableSeeder extends Seeder
                 'title' => 'যুব উন্নয়ন অধিদপ্তর-এডমিন রোল',
                 'title_en' => 'Department of Youth Development-Admin Role',
             ),
-
             array(
                 'created_at' => '2022-01-09 18:30:56',
                 'updated_at' => '2022-01-12 13:01:38',
@@ -72,7 +70,6 @@ class RolesTableSeeder extends Seeder
                 'title' => 'এসআইডি - সিএইচটি এডমিন রোল',
                 'title_en' => 'SID-CHT Admin Role',
             ),
-
             array(
                 'created_at' => '2022-01-09 18:30:56',
                 'updated_at' => '2022-01-12 13:01:38',
@@ -89,7 +86,6 @@ class RolesTableSeeder extends Seeder
                 'title' => 'এমসিসিআই এডমিন রোল',
                 'title_en' => 'MCCI Admin Role',
             ),
-
             array(
                 'created_at' => '2022-01-09 18:30:56',
                 'updated_at' => '2022-01-12 13:01:38',
