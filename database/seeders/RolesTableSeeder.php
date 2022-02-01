@@ -16,85 +16,100 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
         Schema::disableForeignKeyConstraints();
 
         DB::table('roles')->truncate();
-        
-        \DB::table('roles')->insert(array (
-            0 => 
-            array (
-                'created_at' => NULL,
+
+        DB::table('roles')->insert(array(
+
+            array(
+                'created_at' => '2022-01-09 18:30:56',
+                'updated_at' => '2022-01-12 13:01:38',
                 'deleted_at' => NULL,
                 'description' => NULL,
                 'id' => 1,
                 'industry_association_id' => NULL,
                 'institute_id' => NULL,
-                'key' => 'system_admin',
+                'key' => 'system_admin_role',
                 'organization_id' => NULL,
                 'permission_group_id' => 1,
                 'permission_sub_group_id' => 1,
                 'row_status' => 1,
-                'title' => 'সিস্টেম এডমিন',
-                'title_en' => 'System Admin',
-                'updated_at' => NULL,
+                'title' => 'নাইস সিস্টেম-এডমিন রোল',
+                'title_en' => 'NISE System-Admin Role',
             ),
-            1 => 
-            array (
-                'created_at' => NULL,
+
+            array(
+                'created_at' => '2022-01-09 18:30:56',
+                'updated_at' => '2022-01-12 13:01:38',
                 'deleted_at' => NULL,
                 'description' => NULL,
                 'id' => 2,
                 'industry_association_id' => NULL,
-                'institute_id' => NULL,
-                'key' => 'tsp_admin',
+                'institute_id' => 1,
+                'key' => 'dyd_admin_role',
                 'organization_id' => NULL,
                 'permission_group_id' => 2,
                 'permission_sub_group_id' => 2,
                 'row_status' => 1,
-                'title' => 'টি এস পি এডমিন',
-                'title_en' => 'TSP Admin',
-                'updated_at' => NULL,
+                'title' => 'যুব উন্নয়ন অধিদপ্তর-এডমিন রোল',
+                'title_en' => 'Department of Youth Development-Admin Role',
             ),
-            2 => 
-            array (
-                'created_at' => NULL,
+
+            array(
+                'created_at' => '2022-01-09 18:30:56',
+                'updated_at' => '2022-01-12 13:01:38',
                 'deleted_at' => NULL,
                 'description' => NULL,
                 'id' => 3,
                 'industry_association_id' => NULL,
-                'institute_id' => NULL,
-                'key' => 'industry_admin',
+                'institute_id' => 2,
+                'key' => 'sidcht_admin_role',
                 'organization_id' => NULL,
-                'permission_group_id' => 3,
-                'permission_sub_group_id' => 3,
+                'permission_group_id' => 2,
+                'permission_sub_group_id' => 2,
                 'row_status' => 1,
-                'title' => 'ইন্ডাস্ট্রি এডমিন',
-                'title_en' => 'Industry Admin',
-                'updated_at' => NULL,
+                'title' => 'এসআইডি - সিএইচটি এডমিন রোল',
+                'title_en' => 'SID-CHT Admin Role',
             ),
-            3 => 
-            array (
-                'created_at' => NULL,
+
+            array(
+                'created_at' => '2022-01-09 18:30:56',
+                'updated_at' => '2022-01-12 13:01:38',
                 'deleted_at' => NULL,
                 'description' => NULL,
                 'id' => 4,
-                'industry_association_id' => NULL,
+                'industry_association_id' => 1,
                 'institute_id' => NULL,
-                'key' => 'industry_association_admin',
+                'key' => 'mcci_admin_role',
                 'organization_id' => NULL,
                 'permission_group_id' => 4,
                 'permission_sub_group_id' => 4,
                 'row_status' => 1,
-                'title' => 'ইন্ডাস্ট্রি এসোসিয়েসন এডমিন',
-                'title_en' => 'Industry Association Admin',
-                'updated_at' => NULL,
+                'title' => 'এমসিসিআই এডমিন রোল',
+                'title_en' => 'MCCI Admin Role',
+            ),
+
+            array(
+                'created_at' => '2022-01-09 18:30:56',
+                'updated_at' => '2022-01-12 13:01:38',
+                'deleted_at' => NULL,
+                'description' => NULL,
+                'id' => 5,
+                'industry_association_id' => 2,
+                'institute_id' => NULL,
+                'key' => 'nascib_admin_role',
+                'organization_id' => NULL,
+                'permission_group_id' => 4,
+                'permission_sub_group_id' => 4,
+                'row_status' => 1,
+                'title' => 'নাসিব এডমিন রোল',
+                'title_en' => 'NASCIB Admin Role',
             ),
         ));
 
         Schema::enableForeignKeyConstraints();
 
-        
+
     }
 }

@@ -47,7 +47,7 @@ class CreateUsersTable extends Migration
             $table->dateTime("verification_code_verified_at")->nullable()
                 ->comment('Email Or SMS verification code verified at');
 
-            $table->string('password', 191);
+            $table->string('password', 191)->nullable();
             $table->string('profile_pic', 1000)->nullable();
 
             $table->unsignedTinyInteger('row_status')

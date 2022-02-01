@@ -22,7 +22,7 @@ class RolePermissionsTableSeeder extends Seeder
 
         DB::table('role_permissions')->truncate();
 
-        \DB::table('role_permissions')->insert(array (
+        DB::table('role_permissions')->insert(array (
             0 =>
             array (
                 'permission_id' => 1,
