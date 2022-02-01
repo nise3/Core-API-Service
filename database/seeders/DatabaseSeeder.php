@@ -15,13 +15,17 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             GeoLocationDatabaseSeeder::class,
-            PermissionSeeder::class,
-            PermissionGroupSeeder::class,
-            PermissionSubGroupSeeder::class,
-            RoleTableSeeder::class,
-            PermissionAssignSeeder::class,
-            UserTableSeeder::class,
-            DomainTableSeeder::class,
+            PermissionsTableSeeder::class,
+            PermissionGroupsTableSeeder::class,
+            PermissionSubGroupsTableSeeder::class,
+
+            RolesTableSeeder::class,
+            UsersTableSeeder::class,
+            PermissionGroupPermissionsTableSeeder::class,
+            PermissionSubGroupPermissionsTableSeeder::class,
+            RolePermissionsTableSeeder::class,
         ]);
+
+        $this->call(UsersTableSeeder::class);
     }
 }

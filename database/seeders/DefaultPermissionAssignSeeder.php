@@ -7,9 +7,14 @@ use App\Models\PermissionGroup;
 use App\Models\PermissionSubGroup;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class PermissionAssignSeeder extends Seeder
+/**
+ * Class DefaultPermissionAssignSeeder
+ * @package Database\Seeders
+ */
+class DefaultPermissionAssignSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,6 +24,55 @@ class PermissionAssignSeeder extends Seeder
     public function run()
     {
         $accessModules = array(
+            'system' => array(
+                'division',
+                'district',
+                'upazila',
+                'user',
+                'role',
+                'permission',
+                'permission_group',
+                'permission_sub_group',
+                'organization_type',
+                'organization',
+                'rank_type',
+                'rank',
+                'service',
+                'skill',
+                'job_sector',
+                'occupation',
+                'organization_unit_type',
+                'organization_unit',
+                'human_resource',
+                'human_resource_template',
+                'branch',
+                'batch',
+                'course',
+                'institute',
+                'program',
+                'training_center',
+                'trainer',
+                'course_enrollment',
+                'industry_association',
+                'publication',
+                'contact_info',
+                'banner',
+                'calender_event',
+                'faq',
+                'gallery_album',
+                'gallery_image_video',
+                'nise3_partner',
+                'notice_or_news',
+                'recent_activity',
+                'slider',
+                'static_page_content_or_page_block',
+                'static_page_type',
+                'visitor_feedback_suggestion',
+                'industry_association_hr_demand',
+                'institute_hr_demand',
+                'cv_bank',
+                'freelance_corner',
+            ),
             'tsp' => array(
                 'user',
                 'role',
@@ -89,17 +143,30 @@ class PermissionAssignSeeder extends Seeder
             )
         );
 
+        $this->truncateTables();
+        $this->assignModulesPermissions($accessModules);
+
+        //For all users in cache delete
+        Cache::flush();
+    }
+
+    private function truncateTables(){
         DB::table('permission_group_permissions')->truncate();
         DB::table('permission_sub_group_permissions')->truncate();
         DB::table('role_permissions')->truncate();
+    }
 
-        foreach ($accessModules as $key=>$modules){
-            foreach ($modules as $module){
-                $permissionGroup = PermissionGroup::where('key',$key)->firstOrFail();
-                $permissionSubGroup = PermissionSubGroup::where('key',$key)->firstOrFail();
-                $role = Role::where('key',$key . '_admin')->firstOrFail();
+    /**
+     * @param array $accessModules
+     */
+    private function assignModulesPermissions(array $accessModules){
+        foreach ($accessModules as $key => $modules) {
+            foreach ($modules as $module) {
+                $permissionGroup = PermissionGroup::where('key', $key)->firstOrFail();
+                $permissionSubGroup = PermissionSubGroup::where('key', $key)->firstOrFail();
+                $role = Role::where('key', $key . '_admin')->firstOrFail();
 
-                $permissionIds = Permission::where('module',$module)->pluck('id');
+                $permissionIds = Permission::where('module', $module)->pluck('id');
 
                 $permissionGroup->permissions()->attach($permissionIds);
                 $permissionSubGroup->permissions()->attach($permissionIds);
