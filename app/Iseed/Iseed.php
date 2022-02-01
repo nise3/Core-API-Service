@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Providers\Iseed;
+namespace App\Iseed;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Composer;
-use Illuminate\Support\Facades\Config;
 
 class Iseed
 {
@@ -13,7 +12,7 @@ class Iseed
      *
      * @var string
      */
-    protected $databaseName;
+    protected string $databaseName;
 
     /**
      * New line character for seed files.
@@ -21,7 +20,7 @@ class Iseed
      *
      * @var string
      */
-    private $newLineCharacter = PHP_EOL;
+    private string $newLineCharacter = PHP_EOL;
 
     /**
      * Desired indent for the code.
@@ -30,12 +29,12 @@ class Iseed
      *
      * @var string
      */
-    private $indentCharacter = "    ";
+    private string $indentCharacter = "    ";
 
     /**
      * @var Composer
      */
-    private $composer;
+    private Composer $composer;
 
     public function __construct(Filesystem $filesystem = null, Composer $composer = null)
     {
@@ -51,15 +50,21 @@ class Iseed
 
     /**
      * Generates a seed file.
-     * @param  string   $table
-     * @param  string   $prefix
-     * @param  string   $suffix
-     * @param  string   $database
-     * @param  int      $max
-     * @param  string   $prerunEvent
-     * @param  string   $postunEvent
+     * @param string $table
+     * @param null $prefix
+     * @param null $suffix
+     * @param null $database
+     * @param int $max
+     * @param int $chunkSize
+     * @param null $exclude
+     * @param null $prerunEvent
+     * @param null $postrunEvent
+     * @param bool $dumpAuto
+     * @param bool $indexed
+     * @param null $orderBy
+     * @param string $direction
      * @return bool
-     * @throws Orangehill\Iseed\TableNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function generateSeed($table, $prefix=null, $suffix=null, $database = null, $max = 0, $chunkSize = 0, $exclude = null, $prerunEvent = null, $postrunEvent = null, $dumpAuto = true, $indexed = true, $orderBy = null, $direction = 'ASC')
     {
@@ -211,13 +216,14 @@ class Iseed
 
     /**
      * Populate the place-holders in the seed stub.
-     * @param  string   $class
-     * @param  string   $stub
-     * @param  string   $table
-     * @param  string   $data
-     * @param  int      $chunkSize
-     * @param  string   $prerunEvent
-     * @param  string   $postunEvent
+     * @param string $class
+     * @param string $stub
+     * @param string $table
+     * @param array $data
+     * @param null $chunkSize
+     * @param null $prerunEvent
+     * @param null $postrunEvent
+     * @param bool $indexed
      * @return string
      */
     public function populateStub($class, $stub, $table, $data, $chunkSize = null, $prerunEvent = null, $postrunEvent = null, $indexed = true)
@@ -377,6 +383,7 @@ class Iseed
     /**
      * Cleans the iSeed section
      * @return bool
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function cleanSection()
     {
@@ -387,13 +394,13 @@ class Iseed
         $content = preg_replace("/(\#iseed_start.+?)\#iseed_end/us", "#iseed_start\n\t\t#iseed_end", $content);
 
         return $this->files->put($databaseSeederPath, $content) !== false;
-        return false;
     }
 
     /**
      * Updates the DatabaseSeeder file's run method (kudoz to: https://github.com/JeffreyWay/Laravel-4-Generators)
-     * @param  string  $className
+     * @param string $className
      * @return bool
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function updateDatabaseSeederRunMethod($className)
     {

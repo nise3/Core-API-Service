@@ -1,6 +1,6 @@
 <?php
 
-namespace Orangehill\Iseed;
+namespace App\Iseed;
 
 class TableNotFoundException extends \RuntimeException
 {

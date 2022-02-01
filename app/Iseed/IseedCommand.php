@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Iseed;
+namespace App\Iseed;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
@@ -26,7 +26,7 @@ class IseedCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @return \Orangehill\Iseed\IseedCommand
+     * @return void
      */
     public function __construct()
     {
@@ -47,6 +47,7 @@ class IseedCommand extends Command
      * Execute the console command (for <= 5.4).
      *
      * @return void
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function fire()
     {
@@ -197,7 +198,7 @@ class IseedCommand extends Command
      * Generate file name, to be used in test wether seed file already exist
      *
      * @param  string $table
-     * @return string
+     * @return string[]
      */
     protected function generateFileName($table, $prefix=null, $suffix=null)
     {

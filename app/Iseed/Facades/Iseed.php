@@ -1,6 +1,6 @@
 <?php
 
-namespace Orangehill\Iseed\Facades;
+namespace App\Iseed\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -12,7 +12,7 @@ class Iseed extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'iseed';
     }

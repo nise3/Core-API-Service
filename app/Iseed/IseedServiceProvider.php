@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Iseed;
+namespace App\Iseed;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +20,7 @@ class IseedServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        require base_path().'/vendor/autoload.php';
+        require base_path() . '/vendor/autoload.php';
     }
 
     /**
@@ -32,7 +32,7 @@ class IseedServiceProvider extends ServiceProvider
     {
         $this->registerResources();
 
-        $this->app->singleton('iseed', function($app) {
+        $this->app->singleton('iseed', function ($app) {
             return new Iseed;
         });
 
@@ -41,7 +41,7 @@ class IseedServiceProvider extends ServiceProvider
             $loader->alias('Iseed', 'Orangehill\Iseed\Facades\Iseed');
         }); */
 
-        $this->app->singleton('command.iseed', function($app) {
+        $this->app->singleton('command.iseed', function ($app) {
             return new IseedCommand;
         });
 
@@ -65,15 +65,10 @@ class IseedServiceProvider extends ServiceProvider
      */
     protected function registerResources()
     {
-        $userConfigFile = app()->basePath().'/config/iseed.php';
-        $packageConfigFile = __DIR__.'/config/config.php';
-        $config            = $this->app['files']->getRequire($packageConfigFile);
+        $userConfigFile = app()->basePath() . '/config/iseed.php';
 
-        if (file_exists($userConfigFile)) {
-            $userConfig = $this->app['files']->getRequire($userConfigFile);
-            $config     = array_replace_recursive($config, $userConfig);
-        }
+        $userConfig = $this->app['files']->getRequire($userConfigFile);
 
-        $this->app['config']->set('iseed::config', $config);
+        $this->app['config']->set('iseed::config', $userConfig);
     }
 }
