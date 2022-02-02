@@ -11,3 +11,6 @@ php -S localhost:8000 -t public
 php artisan iseed my_table
 php artisan iseed my_table,another_table
 ```
+```shell
+RELEASE = 'php artisan migrate:fresh --seed'
+```
