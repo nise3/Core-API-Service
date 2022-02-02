@@ -542,7 +542,7 @@ class UserService
         } elseif ($userType == BaseModel::INSTITUTE_USER) {
             $users = User::where('institute_id', $requestData['institute_id'])->get();
         } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
-            $users = User::where('industry_association_id', $requestData['industry_association_id'])->firstOrFail();
+            $users = User::where('industry_association_id', $requestData['industry_association_id'])->get();
         }
         if (!empty($users)) {
             foreach ($users as $user) {
