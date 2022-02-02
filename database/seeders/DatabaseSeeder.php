@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             PermissionSubGroupPermissionsTableSeeder::class,
             RolesTableSeeder::class,
             RolePermissionsTableSeeder::class,
+            UserCodePessimisticLockingsTableSeeder::class,
             UsersTableSeeder::class,
         ]);
 
