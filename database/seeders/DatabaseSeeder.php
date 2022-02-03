@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            DomainsTableSeeder::class,
             GeoLocationDatabaseSeeder::class,
             PermissionsTableSeeder::class,
             PermissionGroupsTableSeeder::class,
