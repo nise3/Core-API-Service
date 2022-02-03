@@ -16,67 +16,62 @@ class PermissionGroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         Schema::disableForeignKeyConstraints();
 
         DB::table('permission_groups')->truncate();
-        
-        \DB::table('permission_groups')->insert(array (
-            0 => 
-            array (
+
+        DB::table('permission_groups')->insert(array(
+            array(
                 'created_at' => '2022-01-05 10:53:45',
                 'id' => 1,
                 'key' => 'system',
                 'row_status' => 1,
-                'title' => 'System',
-                'title_en' => 'System',
+                'title' => 'সিস্টেম অ্যাডমিন পারমিশন গ্রুপ',
+                'title_en' => 'System Admin Permission Group',
                 'updated_at' => '2022-01-05 10:53:45',
             ),
-            1 => 
-            array (
+            array(
                 'created_at' => '2022-01-05 10:53:45',
                 'id' => 2,
                 'key' => 'organization',
                 'row_status' => 1,
-                'title' => 'Organization',
-                'title_en' => 'Organization',
+                'title' => 'শিল্প প্রতিষ্ঠান পারমিশন গ্রুপ',
+                'title_en' => 'Industry Permission Group',
                 'updated_at' => '2022-01-05 10:53:45',
             ),
-            2 => 
-            array (
+            array(
                 'created_at' => '2022-01-05 10:53:45',
                 'id' => 3,
                 'key' => 'institute',
                 'row_status' => 1,
-                'title' => 'Institute',
-                'title_en' => 'Institute',
+                'title' => 'দক্ষতা/প্রশিক্ষণ প্রদানকারী পারমিশন গ্রুপ',
+                'title_en' => 'Skill/Training Provider Permission Group',
                 'updated_at' => '2022-01-05 10:53:45',
             ),
-            3 => 
-            array (
+            array(
                 'created_at' => '2022-01-12 14:08:27',
                 'id' => 4,
                 'key' => 'industry_association',
                 'row_status' => 1,
-                'title' => 'Industry Association',
-                'title_en' => 'Industry Association',
+                'title' => 'শিল্প সংঘ পারমিশন গ্রুপ',
+                'title_en' => 'Industry Association Permission Group',
                 'updated_at' => '2022-01-12 14:08:27',
             ),
-            4 => 
-            array (
+            array(
                 'created_at' => '2022-01-24 16:56:18',
                 'id' => 5,
-                'key' => 'issue',
+                'key' => 'dc_group',
                 'row_status' => 1,
-                'title' => 'Issue',
-                'title_en' => 'Issue',
+                'title' => 'জেলা প্রশাসক (ডিসি) পারমিশন গ্রুপ',
+                'title_en' => 'District Commissioner Permission Group',
                 'updated_at' => '2022-01-24 16:56:18',
             ),
         ));
 
         Schema::enableForeignKeyConstraints();
 
-        
+
     }
 }
