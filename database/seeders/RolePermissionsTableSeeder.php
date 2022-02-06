@@ -17,7 +17,6 @@ class RolePermissionsTableSeeder extends Seeder
     public function run()
     {
 
-
         Schema::disableForeignKeyConstraints();
 
         DB::table('role_permissions')->truncate();
