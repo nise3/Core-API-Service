@@ -906,13 +906,11 @@ class UserService
     public function idpUserCreate(array $idpUserPayload): mixed
     {
 //        $payload = $this->prepareIdpPayload($idpUserPayload);
-        Log::info("IDP_Payload is bellow");
-        Log::info(json_encode($idpUserPayload));
+
+        Log::info("IDP_Payload is bellow", $idpUserPayload);
 
         /** response from idp server after user creation */
         $response = IdpUser()->setPayload($idpUserPayload)->create()->get();
-        Log::channel('idp_user')->info('idp_user_payload', $idpUserPayload);
-        Log::channel('idp_user')->info('idp_user_info', $response);
 
         return $response;
     }

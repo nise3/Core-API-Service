@@ -7,6 +7,7 @@ use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -57,8 +58,10 @@ class ApiInfoController extends Controller
     }
 
 
-    public function domainDetails(string $domain): JsonResponse{
+    public function domainDetails(string $domain): JsonResponse
+    {
         $domain = Domain::where('domain',$domain)->firstOrFail();
+
         $response = [
             'data' => $domain,
             '_response_status' => [
