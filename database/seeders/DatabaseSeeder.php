@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Cache::flush();
         $this->call([
             DomainsTableSeeder::class,
             GeoLocationDatabaseSeeder::class,
