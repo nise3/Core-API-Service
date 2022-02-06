@@ -83,6 +83,23 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
 });
 
-$router->get("/code", function () {
-    return \App\Services\Common\CodeGenerateService::getUserCode(1);
+$router->post(/**
+ * @throws Exception
+ */ "create-ipd-user", function () {
+    $response = IdpUser()->setPayload([
+        'first_name' => 'Kalyan',
+        'last_name' => 'Kalyan',
+        'username' => 'Kalyan94',
+        'email' => 'Kalyan90@gmail.com',
+        'mobile' => '01945602471',
+        'user_type' => '2',
+        'password' => "12345678",
+        'active' => true,
+        'department' => 'Kalyan',
+        'account_disable' => true,
+        'account_lock' => true,
+    ])->create()->get();
+    return $response;
 });
+
+

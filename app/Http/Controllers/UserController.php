@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Khbd\LaravelWso2IdentityApiUser\IdpUser;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
@@ -443,7 +444,8 @@ class UserController extends Controller
                 'username' => $validatedData['username'],
                 'password' => $validatedData['password'],
                 'user_type' => $validatedData['user_type'],
-                'active' => (string)BaseModel::ROW_STATUS_PENDING,
+                'account_disable' => true,
+                'account_lock' => true
             ];
 
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
@@ -508,7 +510,9 @@ class UserController extends Controller
                     $idpUserPayload[] = array(
                         'id' => $user->idp_user_id,
                         'username' => $user->username,
-                        'active' => (string)$user->row_status
+                        'active' => (string)$user->row_status,
+                        'account_disable' => false,
+                        'account_lock' => false
                     );
                 }
 
@@ -551,7 +555,8 @@ class UserController extends Controller
                     $idpUserPayload[] = array(
                         'id' => $user->idp_user_id,
                         'username' => $user->username,
-                        'active' => (string)$user->row_status
+                        'active' => (string)$user->row_status,
+                        'account_disable' => true
                     );
                 }
                 $this->userService->idpUserUpdate($idpUserPayload);
