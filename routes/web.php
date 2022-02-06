@@ -83,6 +83,5 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
 });
 
-$router->get("/code", function () {
-    return \App\Services\Common\CodeGenerateService::getUserCode(1);
-});
+
+
