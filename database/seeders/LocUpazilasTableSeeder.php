@@ -22,7 +22,7 @@ class LocUpazilasTableSeeder extends Seeder
 
         DB::table('loc_upazilas')->truncate();
 
-        \DB::table('loc_upazilas')->insert(array (
+        DB::table('loc_upazilas')->insert(array (
             0 =>
             array (
                 'bbs_code' => NULL,
