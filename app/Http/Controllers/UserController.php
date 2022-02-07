@@ -104,6 +104,9 @@ class UserController extends Controller
                 throw new RuntimeException('Idp user already exists', 409);
             }
 
+            Log::info("mmm kkkk");
+            Log::info(json_encode($idpResponse));
+
             if (!empty($idpResponse['data']['id'])) {
                 $validated['idp_user_id'] = $idpResponse['data']['id'];
                 $user = $this->userService->store($user, $validated);

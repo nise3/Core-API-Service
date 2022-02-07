@@ -73,7 +73,7 @@ if (!function_exists("idpUserErrorMessage")) {
             case ResponseAlias::HTTP_BAD_REQUEST:
             {
                 $errors['_response_status']['code'] = ResponseAlias::HTTP_BAD_REQUEST;
-                $errors['_response_status']['message'] = "HTTP 401 Unauthorized Error in IDP server";
+                $errors['_response_status']['message'] = "HTTP 400 BAD Request Error in IDP server";
                 return $errors;
             }
             case 0:
