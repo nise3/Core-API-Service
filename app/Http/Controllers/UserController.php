@@ -449,7 +449,9 @@ class UserController extends Controller
                 'account_lock' => true
             ];
 
-            Log::info("config".json_encode(config('IdpUser')));
+            Log::info("<===================================================================>");
+            Log::info("openUserPayload: " . json_encode($idpUserPayLoad));
+            Log::info("<===================================================================>");
 
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
