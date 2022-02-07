@@ -553,7 +553,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $users = $this->userService->userRejection($request);
-
+            Log::info("Rejected User" . json_encode($users));
             if ($users) {
                 foreach ($users as $user) {
                     $idpUserPayload = array(
