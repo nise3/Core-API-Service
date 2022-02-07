@@ -565,6 +565,7 @@ class UserController extends Controller
                         'username' => $user->username,
                         'account_disable' => true
                     );
+                    Log::info('Rejection Payload' . json_encode($idpUserPayload));
                     $this->userService->idpUserUpdate($idpUserPayload);
                     throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
                 }
