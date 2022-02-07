@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\LocDistrict;
 use App\Models\User;
 use App\Services\Common\CodeGenerateService;
 use App\Services\UserRolePermissionManagementServices\UserService;
@@ -448,6 +449,8 @@ class UserController extends Controller
                 'account_lock' => true
             ];
 
+            Log::info("config".json_encode(config('IdpUser')));
+
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
             if (!empty($idpResponse['code']) && $idpResponse['code'] == ResponseAlias::HTTP_CONFLICT) {
@@ -577,7 +580,6 @@ class UserController extends Controller
             DB::rollBack();
             throw $e;
         }
-
 
         return Response::json($response, ResponseAlias::HTTP_OK);
 

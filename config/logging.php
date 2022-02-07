@@ -54,13 +54,13 @@ return [
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/lumen.log'),
+            'path' => storage_path('logs/lumen/' . date('Y/F/') . 'lumen.log'),
             'level' => 'debug',
             'days' => 14,
         ],
         'idp_user' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/idp_user.log'),
+            'path' =>storage_path('logs/saga-logs/' . date('Y/F/') . 'idp-user.log'),
             'level' => 'info'
         ],
         'slack' => [
