@@ -35,15 +35,6 @@ class PermissionGroupsTableSeeder extends Seeder
             array(
                 'created_at' => '2022-01-05 10:53:45',
                 'id' => 2,
-                'key' => 'organization',
-                'row_status' => 1,
-                'title' => 'শিল্প প্রতিষ্ঠান পারমিশন গ্রুপ',
-                'title_en' => 'Industry Permission Group',
-                'updated_at' => '2022-01-05 10:53:45',
-            ),
-            array(
-                'created_at' => '2022-01-05 10:53:45',
-                'id' => 3,
                 'key' => 'institute',
                 'row_status' => 1,
                 'title' => 'দক্ষতা/প্রশিক্ষণ প্রদানকারী পারমিশন গ্রুপ',
@@ -52,12 +43,21 @@ class PermissionGroupsTableSeeder extends Seeder
             ),
             array(
                 'created_at' => '2022-01-12 14:08:27',
-                'id' => 4,
+                'id' => 3,
                 'key' => 'industry_association',
                 'row_status' => 1,
                 'title' => 'শিল্প সংঘ পারমিশন গ্রুপ',
                 'title_en' => 'Industry Association Permission Group',
                 'updated_at' => '2022-01-12 14:08:27',
+            ),
+            array(
+                'created_at' => '2022-01-05 10:53:45',
+                'id' => 4,
+                'key' => 'organization',
+                'row_status' => 1,
+                'title' => 'শিল্প প্রতিষ্ঠান পারমিশন গ্রুপ',
+                'title_en' => 'Industry Permission Group',
+                'updated_at' => '2022-01-05 10:53:45',
             ),
             array(
                 'created_at' => '2022-01-24 16:56:18',
