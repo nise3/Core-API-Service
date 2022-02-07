@@ -521,6 +521,8 @@ class UserController extends Controller
                     );
                 }
 
+                Log::info("ApprovedPayload: ".json_encode($idpUserPayload));
+
                 $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
                 throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 

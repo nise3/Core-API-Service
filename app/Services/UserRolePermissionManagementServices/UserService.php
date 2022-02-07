@@ -2,6 +2,7 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
+use App\Exceptions\HttpErrorException;
 use App\Models\BaseModel;
 use App\Models\Permission;
 use App\Models\Role;
@@ -9,7 +10,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -268,40 +267,43 @@ class UserService
 
             $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'service-to-service-call/organizations/' . $user->organization_id;
 
-            $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+            $organization = Http::withOptions([
+                'debug' => config("nise3.is_dev_mode"),
+                'verify' => config("nise3.should_ssl_verify")
+            ])
                 ->get($url)
-                ->throw(function ($response, $exception) {
-                    return $exception;
+                ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
+                    Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                    Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . $httpResponse->body());
+                    throw new HttpErrorException($httpResponse);
                 })
-                ->json();
-
-            $organization = $responseData['data'] ?? [];
+                ->json('data', []);
 
         } else if ($user->user_type == BaseModel::INSTITUTE_USER && !is_null($user->institute_id)) {
 
             $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/institutes/' . $user->institute_id;
 
-            $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+            $institute = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
                 ->get($url)
-                ->throw(function ($response, $exception) {
-                    return $exception;
+                ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
+                    Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                    Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . $httpResponse->body());
+                    throw new HttpErrorException($httpResponse);
                 })
-                ->json();
-
-            $institute = $responseData['data'] ?? [];
+                ->json('data', []);
 
         } else if ($user->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER && !is_null($user->industry_association_id)) {
 
             $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'service-to-service-call/industry-associations/' . $user->industry_association_id;
 
-            $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+            $industryAssociation = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
                 ->get($url)
-                ->throw(function ($response, $exception) {
-                    return $exception;
+                ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
+                    Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                    Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . $httpResponse->body());
+                    throw new HttpErrorException($httpResponse);
                 })
-                ->json();
-
-            $industryAssociation = $responseData['data'] ?? [];
+                ->json('data', []);
         }
 
         $role = Role::find($user->role_id);

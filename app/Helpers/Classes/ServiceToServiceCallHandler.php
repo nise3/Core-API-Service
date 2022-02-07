@@ -2,8 +2,10 @@
 
 namespace App\Helpers\Classes;
 
+use App\Exceptions\HttpErrorException;
 use App\Models\BaseModel;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -17,10 +19,13 @@ class ServiceToServiceCallHandler
      */
     public function getAuthUserWithRolePermission(string $idpUserId): mixed
     {
-        $url = clientUrl(BaseModel::CORE_CLIENT_URL_TYPE) . 'auth-user-info';
+        $postUrl = clientUrl(BaseModel::CORE_CLIENT_URL_TYPE) . 'auth-user-info';
+
         $userPostField = [
             "idp_user_id" => $idpUserId
         ];
+
+        Log::debug("Http/Curl call error. Destination:: " . $postUrl . ' and Response:: ');
 
         $responseData = Http::withOptions(
             [
@@ -28,10 +33,11 @@ class ServiceToServiceCallHandler
                 'debug' => config('nise3.http_debug'),
                 'timeout' => config('nise3.http_timeout'),
             ])
-            ->post($url, $userPostField)
-            ->throw(function ($response, $e) use ($url) {
-                Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . json_encode($response));
-                throw $e;
+            ->post($postUrl, $userPostField)
+            ->throw(static function (Response $httpResponse, $httpException) use ($postUrl) {
+                Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                Log::debug("Http/Curl call error. Destination:: " . $postUrl . ' and Response:: ' . $httpResponse->body());
+                throw new HttpErrorException($httpResponse);
             })
             ->json('data');
 
