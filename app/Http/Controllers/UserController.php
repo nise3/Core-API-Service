@@ -95,8 +95,7 @@ class UserController extends Controller
                 'email' => $validated['email'],
                 'mobile' => $validated['mobile'],
                 'password' => $validated['password'],
-                'user_type' => $validated['user_type'],
-                'active' => (string)$validated['row_status'],
+                'user_type' => $validated['user_type']
             ];
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
@@ -176,7 +175,8 @@ class UserController extends Controller
                     'email' => $user->email,
                     'mobile' => $user->mobile,
                     'user_type' => $user->user_type,
-                    'active' => (string)$user->row_status
+                    'account_disable' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE,
+                    'account_lock' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE
                 ];
                 $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
                 throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
@@ -356,7 +356,7 @@ class UserController extends Controller
     }
 
     /**
-     * Admin user create from different services
+     * Admin user create from different services when institute, organization, industry association create
      * @param Request $request
      * @return JsonResponse
      * @throws ValidationException|Throwable
@@ -381,8 +381,7 @@ class UserController extends Controller
                 'mobile' => $validated['mobile'],
                 'username' => $validated['username'],
                 'password' => $validated['password'],
-                'user_type' => $validated['user_type'],
-                'active' => (string)BaseModel::ROW_STATUS_ACTIVE
+                'user_type' => $validated['user_type']
             ];
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
@@ -518,7 +517,6 @@ class UserController extends Controller
                     $idpUserPayload = array(
                         'id' => $user->idp_user_id,
                         'username' => $user->username,
-                        'active' => (string)$user->row_status,
                         'account_disable' => false,
                         'account_lock' => false
                     );
@@ -561,7 +559,6 @@ class UserController extends Controller
                     $idpUserPayload = array(
                         'id' => $user->idp_user_id,
                         'username' => $user->username,
-                        'active' => (string)$user->row_status,
                         'account_disable' => true
                     );
                     $this->userService->idpUserUpdate($idpUserPayload);
