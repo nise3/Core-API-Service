@@ -95,7 +95,9 @@ class UserController extends Controller
                 'email' => $validated['email'],
                 'mobile' => $validated['mobile'],
                 'password' => $validated['password'],
-                'user_type' => $validated['user_type']
+                'user_type' => $validated['user_type'],
+                'account_disable' => $validated['row_status'] != BaseModel::ROW_STATUS_ACTIVE,
+                'account_lock' => $validated['row_status'] != BaseModel::ROW_STATUS_ACTIVE
             ];
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 
@@ -381,7 +383,9 @@ class UserController extends Controller
                 'mobile' => $validated['mobile'],
                 'username' => $validated['username'],
                 'password' => $validated['password'],
-                'user_type' => $validated['user_type']
+                'user_type' => $validated['user_type'],
+                'account_disable' => false,
+                'account_lock' => false
             ];
             $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
 

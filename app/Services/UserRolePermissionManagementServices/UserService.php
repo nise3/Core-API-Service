@@ -750,6 +750,12 @@ class UserService
                 'integer',
                 'gt:0'
             ],
+            "industry_association_id" => [
+                'required_if:user_type,' . BaseModel::INDUSTRY_ASSOCIATION_USER,
+                'nullable',
+                'integer',
+                'gt:0'
+            ],
             'branch_id' => 'nullable|int|gt:0',
             'training_center_id' => 'nullable|int|gt:0',
             "role_id" => 'nullable|exists:roles,id',
