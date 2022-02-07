@@ -91,7 +91,6 @@ class Handler extends ExceptionHandler
             $errors['_response_status']['code'] = ResponseAlias::HTTP_REQUEST_TIMEOUT;
             $errors['_response_status']['message'] = $e->getMessage();
         } else if ($e instanceof HttpErrorException) {
-            /** @var HttpErrorException $e */
             $errors['_response_status']['message'] = $e->getPreparedMessage();
             $errors['_response_status']['code'] = $e->getCode();
         } else if ($e instanceof RequestException) {
