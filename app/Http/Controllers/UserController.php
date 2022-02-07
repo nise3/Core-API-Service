@@ -509,23 +509,19 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $users = $this->userService->userApproval($request);
-            $idpUserPayload = array();
+
             if ($users) {
                 foreach ($users as $user) {
-                    $idpUserPayload[] = array(
+                    $idpUserPayload = array(
                         'id' => $user->idp_user_id,
                         'username' => $user->username,
                         'active' => (string)$user->row_status,
                         'account_disable' => false,
                         'account_lock' => false
                     );
+                    $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
+                    throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
                 }
-
-                Log::info("ApprovedPayload: ".json_encode($idpUserPayload));
-
-                $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
-                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
-
             }
             $response = [
                 'data' => $users ?? null,
@@ -556,18 +552,18 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $users = $this->userService->userRejection($request);
-            $idpUserPayload = array();
+
             if ($users) {
                 foreach ($users as $user) {
-                    $idpUserPayload[] = array(
+                    $idpUserPayload = array(
                         'id' => $user->idp_user_id,
                         'username' => $user->username,
                         'active' => (string)$user->row_status,
                         'account_disable' => true
                     );
+                    $this->userService->idpUserUpdate($idpUserPayload);
+                    throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
                 }
-                $this->userService->idpUserUpdate($idpUserPayload);
-                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
             }
             $response = [
