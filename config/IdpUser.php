@@ -54,7 +54,7 @@ return [
 
     'idps' => [
         'wso2idp' => [
-            'base_url' => 'https://identity-dev.nise3.xyz/',
+            'base_url' => 'https://192.168.13.206:9448',
             'username' => 'admin',
             'password' => 'admin'
         ],
@@ -75,6 +75,5 @@ return [
 
     'map' => [
         'wso2idp' => \Khbd\LaravelWso2IdentityApiUser\Idps\Wso2idp::class
-
     ],
 ];
