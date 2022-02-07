@@ -19,19 +19,21 @@ class BackChannelTokenGenerationController extends Controller
      */
     public function ssoRenewAccessToken(Request $request)
     {
-        Log::debug('refresh token: ' . $request->input('refresh_token'));
+        Log::debug('ssoRenewAccessToken');
+        Log::debug($request->all());
 
-        $basicAuth = 'Basic ' . base64_encode(env('WSO2_IDP_CLIENT_KEY', 'FhVqwNp6Q6FV1H8KuuLsh5REQysa') . ':' . env('WSO2_IDP_CLIENT_SECRET', 'GfrDpy904LjaWNmn7aSwEA1qyEQa'));
+        $oidcClientKey = env('WSO2_IDP_CLIENT_KEY', 'FhVqwNp6Q6FV1H8KuuLsh5REQysa');
+        $oidcClientSecret = env('WSO2_IDP_CLIENT_SECRET', 'GfrDpy904LjaWNmn7aSwEA1qyEQa');
 
         $postUrl = env('WSO2_IDP_BASE_URL', 'https://identity-dev.nise3.xyz') . "/oauth2/token?grant_type=refresh_token&refresh_token=" . $request->input('refresh_token');
 
-
         $response = Http::withHeaders([
             'Content-Type' => 'application/x-www-form-urlencoded',
-            'Authorization' => $basicAuth,
         ])
+            ->withBasicAuth($oidcClientKey, $oidcClientSecret)
+            ->timeout(5)
             ->withOptions([
-                'follow_redirects' => true,
+                'allow_redirects' => ['strict' => true],
                 'verify' => false,
                 'debug' => false
             ])
@@ -64,15 +66,18 @@ class BackChannelTokenGenerationController extends Controller
         Log::debug('ssoAuthorizeCodeGrant: ');
         Log::debug($request->all());
 
-        $basicAuth = 'Basic ' . base64_encode(env('WSO2_IDP_CLIENT_KEY', 'FhVqwNp6Q6FV1H8KuuLsh5REQysa') . ':' . env('WSO2_IDP_CLIENT_SECRET', 'GfrDpy904LjaWNmn7aSwEA1qyEQa'));
+        $oidcClientKey = env('WSO2_IDP_CLIENT_KEY', 'FhVqwNp6Q6FV1H8KuuLsh5REQysa');
+        $oidcClientSecret = env('WSO2_IDP_CLIENT_SECRET', 'GfrDpy904LjaWNmn7aSwEA1qyEQa');
+
         $postUrl = env('WSO2_IDP_BASE_URL', 'https://identity-dev.nise3.xyz') . '/oauth2/token?grant_type=authorization_code&code=' . $request->input('code') . '&redirect_uri=' . urlencode($request->input('redirect_uri'));
 
         $response = Http::withHeaders([
-            'Content-Type' => 'application/x-www-form-urlencoded',
-            'Authorization' => $basicAuth,
+            'Content-Type' => 'application/x-www-form-urlencoded'
         ])
+            ->withBasicAuth($oidcClientKey, $oidcClientSecret)
+            ->timeout(5)
             ->withOptions([
-                'follow_redirects' => true,
+                'allow_redirects' => ['strict' => true],
                 'verify' => false,
                 'debug' => false
             ])
@@ -107,12 +112,13 @@ class BackChannelTokenGenerationController extends Controller
 
         $postUrl = env('WSO2_APIM_BASE_URL', 'https://apim-dev.nise3.xyz') . '/oauth2/token';
 
-        Log::debug('apimAppApiAccessToken: ' . $postUrl);
-        $response = Http::withHeaders([
-            'Authorization' => 'Basic ' . base64_encode(env('WSO2_APIM_CLIENT_KEY') . ':' . env('WSO2_APIM_CLIENT_SECRET')),
-        ])
+        $clientConsumerKey = env('WSO2_APIM_CLIENT_KEY');
+        $clientConsumerSecret = env('WSO2_APIM_CLIENT_SECRET');
+
+        $response = Http::withBasicAuth($clientConsumerKey, $clientConsumerSecret)
+            ->timeout(5)
             ->withOptions([
-                'follow_redirects' => true,
+                'allow_redirects' => ['strict' => true],
                 'verify' => false,
                 'debug' => false
             ])

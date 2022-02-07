@@ -271,6 +271,7 @@ class UserService
                 'debug' => config("nise3.is_dev_mode"),
                 'verify' => config("nise3.should_ssl_verify")
             ])
+                ->timeout(5)
                 ->get($url)
                 ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
                     Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
@@ -283,7 +284,11 @@ class UserService
 
             $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/institutes/' . $user->institute_id;
 
-            $institute = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+            $institute = Http::withOptions([
+                'debug' => config("nise3.is_dev_mode"),
+                'verify' => config("nise3.should_ssl_verify")
+            ])
+                ->timeout(5)
                 ->get($url)
                 ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
                     Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
@@ -296,7 +301,11 @@ class UserService
 
             $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'service-to-service-call/industry-associations/' . $user->industry_association_id;
 
-            $industryAssociation = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+            $industryAssociation = Http::withOptions([
+                'debug' => config("nise3.is_dev_mode"),
+                'verify' => config("nise3.should_ssl_verify")
+            ])
+                ->timeout(5)
                 ->get($url)
                 ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
                     Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
