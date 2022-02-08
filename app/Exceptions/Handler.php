@@ -113,7 +113,6 @@ class Handler extends ExceptionHandler
         } elseif ($e instanceof ParseError) {
             $errors['_response_status']['message'] = "Parsing Error";
         } elseif ($e instanceof Exception) {
-            $errors['_response_status']['code'] = $e->getCode() ? $e->getCode() : ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
             $errors['_response_status']['message'] = $e->getMessage();
         }
 
