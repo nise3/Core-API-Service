@@ -145,7 +145,13 @@ class PermissionGroupController extends Controller
         $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->permissionValidation($request)->validated();
         $permissionGroup=$this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
-        Cache::flush(); // invalidate all user cache data when permission group permission assign
+        try {
+            Cache::flush(); // invalidate all user cache data when permission group permission assign
+        } catch (Throwable $exception){
+            Log::debug("Hi Permission Sync for Permission Group");
+            Log::debug($exception);
+        }
+
         $response = [
             'data'=>$permissionGroup->permissions()->get(),
             '_response_status' => [
