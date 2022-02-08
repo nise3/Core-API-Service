@@ -154,6 +154,7 @@ class UserController extends Controller
         $request->offsetSet('user_type', $user->user_type);
         $request->offsetSet('organization_id', $user->organization_id);
         $request->offsetSet('institute_id', $user->institute_id);
+        $request->offsetSet('industry_association_id', $user->industry_association_id);
         $request->offsetSet('branch_id', $user->branch_id);
         $request->offsetSet('training_center_id', $user->training_center_id);
         $request->offsetSet('mobile', $user->mobile);
