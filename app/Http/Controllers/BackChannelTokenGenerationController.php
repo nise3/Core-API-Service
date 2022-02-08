@@ -22,8 +22,8 @@ class BackChannelTokenGenerationController extends Controller
         Log::debug('ssoRenewAccessToken');
         Log::debug($request->all());
 
-        $oidcClientKey = env('WSO2_IDP_CLIENT_KEY', 'FhVqwNp6Q6FV1H8KuuLsh5REQysa');
-        $oidcClientSecret = env('WSO2_IDP_CLIENT_SECRET', 'GfrDpy904LjaWNmn7aSwEA1qyEQa');
+        $oidcClientKey = env('WSO2_IDP_CLIENT_KEY', 'u13j1BX4H7VuuutmtkbI5z27_5Qa');
+        $oidcClientSecret = env('WSO2_IDP_CLIENT_SECRET', 'Sygpg0CyFLLsXxO7ExytffHw7fwa');
 
         $postUrl = env('WSO2_IDP_BASE_URL', 'https://identity-dev.nise3.xyz') . "/oauth2/token?grant_type=refresh_token&refresh_token=" . $request->input('refresh_token');
 
@@ -66,8 +66,8 @@ class BackChannelTokenGenerationController extends Controller
         Log::debug('ssoAuthorizeCodeGrant: ');
         Log::debug($request->all());
 
-        $oidcClientKey = env('WSO2_IDP_CLIENT_KEY', 'FhVqwNp6Q6FV1H8KuuLsh5REQysa');
-        $oidcClientSecret = env('WSO2_IDP_CLIENT_SECRET', 'GfrDpy904LjaWNmn7aSwEA1qyEQa');
+        $oidcClientKey = env('WSO2_IDP_CLIENT_KEY', 'u13j1BX4H7VuuutmtkbI5z27_5Qa');
+        $oidcClientSecret = env('WSO2_IDP_CLIENT_SECRET', 'Sygpg0CyFLLsXxO7ExytffHw7fwa');
 
         $postUrl = env('WSO2_IDP_BASE_URL', 'https://identity-dev.nise3.xyz') . '/oauth2/token?grant_type=authorization_code&code=' . $request->input('code') . '&redirect_uri=' . urlencode($request->input('redirect_uri'));
 
