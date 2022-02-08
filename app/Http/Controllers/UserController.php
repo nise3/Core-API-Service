@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
-use App\Models\LocDistrict;
 use App\Models\User;
 use App\Services\Common\CodeGenerateService;
-use App\Services\CommonServices\MailService;
-use App\Services\CommonServices\SmsService;
+use App\Services\Common\MailService;
+use App\Services\Common\SmsService;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Exception;
@@ -19,7 +18,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
-use Khbd\LaravelWso2IdentityApiUser\IdpUser;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;

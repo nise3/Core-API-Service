@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Services\CommonServices;
+namespace App\Services\Common;
 
-use App\Events\MailSendEvent;
 use App\Events\SmsSendEvent;
 use Illuminate\Support\Facades\Log;
 
