@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
-use App\Models\LocDistrict;
 use App\Models\User;
 use App\Services\Common\CodeGenerateService;
+use App\Services\Common\MailService;
+use App\Services\Common\SmsService;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Exception;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
-use Khbd\LaravelWso2IdentityApiUser\IdpUser;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
@@ -108,6 +108,22 @@ class UserController extends Controller
             if (!empty($idpResponse['data']['id'])) {
                 $validated['idp_user_id'] = $idpResponse['data']['id'];
                 $user = $this->userService->store($user, $validated);
+
+                /** Mail send after user registration */
+                $to = array($user->email);
+                $from = BaseModel::NISE3_FROM_EMAIL;
+                $subject = "User Registration Information";
+                $message = "Congratulation, You are successfully complete your registration as " . BaseModel::USER_TYPE[$user->user_type] . " user. Username: " . $user->username . " & Password: " . $validated['password'];
+                $messageBody = MailService::templateView($message);
+                $mailService = new MailService($to, $from, $subject, $messageBody);
+                $mailService->sendMail();
+
+                /** SMS send after user registration */
+                $recipient = $user->mobile;
+                $smsMessage = "Congratulation, You are successfully complete your registration as " . BaseModel::USER_TYPE[$user->user_type] . " user.";
+                $smsService = new SmsService();
+                $smsService->sendSms($recipient, $smsMessage);
+
                 if (!$user) {
                     $idpUserId = $idpResponse['data']['id'];
                     $this->userService->idpUserDelete($idpUserId);
