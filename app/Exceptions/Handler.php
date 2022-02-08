@@ -92,7 +92,7 @@ class Handler extends ExceptionHandler
             $errors['_response_status']['message'] = $e->getMessage();
         } else if ($e instanceof HttpErrorException) {
             $errors['_response_status']['message'] = $e->getPreparedMessage();
-            $errors['_response_status']['code'] = $e->getCode();
+            $errors['_response_status']['code'] = $e->getCode() ? $e->getCode() : ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
         } else if ($e instanceof RequestException) {
             $errors = idUserErrorMessage($e);
         } elseif ($e instanceof ModelNotFoundException) {
@@ -113,7 +113,6 @@ class Handler extends ExceptionHandler
         } elseif ($e instanceof ParseError) {
             $errors['_response_status']['message'] = "Parsing Error";
         } elseif ($e instanceof Exception) {
-            $errors['_response_status']['code'] = $e->getCode() ?? ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
             $errors['_response_status']['message'] = $e->getMessage();
         }
 
