@@ -52,9 +52,9 @@ class PermissionGroupController extends Controller
      * @return JsonResponse
      * @throws Throwable
      */
-    public function read(Request $request,int $id): JsonResponse
+    public function read(Request $request, int $id): JsonResponse
     {
-        $response = $this->permissionGroupService->getOnePermissionGroup($request,$id, $this->startTime);
+        $response = $this->permissionGroupService->getOnePermissionGroup($request, $id, $this->startTime);
         return Response::json($response);
     }
 
@@ -144,17 +144,12 @@ class PermissionGroupController extends Controller
         /** @var PermissionGroup $permissionGroup */
         $permissionGroup = PermissionGroup::findOrFail($id);
         $validated = $this->permissionGroupService->permissionValidation($request)->validated();
-        $permissionGroup=$this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
+        $permissionGroup = $this->permissionGroupService->assignPermission($permissionGroup, $validated['permissions']);
 
-        try {
-            Cache::flush(); // invalidate all user cache data when permission group permission assign
-        } catch (Throwable $exception){
-            Log::debug("Hi Permission Sync for Permission Group");
-            Log::debug($exception);
-        }
+        Cache::flush(); // invalidate all user cache data when permission group permission assign
 
         $response = [
-            'data'=>$permissionGroup->permissions()->get(),
+            'data' => $permissionGroup->permissions()->get(),
             '_response_status' => [
                 "success" => true,
                 "code" => ResponseAlias::HTTP_OK,
