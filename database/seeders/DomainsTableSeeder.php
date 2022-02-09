@@ -16,8 +16,6 @@ class DomainsTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         Schema::disableForeignKeyConstraints();
 
         DB::table('domains')->truncate();
