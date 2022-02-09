@@ -4,6 +4,7 @@ namespace App\Services\UserRolePermissionManagementServices;
 
 use App\Exceptions\HttpErrorException;
 use App\Models\BaseModel;
+use App\Models\Domain;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -368,6 +369,7 @@ class UserService
             'name' => $user->name,
             'profile_pic' => $user->profile_pic,
             'user_id' => $user->id,
+            'domain' => $this->getDomain($user)
         ];
 
         if ($isInstituteUser) {
@@ -377,6 +379,40 @@ class UserService
         }
 
         return $result;
+    }
+
+    private function getDomain(User $user)
+    {
+
+        if ($user->isSystemUser()) {
+            return '';
+        }
+
+        $domain = request()->headers->get('Domain');
+        $attr = '';
+        if (str_ends_with($domain, 'nise.gov.bd')) {
+            $attr = 'nise.gov.bd';
+        } else if (str_ends_with($domain, '-staging.nise3.xyz')) {
+            $attr = '-staging.nise3.xyz';
+        } else if (str_ends_with($domain, '-dev.nise3.xyz')) {
+            $attr = '-dev.nise3.xyz';
+        } else if (str_ends_with($domain, 'nise.asm')) {
+            $attr = 'nise.asm';
+        }
+
+        $builder = Domain::where('domain', 'like', '%\.' . $attr);
+
+        if ($user->isInstituteUser()) {
+            $builder->where('institute_id', $user->institute_id);
+        } else if ($user->isOrganizationUser()) {
+            $builder->where('organization_id', $user->organization_id);
+        } else if ($user->isIndustryAssociationUser()) {
+            $builder->where('industry_association_id', $user->industry_association_id);
+        }
+
+        $domainObj = $builder->first();
+
+        return $domainObj->domain;
     }
 
 

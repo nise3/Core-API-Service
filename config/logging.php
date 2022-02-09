@@ -54,9 +54,9 @@ return [
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/lumen/' . date('Y/F/') . 'lumen.log'),
+            'path' => storage_path('logs/lumen.log'),
             'level' => 'debug',
-            'days' => 14,
+            'days' => 2,
         ],
         'idp_user' => [
             'driver' => 'daily',

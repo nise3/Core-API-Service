@@ -109,13 +109,12 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
             'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'lumen'), '_') . '_database_'),
         ],
-
         'default' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
@@ -124,7 +123,6 @@ return [
             'database' => env('REDIS_DB', '0'),
             'read_write_timeout' => 60,
         ],
-
         'cache' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
@@ -133,7 +131,6 @@ return [
             'database' => env('REDIS_CACHE_DB', '1'),
             'read_write_timeout' => 60,
         ],
-
     ],
 
 ];
