@@ -412,7 +412,7 @@ class UserService
 
         $domainObj = $builder->first();
 
-        return $domainObj->domain;
+        return $domainObj ? $domainObj->domain : '';
     }
 
 
