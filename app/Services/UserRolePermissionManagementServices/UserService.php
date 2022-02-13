@@ -435,11 +435,7 @@ class UserService
     {
         $user = User::where('idp_user_id', $id)
             ->where('row_status', BaseModel::ROW_STATUS_ACTIVE)
-            ->first();
-
-        if (!$user) {
-            return new \stdClass();
-        }
+            ->firstOrFail();
 
         $role = Role::find($user->role_id);
         $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:key')->first();
