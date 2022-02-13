@@ -73,6 +73,18 @@ class UserController extends Controller
         return Response::json($response);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param string $username
+     * @return JsonResponse
+     */
+    public function getByUsername(string $username): JsonResponse
+    {
+        $response = $this->userService->getUserByUsername($username, $this->startTime);
+        return Response::json($response);
+    }
+
 
     /**
      * @param Request $request

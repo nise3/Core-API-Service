@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -48,6 +49,18 @@ class PermissionSubGroupController extends Controller
     public function read(Request $request, int $id): JsonResponse
     {
         $response = $this->permissionSubGroupService->getOnePermissionSubGroup($id, $this->startTime);
+        return Response::json($response);
+    }
+
+    /**
+     * @param string $title
+     * @return JsonResponse
+     */
+    public function getByTitle(string $title): JsonResponse
+    {
+        $title =urldecode($title);
+        Log::info($title);
+        $response = $this->permissionSubGroupService->getOnePermissionSubGroupByTitle($title, $this->startTime);
         return Response::json($response);
     }
 

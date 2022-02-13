@@ -13,7 +13,7 @@ abstract class BaseModel extends Model
 {
     use ScopeAcl;
 
-    const NISE3_FROM_EMAIL = "info@nise3.com";
+    const NISE3_FROM_EMAIL = "noreply@nise.gov.bd";
     protected $hidden = ['pivot'];
 
     public const COMMON_GUARDED_FIELDS_SIMPLE = ['id', 'created_at', 'updated_at'];

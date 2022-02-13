@@ -50,8 +50,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->app['auth']->viaRequest('token', function (Request $request) {
 
             $token = bearerUserToken($request);
-            Log::debug('Bearer Tokens: ' );
-            Log::debug( $token);
+            Log::debug('Bearer Tokens: ');
+            Log::debug($token);
 
             if (!$token) {
                 return null;
@@ -63,9 +63,11 @@ class AuthServiceProvider extends ServiceProvider
             Log::info("Auth idp user id-->" . $idpServerUserId);
 
             if ($idpServerUserId) {
-
+                Log::info("Enter Auth idp user id-->" . $idpServerUserId);
                 Cache::remember($idpServerUserId, config('nise3.user_cache_ttl'), function () use ($idpServerUserId, $authUser) {
+                    Log::info('$userService');
                     $userService = $this->app->make(UserService::class);
+                    Log::info(get_class($userService));
                     $authUser = $userService->getAuthPermission($idpServerUserId);
                     Log::info("userInfoWithIdpId:" . json_encode($authUser));
                     return $authUser;
