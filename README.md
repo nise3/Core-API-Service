@@ -16,3 +16,4 @@ php artisan iseed my_table,another_table
 RELEASE = 'php artisan migrate:fresh --seed'
 RELEASE = 'php artisan list'
 ```
+
