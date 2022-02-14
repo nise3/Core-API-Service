@@ -136,6 +136,27 @@ class PermissionSubGroupService
     }
 
     /**
+     * @param string $title
+     * @param Carbon $startTime
+     * @return array
+     */
+    public function getOnePermissionSubGroupByTitle(string $title, Carbon $startTime): array
+    {
+        /** @var Builder $permissionSubGroupBuilder */
+        $permissionSubGroup = PermissionSubGroup::where('title_en', $title)->firstOrFail();
+
+        return [
+            "data" => $permissionSubGroup,
+            "_response_status" => [
+                "success" => true,
+                "code" => Response::HTTP_OK,
+                "started" => $startTime->format('H i s'),
+                "finished" => Carbon::now()->format('H i s'),
+            ]
+        ];
+    }
+
+    /**
      * @param array $data
      * @param PermissionSubGroup $permissionSubGroup
      * @return PermissionSubGroup
