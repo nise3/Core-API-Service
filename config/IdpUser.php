@@ -54,9 +54,9 @@ return [
 
     'idps' => [
         'wso2idp' => [
-            'base_url' => 'https://192.168.13.206:9448',
-            'username' => 'admin',
-            'password' => 'admin'
+            'base_url' => env('WSO2_IDP_BASE_URL', 'https://identity-dev.nise3.xyz'),
+            'username' => env('WSO2_IDP_USERNAME', 'admin'),
+            'password' => env('WSO2_IDP_PASSWORD', 'Iadmin'),
         ],
     ],
 

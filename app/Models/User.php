@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\Hash;
  * @property int loc_division_id
  * @property int loc_district_id
  * @property int loc_upazila_id
+ * @property int permission_group_id
+ * @property int permission_sub_group_id
  * @property int industry_association_id
  * @property int branch_id
  * @property int training_center_id

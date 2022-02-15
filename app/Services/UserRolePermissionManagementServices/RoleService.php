@@ -22,6 +22,7 @@ class RoleService
      */
     public function getAllRoles(array $request, Carbon $startTime): array
     {
+
         $titleEn = $request['title_en'] ?? "";
         $title = $request['title'] ?? "";
         $paginate = $request['page'] ?? "";
@@ -30,6 +31,7 @@ class RoleService
         $order = $request['order'] ?? "ASC";
         $organizationId = $request['organization_id'] ?? "";
         $instituteId = $request['institute_id'] ?? "";
+        $industryAssociationId = $request['industry_association_id'] ?? "";
 
         /** @var Role|Builder $rolesBuilder */
         $rolesBuilder = Role::select([
@@ -39,6 +41,7 @@ class RoleService
             'roles.key',
             'roles.description',
             'roles.organization_id',
+            'roles.industry_association_id',
             'roles.institute_id',
             'roles.permission_group_id',
             'permission_groups.title_en as permission_group_title_en',
@@ -68,8 +71,12 @@ class RoleService
         if (is_numeric($rowStatus)) {
             $rolesBuilder->where('roles.row_status', $rowStatus);
         }
+
         if (is_numeric($organizationId)) {
             $rolesBuilder->where('roles.organization_id', $organizationId);
+        }
+        if (is_numeric($industryAssociationId)) {
+            $rolesBuilder->where('roles.industry_association_id', $industryAssociationId);
         }
         if (is_numeric($instituteId)) {
             $rolesBuilder->where('roles.institute_id', $instituteId);
@@ -219,7 +226,7 @@ class RoleService
             'permission_group_id' => ['nullable', 'exists:permission_groups,id'],
             'permission_sub_group_id' => ['nullable', 'exists:permission_sub_groups,id'],
             'organization_id' => 'nullable|int|gt:0',
-            'organization_association_id' => 'nullable|int|gt:0',
+            'industry_association_id' => 'nullable|int|gt:0',
             'institute_id' => 'nullable|int|gt:0',
             'key' => ['required', 'unique:roles,key,' . $id, 'min:2'],
             'row_status' => [
@@ -262,6 +269,7 @@ class RoleService
             'title' => 'nullable|max:300|min:2',
             "organization_id" => 'nullable|int|gt:0',
             "institute_id" => 'nullable|int|gt:0',
+            'industry_association_id' => 'nullable|int|gt:0',
             'page' => 'int|gt:0',
             'page_size' => 'int|gt:0',
             'order' => [
