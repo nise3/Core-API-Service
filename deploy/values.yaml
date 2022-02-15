@@ -18,7 +18,7 @@ variables:
 
   # app version, changing version will auto deploy the app to current version
 
-  imageAppVersion: "2.2.6"
+  imageAppVersion: "2.2.7"
 
   # increase this when you need scale up
   replicaCount: 1
@@ -34,7 +34,7 @@ variables:
   serviceTargetPort: 80
 
   #app buil image
-  imageRepository: registry.nise3.xyz/nise3-core-api-docker
+  imageRepository: registry.nise.gov.bd/nise3-core-api-docker
 
 
   #git hub project id
