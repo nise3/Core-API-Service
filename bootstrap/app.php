@@ -70,6 +70,8 @@ $app->configure('sms');
 $app->configure('IdpUser');
 $app->configure('queue');
 $app->configure('nise3RabbitMq');
+$app->configure('elasticSearchLogConfig');
+$app->configure('lumenDefaultLogConfig');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
