@@ -247,6 +247,57 @@ class UserService
     }
 
     /**
+     * @param string $username
+     * @param Carbon $startTime
+     * @return array
+     */
+    public function getUserByUsername(string $username, Carbon $startTime): array
+    {
+        /** @var User|Builder $userBuilder */
+        $userBuilder = User::select([
+            "users.id",
+            'users.idp_user_id',
+            "users.name_en",
+            "users.name",
+            "users.user_type",
+            "users.username",
+            "users.institute_id",
+            "users.organization_id",
+            "users.role_id",
+            "users.email",
+            "users.country",
+            "users.phone_code",
+            "users.mobile",
+            "users.loc_division_id",
+            "users.loc_district_id",
+            "users.loc_upazila_id",
+            "users.verification_code",
+            "users.verification_code_verified_at",
+            "users.verification_code_sent_at",
+            "users.password",
+            "users.profile_pic",
+            "users.branch_id",
+            "users.training_center_id",
+            "users.row_status",
+            "users.created_by",
+            "users.updated_by",
+            "users.created_at",
+            "users.updated_at",
+        ]);
+
+        $user = $userBuilder->where('users.username', $username)->first();
+
+        return [
+            "data" => $user ?: null,
+            "_response_status" => [
+                "success" => true,
+                "code" => Response::HTTP_OK,
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+    }
+
+    /**
      * @param string $id
      * @return array
      * @throws RequestException

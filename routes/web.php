@@ -65,6 +65,9 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         /** Permission subgroup by title */
         $router->get("permission-sub-group/{title}", ["as" => "service-to-service-call.permission-sub-group", "uses" => "PermissionSubGroupController@getByTitle"]);
+
+        /** Get user by username */
+        $router->get("user-by-username/{username}", ["as" => "service-to-service-call.user-by-username", "uses" => "UserController@getByUsername"]);
     });
 
     $router->put('user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
