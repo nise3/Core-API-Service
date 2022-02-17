@@ -125,6 +125,7 @@ spec:
         hostnames:
         - "apim.nise.gov.bd"
         - "identity.nise.gov.bd"
+        - "registry.nise.gov.bd"
       volumes:
       - name: "{{ .Chart.Name }}"
         persistentVolumeClaim:
