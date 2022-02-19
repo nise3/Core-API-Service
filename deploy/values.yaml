@@ -148,6 +148,10 @@ variables:
     REDIS_PASSWORD: "k?admin"
     REDIS_PORT: 6379
 
+    LOG_CHANNEL: "elasticsearch"
+    ELASTIC_HOST: "http://elasticsearch.monitoring:9200"
+    ELASTIC_LOGS_INDEX: "core_file_logs"
+
     RABBITMQ_HOST: "rabbitmqcluster.default"
     RABBITMQ_PORT: "5672"
     RABBITMQ_VHOST: "/"
