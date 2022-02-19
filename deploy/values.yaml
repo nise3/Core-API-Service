@@ -13,11 +13,10 @@ variables:
   # ingress cluster-issuer class
   ingressClusterIssuer: "k-issuer"
 
-    # is lts acme, value is boolean
+  # is lts acme, value is boolean
   ltsAcme: false
 
   # app version, changing version will auto deploy the app to current version
-
   imageAppVersion: "2.2.9"
 
   # increase this when you need scale up
@@ -35,7 +34,6 @@ variables:
 
   #app buil image
   imageRepository: registry.nise.gov.bd/nise3-core-api-docker
-
 
   #git hub project id
   githubProjectRepoID: "27831720"
