@@ -159,8 +159,8 @@ variables:
     RABBITMQ_PASSWORD: "wYUjdbPnBX7Wqk2Omfnarc6sHrwd-QlD"
 
     WSO2_APIM_BASE_URL: "https://apim.nise.gov.bd"
-    WSO2_APIM_CLIENT_KEY: "_cjSdJTrsXe_0JpFgJl6ZggHXl0a"
-    WSO2_APIM_CLIENT_SECRET: "fSlTTavyBqqWyRnfW51YctCbeWEa"
+    WSO2_APIM_CLIENT_KEY: "EQs8pgH2sQsRsdNzPHiasSVIsV4a"
+    WSO2_APIM_CLIENT_SECRET: "dpwf3v9gHPCh5cjolfbi_GUj6aQa"
 
     WSO2_IDP_BASE_URL: "https://identity.nise.gov.bd"
     WSO2_IDP_BASE_USER_URL: "https://identity.nise.gov.bd/scim2/Users"
