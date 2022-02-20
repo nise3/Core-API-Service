@@ -176,8 +176,6 @@ variables:
     CMS_API_BASE_URL: "http://nise3-cms.default/api/v1/"
     MAIL_API_BASE_URL: "http://nise3-mail.default/api/v1/"
 
-
-
-  #control git realese branch
+  #control git release branch
   GIT_DEVELOPMENT_BRANCH: "develop"
   GIT_PRODUCTION_BRANCH: "master"
