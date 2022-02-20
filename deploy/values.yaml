@@ -134,6 +134,7 @@ variables:
     MAIL_API_BASE_URL: "http://nise3-mail/api/v1/"
 
   PRODUCTION:
+
     APP_ENV: "local"
     APP_DEBUG: "true"
     APP_URL: "nise3-core.default"
@@ -145,6 +146,12 @@ variables:
     DB_PASSWORD: jR{sadmtbdkrishiqbRj
 
     REDIS_HOST: "redis.redis"
+    REDIS_PASSWORD: "k?admin"
+    REDIS_PORT: 6379
+
+    CACHE_DRIVER: "redis"
+    REDIS_CLIENT: "predis"
+    REDIS_HOST: "redis-headless.redis-node"
     REDIS_PASSWORD: "k?admin"
     REDIS_PORT: 6379
 
