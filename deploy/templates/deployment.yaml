@@ -58,11 +58,6 @@ spec:
             {{ if eq .Values.variables.APP_ENV "PRODUCTION" }}
           image: "{{ .Values.variables.common.imageRepository }}:{{ .Values.variables.systemProd.imageAppVersion  | default .Chart.AppVersion }}"
             {{ end }}
-          args:
-            - service apache2 start && php /app/artisan queue:work --queue=cms.batch.calender.q
-          command:
-            - sh
-            - -c
           imagePullPolicy: {{ .Values.variables.imagePullPolicy }}
           ports:
             - containerPort: 80
