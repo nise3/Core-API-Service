@@ -131,7 +131,7 @@ variables:
     RABBITMQ_USER: "default_user_F6TVq9AKwb_MuJ79Ho7"
     RABBITMQ_PASSWORD: "wYUjdbPnBX7Wqk2Omfnarc6sHrwd-QlD"
 
-    WSO2_APIM_BASE_URL: https:\/\/apim.nise.gov.bd
+    WSO2_APIM_BASE_URL: https://apim.nise.gov.bd
     WSO2_APIM_CLIENT_KEY: "EQs8pgH2sQsRsdNzPHiasSVIsV4a"
     WSO2_APIM_CLIENT_SECRET: "dpwf3v9gHPCh5cjolfbi_GUj6aQa"
 
