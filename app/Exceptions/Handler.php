@@ -11,7 +11,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Client\RequestException as IlluminateRequestException;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -87,16 +87,17 @@ class Handler extends ExceptionHandler
             $errors['errors'] = $e->errors();
         } elseif ($e instanceof BindingResolutionException) {
             $errors['_response_status']['message'] = "Binding Resolution Error";
-        } else if ($e instanceof RequestException || $e instanceof IlluminateRequestException) {
+        } elseif ($e instanceof ConnectionException) {
+            $errors['_response_status']['code'] = ResponseAlias::HTTP_REQUEST_TIMEOUT;
+            $errors['_response_status']['message'] = $e->getMessage();
+        } else if ($e instanceof HttpErrorException) {
+            $errors['_response_status']['message'] = $e->getPreparedMessage();
+            $errors['_response_status']['code'] = $e->getCode() ? $e->getCode() : ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
+        } else if ($e instanceof RequestException) {
             $errors = idUserErrorMessage($e);
-//            $errors['_response_status']['message'] = $e->getMessage();
-//            $errors['_response_status']['code'] = $e->getCode();
         } elseif ($e instanceof ModelNotFoundException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_NOT_FOUND;
             $errors['_response_status']['message'] = 'Entry or Row for ' . str_replace('App\\', '', $e->getModel()) . ' was not Found'; //$e->getMessage();
-        } elseif ($e instanceof NotFoundHttpException) {
-            $errors['_response_status']['code'] = ResponseAlias::HTTP_NOT_FOUND;
-            $errors['_response_status']['message'] = $e->getMessage();
         } elseif ($e instanceof BadMethodCallException) {
             $errors['_response_status']['message'] = "Bad Method has been Called";
         } elseif ($e instanceof PDOException) {
@@ -112,7 +113,6 @@ class Handler extends ExceptionHandler
         } elseif ($e instanceof ParseError) {
             $errors['_response_status']['message'] = "Parsing Error";
         } elseif ($e instanceof Exception) {
-            $errors['_response_status']['code'] = $e->getCode() ?? ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
             $errors['_response_status']['message'] = $e->getMessage();
         }
 

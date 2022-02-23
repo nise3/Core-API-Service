@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    'default' => env('CACHE_DRIVER', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,18 +39,15 @@ return [
         'array' => [
             'driver' => 'array',
         ],
-
         'database' => [
             'driver' => 'database',
             'table' => env('CACHE_DATABASE_TABLE', 'cache'),
             'connection' => env('CACHE_DATABASE_CONNECTION', null),
         ],
-
         'file' => [
             'driver' => 'file',
             'path' => storage_path('framework/cache/data'),
         ],
-
         'memcached' => [
             'driver' => 'memcached',
             'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
@@ -69,10 +66,9 @@ return [
                 ],
             ],
         ],
-
         'redis' => [
             'driver' => 'redis',
-            'connection' => env('CACHE_REDIS_CONNECTION', 'default'),
+            'connection' => env('CACHE_REDIS_CONNECTION', 'cache'),
         ],
 
     ],

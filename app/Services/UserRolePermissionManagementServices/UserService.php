@@ -2,24 +2,27 @@
 
 namespace App\Services\UserRolePermissionManagementServices;
 
-use App\Facade\AuthUser;
+use App\Exceptions\HttpErrorException;
 use App\Models\BaseModel;
+use App\Models\Domain;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
-use GuzzleHttp\Promise\PromiseInterface;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 /**
  *
@@ -30,11 +33,10 @@ class UserService
      * @param array $request
      * @param Carbon $startTime
      * @return array
+     * @throws Exception
      */
     public function getAllUsers(array $request, Carbon $startTime): array
     {
-        $authUser = Auth::user();
-
         $paginate = $request['page'] ?? "";
         $pageSize = $request['page_size'] ?? "";
         $nameEn = $request['name_en'] ?? "";
@@ -82,12 +84,12 @@ class UserService
             "users.updated_by",
             "users.created_at",
             "users.updated_at",
-        ]);
+
+        ])->acl();
 
         /** auth user shouldn't show in user list*/
-        if($authUser){
-            $usersBuilder->where('users.id','!=', $authUser->id);
-        }
+        $usersBuilder->where('users.id', '!=', Auth::id());
+
 
         $usersBuilder->leftJoin('roles', function ($join) use ($rowStatus) {
             $join->on('roles.id', '=', 'users.role_id')
@@ -228,11 +230,62 @@ class UserService
 
         $user = $userBuilder->where('users.id', $id)->first();
 
-        if($user->user_type == BaseModel::INSTITUTE_USER){
+        if ($user->user_type == BaseModel::INSTITUTE_USER) {
             $user['branch_id'] = $user->branch_id;
             $user['training_center_id'] = $user->training_center_id;
             $user['institute_user_type'] = $this->getIndustryUserType($user);
         }
+
+        return [
+            "data" => $user ?: null,
+            "_response_status" => [
+                "success" => true,
+                "code" => Response::HTTP_OK,
+                "query_time" => $startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+    }
+
+    /**
+     * @param string $username
+     * @param Carbon $startTime
+     * @return array
+     */
+    public function getUserByUsername(string $username, Carbon $startTime): array
+    {
+        /** @var User|Builder $userBuilder */
+        $userBuilder = User::select([
+            "users.id",
+            'users.idp_user_id',
+            "users.name_en",
+            "users.name",
+            "users.user_type",
+            "users.username",
+            "users.institute_id",
+            "users.organization_id",
+            "users.role_id",
+            "users.email",
+            "users.country",
+            "users.phone_code",
+            "users.mobile",
+            "users.loc_division_id",
+            "users.loc_district_id",
+            "users.loc_upazila_id",
+            "users.verification_code",
+            "users.verification_code_verified_at",
+            "users.verification_code_sent_at",
+            "users.password",
+            "users.profile_pic",
+            "users.branch_id",
+            "users.training_center_id",
+            "users.row_status",
+            "users.created_by",
+            "users.updated_by",
+            "users.created_at",
+            "users.updated_at",
+        ]);
+
+        $user = $userBuilder->where('users.username', $username)->first();
 
         return [
             "data" => $user ?: null,
@@ -251,44 +304,67 @@ class UserService
      */
     public function getUserPermissionWithMenuItems(string $id): array
     {
-        $user = User::where('idp_user_id', $id)->first();
 
-        if ($user == null)
-            return [];
+        $user = User::where('idp_user_id', $id)->firstOrFail();
 
         $institute = null;
         $organization = null;
+        $industryAssociation = null;
         $isSystemUser = $user->user_type == BaseModel::SYSTEM_USER;
         $isOrganizationUser = $user->user_type == BaseModel::ORGANIZATION_USER;
         $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
+        $isIndustryAssociationUser = $user->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER;
 
         if ($user->user_type == BaseModel::ORGANIZATION_USER && !is_null($user->organization_id)) {
 
-            $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'organizations/' . $user->organization_id;
+            $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'service-to-service-call/organizations/' . $user->organization_id;
 
-            $responseData = Http::withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
-                ->withHeaders([BaseModel::DEFAULT_SERVICE_TO_SERVICE_CALL_KEY => true])
+            $organization = Http::withOptions([
+                'debug' => config("nise3.is_dev_mode"),
+                'verify' => config("nise3.should_ssl_verify")
+            ])
+                ->timeout(5)
                 ->get($url)
-                ->throw(function ($response, $exception) {
-                    return $exception;
+                ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
+                    Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                    Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . $httpResponse->body());
+                    throw new HttpErrorException($httpResponse);
                 })
-                ->json();
-
-            $organization = $responseData['data'] ?? [];
+                ->json('data', []);
 
         } else if ($user->user_type == BaseModel::INSTITUTE_USER && !is_null($user->institute_id)) {
 
-            $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'institutes/' . $user->institute_id;
+            $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/institutes/' . $user->institute_id;
 
-            $responseData = Http::retry(3)
-                ->withOptions(['debug' => config("nise3.is_dev_mode"), 'verify' => config("nise3.should_ssl_verify")])
+            $institute = Http::withOptions([
+                'debug' => config("nise3.is_dev_mode"),
+                'verify' => config("nise3.should_ssl_verify")
+            ])
+                ->timeout(5)
                 ->get($url)
-                ->throw(function ($response, $exception) {
-                    return $exception;
+                ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
+                    Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                    Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . $httpResponse->body());
+                    throw new HttpErrorException($httpResponse);
                 })
-                ->json();
+                ->json('data', []);
 
-            $institute = $responseData['data'] ?? [];
+        } else if ($user->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER && !is_null($user->industry_association_id)) {
+
+            $url = clientUrl(BaseModel::ORGANIZATION_CLIENT_URL_TYPE) . 'service-to-service-call/industry-associations/' . $user->industry_association_id;
+
+            $industryAssociation = Http::withOptions([
+                'debug' => config("nise3.is_dev_mode"),
+                'verify' => config("nise3.should_ssl_verify")
+            ])
+                ->timeout(5)
+                ->get($url)
+                ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
+                    Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                    Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . $httpResponse->body());
+                    throw new HttpErrorException($httpResponse);
+                })
+                ->json('data', []);
         }
 
         $role = Role::find($user->role_id);
@@ -328,6 +404,7 @@ class UserService
             'isSystemUser' => $isSystemUser,
             'isInstituteUser' => $isInstituteUser,
             'isOrganizationUser' => $isOrganizationUser,
+            'isIndustryAssociationUser' => $isIndustryAssociationUser,
             'permissions' => $conditionalPermissions,
             'menu_items' => $menuItem,
             'role_id' => $user->role_id,
@@ -336,11 +413,14 @@ class UserService
             'institute' => $institute,
             'organization_id' => $user->organization_id,
             'organization' => $organization,
+            'industry_association_id' => $user->industry_association_id,
+            'industry_association' => $industryAssociation,
             'username' => $user->username,
             'displayName' => $user->name_en,
             'name' => $user->name,
             'profile_pic' => $user->profile_pic,
             'user_id' => $user->id,
+            'domain' => $this->getDomain($user)
         ];
 
         if ($isInstituteUser) {
@@ -350,6 +430,40 @@ class UserService
         }
 
         return $result;
+    }
+
+    private function getDomain(User $user)
+    {
+
+        if ($user->isSystemUser()) {
+            return '';
+        }
+
+        $domain = request()->headers->get('Domain');
+        $attr = '';
+        if (str_ends_with($domain, 'nise.gov.bd')) {
+            $attr = 'nise.gov.bd';
+        } else if (str_ends_with($domain, '-staging.nise3.xyz')) {
+            $attr = '-staging.nise3.xyz';
+        } else if (str_ends_with($domain, '-dev.nise3.xyz')) {
+            $attr = '-dev.nise3.xyz';
+        } else if (str_ends_with($domain, 'nise.asm')) {
+            $attr = 'nise.asm';
+        }
+
+        $builder = Domain::where('domain', 'like', '%\.' . $attr);
+
+        if ($user->isInstituteUser()) {
+            $builder->where('institute_id', $user->institute_id);
+        } else if ($user->isOrganizationUser()) {
+            $builder->where('organization_id', $user->organization_id);
+        } else if ($user->isIndustryAssociationUser()) {
+            $builder->where('industry_association_id', $user->industry_association_id);
+        }
+
+        $domainObj = $builder->first();
+
+        return $domainObj ? $domainObj->domain : '';
     }
 
 
@@ -372,11 +486,7 @@ class UserService
     {
         $user = User::where('idp_user_id', $id)
             ->where('row_status', BaseModel::ROW_STATUS_ACTIVE)
-            ->first();
-
-        if (!$user) {
-            return new \stdClass();
-        }
+            ->firstOrFail();
 
         $role = Role::find($user->role_id);
         $rolePermissions = Role::where('id', $user->role_id ?? null)->with('permissions:key')->first();
@@ -396,11 +506,12 @@ class UserService
      * @param array $data
      * @param User $user
      * @return User
+     * @throws Throwable
      */
     public function store(User $user, array $data): User
     {
         $user->fill($data);
-        $user->save();
+        throw_if(!$user->save(), 'Saving user to DB is failed', 500);
         return $user;
     }
 
@@ -422,6 +533,122 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param Request $request
+     */
+    public function userApproval(Request $request)
+    {
+        $requestData = $request->all();
+        Log::info(json_encode($requestData));
+        $userType = $requestData['user_type'];
+        $users = null;
+        if ($userType == BaseModel::ORGANIZATION_USER) {
+            $users = User::where('organization_id', $requestData['organization_id'])
+                ->where('user_type', $userType)
+                ->get();
+        } elseif ($userType == BaseModel::INSTITUTE_USER) {
+            $users = User::where('institute_id', $requestData['institute_id'])
+                ->where('user_type', $userType)
+                ->get();
+        } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
+            $users = User::where('industry_association_id', $requestData['industry_association_id'])
+                ->where('user_type', $userType)
+                ->get();
+        }
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                Cache::forget($user->idp_user_id);
+
+                /** default role will be created when the user is approved for first time */
+                if (!empty($requestData['row_status']) && $requestData['row_status'] == BaseModel::ROW_STATUS_PENDING) {
+                    $role = $this->createDefaultRole($requestData);
+                    if ($role) {
+                        $user->role_id = $role->id;
+                    }
+                }
+                $user->row_status = BaseModel::ROW_STATUS_ACTIVE;
+                $user->save();
+            }
+        }
+        return $users;
+    }
+
+    /**
+     * @param Request $request
+     * @throws Exception
+     */
+    public function userDelete(Request $request)
+    {
+        $requestData = $request->all();
+        Log::info(json_encode($requestData));
+        $userType = $requestData['user_type'];
+        if (!empty($requestData['training_center_id'])) {
+            $trainingCenterId = $requestData['training_center_id'];
+        }
+        if (!empty($requestData['branch_id'])) {
+            $branchId = $requestData['branch_id'];
+        }
+
+        if ($userType == BaseModel::ORGANIZATION_USER) {
+            $users = User::where('organization_id', $requestData['organization_id'])
+                ->where('user_type', $userType)
+                ->get();
+        } elseif ($userType == BaseModel::INSTITUTE_USER) {
+            /** @var Builder $userBuilder */
+            $userBuilder = User::where('institute_id', $requestData['institute_id']);
+            $userBuilder->where('user_type', $userType);
+            if (!empty($trainingCenterId)) {
+                $userBuilder->where('training_center_id', $trainingCenterId);
+            }
+            if (!empty($branchId)) {
+                $userBuilder->where('branch_id', $branchId);
+                $userBuilder->whereNull('training_center_id');
+            }
+            $users = $userBuilder->get();
+
+        } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
+            $users = User::where('industry_association_id', $requestData['industry_association_id'])
+                ->where('user_type', $userType)
+                ->get();
+        }
+
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                $this->idpUserDelete($user->idp_user_id);
+                Cache::forget($user->idp_user_id);
+                $user->delete();
+            }
+        }
+    }
+
+
+    /**
+     * @param Request $request
+     */
+    public function userRejection(Request $request)
+    {
+        $requestData = $request->all();
+        Log::info(json_encode($requestData));
+        $userType = $requestData['user_type'];
+        $users = null;
+        if ($userType == BaseModel::ORGANIZATION_USER) {
+            $users = User::where('organization_id', $requestData['organization_id'])->get();
+        } elseif ($userType == BaseModel::INSTITUTE_USER) {
+            $users = User::where('institute_id', $requestData['institute_id'])->get();
+        } elseif ($userType == BaseModel::INDUSTRY_ASSOCIATION_USER) {
+            $users = User::where('industry_association_id', $requestData['industry_association_id'])->get();
+        }
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                Cache::forget($user->idp_user_id);
+                $user->row_status = BaseModel::ROW_STATUS_REJECT;
+                $user->save();
+            }
+
+        }
+        return $users;
+    }
+
 
     /**
      * @param array $data
@@ -429,23 +656,24 @@ class UserService
      */
     private function createDefaultRole(array $data): Role
     {
-        $roleService = new RoleService();
-
-        $roleField = [
+        $data = [
             'key' => str_replace(' ', '_', $data['name_en']) . "_" . time(),
             'title_en' => $data['name_en'],
             'title' => $data['name'],
             'permission_sub_group_id' => $data['permission_sub_group_id'] ?? null,
             'organization_id' => $data['organization_id'] ?? null,
             'institute_id' => $data['institute_id'] ?? null,
+            'industry_association_id' => $data['industry_association_id'] ?? null,
         ];
 
-        $role = app(RoleService::class)->store($roleField);
+        $role = app(RoleService::class)->store($data);
+
         $permissionSubGroupPermissionIds = DB::table('permission_sub_group_permissions')
             ->where('permission_sub_group_id', $data['permission_sub_group_id'])
             ->pluck('permission_id')
             ->toArray();
-        $roleService->assignPermission($role, $permissionSubGroupPermissionIds);
+
+        $role->permissions()->sync($permissionSubGroupPermissionIds);
 
         return $role;
     }
@@ -500,13 +728,14 @@ class UserService
      * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function registerUserValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function userOpenRegistrationValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "user_type" => "required|min:1",
             "username" => 'required|max:100|string|unique:users,username,' . $id,
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
+            "industry_association_id" => 'nullable|int',
             "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
@@ -533,7 +762,7 @@ class UserService
      * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function organizationOrInstituteUserCreateValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function adminUserCreateValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             'permission_sub_group_id' => 'required|int',
@@ -541,6 +770,7 @@ class UserService
             "username" => 'required|string|unique:users,username,' . $id,
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
+            "industry_association_id" => 'nullable|int',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
@@ -599,6 +829,12 @@ class UserService
             ],
             "institute_id" => [
                 'required_if:user_type,' . BaseModel::INSTITUTE_USER,
+                'nullable',
+                'integer',
+                'gt:0'
+            ],
+            "industry_association_id" => [
+                'required_if:user_type,' . BaseModel::INDUSTRY_ASSOCIATION_USER,
                 'nullable',
                 'integer',
                 'gt:0'
@@ -763,53 +999,47 @@ class UserService
 
     /**
      * @para m array $data
-     * @param array $data
-     * @return PromiseInterface|\Illuminate\Http\Client\Response
+     * @param array $idpUserPayload
+     * @return mixed
+     * @throws Exception
      */
-    public function idpUserCreate(array $data): PromiseInterface|\Illuminate\Http\Client\Response
+    public function idpUserCreate(array $idpUserPayload): mixed
     {
-        $url = clientUrl(BaseModel::IDP_SERVER_CLIENT_URL_TYPE);
-        $payload = $this->prepareIdpPayload($data);
-        Log::info("IDP_Payload is bellow");
-        Log::info(json_encode($payload));
-        $client = Http::withBasicAuth(BaseModel::IDP_USERNAME, BaseModel::IDP_USER_PASSWORD)
-            ->withHeaders([
-                'Content-Type' => 'application/json'
-            ])
-            ->withOptions([
-                'verify' => false
-            ])
-            ->post($url, $payload)
-            ->throw();
+//        $payload = $this->prepareIdpPayload($idpUserPayload);
 
-        Log::channel('idp_user')->info('idp_user_payload', $data);
-        Log::channel('idp_user')->info('idp_user_info', $client->json());
-        return $client;
+        Log::info("IDP_Payload is bellow", $idpUserPayload);
+
+        /** response from idp server after user creation */
+        $object = IdpUser()->setPayload($idpUserPayload);
+        Log::debug('Class Name: ' . get_class($object));
+        $response = $object->create()->get();
+
+        return $response;
     }
 
-    private function prepareIdpPayload($data): array
+
+    /**
+     * Delete Idp User
+     * @throws Exception
+     */
+    public function idpUserDelete(string $idpUserId): mixed
     {
-        $userEmailNo = trim($data['email']);
-        $cleanUserName = trim($data['username']);
-        return [
-            'schemas' => [
-                "urn:ietf:params:scim:schemas:core:2.0:User",
-                "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"
-            ],
-            'name' => [
-                'familyName' => $data['name'],
-                'givenName' => $data['name']
-            ],
-            'active' => (string)$data['status'],
-            'organization' => $data['name'],
-            'userName' => $cleanUserName,
-            'password' => $data['password'],
-            'userType' => $data['user_type'],
-            'country' => 'BD',
-            'emails' => [
-                0 => $userEmailNo
-            ]
-        ];
+        return IdpUser()
+            ->use('wso2idp')
+            ->setPayload($idpUserId)
+            ->delete()
+            ->get();
     }
 
+    /**
+     * Update Idp User
+     * @throws Exception
+     */
+    public function idpUserUpdate(array $idpUserPayload): mixed
+    {
+        return IdpUser()
+            ->setPayload($idpUserPayload)
+            ->update()
+            ->get();
+    }
 }

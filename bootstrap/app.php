@@ -67,6 +67,11 @@ $app->configure('services');
 $app->configure('nise3');
 $app->configure('httpclientendpoint');
 $app->configure('sms');
+$app->configure('IdpUser');
+$app->configure('queue');
+$app->configure('nise3RabbitMq');
+$app->configure('elasticSearchLogConfig');
+$app->configure('lumenDefaultLogConfig');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -105,7 +110,16 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Felixkiss\UniqueWithValidator\ServiceProvider::class);
 $app->register(Khbd\LaravelSmsBD\SMSServiceProvider::class);
 $app->register(Ixudra\Curl\CurlServiceProvider::class);
+$app->register(Khbd\LaravelWso2IdentityApiUser\IdpUserServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 
+$app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\RabbitMQServiceProvider::class);
+$app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
+
+if ($app->environment('local')) {
+    $app->register(App\Iseed\IseedServiceProvider::class);
+}
 
 //$app->register(Laravel\Passport\PassportServiceProvider::class);
 //$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);

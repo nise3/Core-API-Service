@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\UserRolePermissionManagementServices\RoleService;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -76,6 +78,10 @@ class RoleController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $this->roleService->validator($request)->validate();
+       /** @var User $authUser */
+        $authUser = Auth::user();
+        $validated['permission_group_id'] = $authUser->role->permission_group_id;
+        $validated['permission_sub_group_id'] = $authUser->role->permission_sub_group_id;
         $role = $this->roleService->store($validated);
         $response = [
             'data' => $role,
@@ -149,6 +155,9 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $validated = $this->roleService->permissionValidation($request)->validated();
         $role = $this->roleService->assignPermission($role, $validated['permissions']);
+
+        Cache::flush(); // invalidate all cache data when role permission assign
+
         $response = [
             'data' => $role,
             '_response_status' => [

@@ -1,0 +1,142 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "APP Token and SSO Token Generation APIs",
+        "description": "APP Token and SSO Token Generation APIs",
+        "version": "1.0.0",
+        "license": {
+            "name": "MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://nise-core.softbd"
+        },
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
+    "paths": {
+        "/apim-app-oauth2-access-token": {
+            "get": {
+                "summary": "API Manager OAuth2 Access Token Generation ",
+                "description": "API Manager OAuth2 Access Token Generation with Consumer Key & Secret",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": {
+                                        "access_token": "9238740923409328409823904832098409328kjhsafdklsdflkdsjflkdsjflkj"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Api info"
+                ]
+            }
+        },
+        "/sso-authorize-code-grant": {
+            "post": {
+                "summary": "Endpoint to generate OAuth2 access and refresh token using authorize code using authorization code grant",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Associate model",
+                                "properties": {
+                                    "code": {
+                                        "type": "string"
+                                    },
+                                    "redirect_uri": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "code",
+                                    "redirect_uri"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": {
+                                        "access_token": "923840923840923849032849028ksjdflksdjfsldkjf",
+                                        "refresh_token": "039842384nbe876d98a7sd98as7d8a7d98as7d9a878789"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sso-renew-access-token": {
+            "post": {
+                "summary": "Endpoint to renew OAuth2 access token using refresh token using refresh token grant",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Associate model",
+                                "properties": {
+                                    "refresh_token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "refresh_token"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": {
+                                        "access_token": "923840923840923849032849028ksjdflksdjfsldkjf",
+                                        "refresh_token": "039842384nbe876d98a7sd98as7d8a7d98as7d9a878789"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "apikey"
+            }
+        },
+        "parameters": {
+        },
+        "schemas": {
+        }
+    }
+}

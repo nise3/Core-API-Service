@@ -10,6 +10,9 @@
     },
     "servers": [
         {
+            "url": "http://nise-core.softbd/api/v1"
+        },
+        {
             "url": "http://localhost:8000/api/v1"
         },
         {
@@ -2630,7 +2633,12 @@
     },
     "components": {
         "securitySchemes": {
-            "bearerAuth": {
+            "Authorization": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "User-Token": {
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
