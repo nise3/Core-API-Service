@@ -21,9 +21,8 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->truncate();
 
-        DB::table('users')->insert(array(
-
-            array(
+        DB::table('users')->insert([
+            [
                 'id' => 1,
                 'code' => 'USYS0000001',
                 'country' => 'BD',
@@ -33,7 +32,7 @@ class UsersTableSeeder extends Seeder
                 'updated_by' => NULL,
                 'deleted_at' => NULL,
                 'email' => 'admin@nise.gov.bd',
-                'idp_user_id' => 'ebfc38c1-a990-42ff-a764-8823cd0b618b',
+                'idp_user_id' => 'db611cb1-e1db-4ca6-8fd2-560690df7318',
                 'industry_association_id' => NULL,
                 'organization_id' => NULL,
                 'institute_id' => NULL,
@@ -56,9 +55,8 @@ class UsersTableSeeder extends Seeder
                 'verification_code' => '1234',
                 'verification_code_sent_at' => '2022-01-08 00:00:00',
                 'verification_code_verified_at' => '2022-01-09 18:30:56',
-            ),
-
-            array(
+            ],
+            [
                 'id' => 2,
                 'branch_id' => NULL,
                 'code' => 'UINA0000002',
@@ -69,7 +67,7 @@ class UsersTableSeeder extends Seeder
                 'updated_by' => 1,
                 'deleted_at' => NULL,
                 'email' => 'tasmidurrahman@gmail.com',
-                'idp_user_id' => '3b32042d-d52d-407c-96ab-0380a8f7bfcd',
+                'idp_user_id' => '3c5c0484-48c4-4b1b-81e3-aec37b1fb304',
                 'industry_association_id' => 1,
                 'institute_id' => NULL,
                 'loc_district_id' => 18,
@@ -87,13 +85,12 @@ class UsersTableSeeder extends Seeder
                 'row_status' => 1,
                 'training_center_id' => NULL,
                 'user_type' => 5,
-                'username' => '01788888888',
+                'username' => '01710000001',
                 'verification_code' => '1234',
                 'verification_code_sent_at' => '2022-01-08 00:00:00',
                 'verification_code_verified_at' => '2022-01-09 18:30:56',
-            ),
-
-            array(
+            ],
+            [
                 'id' => 3,
                 'branch_id' => NULL,
                 'code' => 'USSP0000003',
@@ -104,7 +101,7 @@ class UsersTableSeeder extends Seeder
                 'updated_by' => 1,
                 'deleted_at' => NULL,
                 'email' => 'rahulbgc21@gmail.com',
-                'idp_user_id' => '13772c24-5b67-4996-8a86-284538dc9f77',
+                'idp_user_id' => 'c53ff90d-2c40-43ec-9025-98f55999f715',
                 'industry_association_id' => NULL,
                 'institute_id' => 1,
                 'loc_district_id' => 18,
@@ -112,7 +109,7 @@ class UsersTableSeeder extends Seeder
                 'loc_upazila_id' => NULL,
                 'mobile' => '01674248402',
                 'name' => 'যুব উন্নয়ন অধিদপ্তর-এডমিন',
-                'name_en' => 'Department of Youth Development-Admin',
+                'name_en' => 'DYD - Admin',
                 'organization_id' => NULL,
                 'password' => NULL,
                 'phone_code' => '880',
@@ -122,13 +119,12 @@ class UsersTableSeeder extends Seeder
                 'row_status' => 1,
                 'training_center_id' => NULL,
                 'user_type' => 3,
-                'username' => '01812345670',
+                'username' => '01710000002',
                 'verification_code' => '1234',
                 'verification_code_sent_at' => '2022-01-08 00:00:00',
                 'verification_code_verified_at' => '2022-01-09 18:30:56',
-            ),
-
-            array(
+            ],
+            [
                 'branch_id' => NULL,
                 'code' => 'UINA0000004',
                 'country' => 'BD',
@@ -139,7 +135,7 @@ class UsersTableSeeder extends Seeder
                 'deleted_at' => NULL,
                 'email' => 'asmmahmud@gmail.com',
                 'id' => 4,
-                'idp_user_id' => 'f417b6fd-e713-486b-ad86-99abd379a7da',
+                'idp_user_id' => 'eb98a0db-7f23-4e3f-9a34-b4da23179283',
                 'industry_association_id' => 2,
                 'institute_id' => NULL,
                 'loc_district_id' => 18,
@@ -157,13 +153,12 @@ class UsersTableSeeder extends Seeder
                 'row_status' => 1,
                 'training_center_id' => NULL,
                 'user_type' => 5,
-                'username' => '01733333333',
+                'username' => '01710000003',
                 'verification_code' => '1234',
                 'verification_code_sent_at' => '2022-01-08 00:00:00',
                 'verification_code_verified_at' => '2022-01-09 18:30:56',
-            ),
-
-            array(
+            ],
+            [
                 'branch_id' => NULL,
                 'code' => 'USSP0000005',
                 'country' => 'BD',
@@ -174,7 +169,7 @@ class UsersTableSeeder extends Seeder
                 'deleted_at' => NULL,
                 'email' => 'marufmazumder.piistech@gmail.com',
                 'id' => 5,
-                'idp_user_id' => 'a1842dfc-c3df-4b5a-af53-964173bc0a8e',
+                'idp_user_id' => '4dde0c2c-8d7b-469d-ba9a-2215e98b8049',
                 'industry_association_id' => NULL,
                 'institute_id' => 2,
                 'loc_district_id' => 18,
@@ -192,12 +187,12 @@ class UsersTableSeeder extends Seeder
                 'row_status' => 1,
                 'training_center_id' => NULL,
                 'user_type' => 3,
-                'username' => '01887263793',
+                'username' => '01710000004',
                 'verification_code' => '1234',
                 'verification_code_sent_at' => '2022-01-08 00:00:00',
                 'verification_code_verified_at' => '2022-01-09 18:30:56',
-            )
-        ));
+            ]
+        ]);
 
         Schema::enableForeignKeyConstraints();
 
