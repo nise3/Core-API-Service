@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Hash;
  * @property int permission_group_id
  * @property int permission_sub_group_id
  * @property int industry_association_id
+ * @property int registered_training_organization_id
  * @property int branch_id
  * @property int training_center_id
  * @property int $row_status
@@ -95,5 +96,10 @@ class User extends AuthBaseModel
     public function isIndustryAssociationUser(): bool
     {
         return $this->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER && $this->industry_association_id;
+    }
+
+    public function isRtoUser(): bool
+    {
+        return $this->user_type == BaseModel::REGISTERED_TRAINING_ORGANIZATION_USER && $this->registered_training_organization_id;
     }
 }

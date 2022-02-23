@@ -736,6 +736,7 @@ class UserService
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
             "industry_association_id" => 'nullable|int',
+            "registered_training_organization_id" => 'nullable|int',
             "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
             "email" => 'required|max:191|email',
@@ -771,6 +772,7 @@ class UserService
             "organization_id" => 'nullable|int',
             "institute_id" => 'nullable|int',
             "industry_association_id" => 'nullable|int',
+            "registered_training_organization_id" => 'nullable|int',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
@@ -835,6 +837,12 @@ class UserService
             ],
             "industry_association_id" => [
                 'required_if:user_type,' . BaseModel::INDUSTRY_ASSOCIATION_USER,
+                'nullable',
+                'integer',
+                'gt:0'
+            ],
+            "registered_training_organization_id" => [
+                'required_if:user_type,' . BaseModel::REGISTERED_TRAINING_ORGANIZATION_USER,
                 'nullable',
                 'integer',
                 'gt:0'

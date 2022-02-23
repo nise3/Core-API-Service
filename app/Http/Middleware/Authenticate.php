@@ -57,6 +57,8 @@ class Authenticate
                 $request->offsetSet('organization_id', $authUser->organization_id);
             } else if ($authUser->isIndustryAssociationUser()) {
                 $request->offsetSet('industry_association_id', $authUser->industry_association_id);
+            } else if ($authUser->isRtoUser()) {
+                $request->offsetSet('registered_training_organization_id', $authUser->registered_training_organization_id);
             }
         }
 
