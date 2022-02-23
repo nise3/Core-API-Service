@@ -14,9 +14,9 @@ class AddColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedTinyInteger('user_type')->comment('1 => system user, 2 => organization user, 3 => institute user, 4 => youth user, 5 => industry association user, 6 => trainer user, 7 => rto user')->change();
+            $table->unsignedInteger('user_type')->comment('1 => system user, 2 => organization user, 3 => institute user, 4 => youth user, 5 => industry association user, 6 => trainer user, 7 => rto user')->change();
             $table->unsignedInteger('trainer_id')->nullable()->after('industry_association_id');
-            $table->unsignedInteger('rto_id')->nullable()->after('trainer_id');
+            $table->unsignedInteger('registered_training_organization_id')->nullable()->after('trainer_id');
         });
     }
 
@@ -29,7 +29,7 @@ class AddColumnsToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('trainer_id');
-            $table->dropColumn('rto_id');
+            $table->dropColumn('registered_training_organization_id');
         });
     }
 }
