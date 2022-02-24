@@ -61,7 +61,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     //Service to service direct call without any authorization and authentication
     $router->group(['prefix' => 'service-to-service-call', 'as' => 'service-to-service-call'], function () use ($router) {
         /** domain Fetch  */
-        $router->get("domain-identification/{domain}", ["as" => "service-to-service-call.domain-identification", "uses" => "ApiInfoController@domainDetails"]);
+        $router->get("domain-identification", ["as" => "service-to-service-call.domain-identification", "uses" => "ApiInfoController@domainDetails"]);
 
         /** Permission subgroup by title */
         $router->get("permission-sub-group/{title}", ["as" => "service-to-service-call.permission-sub-group", "uses" => "PermissionSubGroupController@getByTitle"]);

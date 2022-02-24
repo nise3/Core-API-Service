@@ -6,6 +6,7 @@ use App\Models\Domain;
 use App\Services\UserRolePermissionManagementServices\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
@@ -58,8 +59,10 @@ class ApiInfoController extends Controller
     }
 
 
-    public function domainDetails(string $domain): JsonResponse
+    public function domainDetails(Request $request): JsonResponse
     {
+        $domain  = $request->get('domain');
+
         $domain = Domain::where('domain',$domain)->firstOrFail();
 
         $response = [
