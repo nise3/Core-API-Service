@@ -1018,7 +1018,9 @@ class UserService
         Log::info("IDP_Payload is bellow", $idpUserPayload);
 
         /** response from idp server after user creation */
-        $response = IdpUser()->setPayload($idpUserPayload)->create()->get();
+        $object = IdpUser()->setPayload($idpUserPayload);
+        Log::debug('Class Name: ' . get_class($object));
+        $response = $object->create()->get();
 
         return $response;
     }
