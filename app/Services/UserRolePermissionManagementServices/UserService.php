@@ -759,11 +759,11 @@ class UserService
 
     /**
      * validation for organization or institute creation by admin
-     * @param Request $request
+     * @param array $data
      * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function adminUserCreateValidator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function adminUserCreateValidator(array $data, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             'permission_sub_group_id' => 'required|int',
@@ -773,6 +773,7 @@ class UserService
             "institute_id" => 'nullable|int',
             "industry_association_id" => 'nullable|int',
             "registered_training_organization_id" => 'nullable|int',
+            "trainer_id" => 'nullable|int',
             "role_id" => 'nullable|exists:roles,id',
             "name_en" => 'nullable|max:255|min:3',
             "name" => 'required|max:300|min:3',
@@ -800,7 +801,7 @@ class UserService
             ],
 
         ];
-        return Validator::make($request->all(), $rules);
+        return Validator::make($data, $rules);
     }
 
     /**

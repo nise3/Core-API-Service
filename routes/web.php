@@ -68,6 +68,9 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         /** Get user by username */
         $router->get("user-by-username/{username}", ["as" => "service-to-service-call.user-by-username", "uses" => "UserController@getByUsername"]);
+
+        /** Get user by username */
+        $router->post("create-trainer-user", ["as" => "service-to-service-call.create-trainer-user", "uses" => "UserController@trainerYouthUserCreate"]);
     });
 
     $router->put('user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
