@@ -395,7 +395,8 @@ class UserController extends Controller
         $request['password'] = $request['password'] ?? BaseModel::ADMIN_CREATED_USER_DEFAULT_PASSWORD;
         $request['row_status'] = $request['row_status'] ?? BaseModel::ROW_STATUS_ACTIVE;
 
-        $validated = $this->userService->adminUserCreateValidator($request)->validate();
+        $requestedData = $request->all();
+        $validated = $this->userService->adminUserCreateValidator($requestedData)->validate();
         $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
         Log::info(json_encode($validated));
         $idpResponse = null;
@@ -451,6 +452,47 @@ class UserController extends Controller
             }
             throw $e;
         }
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function trainerYouthUserCreate(Request $request): JsonResponse
+    {
+        $request['password'] = $request['password'] ?? BaseModel::ADMIN_CREATED_USER_DEFAULT_PASSWORD;
+        $request['row_status'] = $request['row_status'] ?? BaseModel::ROW_STATUS_ACTIVE;
+
+        $data = $request->all();
+        $trainerUserInfo = $data['trainer_info'];
+
+        $validated = $this->userService->adminUserCreateValidator($trainerUserInfo)->validate();
+        $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
+        $validated['idp_user_id'] = $request['youth_info']['idp_user_id'];
+
+        $user = new User();
+        DB::beginTransaction();
+        try {
+            $user = $this->userService->createRegisterUser($user, $validated);
+
+            if (!$user) {
+                throw new RuntimeException('Saving user to DB is failed', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } catch (Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_CREATED,
+                "message" => "User added successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
