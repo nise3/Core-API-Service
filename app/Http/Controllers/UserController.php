@@ -96,7 +96,7 @@ class UserController extends Controller
     {
         $user = new User();
         $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
-        $validated = $this->userService->validator($request)->validate();
+        $validated = $this->userService->validator($request->all())->validate();
         $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
         $idpResponse = null;
         try {
@@ -189,7 +189,7 @@ class UserController extends Controller
         $request->offsetSet('email', $user->email);
         $request->offsetSet('username', $user->username);
 
-        $validated = $this->userService->validator($request, $id)->validate();
+        $validated = $this->userService->validator($request->all(), $id)->validate();
 
         DB::beginTransaction();
         try {
@@ -466,6 +466,7 @@ class UserController extends Controller
         $youthInfo = $data['youth_info'];
 
         $trainerUserInfo['username'] = strtolower(str_replace(" ", "_", $trainerUserInfo['username']));
+
         $validated = $this->userService->validator($trainerUserInfo)->validate();
         $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
         $validated['idp_user_id'] = $youthInfo['idp_user_id'];

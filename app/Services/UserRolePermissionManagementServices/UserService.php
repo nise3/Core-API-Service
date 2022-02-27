@@ -805,11 +805,11 @@ class UserService
     }
 
     /**
-     * @param Request $request
+     * @param array $data
      * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function validator(array $data, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "user_type" => [
@@ -893,7 +893,7 @@ class UserService
             ];
             $rules['password_confirmation'] = 'required_with:password';
         }
-        return Validator::make($request->all(), $rules);
+        return Validator::make($data, $rules);
     }
 
     /**
