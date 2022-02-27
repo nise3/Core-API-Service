@@ -461,24 +461,20 @@ class UserController extends Controller
      */
     public function trainerYouthUserCreate(Request $request): JsonResponse
     {
-        $request['password'] = $request['password'] ?? BaseModel::ADMIN_CREATED_USER_DEFAULT_PASSWORD;
-        $request['row_status'] = $request['row_status'] ?? BaseModel::ROW_STATUS_ACTIVE;
-
         $data = $request->all();
         $trainerUserInfo = $data['trainer_info'];
+        $youthInfo = $data['youth_info'];
 
-        $validated = $this->userService->adminUserCreateValidator($trainerUserInfo)->validate();
+        $trainerUserInfo['username'] = strtolower(str_replace(" ", "_", $trainerUserInfo['username']));
+        $validated = $this->userService->validator($trainerUserInfo)->validate();
         $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
-        $validated['idp_user_id'] = $request['youth_info']['idp_user_id'];
+        $validated['idp_user_id'] = $youthInfo['idp_user_id'];
 
-        $user = new User();
         DB::beginTransaction();
         try {
-            $user = $this->userService->createRegisterUser($user, $validated);
-
-            if (!$user) {
-                throw new RuntimeException('Saving user to DB is failed', ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
-            }
+            $user = new User();
+            $user = $this->userService->store($user, $validated);
+            DB::commit();
         } catch (Throwable $e){
             DB::rollBack();
             throw $e;
@@ -493,7 +489,8 @@ class UserController extends Controller
                 "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
             ]
         ];
-        return Response::json($response, ResponseAlias::HTTP_OK);
+
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
     /**

@@ -848,6 +848,11 @@ class UserService
                 'integer',
                 'gt:0'
             ],
+            "trainer_id" => [
+                'nullable',
+                'integer',
+                'gt:0'
+            ],
             'branch_id' => 'nullable|int|gt:0',
             'training_center_id' => 'nullable|int|gt:0',
             "role_id" => 'nullable|exists:roles,id',
