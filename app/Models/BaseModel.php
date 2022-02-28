@@ -69,6 +69,7 @@ abstract class BaseModel extends Model
         self::SYSTEM_USER,
         self::ORGANIZATION_USER,
         self::INSTITUTE_USER,
+        self::YOUTH_USER_TYPE,
         self::INDUSTRY_ASSOCIATION_USER,
         self::TRAINER_USER,
         self::REGISTERED_TRAINING_ORGANIZATION_USER
@@ -87,6 +88,7 @@ abstract class BaseModel extends Model
         self::SYSTEM_USER => "USYS",
         self::ORGANIZATION_USER => 'UIND',
         self::INSTITUTE_USER => 'USSP',
+        self::YOUTH_USER_TYPE => 'UYTH',
         self::INDUSTRY_ASSOCIATION_USER => 'UINA',
         self::TRAINER_USER => 'UTRA',
         self::REGISTERED_TRAINING_ORGANIZATION_USER => 'URTO'
