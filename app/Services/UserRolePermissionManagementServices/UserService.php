@@ -805,11 +805,11 @@ class UserService
     }
 
     /**
-     * @param Request $request
+     * @param array $data
      * @param int|null $id
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function validator(Request $request, int $id = null): \Illuminate\Contracts\Validation\Validator
+    public function validator(array $data, int $id = null): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
             "user_type" => [
@@ -844,6 +844,11 @@ class UserService
             ],
             "registered_training_organization_id" => [
                 'required_if:user_type,' . BaseModel::REGISTERED_TRAINING_ORGANIZATION_USER,
+                'nullable',
+                'integer',
+                'gt:0'
+            ],
+            "trainer_id" => [
                 'nullable',
                 'integer',
                 'gt:0'
@@ -888,7 +893,7 @@ class UserService
             ];
             $rules['password_confirmation'] = 'required_with:password';
         }
-        return Validator::make($request->all(), $rules);
+        return Validator::make($data, $rules);
     }
 
     /**
