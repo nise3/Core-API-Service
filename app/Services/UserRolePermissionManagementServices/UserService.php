@@ -1047,6 +1047,8 @@ class UserService
 
     /**
      * Update Idp User
+     * @param array $idpUserPayload
+     * @return mixed
      * @throws Exception
      */
     public function idpUserUpdate(array $idpUserPayload): mixed
