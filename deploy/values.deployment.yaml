@@ -116,7 +116,7 @@ variables:
       #application environment v
   systemProd:
       # do not change even in merge keep current changes
-      hostName: *prodHost
+      hostName: "-"
 
       # if values is false, then creating ingress will be escape
       enableEngress: false
