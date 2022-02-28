@@ -15,3 +15,4 @@ php artisan iseed my_table,another_table
 ```shell
 RELEASE = 'php artisan list'
 ```
+
