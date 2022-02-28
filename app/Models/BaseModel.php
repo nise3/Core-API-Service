@@ -61,16 +61,15 @@ abstract class BaseModel extends Model
     public const INSTITUTE_USER = 3;
     public const YOUTH_USER_TYPE = 4;
     public const INDUSTRY_ASSOCIATION_USER = 5;
-    public const TRAINER_USER = 6;
-    public const REGISTERED_TRAINING_ORGANIZATION_USER = 7;
+    public const REGISTERED_TRAINING_ORGANIZATION_USER = 6;
 
     /**User Types*/
     public const USER_TYPES = [
         self::SYSTEM_USER,
         self::ORGANIZATION_USER,
         self::INSTITUTE_USER,
+        self::YOUTH_USER_TYPE,
         self::INDUSTRY_ASSOCIATION_USER,
-        self::TRAINER_USER,
         self::REGISTERED_TRAINING_ORGANIZATION_USER
     ];
 
@@ -79,7 +78,6 @@ abstract class BaseModel extends Model
         self::ORGANIZATION_USER => 'organization',
         self::INSTITUTE_USER => 'institute',
         self::INDUSTRY_ASSOCIATION_USER => 'industry-association',
-        self::TRAINER_USER => 'trainer',
         self::REGISTERED_TRAINING_ORGANIZATION_USER => 'registered-training-organization'
     ];
     public const USER_CODE_SIZE = 11;
@@ -87,8 +85,8 @@ abstract class BaseModel extends Model
         self::SYSTEM_USER => "USYS",
         self::ORGANIZATION_USER => 'UIND',
         self::INSTITUTE_USER => 'USSP',
+        self::YOUTH_USER_TYPE => 'UYTH',
         self::INDUSTRY_ASSOCIATION_USER => 'UINA',
-        self::TRAINER_USER => 'UTRA',
         self::REGISTERED_TRAINING_ORGANIZATION_USER => 'URTO'
     ];
 
