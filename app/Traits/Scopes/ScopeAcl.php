@@ -30,6 +30,10 @@ trait ScopeAcl
             if (Schema::hasColumn($tableName, 'institute_id')) {
                 $query = $query->where($tableName . '.institute_id', $authUser->institute_id);
             }
+        } else if ($authUser && $authUser->isRtoUser()) {  //Institute User
+            if (Schema::hasColumn($tableName, 'registered_training_organization_id')) {
+                $query = $query->where($tableName . '.registered_training_organization_id', $authUser->registered_training_organization_id);
+            }
         }
         return $query;
     }
