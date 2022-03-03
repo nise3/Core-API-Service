@@ -455,11 +455,6 @@ class UserService
 
     private function getDomain(User $user)
     {
-
-        if ($user->isSystemUser()) {
-            return '';
-        }
-
         $domain = request()->headers->get('Domain');
         $attr = '';
         if (str_ends_with($domain, 'nise.gov.bd')) {
@@ -470,6 +465,10 @@ class UserService
             $attr = '-dev.nise3.xyz';
         } else if (str_ends_with($domain, 'nise.asm')) {
             $attr = 'nise.asm';
+        }
+
+        if ($user->isSystemUser()) {
+            return $attr;
         }
 
         $builder = Domain::where('domain', 'like', '%\.' . $attr);
