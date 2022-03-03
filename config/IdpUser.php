@@ -54,7 +54,7 @@ return [
 
     'idps' => [
         'wso2idp' => [
-            'base_url' => 'https://identity-dev.nise3.xyz',
+            'base_url' => env('WSO2_IDP_BASE_URL','https://identity.nise.gov.bd'),
             'username' => env('WSO2_IDP_USERNAME','admin'),
             'password'  => env('WSO2_IDP_PASSWORD','Iadmin')
         ],
