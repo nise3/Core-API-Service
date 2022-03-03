@@ -33,7 +33,6 @@ class ApiInfoController extends Controller
     }
 
 
-
     public function apiInfo(): JsonResponse
     {
         $response = [
@@ -61,9 +60,9 @@ class ApiInfoController extends Controller
 
     public function domainDetails(Request $request): JsonResponse
     {
-        $domain  = $request->get('domain');
+        $domain = $request->get('domain');
 
-        $domain = Domain::where('domain',$domain)->firstOrFail();
+        $domain = Domain::where('domain', $domain)->firstOrFail();
 
         $response = [
             'data' => $domain,
@@ -75,6 +74,38 @@ class ApiInfoController extends Controller
             ]
         ];
 
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    public function getDomain(Request $request): JsonResponse
+    {
+        $queryAttribute = null;
+        $queryAttributeValue = null;
+
+        if ($request->get('industry_association_id')) {
+            $queryAttribute = "industry_association_id";
+            $queryAttributeValue = $request->get('industry_association_id');
+        } elseif ($request->get('industry_id')) {
+            $queryAttribute = "industry_id";
+            $queryAttributeValue = $request->get('industry_id');
+        } elseif ($request->get('institute_id')) {
+            $queryAttribute = "institute_id";
+            $queryAttributeValue = $request->get('institute_id');
+        }
+        $domain = null;
+        if ($queryAttribute && $queryAttributeValue) {
+            $domain = Domain::where($queryAttribute, $queryAttributeValue)->firstOrFail()->domain;
+        }
+
+        $response = [
+            'domain' => $domain,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Domain fetch successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
 }
