@@ -310,10 +310,12 @@ class UserService
         $institute = null;
         $organization = null;
         $industryAssociation = null;
+        $rto = null;
         $isSystemUser = $user->user_type == BaseModel::SYSTEM_USER;
         $isOrganizationUser = $user->user_type == BaseModel::ORGANIZATION_USER;
         $isInstituteUser = $user->user_type == BaseModel::INSTITUTE_USER;
         $isIndustryAssociationUser = $user->user_type == BaseModel::INDUSTRY_ASSOCIATION_USER;
+        $isRegisteredTrainingOrganizationUser = $user->user_type == BaseModel::REGISTERED_TRAINING_ORGANIZATION_USER;
 
         if ($user->user_type == BaseModel::ORGANIZATION_USER && !is_null($user->organization_id)) {
 
@@ -365,6 +367,22 @@ class UserService
                     throw new HttpErrorException($httpResponse);
                 })
                 ->json('data', []);
+        } else if ($user->user_type == BaseModel::REGISTERED_TRAINING_ORGANIZATION_USER && !is_null($user->registered_training_organization_id)) {
+
+            $url = clientUrl(BaseModel::INSTITUTE_URL_CLIENT_TYPE) . 'service-to-service-call/registered-training-organizations/' . $user->registered_training_organization_id;
+
+            $rto = Http::withOptions([
+                'debug' => config("nise3.is_dev_mode"),
+                'verify' => config("nise3.should_ssl_verify")
+            ])
+                ->timeout(5)
+                ->get($url)
+                ->throw(static function (\Illuminate\Http\Client\Response $httpResponse, $httpException) use ($url) {
+                    Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));
+                    Log::debug("Http/Curl call error. Destination:: " . $url . ' and Response:: ' . $httpResponse->body());
+                    throw new HttpErrorException($httpResponse);
+                })
+                ->json('data', []);
         }
 
         $role = Role::find($user->role_id);
@@ -405,6 +423,7 @@ class UserService
             'isInstituteUser' => $isInstituteUser,
             'isOrganizationUser' => $isOrganizationUser,
             'isIndustryAssociationUser' => $isIndustryAssociationUser,
+            'isRegisteredTrainingOrganizationUser' => $isRegisteredTrainingOrganizationUser,
             'permissions' => $conditionalPermissions,
             'menu_items' => $menuItem,
             'role_id' => $user->role_id,
@@ -415,6 +434,8 @@ class UserService
             'organization' => $organization,
             'industry_association_id' => $user->industry_association_id,
             'industry_association' => $industryAssociation,
+            'registered_training_organization_id' => $user->registered_training_organization_id,
+            'registered_training_organization' => $rto,
             'username' => $user->username,
             'displayName' => $user->name_en,
             'name' => $user->name,
@@ -434,11 +455,6 @@ class UserService
 
     private function getDomain(User $user)
     {
-
-        if ($user->isSystemUser()) {
-            return '';
-        }
-
         $domain = request()->headers->get('Domain');
         $attr = '';
         if (str_ends_with($domain, 'nise.gov.bd')) {
@@ -449,6 +465,10 @@ class UserService
             $attr = '-dev.nise3.xyz';
         } else if (str_ends_with($domain, 'nise.asm')) {
             $attr = 'nise.asm';
+        }
+
+        if ($user->isSystemUser()) {
+            return $attr;
         }
 
         $builder = Domain::where('domain', 'like', '%\.' . $attr);
