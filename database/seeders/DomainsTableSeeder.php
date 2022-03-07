@@ -60,6 +60,9 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'wing.nise.gov.bd', 'institute_id' => 18, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'WING' , 'title_prefix_en'=>'WING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'wing-dev.nise3.xyz', 'institute_id' => 18, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'WING-DEV' , 'title_prefix_en'=>'WING-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'wing.nise.asm', 'institute_id' => 18, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'WING-ASM' , 'title_prefix_en'=>'WING-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'ideb.nise.gov.bd', 'institute_id' => 20, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IDEB' , 'title_prefix_en'=>'IDEB', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'ideb-dev.nise3.xyz', 'institute_id' => 20, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IDEB-DEV' , 'title_prefix_en'=>'IDEB-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'ideb.nise.asm', 'institute_id' => 20, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IDEB-ASM' , 'title_prefix_en'=>'IDEB-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
