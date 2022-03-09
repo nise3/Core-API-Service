@@ -1,10 +1,10 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
+    "name": "nise/core-api-service",
+    "description": "The Core API Service",
     "keywords": [
-        "framework",
-        "laravel",
-        "lumen"
+        "nise",
+        "core",
+        "api"
     ],
     "license": "MIT",
     "type": "project",
