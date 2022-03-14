@@ -25,7 +25,7 @@ class UserCodePessimisticLockingsTableSeeder extends Seeder
         DB::table('user_code_pessimistic_lockings')->insert(array(
             0 =>
                 array(
-                    'last_incremental_value' => 5,
+                    'last_incremental_value' => 50,
                 ),
         ));
 
