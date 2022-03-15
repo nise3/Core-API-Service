@@ -48,14 +48,21 @@ class BulkDeleteIdpUsersCommand extends Command
                 $idpIds[] = $row->idp_user_id;
             }
 
+            Log::debug(env('WSO2_IDP_BASE_URL'));
+            Log::debug(env('WSO2_IDP_USERNAME'));
+            Log::debug(env('WSO2_IDP_PASSWORD'));
+
             if (count($idpIds)) {
-               /* $response = IdpUser()
+
+/*                $response = IdpUser()
                     ->use('wso2idp')
                     ->setPayload($idpIds)
                     ->delete()
                     ->get();*/
 
+
                 Log::info('Delete users from IDP');
+
                 Log::info($idpIds);
 //                Log::info($response);
                 $this->info("IDP Users have been deleted");
