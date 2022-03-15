@@ -66,6 +66,7 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'rpl.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'RPL' , 'title_prefix_en'=>'RPL', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'rpl-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'RPL-DEV' , 'title_prefix_en'=>'RPL-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'rpl.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'RPL-ASM' , 'title_prefix_en'=>'RPL-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'ssp-training.nise3.xyz', 'institute_id' => 47, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SSP-Training' , 'title_prefix_en'=>'SSP-Training', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
