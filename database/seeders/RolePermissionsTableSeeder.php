@@ -21,7 +21,7 @@ class RolePermissionsTableSeeder extends Seeder
 
         DB::table('role_permissions')->truncate();
 
-        DB::table('role_permissions')->insert([
+/*        DB::table('role_permissions')->insert([
             array('role_id' => '1', 'permission_id' => '1'),
             array('role_id' => '1', 'permission_id' => '2'),
             array('role_id' => '1', 'permission_id' => '3'),
@@ -694,7 +694,7 @@ class RolePermissionsTableSeeder extends Seeder
             array('role_id' => '5', 'permission_id' => '242'),
             array('role_id' => '5', 'permission_id' => '243'),
             array('role_id' => '5', 'permission_id' => '248')
-        ]);
+        ]);*/
 
         Schema::enableForeignKeyConstraints();
 

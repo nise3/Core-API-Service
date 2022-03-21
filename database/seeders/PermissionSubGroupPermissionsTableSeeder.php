@@ -1123,7 +1123,14 @@ class PermissionSubGroupPermissionsTableSeeder extends Seeder
             array('permission_sub_group_id' => '11', 'permission_id' => '311'),
             array('permission_sub_group_id' => '11', 'permission_id' => '312'),
             array('permission_sub_group_id' => '11', 'permission_id' => '313'),
-            array('permission_sub_group_id' => '11', 'permission_id' => '314')
+            array('permission_sub_group_id' => '11', 'permission_id' => '314'),
+            array('permission_sub_group_id' => '7', 'permission_id' => '315'),
+            array('permission_sub_group_id' => '7', 'permission_id' => '217'),
+            array('permission_sub_group_id' => '7', 'permission_id' => '218'),
+            array('permission_sub_group_id' => '7', 'permission_id' => '219'),
+            array('permission_sub_group_id' => '7', 'permission_id' => '220'),
+            array('permission_sub_group_id' => '7', 'permission_id' => '241'),
+            array('permission_sub_group_id' => '1', 'permission_id' => '316')
         ]);
 
         Schema::enableForeignKeyConstraints();
