@@ -63,6 +63,10 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'ideb.nise.gov.bd', 'institute_id' => 20, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IDEB' , 'title_prefix_en'=>'IDEB', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'ideb-dev.nise3.xyz', 'institute_id' => 20, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IDEB-DEV' , 'title_prefix_en'=>'IDEB-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'ideb.nise.asm', 'institute_id' => 20, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IDEB-ASM' , 'title_prefix_en'=>'IDEB-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'bgapmea.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 28,'title_prefix'=>'BGAPMEA' , 'title_prefix_en'=>'BGAPMEA', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'beioa.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 29,'title_prefix'=>'BEIOA' , 'title_prefix_en'=>'BEIOA', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'bcmea.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 33,'title_prefix'=>'BCMEA' , 'title_prefix_en'=>'BCMEA', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'bfea.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 36,'title_prefix'=>'BFEA' , 'title_prefix_en'=>'BFEA', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
