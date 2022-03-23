@@ -21,6 +21,8 @@ abstract class BaseModel extends Model
     public const COMMON_GUARDED_FIELDS_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted_at'];
     public const COMMON_GUARDED_FIELDS_NON_SOFT_DELETE = ['id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
 
+    public const PASSWORD_REGEX = 'regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/';
+
 
     public const WITH_PERMISSION_SUB_GROUP_TRUE = 1;
     public const WITH_PERMISSION_TRUE = 1;

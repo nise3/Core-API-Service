@@ -50,6 +50,10 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         $router->post('users/{id}/profile-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updateProfile']);
 
+        $router->post('users/{id}/password-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updatePassword']);
+
+
+
         /* assign permission to permission group*/
         $router->post('permission-groups/{id}/assign-permissions', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
 

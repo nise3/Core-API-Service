@@ -280,6 +280,40 @@ class UserController extends Controller
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
 
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws Throwable
+     */
+    public function updatePassword(Request $request, int $id): JsonResponse
+    {
+        $user = User::findOrFail($id);
+        $validated = $this->userService->passwordUpdatedValidator($request, $user)->validate();
+        if ($user) {
+            $idpPasswordUpdatePayload = [
+                'username' => $user->username,
+                'current_password' => $validated['current_password'],
+                'new_password' => $validated['new_password'],
+            ];
+            $idpResponse = $this->userService->idpUserPasswordUpdate($idpPasswordUpdatePayload);
+            throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "Password not updated in Idp");
+        }
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "message" => "Password updated successfully",
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
+    }
+
     /**
      * Remove the specified resource from storage.
      * @param int $id
@@ -476,7 +510,7 @@ class UserController extends Controller
             $user = new User();
             $user = $this->userService->store($user, $validated);
             DB::commit();
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
         }
