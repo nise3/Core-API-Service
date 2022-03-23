@@ -1107,7 +1107,6 @@ class UserService
     }
 
     /**
-     * Update Idp User
      * @param array $idpPasswordUpdatePayload
      * @return mixed
      * @throws Exception
