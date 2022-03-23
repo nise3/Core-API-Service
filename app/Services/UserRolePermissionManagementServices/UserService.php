@@ -934,7 +934,7 @@ class UserService
                 'min:' . BaseModel::PASSWORD_MIN_LENGTH,
                 BaseModel::PASSWORD_REGEX
             ],
-            'new_password_password_confirmation' => [
+            'new_password_confirmation' => [
                 'required_with:new_password'
             ]
 
