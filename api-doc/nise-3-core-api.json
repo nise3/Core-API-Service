@@ -3595,7 +3595,7 @@
                 "required": [
                     "current_password",
                     "new_password",
-                    "new_password_password_confirmation"
+                    "new_password_confirmation"
                 ]
             },
             "userPermissions": {
