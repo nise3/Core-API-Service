@@ -207,7 +207,7 @@ class UserController extends Controller
                     'account_lock' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE
                 ];
                 $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
-                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
+                throw_if(isset($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
             }
 
@@ -257,7 +257,7 @@ class UserController extends Controller
                     'last_name' => $user->name,
                 ];
                 $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
-                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
+                throw_if(isset($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
             }
             /** Remove cache data for this user */
             Cache::forget($user->idp_user_id);
@@ -298,18 +298,29 @@ class UserController extends Controller
                 'new_password' => $validated['new_password'],
             ];
             $idpResponse = $this->userService->idpUserPasswordUpdate($idpPasswordUpdatePayload);
-            throw_if(!empty($idpResponse['is_successful']) && $idpResponse['is_successful'] == false, "Password not updated in Idp");
+        }
+        if (isset($idpResponse['status']) && $idpResponse['status'] == false) {
+            $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => false,
+                    "code" => ResponseAlias::HTTP_BAD_REQUEST,
+                    "message" => $idpResponse['message'],
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+        } else {
+            $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "Password updated successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
         }
 
-        $response = [
-            'data' => $user,
-            '_response_status' => [
-                "success" => true,
-                "code" => ResponseAlias::HTTP_OK,
-                "message" => "Password updated successfully",
-                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
-            ]
-        ];
 
         return Response::json($response, ResponseAlias::HTTP_CREATED);
     }
