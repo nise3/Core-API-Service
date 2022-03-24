@@ -306,7 +306,7 @@ class UserController extends Controller
                 'data' => $user,
                 '_response_status' => [
                     "success" => false,
-                    "code" => ResponseAlias::HTTP_BAD_REQUEST,
+                    "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
                     "message" => 'Password is incorrect. Please try with correct password',
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
