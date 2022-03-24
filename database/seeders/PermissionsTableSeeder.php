@@ -23,6 +23,7 @@ class PermissionsTableSeeder extends Seeder
         DB::table('permissions')->truncate();
 
         DB::table('permissions')->insert([
+
             array('id' => '1', 'title_en' => 'View any division', 'title' => 'View any division', 'module' => 'division', 'key' => 'view_any_division', 'uri' => 'api/v1/division', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-01-18 03:49:50', 'updated_at' => '2022-01-18 03:49:50'),
             array('id' => '2', 'title_en' => 'View single division', 'title' => 'View single division', 'module' => 'division', 'key' => 'view_single_division', 'uri' => 'api/v1/division/{id}', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-01-18 03:49:50', 'updated_at' => '2022-01-18 03:49:50'),
             array('id' => '3', 'title_en' => 'Create division', 'title' => 'Create division', 'module' => 'division', 'key' => 'create_division', 'uri' => 'api/v1/division', 'method' => '2', 'row_status' => '1', 'created_at' => '2022-01-18 03:49:50', 'updated_at' => '2022-01-18 03:49:50'),
@@ -335,7 +336,10 @@ class PermissionsTableSeeder extends Seeder
             array('id' => '313', 'title_en' => 'View Any RPL Batches', 'title' => 'View Any RPL Batches', 'module' => 'rpl_batches', 'key' => 'view_any_rpl_batch', 'uri' => 'api/v1/rpl-batches', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-03-14 23:11:16', 'updated_at' => '2022-03-14 23:19:27'),
             array('id' => '314', 'title_en' => 'View Any RPL Youth Application', 'title' => 'View Any RPL Youth Application', 'module' => 'rpl_youth_applications', 'key' => 'view_any_rpl_youth_application', 'uri' => 'api/v1/rpl-youth-applications', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-03-14 23:12:25', 'updated_at' => '2022-03-14 23:12:25'),
             array('id' => '315', 'title_en' => 'View any Organization HR Demand', 'title' => 'View any Organization HR Demand', 'module' => 'industry_association_hr_demand', 'key' => 'view_any_organization_hr_demand', 'uri' => 'api/v1/organization-hr-demand', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-03-20 17:37:38', 'updated_at' => '2022-03-21 15:52:39'),
-            array('id' => '316', 'title_en' => 'View any training center survey', 'title' => 'View any training center survey', 'module' => 'training_center_survey', 'key' => 'view_any_training_center_survey', 'uri' => 'api/v1/training-center-survey', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-03-20 21:06:14', 'updated_at' => '2022-03-20 21:06:14')
+            array('id' => '318', 'title_en' => 'View Any Training Center Report', 'title' => 'View Any Training Center Report', 'module' => 'training_center_report', 'key' => 'view_any_training_center_report', 'uri' => 'api/v1/training-center-reports', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-03-24 20:49:04', 'updated_at' => '2022-03-24 20:52:47'),
+            array('id' => '319', 'title_en' => 'View Single Training Center Report', 'title' => 'View Single Training Center Report', 'module' => 'training_center_report', 'key' => 'view_single_training_center_report', 'uri' => 'api/v1/training-center-report/{id}', 'method' => '1', 'row_status' => '1', 'created_at' => '2022-03-24 20:50:33', 'updated_at' => '2022-03-24 20:53:09'),
+            array('id' => '320', 'title_en' => 'Create Training Center Report', 'title' => 'Create Training Center Report', 'module' => 'training_center_report', 'key' => 'create_training_center_report', 'uri' => 'api/v1/training-center-report', 'method' => '2', 'row_status' => '1', 'created_at' => '2022-03-24 20:51:45', 'updated_at' => '2022-03-24 20:53:28')
+
 
         ]);
 

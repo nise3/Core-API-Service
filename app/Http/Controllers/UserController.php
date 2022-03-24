@@ -207,7 +207,7 @@ class UserController extends Controller
                     'account_lock' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE
                 ];
                 $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
-                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
+                throw_if(isset($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
 
             }
 
@@ -257,7 +257,7 @@ class UserController extends Controller
                     'last_name' => $user->name,
                 ];
                 $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
-                throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
+                throw_if(isset($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
             }
             /** Remove cache data for this user */
             Cache::forget($user->idp_user_id);
@@ -278,6 +278,53 @@ class UserController extends Controller
         }
 
         return Response::json($response, ResponseAlias::HTTP_CREATED);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws Throwable
+     */
+    public function updatePassword(Request $request, int $id): JsonResponse
+    {
+        $user = User::findOrFail($id);
+        $validated = $this->userService->passwordUpdatedValidator($request, $user)->validate();
+        $httpStatusCode = ResponseAlias::HTTP_OK;
+        if ($user) {
+            $idpPasswordUpdatePayload = [
+                'username' => $user->username,
+                'current_password' => $validated['current_password'],
+                'new_password' => $validated['new_password'],
+            ];
+            $idpResponse = $this->userService->idpUserPasswordUpdate($idpPasswordUpdatePayload);
+        }
+        if (isset($idpResponse['status']) && $idpResponse['status'] == false) {
+            $httpStatusCode = ResponseAlias::HTTP_UNPROCESSABLE_ENTITY;
+            $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => false,
+                    "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                    "message" => 'Password is incorrect. Please try with correct password',
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+        } else {
+            $response = [
+                'data' => $user,
+                '_response_status' => [
+                    "success" => true,
+                    "code" => ResponseAlias::HTTP_OK,
+                    "message" => "Password updated successfully",
+                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                ]
+            ];
+        }
+
+
+        return Response::json($response, $httpStatusCode);
     }
 
     /**
@@ -476,7 +523,7 @@ class UserController extends Controller
             $user = new User();
             $user = $this->userService->store($user, $validated);
             DB::commit();
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
         }

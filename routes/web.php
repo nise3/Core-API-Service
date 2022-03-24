@@ -50,6 +50,10 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         $router->post('users/{id}/profile-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updateProfile']);
 
+        $router->put('users/{id}/password-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updatePassword']);
+
+
+
         /* assign permission to permission group*/
         $router->post('permission-groups/{id}/assign-permissions', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
 
@@ -93,21 +97,5 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
 });
 
-$router->post('idp-user', function () {
-    $idpUserPayload = [
-        'first_name' => 'First Name',
-        'last_name' => 'First Name',
-        'email' => 'entrepreneur@gmail.com',
-        'mobile' => '01767777001',
-        'username' => '01767777001',
-        'password' => 'ABcd1234',
-        'user_type' => 2,
-        'account_disable' => true,
-        'account_lock' => true,
-    ];
-
-    $response = IdpUser()->setPayload($idpUserPayload)->create()->get();
-    return $response;
-});
 
 
