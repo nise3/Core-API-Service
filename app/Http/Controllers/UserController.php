@@ -298,7 +298,7 @@ class UserController extends Controller
                 'new_password' => $validated['new_password'],
             ];
             $idpResponse = $this->userService->idpUserPasswordUpdate($idpPasswordUpdatePayload);
-            throw_if(!empty($idpResponse['status']) && $idpResponse['status'] == false, "Password not updated in Idp");
+            throw_if(!empty($idpResponse['is_successful']) && $idpResponse['is_successful'] == false, "Password not updated in Idp");
         }
 
         $response = [
