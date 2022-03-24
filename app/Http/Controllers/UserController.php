@@ -301,7 +301,7 @@ class UserController extends Controller
             $idpResponse = $this->userService->idpUserPasswordUpdate($idpPasswordUpdatePayload);
         }
         if (isset($idpResponse['status']) && $idpResponse['status'] == false) {
-            $httpStatusCode = ResponseAlias::HTTP_BAD_REQUEST;
+            $httpStatusCode = ResponseAlias::HTTP_UNPROCESSABLE_ENTITY;
             $response = [
                 'data' => $user,
                 '_response_status' => [
