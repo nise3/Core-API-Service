@@ -291,6 +291,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $validated = $this->userService->passwordUpdatedValidator($request, $user)->validate();
+        $httpStatusCode = ResponseAlias::HTTP_OK;
         if ($user) {
             $idpPasswordUpdatePayload = [
                 'username' => $user->username,
@@ -300,12 +301,13 @@ class UserController extends Controller
             $idpResponse = $this->userService->idpUserPasswordUpdate($idpPasswordUpdatePayload);
         }
         if (isset($idpResponse['status']) && $idpResponse['status'] == false) {
+            $httpStatusCode = ResponseAlias::HTTP_BAD_REQUEST;
             $response = [
                 'data' => $user,
                 '_response_status' => [
                     "success" => false,
                     "code" => ResponseAlias::HTTP_BAD_REQUEST,
-                    "message" => $idpResponse['message'],
+                    "message" => 'Password is incorrect. Please try with correct password',
                     "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
                 ]
             ];
@@ -322,7 +324,7 @@ class UserController extends Controller
         }
 
 
-        return Response::json($response, ResponseAlias::HTTP_CREATED);
+        return Response::json($response, $httpStatusCode);
     }
 
     /**
