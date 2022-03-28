@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use App\Traits\Scopes\ScopeAcl;
 use Illuminate\Database\Eloquent\Model;
 
