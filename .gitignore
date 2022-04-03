@@ -13,3 +13,4 @@ yarn-error.log
 .idea
 gen
 composer.lock
+Dockerfile

@@ -82,6 +82,9 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'brdb.nise.gov.bd', 'institute_id' => 22, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'BRDB' , 'title_prefix_en'=>'BRDB', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'brdb-dev.nise3.xyz', 'institute_id' => 22, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'BRDB-DEV' , 'title_prefix_en'=>'BRDB-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'brdb.nise.asm', 'institute_id' => 22, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'BRDB-ASM' , 'title_prefix_en'=>'BRDB-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'afa.nise.gov.bd', 'institute_id' => 49, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'AFA' , 'title_prefix_en'=>'AFA', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'afa-dev.nise3.xyz', 'institute_id' => 49, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'AFA-DEV' , 'title_prefix_en'=>'AFA-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'afa.nise.asm', 'institute_id' => 49, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'AFA-ASM' , 'title_prefix_en'=>'AFA-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
