@@ -43,11 +43,11 @@ spec:
             {{ if eq .Values.APP_ENV "STAGING" }}
           image: "{{ .Values.variables.imageRepository }}:{{ .Values.variables.stagingBuildImageVersion  | default .Chart.AppVersion }}"
             {{ end }}
-          imagePullPolicy: {{ .Values.variables.imagePullPolicy }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 80
           env:
-              {{- range $key, $val := .Values.variables.VAR }}
+              {{- range $key, $val := .Values.VAR }}
               - name: {{ $key }}
                 value: {{ $val | quote }}
               {{- end }}
