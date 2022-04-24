@@ -5,6 +5,7 @@ namespace App\Services\UserRolePermissionManagementServices;
 use App\Exceptions\HttpErrorException;
 use App\Models\BaseModel;
 use App\Models\Domain;
+use App\Models\ForgetPasswordReset;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -22,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Component\HttpFoundation\Response;
+use App\Services\Common\SmsService;
 use Throwable;
 
 /**
@@ -1115,4 +1117,66 @@ class UserService
     {
         return IdpUser()->setPayload($idpPasswordUpdatePayload)->userResetPassword()->get();
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function sendForgetPasswordOtpValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        $rules = [
+            "username" => [
+                'required'
+            ]
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws Exception
+     * @throws Throwable
+     */
+    public function sendForgetPasswordOtpCode(array $data): bool
+    {
+        $username = $data["username"];
+        //dd('userName eq '.$username);
+        $response = IdpUser()->setPayload([
+            'filter' => "userName eq $username",
+        ])->findUsers()->get();
+
+
+        $data = $response['data'];
+
+        if ($data['totalResults'] == 1 && !empty($data['Resources'][0]['phoneNumbers'][0]['value'])) {
+
+            $mobile = $data['Resources'][0]['phoneNumbers'][0]['value'];
+            $code = generateOtp(6);
+            $message = "Your forget password OTP code is : " . $code;
+
+            $idpUserId = $data['Resources'][0]['id'];
+            $username = $data['Resources'][0]['userName'];
+
+            $forgetPass = app(ForgetPasswordReset::class);
+
+            $forgetPass->updateOrCreate(['idp_user_id' => $idpUserId], [
+                    'idp_user_id' => $idpUserId,
+                    'username' => $username,
+                    'forget_password_otp_code' => $code,
+                    'forget_password_otp_code_sent_at' => Carbon::now()
+                ]
+            );
+
+            if ($mobile) {
+                $smsService = app(SmsService::class);
+                $smsService->sendSms($mobile, $message);
+            }
+        }
+
+        return false;
+    }
+
+
 }

@@ -750,4 +750,21 @@ class UserController extends Controller
         ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
+
+
+    public function sendForgetPasswordOtp(Request $request): JsonResponse
+    {
+        $validated = $this->userService->sendForgetPasswordOtpValidator($request)->validate();
+        $status = $this->userService->sendForgetPasswordOtpCode($validated);
+        $response = [
+            '_response_status' => [
+                "success" => $status,
+                "code" => $status ? ResponseAlias::HTTP_OK : ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                "message" => $status ? "Your reset password code is successfully sent" : "Unable to send",
+                "query_time" => $this->startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+        return Response::json($response, $response['_response_status']['code']);
+    }
+
 }
