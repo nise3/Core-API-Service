@@ -85,6 +85,9 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'afa.nise.gov.bd', 'institute_id' => 49, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'AFA' , 'title_prefix_en'=>'AFA', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'afa-dev.nise3.xyz', 'institute_id' => 49, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'AFA-DEV' , 'title_prefix_en'=>'AFA-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'afa.nise.asm', 'institute_id' => 49, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'AFA-ASM' , 'title_prefix_en'=>'AFA-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'bitac.nise.gov.bd', 'institute_id' => 50, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'BITAC' , 'title_prefix_en'=>'BITAC', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'bitac-dev.nise3.xyz', 'institute_id' => 50, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'BITAC-DEV' , 'title_prefix_en'=>'BITAC-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'bitac.nise.asm', 'institute_id' => 50, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'BITAC-ASM' , 'title_prefix_en'=>'BITAC-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
