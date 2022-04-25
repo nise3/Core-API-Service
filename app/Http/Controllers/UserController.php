@@ -755,6 +755,7 @@ class UserController extends Controller
     public function sendForgetPasswordOtp(Request $request): JsonResponse
     {
         $validated = $this->userService->sendForgetPasswordOtpValidator($request)->validate();
+
         $status = $this->userService->sendForgetPasswordOtpCode($validated);
         $response = [
             '_response_status' => [
@@ -764,7 +765,96 @@ class UserController extends Controller
                 "query_time" => $this->startTime->diffForHumans(Carbon::now())
             ]
         ];
+
         return Response::json($response, $response['_response_status']['code']);
+
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function verifyForgetPasswordOtp(Request $request): JsonResponse
+    {
+        $validated = $this->userService->verifyForgetPasswordOtpCodeValidator($request)->validate();
+        $status = $this->userService->verifyForgetPasswordOtpCode($validated);
+
+        $response = [
+            '_response_status' => [
+                "success" => $status,
+                "code" => $status ? ResponseAlias::HTTP_OK : ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                "message" => $status ? "Otp code verified successfully." : "Unable to verify",
+                "query_time" => $this->startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+
+        return Response::json($response, $response['_response_status']['code']);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws Throwable
+     */
+    public function resetForgetPassword(Request $request): JsonResponse
+    {
+        $validated = $this->userService->resetForgetPasswordUpdateValidator($request)->validate();
+
+        $status = $this->userService->resetForgetPassword($validated);
+
+        $response = [
+            '_response_status' => [
+                "success" => $status,
+                "code" => $status ? ResponseAlias::HTTP_OK : ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                "message" => $status ? "Otp code verified successfully." : "Unable to verify",
+                "query_time" => $this->startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+
+        return Response::json($response, $response['_response_status']['code']);
+
+
+//        $httpStatusCode = ResponseAlias::HTTP_OK;
+//
+//
+//
+//
+//        if ($user) {
+//            $idpPasswordUpdatePayload = [
+//                'username' => $user->username,
+//                'current_password' => $validated['current_password'],
+//                'new_password' => $validated['new_password'],
+//            ];
+//            $idpResponse = $this->userService->idpUserPasswordUpdate($idpPasswordUpdatePayload);
+//        }
+//        if (isset($idpResponse['status']) && $idpResponse['status'] == false) {
+//            $httpStatusCode = ResponseAlias::HTTP_UNPROCESSABLE_ENTITY;
+//            $response = [
+//                'data' => $user,
+//                '_response_status' => [
+//                    "success" => false,
+//                    "code" => ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+//                    "message" => 'Password is incorrect. Please try with correct password',
+//                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+//                ]
+//            ];
+//        } else {
+//            $response = [
+//                'data' => $user,
+//                '_response_status' => [
+//                    "success" => true,
+//                    "code" => ResponseAlias::HTTP_OK,
+//                    "message" => "Password updated successfully",
+//                    "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+//                ]
+//            ];
+//        }
+//
+//
+//        return Response::json($response, $httpStatusCode);
     }
 
 }
