@@ -2671,6 +2671,117 @@
                     "SSO"
                 ]
             }
+        },
+        "/send-forget-password-otp": {
+            "post": {
+                "summary": "Send Forget Password OTP",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Send Forget Password OTP",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Put your username here"
+                                    }
+                                },
+                                "required": [
+                                    "username"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "SSO"
+                ]
+            }
+        },
+        "/verify-forget-password-otp": {
+            "post": {
+                "summary": "Verify forget password otp",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Verify forget password otp",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Put your Username"
+                                    },
+                                    "opt_code": {
+                                        "type": "string",
+                                        "description": "Otp Code here"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "opt_code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "SSO"
+                ]
+            }
+        },
+        "/reset-forget-password": {
+            "post": {
+                "summary": "Reset forget Password",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Reset forget Password",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Your Username Here"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "description": "Password Here"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "description": "Give Password Confirmation here"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "new_password",
+                                    "password_confirmation"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "SSO"
+                ]
+            }
         }
     },
     "components": {
