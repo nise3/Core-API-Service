@@ -144,16 +144,16 @@ spec:
   metrics:
   - type: Resource
     resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: {{ .Values.autoScaling.targetCPUUtilizationPercentage }}
-  - type: Resource
-    resource:
       name: memory
       target:
         type: Utilization
         averageUtilization: {{ .Values.autoScaling.targetMemoryUtilizationPercentage }}
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.autoScaling.targetCPUUtilizationPercentage }}
   behavior:
     scaleDown:
       stabilizationWindowSeconds: {{ .Values.autoScaling.stabilizationWindowSecondsForScaleDown }}
