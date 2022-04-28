@@ -544,6 +544,93 @@ class UserController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function fourIrUserCreate(Request $request): JsonResponse
+    {
+        $fourIrUser = User::where('username', $request->input('username'))->first();
+        if(!empty($fourIrUser)){
+            $request['username'] = strtolower(str_replace(" ", "_", $request['username']));
+            $validated = $this->userService->validator($request->all())->validate();
+            $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
+            $idpResponse = null;
+
+            $idpUserPayLoad = [
+                'first_name' => $validated['name'],
+                'last_name' => $validated['name'],
+                'username' => $validated['username'],
+                'email' => $validated['email'],
+                'mobile' => $validated['mobile'],
+                'password' => $validated['password'],
+                'user_type' => $validated['user_type'],
+                'account_disable' => $validated['row_status'] != BaseModel::ROW_STATUS_ACTIVE,
+                'account_lock' => $validated['row_status'] != BaseModel::ROW_STATUS_ACTIVE
+            ];
+
+
+        }
+
+        try {
+            $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
+
+            if (!empty($idpResponse['code']) && $idpResponse['code'] == ResponseAlias::HTTP_CONFLICT) {
+                throw new RuntimeException('Idp user already exists', 409);
+            }
+
+            if (!empty($idpResponse['data']['id'])) {
+                $validated['idp_user_id'] = $idpResponse['data']['id'];
+
+                $user = new User();
+                $user = $this->userService->store($user, $validated);
+
+                /** Mail send after user registration */
+                $to = array($user->email);
+                $from = BaseModel::NISE3_FROM_EMAIL;
+                $subject = "User Registration Information";
+                $message = "Congratulation, You are successfully complete your registration as " . BaseModel::USER_TYPE[$user->user_type] . " user. Username: " . $user->username . " & Password: " . $validated['password'];
+                $messageBody = MailService::templateView($message);
+                $mailService = new MailService($to, $from, $subject, $messageBody);
+                $mailService->sendMail();
+
+                /** SMS send after user registration */
+                $recipient = $user->mobile;
+                $smsMessage = "Congratulation, You are successfully complete your registration as " . BaseModel::USER_TYPE[$user->user_type] . " user.";
+                $smsService = new SmsService();
+                $smsService->sendSms($recipient, $smsMessage);
+
+                if (!$user) {
+                    $idpUserId = $idpResponse['data']['id'];
+                    $this->userService->idpUserDelete($idpUserId);
+                    throw new RuntimeException('Saving user to DB is failed', 500);
+                }
+                $response = [
+                    'data' => $user,
+                    '_response_status' => [
+                        "success" => true,
+                        "code" => ResponseAlias::HTTP_CREATED,
+                        "message" => "User added successfully",
+                        "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+                    ]
+                ];
+            } else {
+                throw new RuntimeException('User is not created', 500);
+            }
+
+        } catch (Throwable $e) {
+            if (!empty($idpResponse['data']['id'])) {
+                $idpUserId = $idpResponse['data']['id'];
+                $this->userService->idpUserDelete($idpUserId);
+            }
+            throw $e;
+        }
+
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
+    }
+
+    /**
      * User open registration from different services
      * @param Request $request
      * @return JsonResponse
