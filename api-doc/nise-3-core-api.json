@@ -1332,13 +1332,16 @@
                         }
                     },
                     {
-                        "$ref": "#/components/parameters/name_en"
+                        "$ref": "#/components/parameters/name_en_optional"
                     },
                     {
                         "$ref": "#/components/parameters/name"
                     },
                     {
-                        "$ref": "#/components/parameters/mobile"
+                        "$ref": "#/components/parameters/mobile_required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/email"
                     },
                     {
                         "name": "profile_pic",
@@ -3238,6 +3241,14 @@
                 "in": "query",
                 "name": "mobile",
                 "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "mobile_required": {
+                "in": "query",
+                "name": "mobile",
+                "required": true,
                 "schema": {
                     "type": "string"
                 }

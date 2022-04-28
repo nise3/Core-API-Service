@@ -253,6 +253,8 @@ class UserController extends Controller
                 $idpUserPayload = [
                     'id' => $user->idp_user_id,
                     'username' => $user->username,
+                    'email' => $user->email,
+                    'mobile' => $user->mobile,
                     'first_name' => $user->name,
                     'last_name' => $user->name,
                 ];

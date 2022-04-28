@@ -437,6 +437,8 @@ class UserService
             'registered_training_organization_id' => $user->registered_training_organization_id,
             'registered_training_organization' => $rto,
             'username' => $user->username,
+            'mobile' => $user->mobile,
+            'email' => $user->email,
             'displayName' => $user->name_en,
             'name' => $user->name,
             'profile_pic' => $user->profile_pic,
@@ -976,6 +978,15 @@ class UserService
                 'nullable',
                 "string"
             ],
+            "email" => [
+                "required",
+                "email"
+            ],
+            "mobile" => [
+                "required",
+                "string",
+                BaseModel::MOBILE_REGEX
+            ],
             "created_by" => "nullable|integer",
             "updated_by" => "nullable|integer",
         ];
@@ -1016,8 +1027,8 @@ class UserService
         }
 
         $rules = [
-            'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|int|distinct|min:1'
+            'permissions' => 'required | array|min:1',
+            'permissions .*' => 'required | int | distinct | min:1'
         ];
         return Validator::make($data, $rules);
     }
@@ -1033,19 +1044,19 @@ class UserService
         }
 
         $customMessage = [
-            'order.in' => 'Order must be within ASC or DESC.[30000]',
-            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
+            'order . in' => 'Order must be within ASC or DESC . [30000]',
+            'row_status . in' => 'Row status must be within 1 or 0.[30000]'
         ];
 
         return Validator::make($request->all(), [
             'page' => 'int',
             'page_size' => 'int',
-            'name_en' => 'nullable|string',
-            'name' => 'nullable|string',
-            'email' => 'nullable|string',
-            "organization_id" => 'nullable|int',
-            "institute_id" => 'nullable|int',
-            'user_type' => 'nullable|int',
+            'name_en' => 'nullable | string',
+            'name' => 'nullable | string',
+            'email' => 'nullable | string',
+            "organization_id" => 'nullable | int',
+            "institute_id" => 'nullable | int',
+            'user_type' => 'nullable | int',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
@@ -1072,7 +1083,7 @@ class UserService
 
         /** response from idp server after user creation */
         $object = IdpUser()->setPayload($idpUserPayload);
-        Log::debug('Class Name: ' . get_class($object));
+        Log::debug('class Name: ' . get_class($object));
         $response = $object->create()->get();
 
         return $response;
