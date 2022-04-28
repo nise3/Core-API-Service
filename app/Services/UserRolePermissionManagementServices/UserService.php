@@ -437,6 +437,8 @@ class UserService
             'registered_training_organization_id' => $user->registered_training_organization_id,
             'registered_training_organization' => $rto,
             'username' => $user->username,
+            'mobile' => $user->mobile,
+            'email' => $user->email,
             'displayName' => $user->name_en,
             'name' => $user->name,
             'profile_pic' => $user->profile_pic,
