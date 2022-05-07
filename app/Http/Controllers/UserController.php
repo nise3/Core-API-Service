@@ -695,6 +695,40 @@ class UserController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function fourIrUserDelete(Request $request): JsonResponse
+    {
+        $requestData = $request->all();
+        $user = User::findOrFail($requestData['user_id']);
+
+        try {
+            DB::beginTransaction();
+            /** IDP server call to delete user */
+            $this->userService->idpUserDelete($user->idp_user_id);
+
+            $user->delete();
+            DB::commit();
+        }  catch (Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    /**
      * User open registration from different services
      * @param Request $request
      * @return JsonResponse
