@@ -79,6 +79,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         /** Create 4IR user */
         $router->post("create-four-ir-user", ["as" => "service-to-service-call.create-four-ir-user", "uses" => "UserController@fourIrUserCreate"]);
+        $router->put("update-four-ir-user", ["as" => "service-to-service-call.update-four-ir-user", "uses" => "UserController@fourIrUserUpdate"]);
     });
 
     $router->put('user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);

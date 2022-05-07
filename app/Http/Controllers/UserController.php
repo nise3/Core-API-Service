@@ -635,6 +635,66 @@ class UserController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function fourIrUserUpdate(Request $request): JsonResponse
+    {
+        $requestData = $request->all();
+        $user = User::findOrFail($requestData['user_id']);
+
+        $updatePayload = [
+            "name" => $requestData['name'],
+            "name_en" => $requestData['name_en'],
+            "email" => $requestData['email'],
+        ];
+
+        try {
+            DB::beginTransaction();
+
+            $user->fill($updatePayload);
+            $user->save();
+
+            /** Call to IDP to update user info */
+            if ($user) {
+                $idpUserPayload = [
+                    'id' => $user->idp_user_id,
+                    'username' => $user->username,
+                    'first_name' => $user->name,
+                    'last_name' => $user->name,
+                    'email' => $user->email,
+                    'mobile' => $user->mobile,
+                    'user_type' => $user->user_type,
+                    'account_disable' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE,
+                    'account_lock' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE
+                ];
+                $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
+                throw_if(isset($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
+            }
+
+            /** Remove cache data for this user */
+            Cache::forget($user->idp_user_id);
+
+            DB::commit();
+        } catch (Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    /**
      * User open registration from different services
      * @param Request $request
      * @return JsonResponse
