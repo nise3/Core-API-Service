@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\HrDemandYouth;
 use App\Models\User;
 use App\Services\Common\CodeGenerateService;
 use App\Services\Common\MailService;
@@ -541,6 +542,190 @@ class UserController extends Controller
         ];
 
         return Response::json($response, ResponseAlias::HTTP_CREATED);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function fourIrUserCreate(Request $request): JsonResponse
+    {
+        $requestData = $request->all();
+        $requestData['username'] = strtolower(str_replace(" ", "_", $requestData['username']));
+        $username = $requestData["username"];
+
+        $response = IdpUser()->setPayload([
+            'filter' => "userName eq $username",
+        ])->findUsers()->get();
+
+        $idpFilteredUser = $response['data'];
+        $coreUser = new User();
+
+        if (!empty($idpFilteredUser['totalResults']) && $idpFilteredUser['totalResults'] == 1 && !empty($idpFilteredUser['Resources'][0]['phoneNumbers'][0]['value'])) {
+            throw_if($idpFilteredUser['Resources'][0]['userType'] == BaseModel::YOUTH_USER, ValidationException::withMessages([
+                "Phone number already exist!"
+            ]));
+
+            $coreUser = User::where('idp_user_id', $idpFilteredUser['Resources'][0]['id'])->first();
+        } else {
+            $validated = $this->userService->validator($requestData)->validate();
+            $validated['code'] = CodeGenerateService::getUserCode($validated['user_type']);
+
+            $idpUserPayLoad = [
+                'first_name' => $validated['name'],
+                'last_name' => $validated['name'],
+                'username' => $validated['username'],
+                'email' => $validated['email'],
+                'mobile' => $validated['mobile'],
+                'password' => $validated['password'],
+                'user_type' => $validated['user_type'],
+                'account_disable' => $validated['row_status'] != BaseModel::ROW_STATUS_ACTIVE,
+                'account_lock' => $validated['row_status'] != BaseModel::ROW_STATUS_ACTIVE
+            ];
+            $idpResponse = null;
+
+            try {
+                DB::beginTransaction();
+                $idpResponse = $this->userService->idpUserCreate($idpUserPayLoad);
+
+                if (!empty($idpResponse['data']['id'])) {
+                    $validated['idp_user_id'] = $idpResponse['data']['id'];
+
+                    $coreUser = $this->userService->store($coreUser, $validated);
+
+                    /** Mail send after user registration */
+                    $to = array($coreUser->email);
+                    $from = BaseModel::NISE3_FROM_EMAIL;
+                    $subject = "Four IR User Registration Information";
+                    $message = "Congratulation, You are successfully done with your registration as " . BaseModel::USER_TYPE[$coreUser->user_type] . " user. Username: " . $coreUser->username . " & Password: " . $validated['password'];
+                    $messageBody = MailService::templateView($message);
+                    $mailService = new MailService($to, $from, $subject, $messageBody);
+                    $mailService->sendMail();
+
+                    /** SMS send after user registration */
+                    $recipient = $coreUser->mobile;
+                    $smsMessage = "Congratulation, You are successfully done with your registration as " . BaseModel::USER_TYPE[$coreUser->user_type] . " user.";
+                    $smsService = new SmsService();
+                    $smsService->sendSms($recipient, $smsMessage);
+                } else {
+                    throw new RuntimeException('User is not created', 500);
+                }
+                DB::commit();
+            } catch (Throwable $e) {
+                DB::rollBack();
+                if (!empty($idpResponse['data']['id'])) {
+                    $idpUserId = $idpResponse['data']['id'];
+                    $this->userService->idpUserDelete($idpUserId);
+                }
+                throw $e;
+            }
+        }
+
+        $response = [
+            'data' => $coreUser,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_CREATED,
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+        return Response::json($response, ResponseAlias::HTTP_CREATED);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function fourIrUserUpdate(Request $request): JsonResponse
+    {
+        $requestData = $request->all();
+        $user = User::findOrFail($requestData['user_id']);
+
+        $updatePayload = [
+            "name" => $requestData['name'],
+            "name_en" => $requestData['name_en'],
+            "email" => $requestData['email'],
+        ];
+
+        try {
+            DB::beginTransaction();
+
+            $user->fill($updatePayload);
+            $user->save();
+
+            /** Call to IDP to update user info */
+            if ($user) {
+                $idpUserPayload = [
+                    'id' => $user->idp_user_id,
+                    'username' => $user->username,
+                    'first_name' => $user->name,
+                    'last_name' => $user->name,
+                    'email' => $user->email,
+                    'mobile' => $user->mobile,
+                    'user_type' => $user->user_type,
+                    'account_disable' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE,
+                    'account_lock' => $user->row_status != BaseModel::ROW_STATUS_ACTIVE
+                ];
+                $idpResponse = $this->userService->idpUserUpdate($idpUserPayload);
+                throw_if(isset($idpResponse['status']) && $idpResponse['status'] == false, "User not updated in Idp");
+            }
+
+            /** Remove cache data for this user */
+            Cache::forget($user->idp_user_id);
+
+            DB::commit();
+        } catch (Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+        return Response::json($response, ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function fourIrUserDelete(Request $request): JsonResponse
+    {
+        $requestData = $request->all();
+        $user = User::findOrFail($requestData['user_id']);
+
+        try {
+            DB::beginTransaction();
+            /** IDP server call to delete user */
+            $this->userService->idpUserDelete($user->idp_user_id);
+
+            $user->delete();
+            DB::commit();
+        }  catch (Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+        $response = [
+            'data' => $user,
+            '_response_status' => [
+                "success" => true,
+                "code" => ResponseAlias::HTTP_OK,
+                "query_time" => $this->startTime->diffInSeconds(Carbon::now()),
+            ]
+        ];
+        return Response::json($response, ResponseAlias::HTTP_OK);
     }
 
     /**
