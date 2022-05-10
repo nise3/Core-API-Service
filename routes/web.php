@@ -100,6 +100,12 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     /** User open Registration from Organization,institute and industry Association from other service */
     $router->post('user-open-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userOpenRegistration']);
 
+
+    /** Forget Password */
+    $router->post('send-forget-password-otp', ['as' => 'users.send-forget-password-otp', 'uses' => 'UserController@sendForgetPasswordOtp']);
+    $router->post('verify-forget-password-otp', ['as' => 'users.verify-forget-password-otp', 'uses' => 'UserController@verifyForgetPasswordOtp']);
+    $router->post('reset-forget-password', ['as' => 'users.reset-forget-password', 'uses' => 'UserController@resetForgetPassword']);
+
 });
 
 
