@@ -1188,6 +1188,8 @@ class UserService
                 'filter' => "userName eq $username",
             ])->findUsers()->get();
 
+            Log::info('forget password username'. $username);
+            Log::info('forget password response from idp---->'. $response);
 
             $data = $response['data'];
 
