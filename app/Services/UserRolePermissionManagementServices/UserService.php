@@ -1258,7 +1258,7 @@ class UserService
             'username' => [
                 'required'
             ],
-            'opt_code' => [
+            'otp_code' => [
                 'required',
                 'digits:6',
             ]
