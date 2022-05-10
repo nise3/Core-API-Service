@@ -1189,7 +1189,7 @@ class UserService
             ])->findUsers()->get();
 
             Log::info('forget password username'. $username);
-            Log::info('forget password response from idp---->'. $response);
+            Log::info('forget password response from idp---->'. json_encode($response));
 
             $data = $response['data'];
 
