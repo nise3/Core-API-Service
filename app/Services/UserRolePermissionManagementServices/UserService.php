@@ -975,15 +975,13 @@ class UserService
 
             if ($forgetPassword) {
 
-                IdpUser()->setPayload([
+                return IdpUser()->setPayload([
 
                     'id' => $forgetPassword->idp_user_id,
                     'username' => $forgetPassword->username,
                     'password' => $data['new_password']
 
                 ])->update()->get();
-
-                return true;
             }
 
         } catch (Exception $e) {
