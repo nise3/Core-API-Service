@@ -963,13 +963,13 @@ class UserService
     }
 
     /**
-     * @param Request $request
+     * @param array $data
      * @return bool
      */
-    public function resetForgetPassword(Request $request): bool
+    public function resetForgetPassword(array $data): bool
     {
         try {
-            $forgetPassword = ForgetPasswordReset::where('username', $request->input('username'))->first();
+            $forgetPassword = ForgetPasswordReset::where('username', $data['username'])->first();
 
             if ($forgetPassword) {
 
@@ -977,7 +977,7 @@ class UserService
 
                     'id' => $forgetPassword->idp_user_id,
                     'username' => $forgetPassword->username,
-                    'password' => $request->input('new_password')
+                    'password' => $data['new_password']
 
                 ])->update()->get();
 
