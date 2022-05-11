@@ -982,9 +982,8 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @param int $id
      * @return JsonResponse
-     * @throws Throwable
+     * @throws ValidationException
      */
     public function resetForgetPassword(Request $request): JsonResponse
     {
