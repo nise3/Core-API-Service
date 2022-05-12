@@ -971,19 +971,27 @@ class UserService
     public function resetForgetPassword(array $data): bool
     {
         try {
-            $forgetPassword = ForgetPasswordReset::where('username', $data['username'])->first();
+            $forgetPassword = ForgetPasswordReset::where('username', $data['username'])->whereNotNull('otp_code_verified_at')->first();
 
             if ($forgetPassword) {
-
-                return IdpUser()->setPayload([
+                $response = IdpUser()->setPayload([
 
                     'id' => $forgetPassword->idp_user_id,
                     'username' => $forgetPassword->username,
                     'password' => $data['new_password']
 
                 ])->update()->get();
-            }
 
+                if ($response['status']) {
+
+                    $forgetPassword->otp_code = null;
+                    $forgetPassword->otp_code_verified_at = null;
+                    $forgetPassword->password_reset_at = Carbon::now();
+                    $forgetPassword->save();
+
+                    return true;
+                }
+            }
         } catch (Exception $e) {
             return false;
         }
@@ -1186,8 +1194,8 @@ class UserService
                 'filter' => "userName eq $username",
             ])->findUsers()->get();
 
-            Log::info('forget password username'. $username);
-            Log::info('forget password response from idp---->'. json_encode($response));
+            Log::info('forget password username' . $username);
+            Log::info('forget password response from idp---->' . json_encode($response));
 
             $data = $response['data'];
 
@@ -1205,8 +1213,8 @@ class UserService
                 $forgetPassword->updateOrCreate(['idp_user_id' => $idpUserId], [
                         'idp_user_id' => $idpUserId,
                         'username' => $username,
-                        'forget_password_otp_code' => $code,
-                        'forget_password_otp_code_sent_at' => Carbon::now()
+                        'otp_code' => $code,
+                        'otp_code_sent_at' => Carbon::now()
                     ]
                 );
 
@@ -1240,8 +1248,13 @@ class UserService
 
         /** @var ForgetPasswordReset $forgetPassword */
         $forgetPassword = ForgetPasswordReset::where('username', $username)
-            ->where('forget_password_otp_code', $otpCode)
+            ->where('otp_code', $otpCode)
             ->first();
+
+        if ($forgetPassword) {
+            $forgetPassword->otp_code_verified_at = Carbon::now();
+            $forgetPassword->save();
+        }
 
         return !!$forgetPassword;
     }
