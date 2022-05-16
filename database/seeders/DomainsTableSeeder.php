@@ -132,6 +132,21 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'bef-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 39,'title_prefix'=>'BEF-DEV' , 'title_prefix_en'=>'BEF-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'bef-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 39,'title_prefix'=>'BEF-STAGING' , 'title_prefix_en'=>'BEF-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'bef.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 39,'title_prefix'=>'BEF-ASM' , 'title_prefix_en'=>'BEF-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'agrofoodisc.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 40,'title_prefix'=>'AGROFOODISC' , 'title_prefix_en'=>'AGROFOODISC', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'agrofoodisc-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 40,'title_prefix'=>'AGROFOODISC-DEV' , 'title_prefix_en'=>'AGROFOODISC-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'agrofoodisc-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 40,'title_prefix'=>'AGROFOODISC-STAGING' , 'title_prefix_en'=>'AGROFOODISC-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'agrofoodisc.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 40,'title_prefix'=>'AGROFOODISC-ASM' , 'title_prefix_en'=>'AGROFOODISC-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'tourismisc.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 41,'title_prefix'=>'TOURISMISC' , 'title_prefix_en'=>'TOURISMISC', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'tourismisc-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 41,'title_prefix'=>'TOURISMISC-DEV' , 'title_prefix_en'=>'TOURISMISC-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'tourismisc-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 41,'title_prefix'=>'TOURISMISC-STAGING' , 'title_prefix_en'=>'TOURISMISC-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'tourismisc.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 41,'title_prefix'=>'TOURISMISC-ASM' , 'title_prefix_en'=>'TOURISMISC-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'sit.nise.gov.bd', 'institute_id' => 56, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SIT' , 'title_prefix_en'=>'SIT', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'sit-dev.nise3.xyz', 'institute_id' => 56, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SIT-DEV' , 'title_prefix_en'=>'SIT-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'sit-staging.nise3.xyz', 'institute_id' => 56, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SIT-STAGING' , 'title_prefix_en'=>'SIT-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'sit.nise.asm', 'institute_id' => 56, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SIT-ASM' , 'title_prefix_en'=>'SIT-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
