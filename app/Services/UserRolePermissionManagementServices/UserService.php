@@ -1192,6 +1192,7 @@ class UserService
             $username = $data["username"];
             $response = IdpUser()->setPayload([
                 'filter' => "userName eq $username",
+                'excludedAttributes' => 'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User.dateOfBirth'
             ])->findUsers()->get();
 
             Log::info('forget password username' . $username);
