@@ -752,4 +752,71 @@ class UserController extends Controller
         ];
         return Response::json($response, ResponseAlias::HTTP_OK);
     }
+
+
+    public function sendForgetPasswordOtp(Request $request): JsonResponse
+    {
+        $validated = $this->userService->sendForgetPasswordOtpValidator($request)->validate();
+
+        $status = $this->userService->sendForgetPasswordOtpCode($validated);
+        $response = [
+            '_response_status' => [
+                "success" => $status,
+                "code" => $status ? ResponseAlias::HTTP_OK : ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                "message" => $status ? "Your reset password code is successfully sent" : "Unable to send",
+                "query_time" => $this->startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+
+        return Response::json($response, $response['_response_status']['code']);
+
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function verifyForgetPasswordOtp(Request $request): JsonResponse
+    {
+        $validated = $this->userService->verifyForgetPasswordOtpCodeValidator($request)->validate();
+        $status = $this->userService->verifyForgetPasswordOtpCode($validated);
+
+        $response = [
+            '_response_status' => [
+                "success" => $status,
+                "code" => $status ? ResponseAlias::HTTP_OK : ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                "message" => $status ? "Otp code verified successfully." : "Unable to verify",
+                "query_time" => $this->startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+
+        return Response::json($response, $response['_response_status']['code']);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function resetForgetPassword(Request $request): JsonResponse
+    {
+        $validated = $this->userService->resetForgetPasswordUpdateValidator($request)->validate();
+
+        $status = $this->userService->resetForgetPassword($validated);
+
+        $response = [
+            '_response_status' => [
+                "success" => $status,
+                "code" => $status ? ResponseAlias::HTTP_OK : ResponseAlias::HTTP_UNPROCESSABLE_ENTITY,
+                "message" => $status ? "Password updated successfully." : "Failed to update password",
+                "query_time" => $this->startTime->diffForHumans(Carbon::now())
+            ]
+        ];
+
+        return Response::json($response, $response['_response_status']['code']);
+
+    }
+
 }
