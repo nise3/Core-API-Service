@@ -18,7 +18,7 @@ class SmsService
             "recipient" => $recipient,
             "message" => $message
         ];
-        Log::info('SMS Payload For TSP'.json_encode($smsConfig));
+        Log::info('SMS Payload For Core'.json_encode($smsConfig));
         event(new SmsSendEvent($smsConfig));
     }
 
