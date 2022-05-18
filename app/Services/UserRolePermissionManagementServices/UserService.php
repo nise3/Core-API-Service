@@ -5,6 +5,7 @@ namespace App\Services\UserRolePermissionManagementServices;
 use App\Exceptions\HttpErrorException;
 use App\Models\BaseModel;
 use App\Models\Domain;
+use App\Models\ForgetPasswordReset;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -22,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Component\HttpFoundation\Response;
+use App\Services\Common\SmsService;
 use Throwable;
 
 /**
@@ -437,6 +439,8 @@ class UserService
             'registered_training_organization_id' => $user->registered_training_organization_id,
             'registered_training_organization' => $rto,
             'username' => $user->username,
+            'mobile' => $user->mobile,
+            'email' => $user->email,
             'displayName' => $user->name_en,
             'name' => $user->name,
             'profile_pic' => $user->profile_pic,
@@ -942,6 +946,59 @@ class UserService
         return Validator::make($request->all(), $rules);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function resetForgetPasswordUpdateValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        $rules = [
+            'username' => 'required',
+            'new_password' => [
+                'required',
+                'min:' . BaseModel::PASSWORD_MIN_LENGTH,
+                BaseModel::PASSWORD_REGEX
+            ],
+            'password_confirmation' => 'required_with:new_password|same:new_password',
+        ];
+        return Validator::make($request->all(), $rules);
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function resetForgetPassword(array $data): bool
+    {
+        try {
+            $forgetPassword = ForgetPasswordReset::where('username', $data['username'])->whereNotNull('otp_code_verified_at')->first();
+
+            if ($forgetPassword) {
+                $response = IdpUser()->setPayload([
+
+                    'id' => $forgetPassword->idp_user_id,
+                    'username' => $forgetPassword->username,
+                    'password' => $data['new_password']
+
+                ])->update()->get();
+
+                if ($response['status']) {
+
+                    $forgetPassword->otp_code = null;
+                    $forgetPassword->otp_code_verified_at = null;
+                    $forgetPassword->password_reset_at = Carbon::now();
+                    $forgetPassword->save();
+
+                    return true;
+                }
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return false;
+    }
+
 
     /**
      * @param Request $request
@@ -953,28 +1010,18 @@ class UserService
         $rules = [
             "name_en" => 'nullable|min:3|max:255',
             "name" => 'required|min:3|max:500',
-//            "current_password" => [
-//                'required_with:password',
-//                function ($attribute, $value, $fail) use ($user) {
-//                    if (!Hash::check($value, $user->password)) {
-//                        $fail('Your password was not updated, since the provided current password does not match.[46001]');
-//                    }
-//                }
-//
-//            ],
-//            "password" => [
-//                "required",
-//                "confirmed",
-//                'different:current_password',
-//                Password::min(BaseModel::PASSWORD_MIN_LENGTH)
-//                    ->letters()
-//                    ->mixedCase()
-//                    ->numbers(),
-//            ],
-//            "password_confirmation" => 'required_with:password',
             "profile_pic" => [
                 'nullable',
                 "string"
+            ],
+            "email" => [
+                "required",
+                "email"
+            ],
+            "mobile" => [
+                "required",
+                "string",
+                BaseModel::MOBILE_REGEX
             ],
             "created_by" => "nullable|integer",
             "updated_by" => "nullable|integer",
@@ -1016,8 +1063,8 @@ class UserService
         }
 
         $rules = [
-            'permissions' => 'required|array|min:1',
-            'permissions.*' => 'required|int|distinct|min:1'
+            'permissions' => 'required | array|min:1',
+            'permissions .*' => 'required | int | distinct | min:1'
         ];
         return Validator::make($data, $rules);
     }
@@ -1033,19 +1080,19 @@ class UserService
         }
 
         $customMessage = [
-            'order.in' => 'Order must be within ASC or DESC.[30000]',
-            'row_status.in' => 'Row status must be within 1 or 0.[30000]'
+            'order . in' => 'Order must be within ASC or DESC . [30000]',
+            'row_status . in' => 'Row status must be within 1 or 0.[30000]'
         ];
 
         return Validator::make($request->all(), [
             'page' => 'int',
             'page_size' => 'int',
-            'name_en' => 'nullable|string',
-            'name' => 'nullable|string',
-            'email' => 'nullable|string',
-            "organization_id" => 'nullable|int',
-            "institute_id" => 'nullable|int',
-            'user_type' => 'nullable|int',
+            'name_en' => 'nullable | string',
+            'name' => 'nullable | string',
+            'email' => 'nullable | string',
+            "organization_id" => 'nullable | int',
+            "institute_id" => 'nullable | int',
+            'user_type' => 'nullable | int',
             'order' => [
                 'string',
                 Rule::in([BaseModel::ROW_ORDER_ASC, BaseModel::ROW_ORDER_DESC])
@@ -1072,7 +1119,7 @@ class UserService
 
         /** response from idp server after user creation */
         $object = IdpUser()->setPayload($idpUserPayload);
-        Log::debug('Class Name: ' . get_class($object));
+        Log::debug('class Name: ' . get_class($object));
         $response = $object->create()->get();
 
         return $response;
@@ -1115,4 +1162,124 @@ class UserService
     {
         return IdpUser()->setPayload($idpPasswordUpdatePayload)->userResetPassword()->get();
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function sendForgetPasswordOtpValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+        $rules = [
+            "username" => [
+                'required'
+            ]
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws Exception
+     * @throws Throwable
+     */
+    public function sendForgetPasswordOtpCode(array $data): bool
+    {
+        try {
+            DB::beginTransaction();
+
+            $username = $data["username"];
+            $response = IdpUser()->setPayload([
+                'filter' => "userName eq $username",
+                'excludedAttributes' => 'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User.dateOfBirth'
+            ])->findUsers()->get();
+
+            Log::info('forget password username' . $username);
+            Log::info('forget password response from idp---->' . json_encode($response));
+
+            $data = $response['data'];
+
+            if (!empty($data['totalResults']) == 1 && !empty($data['Resources'][0]['phoneNumbers'][0]['value'])) {
+
+                $mobile = $data['Resources'][0]['phoneNumbers'][0]['value'];
+                $code = generateOtp(6);
+                $message = "Your forget password OTP code is : " . $code;
+
+                $idpUserId = $data['Resources'][0]['id'];
+                $username = $data['Resources'][0]['userName'];
+
+                $forgetPassword = app(ForgetPasswordReset::class);
+
+                $forgetPassword->updateOrCreate(['idp_user_id' => $idpUserId], [
+                        'idp_user_id' => $idpUserId,
+                        'username' => $username,
+                        'otp_code' => $code,
+                        'otp_code_sent_at' => Carbon::now()
+                    ]
+                );
+
+
+                $smsService = app(SmsService::class);
+                $smsService->sendSms($mobile, $message);
+
+                DB::commit();
+
+                return true;
+            }
+
+            return false;
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws Throwable
+     */
+    public function verifyForgetPasswordOtpCode(array $data): bool
+    {
+        $username = $data['username'] ?? null;
+        $otpCode = $data['otp_code'] ?? null;
+
+        /** @var ForgetPasswordReset $forgetPassword */
+        $forgetPassword = ForgetPasswordReset::where('username', $username)
+            ->where('otp_code', $otpCode)
+            ->first();
+
+        if ($forgetPassword) {
+            $forgetPassword->otp_code_verified_at = Carbon::now();
+            $forgetPassword->save();
+        }
+
+        return !!$forgetPassword;
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function verifyForgetPasswordOtpCodeValidator(Request $request): \Illuminate\Contracts\Validation\Validator
+    {
+
+        $rules = [
+            'username' => [
+                'required'
+            ],
+            'otp_code' => [
+                'required',
+                'digits:6',
+            ]
+        ];
+
+        return Validator::make($request->all(), $rules);
+    }
+
+
 }

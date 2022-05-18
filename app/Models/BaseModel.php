@@ -62,35 +62,40 @@ abstract class BaseModel extends Model
     public const SYSTEM_USER = 1;
     public const ORGANIZATION_USER = 2;
     public const INSTITUTE_USER = 3;
-    public const YOUTH_USER_TYPE = 4;
+    public const YOUTH_USER = 4;
     public const INDUSTRY_ASSOCIATION_USER = 5;
     public const REGISTERED_TRAINING_ORGANIZATION_USER = 6;
+    public const FOUR_IR_USER = 7;
 
     /**User Types*/
     public const USER_TYPES = [
         self::SYSTEM_USER,
         self::ORGANIZATION_USER,
         self::INSTITUTE_USER,
-        self::YOUTH_USER_TYPE,
+        self::YOUTH_USER,
         self::INDUSTRY_ASSOCIATION_USER,
-        self::REGISTERED_TRAINING_ORGANIZATION_USER
+        self::REGISTERED_TRAINING_ORGANIZATION_USER,
+        self::FOUR_IR_USER
     ];
 
     public const USER_TYPE = [
         self::SYSTEM_USER => 'system',
         self::ORGANIZATION_USER => 'organization',
         self::INSTITUTE_USER => 'institute',
+        self::YOUTH_USER => 'youth',
         self::INDUSTRY_ASSOCIATION_USER => 'industry-association',
-        self::REGISTERED_TRAINING_ORGANIZATION_USER => 'registered-training-organization'
+        self::REGISTERED_TRAINING_ORGANIZATION_USER => 'registered-training-organization',
+        self::FOUR_IR_USER => 'four-ir'
     ];
     public const USER_CODE_SIZE = 11;
     public const USER_CODE_PREFIXES = [
         self::SYSTEM_USER => "USYS",
         self::ORGANIZATION_USER => 'UIND',
         self::INSTITUTE_USER => 'USSP',
-        self::YOUTH_USER_TYPE => 'UYTH',
+        self::YOUTH_USER => 'UYTH',
         self::INDUSTRY_ASSOCIATION_USER => 'UINA',
-        self::REGISTERED_TRAINING_ORGANIZATION_USER => 'URTO'
+        self::REGISTERED_TRAINING_ORGANIZATION_USER => 'URTO',
+        self::FOUR_IR_USER => 'FRIR'
     ];
 
     public const MOBILE_REGEX = 'regex: /^(01[3-9]\d{8})$/';

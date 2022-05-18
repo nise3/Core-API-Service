@@ -76,6 +76,11 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         /** Get user by username */
         $router->post("create-trainer-user", ["as" => "service-to-service-call.create-trainer-user", "uses" => "UserController@trainerYouthUserCreate"]);
+
+        /** Create 4IR user */
+        $router->post("create-four-ir-user", ["as" => "service-to-service-call.create-four-ir-user", "uses" => "UserController@fourIrUserCreate"]);
+        $router->put("update-four-ir-user", ["as" => "service-to-service-call.update-four-ir-user", "uses" => "UserController@fourIrUserUpdate"]);
+        $router->delete("delete-four-ir-user", ["as" => "service-to-service-call.delete-four-ir-user", "uses" => "UserController@fourIrUserDelete"]);
     });
 
     $router->put('user-approval', ['as' => 'users.user-approval', 'uses' => 'UserController@userApproval']);
@@ -94,6 +99,12 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
     /** User open Registration from Organization,institute and industry Association from other service */
     $router->post('user-open-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userOpenRegistration']);
+
+
+    /** Forget Password */
+    $router->post('send-forget-password-otp', ['as' => 'users.send-forget-password-otp', 'uses' => 'UserController@sendForgetPasswordOtp']);
+    $router->post('verify-forget-password-otp', ['as' => 'users.verify-forget-password-otp', 'uses' => 'UserController@verifyForgetPasswordOtp']);
+    $router->post('reset-forget-password', ['as' => 'users.reset-forget-password', 'uses' => 'UserController@resetForgetPassword']);
 
 });
 
