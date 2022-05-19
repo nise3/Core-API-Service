@@ -72,10 +72,10 @@ class Handler extends ExceptionHandler
         if ($e instanceof HttpResponseException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_BAD_REQUEST;
             $errors['_response_status']['message'] = "Invalid Request Format";
-        } elseif ($e instanceof AuthenticationException) {
+        } elseif ($e instanceof AuthorizationException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_FORBIDDEN;
             $errors['_response_status']['message'] = $e->getMessage();
-        } elseif ($e instanceof AuthorizationException) {
+        } elseif ($e instanceof AuthenticationException) {
             $errors['_response_status']['code'] = ResponseAlias::HTTP_UNAUTHORIZED;
             $errors['_response_status']['message'] = $e->getMessage();
         } else if ($e instanceof HttpException) {

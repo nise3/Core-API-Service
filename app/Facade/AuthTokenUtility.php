@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Facade;
  * Class AuthUser
  * @package App\Facade
  * @method static string getIdpServerIdFromToken( $data, $verify = false)
+ * @method static string jwtTokenValidation($token)
  * @see \App\Helpers\Classes\AuthTokenUtilityHandler
  */
 class AuthTokenUtility extends Facade
