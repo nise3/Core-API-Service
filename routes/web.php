@@ -39,6 +39,9 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         $customRouter()->resourceRoute('menus', 'MenuController')->render();
         $customRouter()->resourceRoute('menu-items', 'MenuItemController')->render();
 
+        /** Roles for FourIr */
+        $router->get('roles-for-4IR', ['as' => 'roles.roles-for-4IR', 'uses' => 'RoleController@getRolesForFourIR']);
+
         /* assign permission to Roles*/
         $router->post('roles/{id}/assign-permissions', ['as' => 'roles.assign-permissions', 'uses' => 'RoleController@assignPermissionToRole']);
 

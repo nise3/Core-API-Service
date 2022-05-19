@@ -113,6 +113,100 @@ class RoleService
         return $response;
     }
 
+    public function getAllRoleForFourIR(array $request, Carbon $startTime): array
+    {
+        $titleEn = $request['title_en'] ?? "";
+        $title = $request['title'] ?? "";
+        $paginate = $request['page'] ?? "";
+        $pageSize = $request['page_size'] ?? "";
+        $rowStatus = $request['row_status'] ?? "";
+        $order = $request['order'] ?? "ASC";
+        $organizationId = $request['organization_id'] ?? "";
+        $instituteId = $request['institute_id'] ?? "";
+        $industryAssociationId = $request['industry_association_id'] ?? "";
+
+        /** @var Role|Builder $rolesBuilder */
+        $rolesBuilder = Role::select([
+            'roles.id',
+            'roles.title',
+            'roles.title_en',
+            'roles.key',
+            'roles.description',
+            'roles.organization_id',
+            'roles.industry_association_id',
+            'roles.institute_id',
+            'roles.permission_group_id',
+            'permission_groups.title_en as permission_group_title_en',
+            'permission_groups.title as permission_group_title',
+            'roles.permission_sub_group_id',
+            'permission_sub_groups.title_en as permission_sub_group_title_en',
+            'permission_sub_groups.title as permission_sub_group_title',
+            'roles.row_status',
+            'roles.created_at',
+            'roles.updated_at',
+
+        ]);
+
+        $rolesBuilder->leftJoin('permission_groups', function ($join) use ($rowStatus) {
+            $join->on('permission_groups.id', '=', 'roles.permission_group_id');
+            if (is_numeric($rowStatus)) {
+                $join->where('permission_groups.row_status', $rowStatus);
+            }
+        });
+        $rolesBuilder->leftJoin('permission_sub_groups', function ($join) use ($rowStatus) {
+            $join->on('permission_sub_groups.id', '=', 'roles.permission_sub_group_id');
+            if (is_numeric($rowStatus)) {
+                $join->where('permission_sub_groups.row_status', $rowStatus);
+            }
+        });
+
+        if (is_numeric($rowStatus)) {
+            $rolesBuilder->where('roles.row_status', $rowStatus);
+        }
+
+        if (is_numeric($organizationId)) {
+            $rolesBuilder->where('roles.organization_id', $organizationId);
+        }
+        if (is_numeric($industryAssociationId)) {
+            $rolesBuilder->where('roles.industry_association_id', $industryAssociationId);
+        }
+        if (is_numeric($instituteId)) {
+            $rolesBuilder->where('roles.institute_id', $instituteId);
+        }
+        /** Four Ir Roles by Permission Group id */
+        $rolesBuilder->where("permission_groups.id", BaseModel::FOUR_PERMISSION_GROUP_ID);
+
+        $rolesBuilder->orderBy('roles.id', $order);
+
+        if (!empty($titleEn)) {
+            $rolesBuilder->where('roles.title_en', 'like', '%' . $titleEn . '%');
+        }
+        if (!empty($title)) {
+            $rolesBuilder->where('roles.title', 'like', '%' . $title . '%');
+        }
+
+        /** @var Collection $roles */
+        if (is_numeric($paginate) || is_numeric($pageSize)) {
+            $pageSize = $pageSize ?: 10;
+            $roles = $rolesBuilder->paginate($pageSize);
+            $paginateData = (object)$roles->toArray();
+            $response['current_page'] = $paginateData->current_page;
+            $response['total_page'] = $paginateData->last_page;
+            $response['page_size'] = $paginateData->per_page;
+            $response['total'] = $paginateData->total;
+        } else {
+            $roles = $rolesBuilder->get();
+        }
+        $response['order'] = $order;
+        $response['data'] = $roles->toArray()['data'] ?? $roles->toArray();
+        $response['_response_status'] = [
+            "success" => true,
+            "code" => Response::HTTP_OK,
+            "query_time" => $startTime->diffForHumans(Carbon::now())
+        ];
+        return $response;
+    }
+
     /**
      * @param int $id
      * @param Carbon $startTime
