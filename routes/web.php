@@ -40,7 +40,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
         $customRouter()->resourceRoute('menu-items', 'MenuItemController')->render();
 
         /** Roles for FourIr */
-        $router->get('roles-for-4IR', ['as' => 'roles.roles-for-4IR', 'uses' => 'RoleController@getRolesForFourIR']);
+
 
         /* assign permission to Roles*/
         $router->post('roles/{id}/assign-permissions', ['as' => 'roles.assign-permissions', 'uses' => 'RoleController@assignPermissionToRole']);
@@ -108,7 +108,7 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->post('send-forget-password-otp', ['as' => 'users.send-forget-password-otp', 'uses' => 'UserController@sendForgetPasswordOtp']);
     $router->post('verify-forget-password-otp', ['as' => 'users.verify-forget-password-otp', 'uses' => 'UserController@verifyForgetPasswordOtp']);
     $router->post('reset-forget-password', ['as' => 'users.reset-forget-password', 'uses' => 'UserController@resetForgetPassword']);
-
+    $router->get('roles-for-4IR', ['as' => 'roles.roles-for-4IR', 'uses' => 'RoleController@getRolesForFourIR']);
 });
 
 

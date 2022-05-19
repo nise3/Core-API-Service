@@ -174,7 +174,7 @@ class RoleService
             $rolesBuilder->where('roles.institute_id', $instituteId);
         }
         /** Four Ir Roles by Permission Group id */
-        $rolesBuilder->where("permission_groups.id", BaseModel::FOUR_PERMISSION_GROUP_ID);
+        $rolesBuilder->where("permission_groups.id", BaseModel::PERMISSION_GROUP_ID_FOUR_IR);
 
         $rolesBuilder->orderBy('roles.id', $order);
 
