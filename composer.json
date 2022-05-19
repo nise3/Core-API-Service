@@ -10,6 +10,7 @@
     "type": "project",
     "require": {
         "php": "^8.0",
+        "ext-curl": "*",
         "ext-json": "*",
         "ext-pdo": "*",
         "doctrine/dbal": "^3.3",
@@ -26,7 +27,8 @@
         "laravel/tinker": "^2.6",
         "phabloraylan/lumen-middleware-trim-or-convert-strings": "^1.0",
         "predis/predis": "~1.0",
-        "anis072/lumen-queue-rabbitmq": "^12.0"
+        "anis072/lumen-queue-rabbitmq": "^12.0",
+
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

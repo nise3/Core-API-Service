@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Facade\AuthTokenUtility;
 use App\Services\UserRolePermissionManagementServices\UserService;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -29,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
      * Boot the authentication services for the application.
      *
      * @return void
+     * @throws AuthenticationException
      */
     public function boot()
     {
@@ -58,6 +60,11 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             $authUser = null;
+
+//            if (!AuthTokenUtility::jwtTokenValidation($token)) {
+//               throw new AuthenticationException('Access Token has been expired or invalid');
+//            }
+
             $idpServerUserId = AuthTokenUtility::getIdpServerIdFromToken($token);
 
             Log::info("Auth idp user id-->" . $idpServerUserId);
