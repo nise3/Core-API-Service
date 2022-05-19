@@ -53,6 +53,20 @@ class RoleController extends Controller
         return Response::json($response);
     }
 
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function getRolesForFourIR(Request $request): JsonResponse
+    {
+        $filter = $this->roleService->filterValidator($request)->validate();
+        $response = $this->roleService->getAllRoleForFourIR($filter, $this->startTime);
+        return Response::json($response, $response['_response_status']['code']);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -78,7 +92,7 @@ class RoleController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $this->roleService->validator($request)->validate();
-       /** @var User $authUser */
+        /** @var User $authUser */
         $authUser = Auth::user();
         $validated['permission_group_id'] = $authUser->role->permission_group_id;
         $validated['permission_sub_group_id'] = $authUser->role->permission_sub_group_id;
