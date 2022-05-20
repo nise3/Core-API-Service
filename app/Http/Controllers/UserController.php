@@ -566,9 +566,11 @@ class UserController extends Controller
         Log::info("idpFilteredUser-User-Exist: ".json_encode($idpFilteredUser,JSON_PRETTY_PRINT));
 
         if (!empty($idpFilteredUser['totalResults']) && $idpFilteredUser['totalResults'] == 1 && !empty($idpFilteredUser['Resources'][0]['phoneNumbers'][0]['value'])) {
+
 //            throw_if($idpFilteredUser['Resources'][0]['userType'] == BaseModel::YOUTH_USER, ValidationException::withMessages([
 //                "Phone number already exist!"
 //            ]));
+
             $coreUser = User::where('idp_user_id', $idpFilteredUser['Resources'][0]['id'])->first();
 
             Log::info("User-Exist: ".json_encode($coreUser,JSON_PRETTY_PRINT));
