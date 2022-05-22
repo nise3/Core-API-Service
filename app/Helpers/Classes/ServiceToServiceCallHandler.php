@@ -32,7 +32,7 @@ class ServiceToServiceCallHandler
                 'verify' => config('nise3.should_ssl_verify'),
                 'debug' => config('nise3.http_debug')
             ])
-            ->timeout(5)
+            ->timeout(120)
             ->post($postUrl, $userPostField)
             ->throw(static function (Response $httpResponse, $httpException) use ($postUrl) {
                 Log::debug(get_class($httpResponse) . ' - ' . get_class($httpException));

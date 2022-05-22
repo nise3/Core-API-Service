@@ -31,7 +31,7 @@ class BackChannelTokenGenerationController extends Controller
             'Content-Type' => 'application/x-www-form-urlencoded',
         ])
             ->withBasicAuth($oidcClientKey, $oidcClientSecret)
-            ->timeout(5)
+            ->timeout(120)
             ->withOptions([
                 'allow_redirects' => ['strict' => true],
                 'verify' => false,
@@ -75,7 +75,7 @@ class BackChannelTokenGenerationController extends Controller
             'Content-Type' => 'application/x-www-form-urlencoded'
         ])
             ->withBasicAuth($oidcClientKey, $oidcClientSecret)
-            ->timeout(5)
+            ->timeout(120)
             ->withOptions([
                 'allow_redirects' => ['strict' => true],
                 'verify' => false,
@@ -116,7 +116,7 @@ class BackChannelTokenGenerationController extends Controller
         $clientConsumerSecret = env('WSO2_APIM_CLIENT_SECRET');
 
         $response = Http::withBasicAuth($clientConsumerKey, $clientConsumerSecret)
-            ->timeout(5)
+            ->timeout(120)
             ->withOptions([
                 'allow_redirects' => ['strict' => true],
                 'verify' => false,
