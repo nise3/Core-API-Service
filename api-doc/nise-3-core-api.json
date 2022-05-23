@@ -21,7 +21,7 @@
     ],
     "security": [
         {
-            "bearerAuth": []
+            "User-Token": []
         }
     ],
     "paths": {
@@ -50,6 +50,48 @@
                                         ]
                                     },
                                     "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally"
+                                }
+                            }
+                        },
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Api info"
+                ]
+            }
+        },
+        "/domain-details": {
+            "get": {
+                "summary": "Provide Domain Details",
+                "description": "It Provides Details of a Domain",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/domain"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "domain": "nise.gov.bd",
+                                        "institute_id": null,
+                                        "organization_id": null,
+                                        "industry_association_id": null,
+                                        "title_prefix": "",
+                                        "title_prefix_en": "",
+                                        "created_at": "2022-01-30T12:00:34.000000Z",
+                                        "updated_at": "2022-01-30T12:00:34.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Domain fetch successfully",
+                                        "query_time": 0
+                                    }
                                 }
                             }
                         },
@@ -2859,15 +2901,10 @@
     },
     "components": {
         "securitySchemes": {
-            "Authorization": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            },
             "User-Token": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
+                "type": "apiKey",
+                "in": "header",
+                "name": "User-Token"
             }
         },
         "parameters": {
@@ -3063,6 +3100,14 @@
                 "required": false,
                 "schema": {
                     "type": "integer"
+                }
+            },
+            "domain": {
+                "name": "domain",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
                 }
             },
             "row_status_optional": {
