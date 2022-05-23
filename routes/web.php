@@ -101,6 +101,9 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     $router->post('verify-forget-password-otp', ['as' => 'users.verify-forget-password-otp', 'uses' => 'UserController@verifyForgetPasswordOtp']);
     $router->post('reset-forget-password', ['as' => 'users.reset-forget-password', 'uses' => 'UserController@resetForgetPassword']);
 
+    $router->get("domain-details", ["as" => "domain-details", "uses" => "ApiInfoController@domainDetails"]);
+
+
 });
 
 
