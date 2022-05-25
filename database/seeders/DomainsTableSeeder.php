@@ -55,6 +55,7 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'smef-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 3,'title_prefix'=>'SMEF-DEV' , 'title_prefix_en'=>'SMEF-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'smef-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 3,'title_prefix'=>'SMEF-STAGING' , 'title_prefix_en'=>'SMEF-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'smef.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 3,'title_prefix'=>'SMEF-ASM' , 'title_prefix_en'=>'SMEF-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'smef.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 3,'title_prefix'=>'SMEF' , 'title_prefix_en'=>'SMEF', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
 
             array('domain' => 'dss.nise.gov.bd', 'institute_id' => 6, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DSS' , 'title_prefix_en'=>'DSS', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'dss-dev.nise3.xyz', 'institute_id' => 6, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DSS-DEV' , 'title_prefix_en'=>'DSS-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
@@ -147,6 +148,11 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'sit-dev.nise3.xyz', 'institute_id' => 56, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SIT-DEV' , 'title_prefix_en'=>'SIT-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'sit-staging.nise3.xyz', 'institute_id' => 56, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SIT-STAGING' , 'title_prefix_en'=>'SIT-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'sit.nise.asm', 'institute_id' => 56, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'SIT-ASM' , 'title_prefix_en'=>'SIT-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'asiattc.nise.gov.bd', 'institute_id' => 57, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'ASIATTC' , 'title_prefix_en'=>'ASIATTC', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'asiattc-dev.nise3.xyz', 'institute_id' => 57, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'ASIATTC-DEV' , 'title_prefix_en'=>'ASIATTC-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'asiattc-staging.nise3.xyz', 'institute_id' => 57, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'ASIATTC-STAGING' , 'title_prefix_en'=>'ASIATTC-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'asiattc.nise.asm', 'institute_id' => 57, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'ASIATTC-ASM' , 'title_prefix_en'=>'ASIATTC-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
