@@ -4,7 +4,7 @@ variables:
   devBuildImageVersion: "2.3.13"
 
   # always add prefix k- before production image version
-  stagingBuildImageVersion: "prod-2.3.11"
+  stagingBuildImageVersion: "prod-2.3.12"
 
   #app build image
   imageRepository: "registry.nise.gov.bd/nise3-core-api-docker"

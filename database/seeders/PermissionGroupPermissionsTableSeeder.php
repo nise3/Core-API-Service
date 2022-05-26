@@ -1133,7 +1133,8 @@ class PermissionGroupPermissionsTableSeeder extends Seeder
             array('permission_group_id' => '4', 'permission_id' => '461'),
             array('permission_group_id' => '4', 'permission_id' => '462'),
             array('permission_group_id' => '4', 'permission_id' => '463'),
-            array('permission_group_id' => '4', 'permission_id' => '464')
+            array('permission_group_id' => '4', 'permission_id' => '464'),
+            array('permission_group_id' => '1', 'permission_id' => '465')
 
         ]);
 

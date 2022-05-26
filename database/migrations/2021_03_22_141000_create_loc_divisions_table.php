@@ -15,11 +15,11 @@ class CreateLocDivisionsTable extends Migration {
 	{
 		Schema::create('loc_divisions', function(Blueprint $table)
 		{
-            $table->mediumIncrements('id');
-            $table->string('title_en');
+			$table->mediumIncrements('id');
             $table->string('title', 500);
-            $table->char('bbs_code', 4)->nullable();
-            $table->softDeletes();
+            $table->string('title_en');
+			$table->char('bbs_code', 4)->nullable();
+			$table->softDeletes();
 		});
 	}
 

@@ -17,11 +17,13 @@ class PermissionSubGroupPermissionsTableSeeder extends Seeder
     public function run()
     {
 
+
         Schema::disableForeignKeyConstraints();
 
         DB::table('permission_sub_group_permissions')->truncate();
 
         DB::table('permission_sub_group_permissions')->insert([
+
             array('permission_sub_group_id' => '1', 'permission_id' => '1'),
             array('permission_sub_group_id' => '1', 'permission_id' => '2'),
             array('permission_sub_group_id' => '1', 'permission_id' => '3'),
@@ -1712,7 +1714,9 @@ class PermissionSubGroupPermissionsTableSeeder extends Seeder
             array('permission_sub_group_id' => '7', 'permission_id' => '461'),
             array('permission_sub_group_id' => '7', 'permission_id' => '462'),
             array('permission_sub_group_id' => '7', 'permission_id' => '463'),
-            array('permission_sub_group_id' => '7', 'permission_id' => '464')
+            array('permission_sub_group_id' => '7', 'permission_id' => '464'),
+            array('permission_sub_group_id' => '1', 'permission_id' => '465')
+
         ]);
 
         Schema::enableForeignKeyConstraints();
