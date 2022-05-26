@@ -21,7 +21,7 @@
     ],
     "security": [
         {
-            "bearerAuth": []
+            "User-Token": []
         }
     ],
     "paths": {
@@ -50,6 +50,48 @@
                                         ]
                                     },
                                     "description": "It a core api service that manages Location Services,UserRoleManagement Services and Auth Services globally"
+                                }
+                            }
+                        },
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Api info"
+                ]
+            }
+        },
+        "/domain-details": {
+            "get": {
+                "summary": "Provide Domain Details",
+                "description": "It Provides Details of a Domain",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/domain"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "domain": "nise.gov.bd",
+                                        "institute_id": null,
+                                        "organization_id": null,
+                                        "industry_association_id": null,
+                                        "title_prefix": "",
+                                        "title_prefix_en": "",
+                                        "created_at": "2022-01-30T12:00:34.000000Z",
+                                        "updated_at": "2022-01-30T12:00:34.000000Z"
+                                    },
+                                    "_response_status": {
+                                        "success": true,
+                                        "code": 200,
+                                        "message": "Domain fetch successfully",
+                                        "query_time": 0
+                                    }
                                 }
                             }
                         },
@@ -1332,13 +1374,16 @@
                         }
                     },
                     {
-                        "$ref": "#/components/parameters/name_en"
+                        "$ref": "#/components/parameters/name_en_optional"
                     },
                     {
                         "$ref": "#/components/parameters/name"
                     },
                     {
-                        "$ref": "#/components/parameters/mobile"
+                        "$ref": "#/components/parameters/mobile_required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/email"
                     },
                     {
                         "name": "profile_pic",
@@ -1350,6 +1395,48 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                },
+                                "example": {
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/users/{userId}/password-update": {
+            "put": {
+                "summary": "Update An User Password",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userPasswordUpdate"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -2629,19 +2716,125 @@
                     "SSO"
                 ]
             }
+        },
+        "/send-forget-password-otp": {
+            "post": {
+                "summary": "Send Forget Password OTP",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Send Forget Password OTP",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Put your username here"
+                                    }
+                                },
+                                "required": [
+                                    "username"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Forget Password"
+                ]
+            }
+        },
+        "/verify-forget-password-otp": {
+            "post": {
+                "summary": "Verify forget password otp",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Verify forget password otp",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Put your Username"
+                                    },
+                                    "opt_code": {
+                                        "type": "string",
+                                        "description": "Otp Code here"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "opt_code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Forget Password"
+                ]
+            }
+        },
+        "/reset-forget-password": {
+            "post": {
+                "summary": "Reset forget Password",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "description": "Reset forget Password",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Your Username Here"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "description": "Password Here"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "description": "Give Password Confirmation here"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "new_password",
+                                    "password_confirmation"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                },
+                "tags": [
+                    "Forget Password"
+                ]
+            }
         }
     },
     "components": {
         "securitySchemes": {
-            "Authorization": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            },
             "User-Token": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
+                "type": "apiKey",
+                "in": "header",
+                "name": "User-Token"
             }
         },
         "parameters": {
@@ -2837,6 +3030,14 @@
                 "required": false,
                 "schema": {
                     "type": "integer"
+                }
+            },
+            "domain": {
+                "name": "domain",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
                 }
             },
             "row_status_optional": {
@@ -3200,6 +3401,14 @@
                     "type": "string"
                 }
             },
+            "mobile_required": {
+                "in": "query",
+                "name": "mobile",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
             "role_id": {
                 "in": "query",
                 "name": "role_id",
@@ -3526,6 +3735,34 @@
                     "mobile",
                     "password",
                     "password_confirmation"
+                ]
+            },
+            "userPasswordUpdate": {
+                "type": "object",
+                "description": "Update User password",
+                "properties": {
+                    "current_password": {
+                        "type": "string",
+                        "minLength": 8,
+                        "format": "password"
+                    },
+                    "new_password": {
+                        "type": "string",
+                        "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
+                        "minLength": 8,
+                        "format": "password"
+                    },
+                    "new_password_confirmation": {
+                        "type": "string",
+                        "description": "Must contain upper case lower and case letters and letter.Minimum length 8",
+                        "maxLength": 8,
+                        "format": "password"
+                    }
+                },
+                "required": [
+                    "current_password",
+                    "new_password",
+                    "new_password_confirmation"
                 ]
             },
             "userPermissions": {
