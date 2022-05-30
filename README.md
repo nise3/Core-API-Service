@@ -1,4 +1,4 @@
-# NISE3 Industry And Industry Association API Service
+# NISE3 CORE API Service
 
 ## Official Documentation
 
@@ -11,8 +11,6 @@ develop
 ```master``` branch is only being used for production release.
 Code of master branch has not been used. We are using container image from staging branch to deploy to production.
 Common configurations should be placed in the ```.env.example``` file.
-
-
 
 #### Development Environment
 Sensitive information like different type of credentials for development environment have to be configured in the file named ```deploy/values.dev.yaml```.
@@ -42,7 +40,6 @@ After deploying at the first time, seeder files have to be run by running the fo
 
 ## License
 Softbd LTD
-
 
 
 
