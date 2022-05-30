@@ -35,12 +35,6 @@ make a git push. This will successfully release the desired version of staging e
 After deploying at the first time, seeder files have to be run by running the following command:
 ```php artisan db:seed```
 
-#### RabbitMQ consume command
-This following command has to be run in the background as a daemon service.
-```shell
-php artisan queue:work --queue=organization.db.sync.q
-```
-
 ## Contributing
 
 
