@@ -163,6 +163,17 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'ind-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 45,'title_prefix'=>'IND-DEV' , 'title_prefix_en'=>'IND-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'ind-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 45,'title_prefix'=>'IND-STAGING' , 'title_prefix_en'=>'IND-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'ind.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 45,'title_prefix'=>'IND-ASM' , 'title_prefix_en'=>'IND-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'migration-portal.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IND' , 'title_prefix_en'=>'MIGRATION-PORTAL', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'migration-portal-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IND-DEV' , 'title_prefix_en'=>'MIGRATION-PORTAL-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'migration-portal-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IND-STAGING' , 'title_prefix_en'=>'MIGRATION-PORTAL-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'migration-portal.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'IND-ASM' , 'title_prefix_en'=>'MIGRATION-PORTAL-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'migration-portal.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'MIGRATION-PORTAL' , 'title_prefix_en'=>'MIGRATION-PORTAL', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'migration-portal-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'MIGRATION-PORTAL-DEV' , 'title_prefix_en'=>'MIGRATION-PORTAL-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'migration-portal-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'MIGRATION-PORTAL-STAGING' , 'title_prefix_en'=>'MIGRATION-PORTAL-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'migration-portal.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'MIGRATION-PORTAL-ASM' , 'title_prefix_en'=>'MIGRATION-PORTAL-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
         ]);
 
         Schema::enableForeignKeyConstraints();
