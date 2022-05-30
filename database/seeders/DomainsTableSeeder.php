@@ -158,6 +158,11 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'dae-dev.nise3.xyz', 'institute_id' => 59, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DAE-DEV' , 'title_prefix_en'=>'DAE-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'dae-staging.nise3.xyz', 'institute_id' => 59, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DAE-STAGING' , 'title_prefix_en'=>'DAE-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'dae.nise.asm', 'institute_id' => 59, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DAE-ASM' , 'title_prefix_en'=>'DAE-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'ind.nise.gov.bd', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 45,'title_prefix'=>'IND' , 'title_prefix_en'=>'IND', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'ind-dev.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 45,'title_prefix'=>'IND-DEV' , 'title_prefix_en'=>'IND-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'ind-staging.nise3.xyz', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 45,'title_prefix'=>'IND-STAGING' , 'title_prefix_en'=>'IND-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'ind.nise.asm', 'institute_id' => NULL, 'organization_id' => NULL, 'industry_association_id' => 45,'title_prefix'=>'IND-ASM' , 'title_prefix_en'=>'IND-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
