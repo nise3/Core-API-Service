@@ -50,6 +50,10 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
 
         $router->post('users/{id}/profile-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updateProfile']);
 
+        $router->put('users/{id}/password-update', ['as' => 'users.profile-update', 'uses' => 'UserController@updatePassword']);
+
+
+
         /* assign permission to permission group*/
         $router->post('permission-groups/{id}/assign-permissions', ['as' => 'permission-groups.assign-permissions', 'uses' => 'PermissionGroupController@assignPermissionToPermissionGroup']);
 
@@ -91,23 +95,16 @@ $router->group(['prefix' => 'api/v1', 'as' => 'api.v1'], function () use ($route
     /** User open Registration from Organization,institute and industry Association from other service */
     $router->post('user-open-registration', ['as' => 'users.register-users', 'uses' => 'UserController@userOpenRegistration']);
 
+
+    /** Forget Password */
+    $router->post('send-forget-password-otp', ['as' => 'users.send-forget-password-otp', 'uses' => 'UserController@sendForgetPasswordOtp']);
+    $router->post('verify-forget-password-otp', ['as' => 'users.verify-forget-password-otp', 'uses' => 'UserController@verifyForgetPasswordOtp']);
+    $router->post('reset-forget-password', ['as' => 'users.reset-forget-password', 'uses' => 'UserController@resetForgetPassword']);
+
+    $router->get("domain-details", ["as" => "domain-details", "uses" => "ApiInfoController@domainDetails"]);
+
+
 });
 
-$router->post('idp-user', function () {
-    $idpUserPayload = [
-        'first_name' => 'First Name',
-        'last_name' => 'First Name',
-        'email' => 'entrepreneur@gmail.com',
-        'mobile' => '01767777001',
-        'username' => '01767777001',
-        'password' => 'ABcd1234',
-        'user_type' => 2,
-        'account_disable' => true,
-        'account_lock' => true,
-    ];
-
-    $response = IdpUser()->setPayload($idpUserPayload)->create()->get();
-    return $response;
-});
 
 

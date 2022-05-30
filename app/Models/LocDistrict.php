@@ -24,9 +24,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LocDistrict extends BaseModel
 {
     use SoftDeletes, HasFactory;
+
     public $timestamps = false;
+
     protected $table = 'loc_districts';
-    protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_SOFT_DELETE;
+    protected $guarded = BaseModel::COMMON_GUARDED_FIELDS_ONLY_SOFT_DELETE;
 
     public function locDivision(): BelongsTo
     {
