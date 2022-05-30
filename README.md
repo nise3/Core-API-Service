@@ -33,14 +33,6 @@ make a git push. This will successfully release the desired version of staging e
 After deploying at the first time, seeder files have to be run by running the following command:
 ```php artisan db:seed```
 
-## Contributing
-
-
-## Security Vulnerabilities
-
-## License
-Softbd LTD
-
 
 
 
