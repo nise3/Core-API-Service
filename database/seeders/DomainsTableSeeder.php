@@ -153,6 +153,11 @@ class DomainsTableSeeder extends Seeder
             array('domain' => 'asiattc-dev.nise3.xyz', 'institute_id' => 57, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'ASIATTC-DEV' , 'title_prefix_en'=>'ASIATTC-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'asiattc-staging.nise3.xyz', 'institute_id' => 57, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'ASIATTC-STAGING' , 'title_prefix_en'=>'ASIATTC-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
             array('domain' => 'asiattc.nise.asm', 'institute_id' => 57, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'ASIATTC-ASM' , 'title_prefix_en'=>'ASIATTC-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+
+            array('domain' => 'dae.nise.gov.bd', 'institute_id' => 59, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DAE' , 'title_prefix_en'=>'DAE', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'dae-dev.nise3.xyz', 'institute_id' => 59, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DAE-DEV' , 'title_prefix_en'=>'DAE-DEV', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'dae-staging.nise3.xyz', 'institute_id' => 59, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DAE-STAGING' , 'title_prefix_en'=>'DAE-STAGING', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
+            array('domain' => 'dae.nise.asm', 'institute_id' => 59, 'organization_id' => NULL, 'industry_association_id' => NULL,'title_prefix'=>'DAE-ASM' , 'title_prefix_en'=>'DAE-ASM', 'created_at' => '2022-01-30 18:00:34', 'updated_at' => '2022-01-30 18:00:34'),
         ]);
 
         Schema::enableForeignKeyConstraints();
